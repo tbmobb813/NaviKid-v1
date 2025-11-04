@@ -1,6 +1,7 @@
 import createContextHook from '@nkzw/create-context-hook';
 import { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { mainStorage } from '@/utils/storage';
 import * as Crypto from 'expo-crypto';
 import * as SecureStore from 'expo-secure-store';
 import {
@@ -110,14 +111,28 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         if (storedDevicePings) {
           setDevicePings(JSON.parse(storedDevicePings));
         }
-        if (storedAuthAttempts) {
-          const attempts = JSON.parse(storedAuthAttempts);
-          setAuthAttempts(attempts.count || 0);
-          // Check if still in lockout period from previous session
-          const timeSinceLastAttempt = Date.now() - (attempts.timestamp || 0);
-          if (attempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
+        // Read attempts from the new mainStorage (synchronous API). If migration
+        // hasn't run, fall back to AsyncStorage (handled above) — tests mock mainStorage.
+        const storedAttempts = mainStorage.get(STORAGE_KEYS.AUTH_ATTEMPTS) as any;
+        if (storedAttempts) {
+          setAuthAttempts(storedAttempts.count || 0);
+          const timeSinceLastAttempt = Date.now() - (storedAttempts.timestamp || 0);
+          if (storedAttempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
               timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION) {
-            setLockoutUntil(attempts.timestamp + SECURITY_CONFIG.LOCKOUT_DURATION);
+            setLockoutUntil((storedAttempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION);
+          }
+        } else if (storedAuthAttempts) {
+          try {
+            const attempts = JSON.parse(storedAuthAttempts);
+            setAuthAttempts(attempts.count || 0);
+            const timeSinceLastAttempt = Date.now() - (attempts.timestamp || 0);
+            if (attempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
+                timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION) {
+              setLockoutUntil((attempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION);
+            }
+          } catch (e) {
+            // Ignore parse errors; we'll start fresh
+            setAuthAttempts(0);
           }
         }
       } catch (error) {
@@ -225,7 +240,28 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         return true;
       }
 
-      // Check if currently in lockout period
+      // Check lockout status from AsyncStorage (more reliable than state)
+      const storedAttempts = await AsyncStorage.getItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+      if (storedAttempts) {
+        try {
+          const attempts = JSON.parse(storedAttempts);
+          const timeSinceLastAttempt = Date.now() - (attempts.timestamp || 0);
+          if (attempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
+          timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION) {
+        const lockoutRemaining = SECURITY_CONFIG.LOCKOUT_DURATION - timeSinceLastAttempt;
+        const remainingMinutes = Math.ceil(lockoutRemaining / 60000);
+        throw new Error(`Too many failed attempts. Please try again in ${remainingMinutes} minute(s).`);
+          }
+        } catch (parseError) {
+          // Handle corrupted stored attempts data
+          console.warn('[Security] Corrupted auth attempts data detected, clearing and continuing:', parseError);
+          await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+          setAuthAttempts(0);
+          setLockoutUntil(null);
+        }
+      }
+
+      // Check if currently in lockout period (from state)
       if (lockoutUntil && Date.now() < lockoutUntil) {
         const remainingMinutes = Math.ceil((lockoutUntil - Date.now()) / 60000);
         throw new Error(`Too many failed attempts. Please try again in ${remainingMinutes} minute(s).`);
@@ -251,26 +287,48 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         // Successful authentication
         setAuthAttempts(0);
         setLockoutUntil(null);
-        await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+        try {
+          mainStorage.delete(STORAGE_KEYS.AUTH_ATTEMPTS);
+        } catch (e) {
+          await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+        }
         setIsParentMode(true);
         startSessionTimeout();
         console.log('[Security] Parent mode authenticated successfully');
         return true;
       }
 
-      // Failed authentication - increment attempts
+      // Failed authentication - increment attempts (persist to mainStorage)
       const newAttempts = authAttempts + 1;
       setAuthAttempts(newAttempts);
-      await AsyncStorage.setItem(STORAGE_KEYS.AUTH_ATTEMPTS, JSON.stringify({
-        count: newAttempts,
-        timestamp: Date.now(),
-      }));
+      try {
+        mainStorage.set(STORAGE_KEYS.AUTH_ATTEMPTS, {
+          count: newAttempts,
+          timestamp: Date.now(),
+        });
+      } catch (storageError) {
+        console.error('[Security] Failed to persist auth attempts to storage:', storageError);
+        // Fall back to AsyncStorage if mainStorage fails for any reason
+        try {
+          await AsyncStorage.setItem(STORAGE_KEYS.AUTH_ATTEMPTS, JSON.stringify({
+            count: newAttempts,
+            timestamp: Date.now(),
+          }));
+        } catch (e) {
+          // swallow
+        }
+      }
 
       // Check if lockout threshold reached
       if (newAttempts >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS) {
         const lockoutTime = Date.now() + SECURITY_CONFIG.LOCKOUT_DURATION;
         setLockoutUntil(lockoutTime);
         setAuthAttempts(0);
+        // Persist lockout to AsyncStorage with attempt count
+        await AsyncStorage.setItem(STORAGE_KEYS.AUTH_ATTEMPTS, JSON.stringify({
+          count: SECURITY_CONFIG.MAX_AUTH_ATTEMPTS,
+          timestamp: Date.now(),
+        }));
         console.warn('[Security] Maximum authentication attempts exceeded - account locked');
         throw new Error(`Too many failed attempts. Account locked for ${SECURITY_CONFIG.LOCKOUT_DURATION / 60000} minutes.`);
       }
@@ -321,7 +379,12 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       // Reset authentication attempts
       setAuthAttempts(0);
       setLockoutUntil(null);
-      await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+      setAuthAttempts(0);
+      try {
+        mainStorage.delete(STORAGE_KEYS.AUTH_ATTEMPTS);
+      } catch (e) {
+        await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
+      }
 
       console.log('[Security] PIN updated successfully with secure hashing');
     } catch (error) {

@@ -10,20 +10,36 @@
  * - Encryption support
  */
 
-import { MMKV } from 'react-native-mmkv';
+import type { MMKV } from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
+
+// Type assertion helper to ensure createMMKV returns correct type
+const createTypedMMKV = (config?: Parameters<typeof createMMKV>[0]): MMKV => {
+  const instance = createMMKV(config);
+  
+  // Runtime check to ensure the instance has expected MMKV methods
+  if (typeof instance.set !== 'function' || 
+      typeof instance.getString !== 'function' ||
+      typeof instance.getNumber !== 'function' ||
+      typeof instance.getBoolean !== 'function' ||
+      typeof instance.remove !== 'function') {
+    throw new Error('createMMKV did not return a valid MMKV instance');
+  }
+  
+  return instance as MMKV;
+};
 import { log } from './logger';
 
-type StorageInstance = Pick<
-  MMKV,
-  | 'set'
-  | 'getString'
-  | 'getNumber'
-  | 'getBoolean'
-  | 'delete'
-  | 'clearAll'
-  | 'getAllKeys'
-  | 'contains'
->;
+type StorageInstance = {
+  set(key: string, value: string | number | boolean): void;
+  getString(key: string): string | undefined;
+  getNumber(key: string): number | undefined;
+  getBoolean(key: string): boolean | undefined;
+  remove(key: string): boolean;
+  clearAll(): void;
+  getAllKeys(): string[];
+  contains(key: string): boolean;
+};
 
 class MemoryStorage implements StorageInstance {
   private store = new Map<string, { type: 'string' | 'number' | 'boolean'; value: string }>();
@@ -48,52 +64,26 @@ class MemoryStorage implements StorageInstance {
   }
 
   getString(key: string): string | undefined {
-    const entry = this.store.get(key);
-    if (!entry) return undefined;
-
-    if (entry.type === 'boolean') {
-      return entry.value === '1' ? 'true' : 'false';
-    }
-
-    return entry.value;
+    const data = this.store.get(key);
+    if (!data) return undefined;
+    return data.type === 'string' ? data.value : undefined;
   }
 
   getNumber(key: string): number | undefined {
-    const entry = this.store.get(key);
-    if (!entry) return undefined;
-
-    if (entry.type === 'number') {
-      const parsed = Number(entry.value);
-      return Number.isFinite(parsed) ? parsed : undefined;
-    }
-
-    const parsed = Number(entry.value);
-    return Number.isFinite(parsed) ? parsed : undefined;
+    const data = this.store.get(key);
+    if (!data) return undefined;
+    return data.type === 'number' ? parseFloat(data.value) : undefined;
   }
 
   getBoolean(key: string): boolean | undefined {
-    const entry = this.store.get(key);
-    if (!entry) return undefined;
-
-    if (entry.type === 'boolean') {
-      return entry.value === '1';
-    }
-
-    if (entry.value === 'true' || entry.value === '1') {
-      return true;
-    }
-
-    if (entry.value === 'false' || entry.value === '0') {
-      return false;
-    }
-
-    return undefined;
+    const data = this.store.get(key);
+    if (!data) return undefined;
+    return data.type === 'boolean' ? data.value === '1' : undefined;
   }
 
-  delete(key: string): void {
-    this.store.delete(key);
+  remove(key: string): boolean {
+    return this.store.delete(key);
   }
-
   clearAll(): void {
     this.store.clear();
   }
@@ -110,26 +100,30 @@ class MemoryStorage implements StorageInstance {
 type StorageDriver = 'mmkv' | 'memory';
 
 const createStorageInstance = (
-  config: ConstructorParameters<typeof MMKV>[0],
+  config?: Parameters<typeof createMMKV>[0],
 ): { instance: StorageInstance; driver: StorageDriver } => {
   const label = config?.id ?? 'default';
 
   try {
-    const instance = new MMKV(config);
+    const instance = createMMKV(config);
     // Smoke test to ensure native module is available
     const probeKey = `__probe__${Date.now()}`;
     instance.set(probeKey, 'ok');
-    instance.delete(probeKey);
+    instance.remove(probeKey);
     log.info(`Initialized MMKV storage for ${label}`);
     return { instance, driver: 'mmkv' };
   } catch (error) {
     log.warn(
       `MMKV native module unavailable for ${label}. Falling back to in-memory storage. Persistent data will reset between sessions.`,
       {
-        error:
-          error instanceof Error
-            ? { name: error.name, message: error.message }
-            : { message: String(error) },
+        error: error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+            }
+          : {
+              message: String(error),
+            },
       },
     );
     return { instance: new MemoryStorage(label), driver: 'memory' };
@@ -168,7 +162,7 @@ export class StorageManager {
   set<T>(key: string, value: T): boolean {
     try {
       if (value === undefined || value === null) {
-        this.instance.delete(key);
+        this.instance.remove(key);
         return true;
       }
 
@@ -269,14 +263,12 @@ export class StorageManager {
    */
   delete(key: string): boolean {
     try {
-      this.instance.delete(key);
-      return true;
+      return this.instance.remove(key);
     } catch (error) {
       log.error(`Failed to delete key: ${key}`, error as Error);
       return false;
     }
   }
-
   /**
    * Clear all data
    */
