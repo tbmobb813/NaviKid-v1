@@ -105,6 +105,7 @@ If you want MapLibre and full native features:
    npx expo run:android --variant release
    ```
 
+
 1. **Get your APK:**
 
    ```bash
@@ -113,6 +114,7 @@ If you want MapLibre and full native features:
 
    # Copy to phone and install
    ```
+
 
 ---
 
@@ -134,6 +136,7 @@ If USB won't work:
    eas build --platform android --profile preview
    ```
 
+
 1. **Wait 10-15 minutes** → Download APK from EAS dashboard
 
 ---
@@ -146,6 +149,7 @@ Port: 8081
 Mode: Development Build (press 's' to switch to Expo Go)
 QR Code: Available in terminal
 ```
+
 
 **Ready to scan and test!**
 
@@ -180,6 +184,7 @@ A problem occurred evaluating settings 'android'.
 > Process 'command 'node'' finished with non-zero exit value 1
 ```
 
+
 **Cause:** React Native autolinking is trying to execute a Node command in `settings.gradle` that's failing.
 **Workaround:** Use `npx expo run:android` (needs device) or EAS Build (cloud)
 **Not blocking:** Can still test in Expo Go!
@@ -196,6 +201,7 @@ A problem occurred evaluating settings 'android'.
 # Server is already running!
 # Just open Expo Go app and scan QR code
 ```
+
 
 ### Step 2: If Expo Go works well
 

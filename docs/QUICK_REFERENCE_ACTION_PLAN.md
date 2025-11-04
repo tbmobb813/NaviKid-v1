@@ -23,13 +23,13 @@
    - 5-7 educator consultations
    - 3-5 special needs specialist reviews
 
-2. **Compliance Documentation** (Weeks 1-3)
+1. **Compliance Documentation** (Weeks 1-3)
    - COPPA compliance checklist
    - GDPR/CCPA readiness matrices
    - Data flow diagrams
    - Privacy lawyer consultation
 
-3. **Strategic Documentation** (Week 1)
+1. **Strategic Documentation** (Week 1)
    - UVP document
    - Competitive positioning brief
    - User personas and journey maps

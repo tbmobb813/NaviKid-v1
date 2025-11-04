@@ -21,6 +21,7 @@ StorageUtils.clearExpired();
 cache.clearAll();
 ```
 
+
 ## Voice/TTS
 
 ```typescript
@@ -39,6 +40,7 @@ await speakSafety(KidFriendlyPhrases.safety.lookBothWays);
 voiceManager.updateSettings({ rate: 0.9, pitch: 1.1 });
 const isEnabled = voiceManager.toggle();
 ```
+
 
 ## React Native Maps
 
@@ -65,6 +67,7 @@ import KidFriendlyMap from '../components/KidFriendlyMap';
 />
 ```
 
+
 ## Complete Example
 
 ```typescript
@@ -90,6 +93,7 @@ function MyJourney() {
 }
 ```
 
+
 ## Testing
 
 ```bash
@@ -100,6 +104,7 @@ npx expo start
 npx expo start --android
 npx expo start --ios
 ```
+
 
 ## Benefits
 
