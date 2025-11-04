@@ -23,6 +23,20 @@ jest.mock('expo-secure-store', () => ({
   setItemAsync: jest.fn(),
 }));
 
+// Mock the new storage layer (mainStorage) with a simple in-memory map so tests
+// can assert against the StorageManager API instead of AsyncStorage.
+const mockStorageMap = new Map<string, any>();
+const mockMainStorage = {
+  set: jest.fn((k: string, v: any) => mockStorageMap.set(k, v)),
+  get: jest.fn((k: string) => mockStorageMap.has(k) ? mockStorageMap.get(k) : undefined),
+  delete: jest.fn((k: string) => mockStorageMap.delete(k)),
+  getAllKeys: jest.fn(() => Array.from(mockStorageMap.keys())),
+} as any;
+
+jest.mock('@/utils/storage', () => ({
+  mainStorage: mockMainStorage,
+}));
+
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Crypto from 'expo-crypto';
@@ -150,10 +164,10 @@ describe('Parental Authentication Security', () => {
         expect(success).toBe(false);
       });
 
-      // Verify attempt was tracked
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+      // Verify attempt was tracked in the new storage layer
+      expect(mockMainStorage.set).toHaveBeenCalledWith(
         'kidmap_auth_attempts',
-        expect.stringContaining('"count":1')
+        expect.objectContaining({ count: 1 })
       );
     });
 
@@ -204,8 +218,8 @@ describe('Parental Authentication Security', () => {
         expect(success).toBe(true);
       });
 
-      // Verify attempts were reset
-      expect(AsyncStorage.removeItem).toHaveBeenCalledWith('kidmap_auth_attempts');
+  // Verify attempts were reset in the new storage layer
+  expect(mockMainStorage.delete).toHaveBeenCalledWith('kidmap_auth_attempts');
     });
 
     it('should allow authentication after lockout expires', async () => {
