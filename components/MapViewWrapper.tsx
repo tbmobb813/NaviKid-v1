@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Config from '@/utils/config';
 import Colors from '@/constants/colors';
+import { Feature, FeatureCollection } from 'geojson';
 
 type LatLng = { latitude: number; longitude: number };
 
@@ -14,7 +15,7 @@ type MapViewWrapperProps = {
   origin?: Place;
   destination?: Place;
   // route metadata (geojson-like) or any fallback shape
-  route?: any;
+  route?: FeatureCollection | null | undefined;
   onMapReady?: () => void;
   onSelectLocation?: (coords: LatLng) => void;
   onStationPress?: (stationId: string) => void;
@@ -40,7 +41,7 @@ const buildEndpointFeatures = (
   originName?: string,
   destinationName?: string,
 ) => {
-  const features: any[] = [];
+  const features: Feature[] = [];
 
   if (originCoord) {
     features.push({
@@ -111,7 +112,7 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
   );
 
   const handleStationPress = useCallback(
-    (event: any) => {
+    (event: { features?: Feature[] }) => {
       if (!onStationPress) return;
       const feature = event?.features?.[0];
       const stationId = feature?.properties?.id ?? feature?.id;
@@ -132,9 +133,7 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
       >
         {/* Render route shape if present (route expected to be GeoJSON-like) */}
         {route && MapLibreModule && (
-          // @ts-ignore - runtime MapLibre component shape
           <MapLibreModule.ShapeSource id="route" shape={route}>
-            {/* @ts-ignore */}
             <MapLibreModule.LineLayer
               id="route-line"
               style={{
@@ -148,9 +147,7 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
 
         {/* Render endpoints */}
         {endpointFeatures?.features?.length > 0 && MapLibreModule && (
-          // @ts-ignore
           <MapLibreModule.ShapeSource id="endpoints" shape={endpointFeatures}>
-            {/* @ts-ignore */}
             <MapLibreModule.CircleLayer
               id="endpoint-layer"
               style={{
@@ -176,9 +173,9 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
             // lazy build station features to avoid importing data at top-level
             try {
               const { nycStations } = require('@/config/transit/nyc-stations');
-              const stationFeatures = {
+              const stationFeatures: FeatureCollection = {
                 type: 'FeatureCollection',
-                features: nycStations.map((s: any) => ({
+                features: nycStations.map((s: { id: string; name: string; kidFriendly: { safetyRating: number }; coordinates: { longitude: number; latitude: number } }) => ({
                   type: 'Feature',
                   id: s.id,
                   properties: { id: s.id, name: s.name, safetyRating: s.kidFriendly?.safetyRating },
@@ -189,14 +186,12 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
                 })),
               };
 
-              // @ts-ignore
               return (
                 <MapLibreModule.ShapeSource
                   id="stations"
                   shape={stationFeatures}
                   onPress={handleStationPress}
                 >
-                  {/* @ts-ignore */}
                   <MapLibreModule.CircleLayer
                     id="stations-layer"
                     style={{
@@ -237,3 +232,4 @@ const styles = StyleSheet.create({
   },
   mapTypeText: { color: '#fff', fontSize: 12, fontWeight: '600' },
 });
+

@@ -92,10 +92,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     );
   }, [showTransitStations]);
 
-  const routeCoords = useMemo(() => {
-    if (!route?.metadata?.geometry?.coordinates) return [];
-    return route.metadata.geometry.coordinates;
-  }, [route]);
+  
 
   const handleMessage = (event: any) => {
     try {
@@ -120,7 +117,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       <MapViewWrapper
         origin={origin}
         destination={destination}
-        route={route}
         onMapReady={handleMapReady}
         onSelectLocation={handleLocationSelect}
         onStationPress={handleStationPress}

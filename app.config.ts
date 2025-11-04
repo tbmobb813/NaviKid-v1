@@ -103,6 +103,7 @@ const baseConfig: ExpoConfig = {
     ],
     'expo-font',
     'expo-web-browser',
+    'expo-secure-store',
   ],
   experiments: {
     typedRoutes: false,
