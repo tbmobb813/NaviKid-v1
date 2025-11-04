@@ -270,15 +270,13 @@ describe('Parental Authentication Security', () => {
 
       expect(result.current.isParentMode).toBe(true);
 
-      // Fast-forward 30 minutes
-      act(() => {
+      // Fast-forward 30 minutes and run the timer callback
+      await act(async () => {
         jest.advanceTimersByTime(30 * 60 * 1000);
       });
 
-      // Should be logged out
-      await waitFor(() => {
-        expect(result.current.isParentMode).toBe(false);
-      });
+      // Should be logged out (no need for waitFor - act handles state updates)
+      expect(result.current.isParentMode).toBe(false);
     });
 
     it('should clear timeout when manually logging out', async () => {
