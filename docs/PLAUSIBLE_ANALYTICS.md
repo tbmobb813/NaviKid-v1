@@ -12,6 +12,7 @@
 Plausible Analytics provides privacy-respecting usage analytics for the Kid-Friendly Map application without sacrificing user privacy or COPPA compliance.
 
 ### Key Features
+
 - **Privacy-First:** No cookies, no tracking pixels, GDPR-compliant
 - **COPPA-Compliant:** Never sends personal information of children
 - **Opt-In Consent:** Users must explicitly allow analytics before tracking begins
@@ -25,6 +26,7 @@ Plausible Analytics provides privacy-respecting usage analytics for the Kid-Frie
 ### 1. ✅ Privacy Store (`stores/privacyStore.ts`)
 
 Manages user consent for analytics:
+
 ```typescript
 interface PrivacySettings {
   analyticsEnabled: boolean;      // User's consent choice
@@ -32,6 +34,7 @@ interface PrivacySettings {
   consentVersion: number;          // Version of consent flow
 }
 ```
+
 
 **Features:**
 - Persistent storage using Zustand + AsyncStorage
@@ -60,6 +63,7 @@ trackEvent('favorite-saved', { location: 'central-park' });
 // Flush pending events
 await flush();
 ```
+
 
 ### 3. ✅ Consent Modal (`components/PrivacyConsentModal.tsx`)
 
@@ -108,6 +112,7 @@ Enable Analytics
 Track Events to Plausible
 ```
 
+
 ### Technical Flow
 
 ```
@@ -126,6 +131,7 @@ Fetch to Plausible API
 Server processes event
 ```
 
+
 ---
 
 ## Configuration
@@ -141,6 +147,7 @@ PLAUSIBLE_SITE_ID=kid-friendly-map.com
 PLAUSIBLE_SHARED_KEY=your-optional-api-key
 ```
 
+
 Or add to EAS Build:
 
 ```bash
@@ -148,6 +155,7 @@ eas build --platform ios \
   --env PLAUSIBLE_ENDPOINT=https://plausible.io/api/event \
   --env PLAUSIBLE_SITE_ID=kid-friendly-map.com
 ```
+
 
 ### App Config (`app.config.ts`)
 
@@ -169,6 +177,7 @@ extra: {
 }
 ```
 
+
 ---
 
 ## Usage Examples
@@ -189,6 +198,7 @@ function HomeScreen() {
 }
 ```
 
+
 ### Track User Actions
 
 ```typescript
@@ -204,6 +214,7 @@ function MapScreen() {
   return <MapView onZoom={handleZoom} />;
 }
 ```
+
 
 ### Track Feature Usage
 
@@ -223,6 +234,7 @@ function AddSafeZoneButton() {
 }
 ```
 
+
 ### Track Errors
 
 ```typescript
@@ -236,6 +248,7 @@ function RiskyOperation() {
   }
 }
 ```
+
 
 ---
 
@@ -290,10 +303,12 @@ To track custom events in Plausible:
    - Name: `safe-zone-created`
    - Click "Create"
 
-2. Track event in code:
+1. Track event in code:
+
    ```typescript
    trackEvent('safe-zone-created', { type: 'school' });
    ```
+
 
 ---
 
@@ -340,21 +355,25 @@ To track custom events in Plausible:
 ### Test in Development
 
 1. **Enable test mode:**
+
    ```bash
    export NODE_ENV=production
    npm start
    ```
 
-2. **Accept consent modal**
-3. **Trigger events:**
+
+1. **Accept consent modal**
+2. **Trigger events:**
    - Navigate between screens
    - Click buttons
    - Use features
 
-4. **Check events:**
+1. **Check events:**
+
    ```bash
    npm logs | grep Analytics
    ```
+
 
 ### Verify on Plausible Dashboard
 
@@ -370,6 +389,7 @@ To track custom events in Plausible:
 const { isEnabled } = usePlausible();
 console.log('[Plausible] Analytics enabled:', isEnabled);
 ```
+
 
 ---
 
@@ -388,6 +408,7 @@ trackEvent('safe-zone-created', { type: 'school' });
 trackEvent('map-opened', { view: 'list' });
 ```
 
+
 ### ❌ DON'T
 
 ```typescript
@@ -401,6 +422,7 @@ trackEvent('map-render', { coordinates: [...] });
 trackEvent('user-identified', { user_id: '12345' });
 ```
 
+
 ---
 
 ## Troubleshooting
@@ -408,50 +430,62 @@ trackEvent('user-identified', { user_id: '12345' });
 ### Events Not Appearing in Dashboard
 
 1. **Check consent:**
+
    ```bash
    # In app console
    usePrivacyStore.getState().getConsentStatus()
    ```
+
    Should return `'accepted'`
 
-2. **Check configuration:**
+1. **Check configuration:**
+
    ```bash
    # In app console
    Config.ANALYTICS.ENABLED  // Should be true
    Config.ANALYTICS.PLAUSIBLE.SITE_ID  // Should be set
    ```
 
-3. **Check network:**
+
+1. **Check network:**
    - Open DevTools → Network
    - Look for requests to `plausible.io`
    - Check response status (should be 200-204)
 
-4. **Check logs:**
+1. **Check logs:**
+
    ```bash
    npm logs | grep -i analytics
    ```
+
 
 ### Too Many Events
 
 If quota exceeded on Plausible:
 
 1. Increase `flushInterval` in config:
+
    ```typescript
    flushInterval: 60000, // 1 minute instead of 30s
    ```
 
-2. Reduce `batchSize`:
+
+1. Reduce `batchSize`:
+
    ```typescript
    batchSize: 5, // Send after 5 events instead of 10
    ```
 
-3. Filter non-essential events:
+
+1. Filter non-essential events:
+
    ```typescript
    // In hooks/usePlausible.ts
    if (isVerboseEvent(name)) {
      return; // Skip verbose events
    }
    ```
+
 
 ---
 
@@ -464,8 +498,8 @@ If quota exceeded on Plausible:
 3. Create new website:
    - Site URL: `app.kidfriendlymap.example`
    - Time Zone: Your location
-4. Copy Site ID and Endpoint
-5. Set environment variables
+1. Copy Site ID and Endpoint
+2. Set environment variables
 
 ### Configure Custom Events
 
@@ -498,17 +532,20 @@ Update your privacy policy to disclose:
 ## Files Created/Modified
 
 ### New Files
+
 - ✅ `stores/privacyStore.ts` (66 lines) - Privacy consent management
 - ✅ `hooks/usePlausible.ts` (92 lines) - Analytics tracking hook
 - ✅ `components/PrivacyConsentModal.tsx` (230 lines) - Consent UI
 - ✅ `docs/PLAUSIBLE_ANALYTICS.md` (this file)
 
 ### Modified Files
+
 - ✅ `app/_layout.tsx` - Added Plausible initialization and consent modal
 - ✅ `utils/analytics.ts` - Already supports Plausible (no changes needed)
 - ✅ `app.config.ts` - Already has Plausible config (no changes needed)
 
 ### Dependencies
+
 - No new dependencies needed! ✅
 - Uses existing: `zustand`, `async-storage`, `react-native`
 
@@ -531,16 +568,18 @@ Update your privacy policy to disclose:
 ### Questions?
 
 1. **How do I track a new event?**
+
    ```typescript
    const { trackEvent } = usePlausible();
    trackEvent('my-event', { property: 'value' });
    ```
 
-2. **How do users opt-out?**
+
+1. **How do users opt-out?**
    - Settings screen: Add toggle for `setAnalyticsEnabled(false)`
    - Modal: Click "Decline Analytics"
 
-3. **How do I view the data?**
+1. **How do I view the data?**
    - Go to https://plausible.io and sign in
    - Select your site
    - View real-time analytics

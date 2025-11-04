@@ -55,6 +55,7 @@ aiRouteEngine.updatePreferences({
 const recommendations = aiRouteEngine.getPersonalizedRecommendations();
 ```
 
+
 ### AIRouteSuggestions Component (`components/AIRouteSuggestions.tsx`)
 
 UI component that displays AI-generated route options.
@@ -72,6 +73,7 @@ import AIRouteSuggestions from '../components/AIRouteSuggestions';
 />
 ```
 
+
 ### SmartNavigationScreen (`components/SmartNavigationScreen.tsx`)
 
 Complete navigation experience with search, suggestions, and map integration.
@@ -82,6 +84,7 @@ import SmartNavigationScreen from '../components/SmartNavigationScreen';
 // In your app
 <SmartNavigationScreen />
 ```
+
 
 ## 🎯 Route Types Explained
 
@@ -154,6 +157,7 @@ Total Score = (
 ) + Context Bonuses
 ```
 
+
 ### Safety Score Components
 
 - Safe zone coverage: 30%
@@ -198,6 +202,7 @@ interface RoutePreferences {
 }
 ```
 
+
 ### Setting Preferences
 
 ```typescript
@@ -216,6 +221,7 @@ aiRouteEngine.updatePreferences({
 const prefs = aiRouteEngine.getPreferences();
 ```
 
+
 ## 🎓 Learning Model
 
 ### How It Works
@@ -225,7 +231,7 @@ const prefs = aiRouteEngine.getPreferences();
    - Time, context, and user choice stored
    - Patterns identified over time
 
-2. **Pattern Analysis**
+1. **Pattern Analysis**
 
    ```typescript
    // Example learned patterns
@@ -237,7 +243,8 @@ const prefs = aiRouteEngine.getPreferences();
    }
    ```
 
-3. **Adaptive Recommendations**
+
+1. **Adaptive Recommendations**
    - AI adjusts route scores based on learned patterns
    - Personalized insights provided
    - Route suggestions improve over time
@@ -253,6 +260,7 @@ interface JourneyHistory {
   satisfaction?: number; // Optional user feedback
 }
 ```
+
 
 ## 🎨 UI Features
 
@@ -284,6 +292,7 @@ challenging: red
 <60: red (needs improvement)
 ```
 
+
 ## 🗣️ Voice Integration
 
 ### Voice Announcements
@@ -300,6 +309,7 @@ challenging: red
 Remember to look both ways before crossing!"
 ```
 
+
 ### Voice Settings
 
 ```typescript
@@ -312,6 +322,7 @@ import { voiceManager, speakNavigation } from '../utils/voice';
 // Custom voice announcements
 await speakNavigation('Turn left at the safe zone ahead');
 ```
+
 
 ## 🗺️ Map Integration
 
@@ -335,6 +346,7 @@ const safeZones = smartRoute.steps
   }));
 ```
 
+
 ### Navigation View
 
 The map displays:
@@ -357,6 +369,7 @@ function App() {
   return <SmartNavigationScreen />;
 }
 ```
+
 
 ### Example 2: Custom Integration
 
@@ -390,6 +403,7 @@ function CustomNav() {
 }
 ```
 
+
 ### Example 3: Programmatic Route Generation
 
 ```typescript
@@ -413,6 +427,7 @@ console.log('AI recommendations:', safestRoute.aiRecommendations);
 console.log('Insights:', insights);
 ```
 
+
 ## 🔧 Advanced Configuration
 
 ### Custom AI Weights
@@ -432,6 +447,7 @@ const customScore =
   ease * 0.2 +
   preference * 0.1;
 ```
+
 
 ### Adding Custom Route Types
 
@@ -462,6 +478,7 @@ private async generateCustomRoute() {
 }
 ```
 
+
 ## 🎯 Best Practices
 
 ### 1. **Permission Handling**
@@ -475,6 +492,7 @@ if (status !== 'granted') {
 }
 ```
 
+
 ### 2. **Loading States**
 
 ```typescript
@@ -485,6 +503,7 @@ useEffect(() => {
   generateRoutes().finally(() => setLoading(false));
 }, [origin, destination]);
 ```
+
 
 ### 3. **Error Handling**
 
@@ -497,6 +516,7 @@ try {
   Alert.alert('Error', 'Failed to generate routes');
 }
 ```
+
 
 ### 4. **Performance Optimization**
 
@@ -513,6 +533,7 @@ if (cachedRoutes) {
 const routes = await aiRouteEngine.generateSmartRoutes(origin, destination);
 cache.set(cacheKey, routes, 300); // 5 minute cache
 ```
+
 
 ## 🐛 Troubleshooting
 
@@ -571,6 +592,7 @@ route.nextArrival = arrivals[0];
 const traffic = await fetchTrafficData(route);
 route.adjustedDuration = calculateWithTraffic(route, traffic);
 ```
+
 
 ## 🤝 Contributing
 

@@ -19,6 +19,7 @@ Implemented comprehensive security improvements for parental PIN authentication 
 ### 1. ✅ PIN Hashing with SHA-256 + Salt
 
 **Problem:** PINs were stored in plain text in AsyncStorage
+
 ```typescript
 // BEFORE (INSECURE)
 const setParentPin = async (pin: string) => {
@@ -27,7 +28,9 @@ const setParentPin = async (pin: string) => {
 };
 ```
 
+
 **Solution:** Cryptographic hashing with salt
+
 ```typescript
 // AFTER (SECURE)
 const setParentPin = async (pin: string) => {
@@ -48,6 +51,7 @@ const setParentPin = async (pin: string) => {
 };
 ```
 
+
 **Security Benefits:**
 - ✅ PIN never stored in plain text
 - ✅ Each installation has unique salt
@@ -60,6 +64,7 @@ const setParentPin = async (pin: string) => {
 ### 2. ✅ Rate Limiting (Brute Force Protection)
 
 **Problem:** No limit on authentication attempts - vulnerable to brute force
+
 ```typescript
 // BEFORE (VULNERABLE)
 const authenticateParentMode = async (pin: string): Promise<boolean> => {
@@ -71,7 +76,9 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 };
 ```
 
+
 **Solution:** Track attempts and enforce lockout
+
 ```typescript
 // AFTER (PROTECTED)
 const SECURITY_CONFIG = {
@@ -109,6 +116,7 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 };
 ```
 
+
 **Security Benefits:**
 - ✅ Maximum 5 attempts before 15-minute lockout
 - ✅ Prevents brute force attacks
@@ -123,6 +131,7 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 **Problem:** Parent mode stayed active indefinitely if device was left unlocked
 
 **Solution:** Automatic logout after inactivity
+
 ```typescript
 const startSessionTimeout = () => {
   clearSessionTimeout();
@@ -138,6 +147,7 @@ const exitParentMode = () => {
 };
 ```
 
+
 **Security Benefits:**
 - ✅ Auto-logout after 30 minutes
 - ✅ Prevents unauthorized access to parent controls
@@ -151,6 +161,7 @@ const exitParentMode = () => {
 **Problem:** Sensitive data stored in AsyncStorage (not encrypted)
 
 **Solution:** Use hardware-backed encrypted storage
+
 ```typescript
 // PIN hash and salt stored in SecureStore (encrypted)
 await SecureStore.setItemAsync('kidmap_pin_hash', hash);
@@ -159,6 +170,7 @@ await SecureStore.setItemAsync('kidmap_pin_salt', salt);
 // Non-sensitive settings remain in AsyncStorage
 await AsyncStorage.setItem('kidmap_parental_settings', JSON.stringify(settings));
 ```
+
 
 **Security Benefits:**
 - ✅ Hardware-backed encryption on supported devices
@@ -184,12 +196,14 @@ await AsyncStorage.setItem('kidmap_parental_settings', JSON.stringify(settings))
 - Added cleanup effect for session timeout
 
 **2. `app.config.ts` (1 line added)**
+
 ```typescript
 plugins: [
   // ... existing plugins
   'expo-secure-store', // Added for encrypted storage
 ],
 ```
+
 
 **3. `__tests__/parental-auth-security.test.ts` (NEW - 442 lines)**
 - Comprehensive test suite covering all security features
@@ -206,10 +220,13 @@ expo-crypto@15.0.7        # Cryptographic functions (SHA-256, random bytes)
 expo-secure-store@15.0.7   # Hardware-backed encrypted storage
 ```
 
+
 **Installation:**
+
 ```bash
 npx expo install expo-crypto expo-secure-store
 ```
+
 
 ---
 
@@ -225,30 +242,32 @@ npx expo install expo-crypto expo-secure-store
    - Validate PIN format (4-6 digits)
    - Secure random salt generation
 
-2. **Rate Limiting Tests** (5 tests)
+1. **Rate Limiting Tests** (5 tests)
    - Track failed attempts
    - Lock after 5 attempts
    - Prevent auth during lockout
    - Reset attempts on success
    - Allow auth after lockout expires
 
-3. **Session Timeout Tests** (2 tests)
+1. **Session Timeout Tests** (2 tests)
    - Auto-logout after 30 minutes
    - Clear timeout on manual logout
 
-4. **Secure Storage Tests** (3 tests)
+1. **Secure Storage Tests** (3 tests)
    - Never store PIN in plain text
    - Use SecureStore for sensitive data
    - Handle first-time setup
 
-5. **Security Logging Tests** (2 tests)
+1. **Security Logging Tests** (2 tests)
    - Log successful authentication
    - Log lockout events
 
 **Run Tests:**
+
 ```bash
 npm test -- __tests__/parental-auth-security.test.ts
 ```
+
 
 ---
 
@@ -272,6 +291,7 @@ npm test -- __tests__/parental-auth-security.test.ts
 ## Security Considerations
 
 ### What's Protected
+
 ✅ Parental PIN authentication
 ✅ Parent mode access
 ✅ Safe zone management
@@ -280,6 +300,7 @@ npm test -- __tests__/parental-auth-security.test.ts
 ✅ Category approval workflows
 
 ### Threat Mitigations
+
 | Threat | Mitigation |
 |---|---|
 | **Plain text PIN theft** | SHA-256 hashing + salt |
@@ -291,6 +312,7 @@ npm test -- __tests__/parental-auth-security.test.ts
 | **Session hijacking** | Session tied to authentication event |
 
 ### Known Limitations
+
 ⚠️ **Biometric authentication not implemented** - Future enhancement
 ⚠️ **PIN complexity not enforced** - Currently allows simple PINs like "1111"
 ⚠️ **No PIN recovery mechanism** - Users must uninstall/reinstall if PIN forgotten
@@ -301,6 +323,7 @@ npm test -- __tests__/parental-auth-security.test.ts
 ## Usage Examples
 
 ### Setting a PIN (First Time)
+
 ```typescript
 const { setParentPin } = useParentalStore();
 
@@ -312,7 +335,9 @@ try {
 }
 ```
 
+
 ### Authenticating
+
 ```typescript
 const { authenticateParentMode, isParentMode } = useParentalStore();
 
@@ -329,12 +354,15 @@ try {
 }
 ```
 
+
 ### Manual Logout
+
 ```typescript
 const { exitParentMode } = useParentalStore();
 
 exitParentMode(); // Clears session timeout
 ```
+
 
 ---
 
@@ -349,7 +377,7 @@ exitParentMode(); // Clears session timeout
    - On next PIN update, they're replaced with hashed version
    - Plain-text PIN is removed from storage
 
-2. Users with existing PINs:
+1. Users with existing PINs:
    - Will be prompted to set new PIN on next parent mode access
    - Or old PIN continues to work until they update it
 
@@ -360,6 +388,7 @@ exitParentMode(); // Clears session timeout
 ## Next Steps (Recommended)
 
 ### Short Term (Week 2)
+
 1. ✅ **COMPLETE:** Security hardening implemented
 2. ⏳ **TODO:** Run full test suite to ensure no regressions
 3. ⏳ **TODO:** Test on physical iOS/Android devices
@@ -367,15 +396,17 @@ exitParentMode(); // Clears session timeout
 5. ⏳ **TODO:** Implement PIN complexity requirements (no repeating digits)
 
 ### Medium Term (Weeks 3-4)
-6. ⏳ **TODO:** Add PIN recovery mechanism (security questions or email)
-7. ⏳ **TODO:** Implement PIN change history (prevent reuse)
-8. ⏳ **TODO:** Add security audit logging for compliance
-9. ⏳ **TODO:** Create parent-facing security documentation
+
+1. ⏳ **TODO:** Add PIN recovery mechanism (security questions or email)
+2. ⏳ **TODO:** Implement PIN change history (prevent reuse)
+3. ⏳ **TODO:** Add security audit logging for compliance
+4. ⏳ **TODO:** Create parent-facing security documentation
 
 ### Long Term (Post-Beta)
-10. ⏳ **TODO:** Penetration testing
-11. ⏳ **TODO:** Third-party security audit
-12. ⏳ **TODO:** Implement hardware security module (HSM) for enterprise
+
+1. ⏳ **TODO:** Penetration testing
+2. ⏳ **TODO:** Third-party security audit
+3. ⏳ **TODO:** Implement hardware security module (HSM) for enterprise
 
 ---
 

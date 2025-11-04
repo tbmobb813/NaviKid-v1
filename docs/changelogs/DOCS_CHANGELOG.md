@@ -106,11 +106,13 @@ Explicitly excluded:
 }
 ```
 
+
 Ignore file:
 
 ```text
 node_modules/
 ```
+
 
 ### Final Status
 

@@ -1,4 +1,5 @@
 <!-- markdownlint-disable MD013 -->
+
 # Kid-Friendly Map: Strategic Summary (October 1, 2025)
 
 ## 1. Context & Objectives
