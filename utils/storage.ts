@@ -14,17 +14,16 @@ import type { MMKV } from 'react-native-mmkv';
 import { createMMKV } from 'react-native-mmkv';
 import { log } from './logger';
 
-type StorageInstance = Pick<
-  MMKV,
-  | 'set'
-  | 'getString'
-  | 'getNumber'
-  | 'getBoolean'
-  | 'remove'
-  | 'clearAll'
-  | 'getAllKeys'
-  | 'contains'
->;
+type StorageInstance = {
+  set(key: string, value: string | number | boolean): void;
+  getString(key: string): string | undefined;
+  getNumber(key: string): number | undefined;
+  getBoolean(key: string): boolean | undefined;
+  remove(key: string): boolean;
+  clearAll(): void;
+  getAllKeys(): string[];
+  contains(key: string): boolean;
+};
 
 class MemoryStorage implements StorageInstance {
   private store = new Map<string, { type: 'string' | 'number' | 'boolean'; value: string }>();
@@ -69,7 +68,6 @@ class MemoryStorage implements StorageInstance {
   remove(key: string): boolean {
     return this.store.delete(key);
   }
-
   clearAll(): void {
     this.store.clear();
   }
@@ -238,6 +236,7 @@ export class StorageManager {
   }
 
   /**
+  /**
    * Delete a key
    */
   delete(key: string): boolean {
@@ -248,8 +247,6 @@ export class StorageManager {
       return false;
     }
   }
-
-  /**
    * Clear all data
    */
   clearAll(): boolean {

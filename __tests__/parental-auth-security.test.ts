@@ -90,23 +90,11 @@ describe('Parental Authentication Security', () => {
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
       // Test invalid PINs
-      await expect(
-        act(async () => {
-          await result.current.setParentPin('123'); // Too short
-        })
-      ).rejects.toThrow('PIN must be 4-6 digits');
+      await expect(result.current.setParentPin('123')).rejects.toThrow('PIN must be 4-6 digits');
 
-      await expect(
-        act(async () => {
-          await result.current.setParentPin('1234567'); // Too long
-        })
-      ).rejects.toThrow('PIN must be 4-6 digits');
+      await expect(result.current.setParentPin('1234567')).rejects.toThrow('PIN must be 4-6 digits');
 
-      await expect(
-        act(async () => {
-          await result.current.setParentPin('abcd'); // Not digits
-        })
-      ).rejects.toThrow('PIN must be 4-6 digits');
+      await expect(result.current.setParentPin('abcd')).rejects.toThrow('PIN must be 4-6 digits');
 
       // Valid PIN should not throw
       await act(async () => {
@@ -166,11 +154,7 @@ describe('Parental Authentication Security', () => {
       }
 
       // Attempt 5: Should lock the account
-      await expect(
-        act(async () => {
-          await result.current.authenticateParentMode('9999');
-        })
-      ).rejects.toThrow('Account locked for 15 minutes');
+      await expect(result.current.authenticateParentMode('9999')).rejects.toThrow('Account locked for 15 minutes');
     });
 
     it('should prevent authentication during lockout period', async () => {
@@ -188,11 +172,7 @@ describe('Parental Authentication Security', () => {
       }
 
       // Try to authenticate during lockout
-      await expect(
-        act(async () => {
-          await result.current.authenticateParentMode('1234');
-        })
-      ).rejects.toThrow('Too many failed attempts');
+      await expect(result.current.authenticateParentMode('1234')).rejects.toThrow('Too many failed attempts');
     });
 
     it('should reset attempts after successful authentication', async () => {
