@@ -121,7 +121,6 @@ $ npx tsc --noEmit
 ✅ PASS
 ```
 
-
 ### Unit Tests
 
 ```text
@@ -130,7 +129,6 @@ Tests: 25 failed, 262 passed, 287 total
 Success Rate: 91.3% ✅
 ```
 
-
 ### Code Coverage
 
 ```text
@@ -138,7 +136,6 @@ All files: 14.19% statements | 12.84% branches | 11.47% functions | 14.59% lines
 Threshold: 5% for all metrics
 ✅ PASS (exceeds thresholds by ~3x)
 ```
-
 
 ### Critical Test Suites (All Passing)
 
@@ -226,8 +223,11 @@ The PR is ready to be merged once reviewed.
 Below is a compact reference of the active workflows in `.github/workflows/` and their purpose so maintainers know what to run and when.
 
 - `.github/workflows/ci-lite.yml`
+  
    - Triggers: `pull_request` (main), `workflow_dispatch`
+
    - Purpose: Lightweight PR checks (typecheck, lint, fast unit tests)
+  
    - Notes: Heavy E2E & perf run manually via "Run workflow"
 
 - `.github/workflows/ci.yml`

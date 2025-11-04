@@ -1,9 +1,9 @@
-> Moved: See docs/archive/conversations/CONVERSATION_SUMMARY.md
+# > Moved: See docs/archive/conversations/CONVERSATION_SUMMARY.md
 
 This document has been archived to reduce noise in the main docs.
 Please use the archived copy at: docs/archive/conversations/CONVERSATION_SUMMARY.md
 
-# 🎯 KidMap: Conversation Summary & Next Steps
+## 🎯 KidMap: Conversation Summary & Next Steps
 
 **Date:** October 1, 2025  
 **Topic:** Strategic Roadmap Analysis & Go-Forward Planning  
