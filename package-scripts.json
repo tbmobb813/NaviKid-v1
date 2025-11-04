@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test:backend": "ts-node scripts/test-backend-connection.ts",
+    "test:integration": "jest __tests__/integration/backend-integration.test.ts",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:full": "concurrently \"npm run dev:backend\" \"npm start\""
+  }
+}
