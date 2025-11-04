@@ -46,7 +46,7 @@ const queryClient = new QueryClient({
 });
 
 function RootLayoutContent() {
-  const { consentDismissed } = usePrivacyStore();
+  usePrivacyStore();
   const { visible, hide } = usePrivacyConsentModal();
 
   // Initialize analytics and data retention on app startup
