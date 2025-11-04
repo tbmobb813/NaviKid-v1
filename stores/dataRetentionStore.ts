@@ -45,7 +45,7 @@ export const useDataRetentionStore = create<RetentionStore>()(
         set({ isCleaningUp: true });
 
         try {
-          const deletedCount = runDataRetentionCleanup();
+          const deletedCount = await runDataRetentionCleanup();
 
           set((state) => ({
             lastCleanupTime: Date.now(),
