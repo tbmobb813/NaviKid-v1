@@ -31,14 +31,28 @@ import { useParentalStore, ParentalProvider } from '@/stores/parentalStore';
 import React from 'react';
 
 describe('Parental Authentication Security', () => {
+  // Create a proper AsyncStorage mock that persists data
+  const asyncStorageData: Record<string, string> = {};
+  
   beforeEach(() => {
     jest.clearAllMocks();
     jest.useFakeTimers();
 
-    // Mock AsyncStorage
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
-    (AsyncStorage.setItem as jest.Mock).mockResolvedValue(undefined);
-    (AsyncStorage.removeItem as jest.Mock).mockResolvedValue(undefined);
+    // Clear the mock storage
+    Object.keys(asyncStorageData).forEach(key => delete asyncStorageData[key]);
+
+    // Mock AsyncStorage with actual storage behavior
+    (AsyncStorage.getItem as jest.Mock).mockImplementation((key: string) => 
+      Promise.resolve(asyncStorageData[key] || null)
+    );
+    (AsyncStorage.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+      asyncStorageData[key] = value;
+      return Promise.resolve();
+    });
+    (AsyncStorage.removeItem as jest.Mock).mockImplementation((key: string) => {
+      delete asyncStorageData[key];
+      return Promise.resolve();
+    });
 
     // Mock SecureStore
     (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
