@@ -34,7 +34,9 @@ export interface SentryConfig {
 export function initSentry(config: SentryConfig) {
   // No-op when DSN is not provided
   if (!config.dsn || config.dsn.trim() === '') {
-    console.log('[Sentry] Disabled: DSN not configured');
+    if (config.environment === 'development') {
+      console.log('[Sentry] Disabled: DSN not configured');
+    }
     return createFallbackSentry();
   }
 
@@ -127,12 +129,14 @@ export function initSentry(config: SentryConfig) {
       },
     });
 
-    // Capture system information
-    console.log('[Sentry] Initialized successfully', {
-      environment: config.environment,
-      release: releaseName,
-      platform: Platform.OS,
-    });
+    // Only log Sentry initialization in development
+    if (config.environment === 'development') {
+      console.log('[Sentry] Initialized successfully', {
+        environment: config.environment,
+        release: releaseName,
+        platform: Platform.OS,
+      });
+    }
 
     // Set user context (clear if not authenticated)
     Sentry.setUser(null);
@@ -152,7 +156,9 @@ export function initSentry(config: SentryConfig) {
 
     return Sentry;
   } catch (err) {
-    console.warn('[Sentry] Failed to initialize', err);
+    if (config.environment === 'development') {
+      console.warn('[Sentry] Failed to initialize', err);
+    }
     return createFallbackSentry();
   }
 }

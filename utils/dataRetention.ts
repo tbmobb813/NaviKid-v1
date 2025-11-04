@@ -37,7 +37,8 @@ function getTimestamp(key: string, manager: StorageManager): number | null {
     if (!value) return null;
     const parsed = JSON.parse(value) as { timestamp?: number };
     return parsed.timestamp || null;
-  } catch {
+  } catch (error) {
+    log.warn?.(`Failed to parse timestamp from ${key}`, error as Error);
     return null;
   }
 }

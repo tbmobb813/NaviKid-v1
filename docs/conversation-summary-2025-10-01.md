@@ -10,7 +10,8 @@ docs/archive/conversations/conversation-summary-2025-10-01.md
 
 This document has been archived to reduce noise in the main docs.
 Please use the archived copy at: docs/archive/conversations/conversation-summary-2025-10-01.md
-# Kid-Friendly Map: Strategic Summary (October 1, 2025)
+
+## Kid-Friendly Map: Strategic Summary (October 1, 2025)
 
 ## 1. Context & Objectives
 

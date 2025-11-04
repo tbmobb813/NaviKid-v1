@@ -18,7 +18,7 @@
     },
   "forceConsistentCasingInFileNames": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
   "exclude": ["templates/**", "node_modules/**"],
   "extends": "expo/tsconfig.base"
 }

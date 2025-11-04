@@ -3,7 +3,8 @@
 This guide now lives at: docs/BUILD_APK_GUIDE.md
 
 Please use the canonical copy to avoid duplication.
-# Building APK for Sideloading - Complete Guide
+
+## Building APK for Sideloading - Complete Guide
 
 ## Summary
 
@@ -58,6 +59,7 @@ Building an APK from your Expo project requires either:
    ```
 
 5. **Find your APK:**
+
    ```bash
    find android/app/build/outputs/apk -name "*.apk"
    ```
@@ -73,9 +75,11 @@ While fixing the USB/APK build issue, test your app NOW:
 1. **Install "Expo Go"** from Play Store
 2. **Connect phone and computer to same WiFi**
 3. **Start Metro:**
+
    ```bash
    npx expo start
    ```
+
 4. **Press `s`** to switch to Expo Go mode
 5. **Scan QR code** with Expo Go app
 
@@ -136,9 +140,9 @@ npx expo run:android --variant release
 
 **Reset your Expo password:**
 
-1. Go to https://expo.dev/
+1. Go to <https://expo.dev/>
 2. Click "Forgot password"
-3. Reset using jsn.nix@gmail.com
+3. Reset using <jsn.nix@gmail.com>
 
 **Then build in cloud:**
 
@@ -205,10 +209,12 @@ If your USB port or cable is truly broken:
 
 1. **Connect phone and laptop to same WiFi**
 2. **On phone:**
+
    ```
    Settings → Developer options → Wireless debugging → ON
    Tap "Pair device with pairing code"
    ```
+
 3. **On laptop:**
 
    ```bash
@@ -220,6 +226,7 @@ If your USB port or cable is truly broken:
    ```
 
 4. **Then build:**
+
    ```bash
    npx expo run:android --variant release
    ```
