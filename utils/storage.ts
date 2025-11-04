@@ -101,7 +101,14 @@ const createStorageInstance = (
     log.warn(
       `MMKV native module unavailable for ${label}. Falling back to in-memory storage. Persistent data will reset between sessions.`,
       {
-        error: error instanceof Error ? { name: error.name, message: error.message } : { message: String(error) },
+        error: error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+            }
+          : {
+              message: String(error),
+            },
       },
     );
     return { instance: new MemoryStorage(label), driver: 'memory' };
