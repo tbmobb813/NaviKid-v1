@@ -63,11 +63,13 @@ The "Couldn't find the prevent remove context" error is **GONE** after downgradi
    You'll see "You are now a developer!"
    ```
 
+
 1. **Enable USB Debugging:**
 
    ```text
    Settings → Developer options → Toggle ON "USB debugging"
    ```
+
 
 1. **Restart ADB and check:**
 
@@ -76,6 +78,7 @@ The "Couldn't find the prevent remove context" error is **GONE** after downgradi
    lsusb  # Should show a new device now!
    adb devices  # Should show your phone
    ```
+
 
 1. **Accept USB debugging on phone:**
    - Popup will appear: "Allow USB debugging?"
@@ -89,6 +92,7 @@ The "Couldn't find the prevent remove context" error is **GONE** after downgradi
    ```bash
    npx expo run:android
    ```
+
 
 ---
 
@@ -117,6 +121,7 @@ rm -rf $HOME/Projects/Kid-Friendly-Map-v1/android/.gradle
 df -h /
 ```
 
+
 ### If You Need More Space
 
 ```bash
@@ -132,6 +137,7 @@ sudo journalctl --vacuum-time=3d
 df -h /
 ```
 
+
 ### Then Create Smaller Emulator
 
 ```bash
@@ -144,6 +150,7 @@ emulator -avd Pixel_5_Small -no-snapshot-load &
 # Wait 30 seconds, then check
 adb devices
 ```
+
 
 ---
 
@@ -158,6 +165,7 @@ You can test if navigation works without device/emulator:
 # Or restart server for web
 npx expo start --web
 ```
+
 
 **Note:** MapLibre and MMKV won't work on web, but you can verify navigation!
 
@@ -196,6 +204,7 @@ ERROR [TypeError: Cannot read property 'getApprovedCategories' of undefined]
 Code: app/(tabs)/index.tsx:57
 ```
 
+
 The issue is `useCategoryStore` is returning `undefined`. Let me check the store:
 
 ```bash
@@ -205,6 +214,7 @@ ls -la stores/categoryStore.ts
 # If it doesn't exist or is incomplete, we need to fix it
 ```
 
+
 **Quick Fix:** Add a fallback in your component:
 
 ```typescript
@@ -213,6 +223,7 @@ const categoryStore = useCategoryStore();
 const getApprovedCategories = category Store?.getApprovedCategories || (() => []);
 const approvedCategories = getApprovedCategories();
 ```
+
 
 Or let me know and I can help debug the store implementation!
 
@@ -287,6 +298,7 @@ Or let me know and I can help debug the store implementation!
    # If device shows up, run:
    npx expo run:android
    ```
+
 
 1. **If that doesn't work in 2 minutes, tell me and we'll:**
    - Use Expo Go to test navigation works

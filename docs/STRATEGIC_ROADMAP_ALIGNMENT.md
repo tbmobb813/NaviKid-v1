@@ -75,13 +75,13 @@ This document synthesizes insights from three strategic analyses:
    - `docs/research/surveys/`
    - `docs/research/competitive-analysis.md`
 
-2. **Schedule research sprint:**
+1. **Schedule research sprint:**
    - 15-20 parent interviews (mixed demographics)
    - 20+ children usability sessions (ages 8-12)
    - 5-7 educator consultations
    - 3-5 special needs specialist reviews
 
-3. **Document validation metrics:**
+1. **Document validation metrics:**
    - Interview count tracker
    - Key insight summaries
    - Feature prioritization matrix based on feedback
@@ -109,13 +109,13 @@ This document synthesizes insights from three strategic analyses:
    - Define differentiators vs. tracking-only apps
    - Highlight educational + independence focus
 
-2. **Formalize Progressive Independence:**
+1. **Formalize Progressive Independence:**
    - Define competency levels (Beginner → Explorer → Navigator → Expert)
    - Document unlock criteria for each level
    - Specify parent approval gates
    - Design in-app progression visualization
 
-3. **Create product strategy pack:**
+1. **Create product strategy pack:**
    - User personas (children, parents, educators)
    - Journey maps for key workflows
    - Feature prioritization framework
@@ -145,12 +145,12 @@ This document synthesizes insights from three strategic analyses:
    - Manual test script for offline scenarios
    - Automated Jest tests simulating no network
 
-2. **Enhance landmark recognition:**
+1. **Enhance landmark recognition:**
    - Bundle landmark-based mini-lessons
    - Create AR scavenger hunt prototype (future)
    - Tie landmark achievements to gamification store
 
-3. **Educational context expansion:**
+1. **Educational context expansion:**
    - Add geography micro-lessons tied to trips
    - Create safety scenario training modules
    - Log completion in `gamificationStore`
@@ -176,12 +176,12 @@ This document synthesizes insights from three strategic analyses:
    - Document partner APIs (OpenStreetMap, future Mapbox)
    - Track costs, SLAs, licensing implications
 
-2. **Plan privacy compliance audit:**
+1. **Plan privacy compliance audit:**
    - Engage privacy/legal consultant
    - Schedule quarterly compliance reviews
    - Document findings in `docs/privacy/audits.md`
 
-3. **Evaluate design consultancy:**
+1. **Evaluate design consultancy:**
    - Consider expert review of child UX patterns
    - Accessibility audit by specialists
    - Document recommendations
@@ -212,13 +212,13 @@ This document synthesizes insights from three strategic analyses:
    - Document retention policies
    - Create compliance checklist matrix
 
-2. **Implement voice guidance:**
+1. **Implement voice guidance:**
    - Research Expo Speech API integration
    - Create `docs/tech/spoken-directions.md`
    - Prototype TTS navigation prompts
    - Add to accessibility roadmap
 
-3. **Expand educational content:**
+1. **Expand educational content:**
    - Structured navigation lessons
    - Progressive skill assessments
    - Safety scenario simulations
@@ -368,14 +368,14 @@ This document synthesizes insights from three strategic analyses:
    - Set up Prisma with PostgreSQL + PostGIS
    - Mirror current client data models in Prisma schema
 
-2. **Implement core endpoints:**
+1. **Implement core endpoints:**
    - Authentication (JWT + refresh tokens)
    - User profiles and parent-child relationships
    - Safe zones and geofencing logic
    - Check-in history and photo storage
    - Device ping coordination
 
-3. **Add real-time sync:**
+1. **Add real-time sync:**
    - Socket.io integration
    - Live location sharing endpoints
    - Device ping push notifications
@@ -398,7 +398,7 @@ This document synthesizes insights from three strategic analyses:
    - Plan for `SafeZone`, `RoutePlan`, `Achievement`, `CheckIn` models
    - Add PostGIS geometry columns for spatial queries
 
-2. **Migration strategy:**
+1. **Migration strategy:**
    - Document how local AsyncStorage data exports to PostgreSQL
    - Plan multi-device sync conflict resolution
 
@@ -421,13 +421,13 @@ This document synthesizes insights from three strategic analyses:
    - Wire error boundaries to Sentry reporting
    - Configure source maps for stack traces
 
-2. **Plan analytics rollout:**
+1. **Plan analytics rollout:**
    - Draft consent flows
    - Document events taxonomy
    - Implement Plausible or PostHog with opt-in
    - Create `docs/analytics/events.md`
 
-3. **Backend deployment:**
+1. **Backend deployment:**
    - Start with Railway for rapid prototyping
    - Plan AWS migration for compliance (COPPA/GDPR)
    - Dockerize backend service
@@ -451,13 +451,13 @@ This document synthesizes insights from three strategic analyses:
    - `docs/privacy/retention-policy.md`
    - `docs/privacy/incident-response-plan.md`
 
-2. **Backend security hardening:**
+1. **Backend security hardening:**
    - Implement helmet middleware
    - Add rate limiting
    - CSRF protection
    - SQL injection prevention (Prisma handles most)
 
-3. **Engage legal counsel:**
+1. **Engage legal counsel:**
    - Privacy lawyer consultation
    - COPPA compliance review
    - GDPR/CCPA readiness assessment
@@ -675,23 +675,23 @@ This document synthesizes insights from three strategic analyses:
    - What's the minimum viable scope?
    - Privacy implications and mitigation?
 
-2. **Monetization Strategy:**
+1. **Monetization Strategy:**
    - Freemium model with parent dashboard premium tier?
    - B2B2C enterprise licensing for schools?
    - One-time purchase vs. subscription?
    - In-app purchases for educational content?
 
-3. **Geographic Expansion:**
+1. **Geographic Expansion:**
    - Which additional cities to add next?
    - International market prioritization?
    - Localization requirements?
 
-4. **Analytics vs. Privacy:**
+1. **Analytics vs. Privacy:**
    - What level of telemetry is acceptable?
    - Opt-in vs. opt-out consent model?
    - Aggregated vs. individual tracking?
 
-5. **Hardware Integration:**
+1. **Hardware Integration:**
    - Pursue wearable partnerships?
    - Integration timeline and investment?
    - Minimum viable hardware feature set?
@@ -703,17 +703,17 @@ This document synthesizes insights from three strategic analyses:
    - Multi-region deployment strategy?
    - Cost projections and budget?
 
-2. **Real-Time Architecture:**
+1. **Real-Time Architecture:**
    - Socket.io vs. server-sent events vs. polling?
    - Scaling strategy for concurrent connections?
    - Fallback mechanisms?
 
-3. **Map Provider:**
+1. **Map Provider:**
    - Continue with OpenStreetMap or migrate to Mapbox?
    - Cost-benefit analysis?
    - Licensing implications?
 
-4. **Storage Strategy:**
+1. **Storage Strategy:**
    - Keep MMKV as optional optimization?
    - Local-first with optional cloud sync?
    - Multi-device synchronization approach?

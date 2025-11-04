@@ -14,6 +14,7 @@ mainStorage.set('user', { name: 'John', age: 10 });
 const user = mainStorage.get('user');
 ```
 
+
 **Features:**
 
 - 🚀 Synchronous operations (no await!)
@@ -43,6 +44,7 @@ await speakSafety(KidFriendlyPhrases.safety.lookBothWays);
 await speakAchievement('Wow! You earned a new badge!');
 ```
 
+
 **Features:**
 
 - 👶 Kid-friendly voice selection
@@ -69,6 +71,7 @@ import KidFriendlyMap from './components/KidFriendlyMap';
   onSafeZoneEnter={(zone) => console.log(`Entered ${zone.name}`)}
 />
 ```
+
 
 **Features:**
 
@@ -101,6 +104,7 @@ import EnhancedFeaturesDemo from './components/EnhancedFeaturesDemo';
 <EnhancedFeaturesDemo />
 ```
 
+
 ## 🚀 Quick Start
 
 ```bash
@@ -114,6 +118,7 @@ npx expo start
 npx expo start --ios
 npx expo start --android
 ```
+
 
 ## 📦 New Files
 

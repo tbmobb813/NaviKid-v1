@@ -93,3 +93,4 @@ yarn-error.*
 # Test coverage
 coverage/
 # @end expo-cli
+.env.local

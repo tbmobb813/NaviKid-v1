@@ -22,6 +22,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm ci
+      - name: Run markdownlint on docs
+        # Lint only the canonical docs folder to reduce noise from historical files.
+        # Mark non-blocking so the pipeline doesn't fail while we gradually clean up
+        # legacy markdown across the repo.
+        run: |
+          npx markdownlint-cli@0.34.0 "docs/**/*.md" -c .markdownlint.json
+        continue-on-error: true
       - name: TypeScript typecheck
         run: npx -y tsc --noEmit
 

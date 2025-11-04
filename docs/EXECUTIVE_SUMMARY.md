@@ -172,6 +172,7 @@ WEEKS 9-12: Integration & Beta Launch
             └─ Progressive independence, beta recruitment, launch
 ```
 
+
 ### Key Milestones
 
 - **Week 4:** Research complete, insights synthesized, compliance draft approved
@@ -221,15 +222,15 @@ _Note: Does not include team salaries or marketing budget_
 
 ### Short-Term Decisions (Next 4 Weeks)
 
-4. **Backend Deployment Strategy** - Railway (fast) vs. AWS (compliant)
-5. **Analytics Approach** - Opt-in telemetry tooling and consent flows
-6. **Voice Guidance Priority** - Confirm as critical accessibility feature
+1. **Backend Deployment Strategy** - Railway (fast) vs. AWS (compliant)
+2. **Analytics Approach** - Opt-in telemetry tooling and consent flows
+3. **Voice Guidance Priority** - Confirm as critical accessibility feature
 
 ### Medium-Term Decisions (8-12 Weeks)
 
-7. **Monetization Strategy** - Freemium, subscription, or B2B2C focus
-8. **Community Features** - Go/no-go based on user research validation
-9. **Geographic Expansion** - Next city priorities and localization requirements
+1. **Monetization Strategy** - Freemium, subscription, or B2B2C focus
+2. **Community Features** - Go/no-go based on user research validation
+3. **Geographic Expansion** - Next city priorities and localization requirements
 
 ---
 

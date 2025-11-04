@@ -1,30 +1,34 @@
-# Running tests
+Running tests
+# Contributing
+
+
+## Running tests
 
 This project separates tests into three suites: frontend, server, and bun-style logic/perf tests.
 
-- To run frontend tests:
+To run frontend tests:
 
-```
+```bash
 npm test
 ```
 
-- To run server tests:
+To run server tests:
 
-```
+```bash
 npm run test:server
 ```
 
-- To run bun tests (logic + performance):
+To run bun tests (logic + performance):
 
-```
+```bash
 npm run test:bun
 ```
 
-Performance tests
+### Performance tests
 
 The bun performance tests include timing-based assertions. To avoid false failures on slower developer machines, use the `PERF_TIME_MULTIPLIER` environment variable locally, e.g.:
 
-```
+```bash
 PERF_TIME_MULTIPLIER=2 npm run test:bun
 ```
 
