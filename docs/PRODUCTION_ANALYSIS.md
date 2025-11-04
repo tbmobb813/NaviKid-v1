@@ -5,19 +5,25 @@ Top-level summary (production readiness)
 Project is functionally rich and has tests, build script, and CI piLocal checks (typLocal checks (typQuick verification commLocal checks (typecheck, tests, build script):
 
 ````bash
+
 # Install dependencies (choose one and standardize)
+
 npm ci
 
 # TypeScript check
+
 npx tsc --noEmit
 
 # Run unit tests (single test or all)
+
 npm test
 
 # Or run a single test file:
+
 npm test -- __tests__/safety.test.ts -i
 
 # Run the repository production build script (it exists: scripts/build-production.js)
+
 node scripts/build-production.js
 ```s (what I ran and recommend)
 
@@ -43,21 +49,28 @@ node scripts/build-production.js
 Quality gates (minimum before publishing), tests, build script):
 
 ```bash
+
 # Install dependencies (choose one and standardize)
+
 npm ci
 
 # TypeScript check
+
 npx tsc --noEmit
 
 # Run unit tests (single test or all)
+
 npm test
 
 # Or run a single test file:
+
 npm test -- __tests__/safety.test.ts -i
 
 # Run the repository production build script (it exists: scripts/build-production.js)
+
 node scripts/build-production.js
-```
+
+```bash
 
 Quality gates (minimum before publishing)ck, tests, build script):
 
@@ -251,3 +264,4 @@ Add assets folder placeholders (icons/splash) and update app.json paths if neces
 Integrate Sentry skeleton (small).
 Standardize package manager (decide bun or npm) and update CI/workflow to match (small → medium).
 ````
+

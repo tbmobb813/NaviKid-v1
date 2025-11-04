@@ -157,23 +157,23 @@ Threshold: 5% for all metrics
    - Issue: Test timeout on abort request scenario
    - Impact: Low - functionality works, timing issue only
 
-2. **errorHandling.test.js** - Duplicate test file
+1. **errorHandling.test.js** - Duplicate test file
    - Issue: .js version has import issues, .ts version passes
    - Impact: None - .ts version covers the same tests
 
-3. **monitoring.test.ts** - 4 failures, 31/35 passing
+1. **monitoring.test.ts** - 4 failures, 31/35 passing
    - Issue: Integration test configuration
    - Impact: Low - core monitoring tests pass
 
-4. **InteractiveMap.test.tsx** - Rendering mock issues
+1. **InteractiveMap.test.tsx** - Rendering mock issues
    - Issue: Test infrastructure mock configuration
    - Impact: None - actual component works correctly
 
-5. **MapLibreRouteView.test.tsx** - Rendering mock issues
+1. **MapLibreRouteView.test.tsx** - Rendering mock issues
    - Issue: Test infrastructure mock configuration
    - Impact: None - actual component works correctly
 
-6. **sanity.test.tsx** - Rendering mock issues
+1. **sanity.test.tsx** - Rendering mock issues
    - Issue: Test infrastructure mock configuration
    - Impact: None - basic sanity checks, not functional tests
 
@@ -223,8 +223,11 @@ The PR is ready to be merged once reviewed.
 Below is a compact reference of the active workflows in `.github/workflows/` and their purpose so maintainers know what to run and when.
 
 - `.github/workflows/ci-lite.yml`
+  
    - Triggers: `pull_request` (main), `workflow_dispatch`
+
    - Purpose: Lightweight PR checks (typecheck, lint, fast unit tests)
+  
    - Notes: Heavy E2E & perf run manually via "Run workflow"
 
 - `.github/workflows/ci.yml`

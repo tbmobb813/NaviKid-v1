@@ -11,6 +11,7 @@
 Automatic data cleanup system for COPPA compliance. Purges old location history, searches, and cache data on a daily schedule.
 
 ### Key Features
+
 - **Auto-cleanup:** Runs daily on app startup
 - **COPPA-compliant:** 30-day retention for location data
 - **Non-intrusive:** Runs in background, doesn't block user
@@ -32,6 +33,7 @@ Automatic data cleanup system for COPPA compliance. Purges old location history,
 ## How It Works
 
 ### Automatic Cleanup
+
 ```
 App Startup
     ↓
@@ -48,6 +50,7 @@ For each key matching pattern:
 Log cleanup results
 ```
 
+
 ### Manual Usage
 
 ```typescript
@@ -61,6 +64,7 @@ console.log(`Deleted ${deleted} items`);
 const stats = getStorageStats();
 console.log(`Storage: ${stats.totalKeys} keys, ~${stats.estimatedSize} bytes`);
 ```
+
 
 ---
 
@@ -87,6 +91,7 @@ export const RETENTION_POLICIES = {
 };
 ```
 
+
 ### Scheduling (`stores/dataRetentionStore.ts`)
 
 - Cleanup runs daily (24-hour interval)
@@ -104,37 +109,44 @@ useEffect(() => {
 }, []);
 ```
 
+
 ---
 
 ## Key Functions
 
 ### `runDataRetentionCleanup()`
+
 Runs all cleanup operations at once
 - Returns: Total number of deleted items
 - Logs: Summary of cleanup results
 
 ### `cleanupLocationHistory()`
+
 Deletes location data older than 30 days
 - Scans keys starting with `location_history_`
 - Checks `timestamp` field
 - Returns: Number of deleted items
 
 ### `cleanupRecentSearches()`
+
 Deletes search history older than 90 days
 - Scans keys starting with `search_`
 - Returns: Number of deleted items
 
 ### `cleanupOfflineActions()`
+
 Deletes queued offline actions older than 14 days
 - Scans keys starting with `offline_action_`
 - Returns: Number of deleted items
 
 ### `cleanupCacheData()`
+
 Deletes cache entries older than 7 days
 - Uses separate cache storage
 - Returns: Number of deleted items
 
 ### `getStorageStats()`
+
 Returns storage usage information
 - Returns: `{ totalKeys, estimatedSize }`
 
@@ -171,11 +183,13 @@ cacheStorage.set('cache_transit', {
 });
 ```
 
+
 ---
 
 ## Testing
 
 ### Check Cleanup Schedule
+
 ```typescript
 import { useDataRetentionStore } from '@/stores/dataRetentionStore';
 
@@ -185,7 +199,9 @@ console.log('Last cleanup:', store.lastCleanupTime);
 console.log('Time since:', store.getTimeSinceLastCleanup());
 ```
 
+
 ### Trigger Cleanup Manually
+
 ```typescript
 import { useDataRetentionStore } from '@/stores/dataRetentionStore';
 
@@ -194,7 +210,9 @@ const deleted = await store.performCleanup();
 console.log(`Deleted ${deleted} items`);
 ```
 
+
 ### Check Storage Stats
+
 ```typescript
 import { getStorageStats } from '@/utils/dataRetention';
 
@@ -202,6 +220,7 @@ const stats = getStorageStats();
 console.log(`Total keys: ${stats.totalKeys}`);
 console.log(`Estimated size: ${(stats.estimatedSize / 1024).toFixed(2)} KB`);
 ```
+
 
 ---
 
