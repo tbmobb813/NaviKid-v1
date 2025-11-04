@@ -39,10 +39,12 @@ jest.mock('@/utils/storage', () => ({
 
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Crypto from 'expo-crypto';
 import * as SecureStore from 'expo-secure-store';
 import { useParentalStore, ParentalProvider } from '@/stores/parentalStore';
 import React from 'react';
+
+// Get the mocked Crypto module
+const Crypto = require('expo-crypto');
 
 describe('Parental Authentication Security', () => {
   // Create a proper AsyncStorage mock that persists data
