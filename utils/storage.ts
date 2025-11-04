@@ -236,7 +236,6 @@ export class StorageManager {
   }
 
   /**
-  /**
    * Delete a key
    */
   delete(key: string): boolean {
@@ -247,6 +246,7 @@ export class StorageManager {
       return false;
     }
   }
+  /**
    * Clear all data
    */
   clearAll(): boolean {
