@@ -10,13 +10,14 @@ import { ParentalProvider } from '@/stores/parentalStore';
 import { AuthProvider } from '@/hooks/useAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as Sentry from '@sentry/react-native';
+import Constants from 'expo-constants';
 import { PrivacyConsentModal, usePrivacyConsentModal } from '@/components/PrivacyConsentModal';
 import { usePrivacyStore } from '@/stores/privacyStore';
 import { initializePlausible } from '@/hooks/usePlausible';
 import { initializeDataRetention } from '@/stores/dataRetentionStore';
 
 Sentry.init({
-  dsn: 'https://4a827446124484505063a6431b1a99a0@o4510303864094720.ingest.us.sentry.io/4510303872679936',
+  dsn: Constants?.manifest?.extra?.SENTRY_DSN,
 
   // Adds more context data to events (IP address, cookies, user, etc.)
   // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
