@@ -66,8 +66,7 @@ class MemoryStorage implements StorageInstance {
   }
 
   remove(key: string): boolean {
-    this.store.delete(key);
-    return true;
+    return this.store.delete(key);
   }
   clearAll(): void {
     this.store.clear();
