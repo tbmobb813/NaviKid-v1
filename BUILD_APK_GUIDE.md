@@ -1,3 +1,8 @@
+# Moved
+
+This guide now lives at: docs/BUILD_APK_GUIDE.md
+
+Please use the canonical copy to avoid duplication.
 # Building APK for Sideloading - Complete Guide
 
 ## Summary

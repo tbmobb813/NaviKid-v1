@@ -1,15 +1,4 @@
-# Conversation Summary (Archived)
-
-> Moved: See docs/archive/conversations/conversation-summary-2025-10-01.md
-
-This document has been archived to reduce noise in the main docs.
-Please use the archived copy at:
-
-docs/archive/conversations/conversation-summary-2025-10-01.md
-> Moved: See docs/archive/conversations/conversation-summary-2025-10-01.md
-
-This document has been archived to reduce noise in the main docs.
-Please use the archived copy at: docs/archive/conversations/conversation-summary-2025-10-01.md
+<!-- markdownlint-disable MD013 -->
 # Kid-Friendly Map: Strategic Summary (October 1, 2025)
 
 ## 1. Context & Objectives
@@ -129,3 +118,5 @@ Please use the archived copy at: docs/archive/conversations/conversation-summary
 - [ ] Compile competitive positioning brief for stakeholders.
 
 _Prepared October 1, 2025 – captures all analyses and decisions discussed to date._
+
+<!-- markdownlint-enable MD013 -->

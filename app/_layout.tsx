@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CategoryProvider } from '@/stores/categoryStore';
@@ -10,6 +10,10 @@ import { ParentalProvider } from '@/stores/parentalStore';
 import { AuthProvider } from '@/hooks/useAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as Sentry from '@sentry/react-native';
+import { PrivacyConsentModal, usePrivacyConsentModal } from '@/components/PrivacyConsentModal';
+import { usePrivacyStore } from '@/stores/privacyStore';
+import { initializePlausible } from '@/hooks/usePlausible';
+import { initializeDataRetention } from '@/stores/dataRetentionStore';
 
 Sentry.init({
   dsn: 'https://4a827446124484505063a6431b1a99a0@o4510303864094720.ingest.us.sentry.io/4510303872679936',
@@ -40,7 +44,16 @@ const queryClient = new QueryClient({
   },
 });
 
-export default Sentry.wrap(function RootLayout() {
+function RootLayoutContent() {
+  const { consentDismissed } = usePrivacyStore();
+  const { visible, hide } = usePrivacyConsentModal();
+
+  // Initialize analytics and data retention on app startup
+  useEffect(() => {
+    initializePlausible();
+    initializeDataRetention();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
@@ -55,6 +68,11 @@ export default Sentry.wrap(function RootLayout() {
           </CategoryProvider>
         </AuthProvider>
       </QueryClientProvider>
+
+      {/* Privacy Consent Modal - shows on first app load if consent not given */}
+      <PrivacyConsentModal visible={visible} onDismiss={hide} />
     </GestureHandlerRootView>
   );
-});
+}
+
+export default Sentry.wrap(RootLayoutContent);
