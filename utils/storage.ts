@@ -12,6 +12,22 @@
 
 import type { MMKV } from 'react-native-mmkv';
 import { createMMKV } from 'react-native-mmkv';
+
+// Type assertion helper to ensure createMMKV returns correct type
+const createTypedMMKV = (config?: Parameters<typeof createMMKV>[0]): MMKV => {
+  const instance = createMMKV(config);
+  
+  // Runtime check to ensure the instance has expected MMKV methods
+  if (typeof instance.set !== 'function' || 
+      typeof instance.getString !== 'function' ||
+      typeof instance.getNumber !== 'function' ||
+      typeof instance.getBoolean !== 'function' ||
+      typeof instance.delete !== 'function') {
+    throw new Error('createMMKV did not return a valid MMKV instance');
+  }
+  
+  return instance as MMKV;
+};
 import { log } from './logger';
 
 type StorageInstance = {
