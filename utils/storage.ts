@@ -22,7 +22,7 @@ const createTypedMMKV = (config?: Parameters<typeof createMMKV>[0]): MMKV => {
       typeof instance.getString !== 'function' ||
       typeof instance.getNumber !== 'function' ||
       typeof instance.getBoolean !== 'function' ||
-      typeof instance.delete !== 'function') {
+      typeof instance.remove !== 'function') {
     throw new Error('createMMKV did not return a valid MMKV instance');
   }
   
