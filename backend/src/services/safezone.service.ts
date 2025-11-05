@@ -48,7 +48,7 @@ export class SafeZoneService {
 
       const safeZone = result.rows[0];
 
-      logger.info({ userId, safeZoneId: safeZone.id  }, 'Safe zone created');
+      logger.info({ userId, safeZoneId: safeZone.id }, 'Safe zone created');
 
       return safeZone;
     } catch (error) {
