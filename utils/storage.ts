@@ -84,7 +84,7 @@ class MemoryStorage implements StorageInstance {
 type StorageDriver = 'mmkv' | 'memory';
 
 const createStorageInstance = (
-  config?: Parameters<typeof createMMKV>[0],
+  config?: ConstructorParameters<typeof MMKV>[0],
 ): { instance: StorageInstance; driver: StorageDriver } => {
   const label = config?.id ?? 'default';
 
