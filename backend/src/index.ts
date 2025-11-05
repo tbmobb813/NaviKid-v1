@@ -130,7 +130,7 @@ async function buildServer() {
     connection.socket.on('message', (message: any) => {
       try {
         const data = JSON.parse(message.toString());
-        logger.debug({ data  }, 'WebSocket message received');
+        logger.debug({ data }, 'WebSocket message received');
 
         // Echo back for now (implement real-time logic later)
         connection.socket.send(
