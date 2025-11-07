@@ -1,7 +1,7 @@
 {
   "name": "navikid-backend",
   "version": "1.0.0",
-  "description": "Privacy-first family location tracking backend for NaviKid",
+  "description": "Backend service for MapMuse, a family adventure and discovery application.",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -19,12 +19,14 @@
     "format:check": "prettier --check \"src/**/*.ts\""
   },
   "keywords": [
-    "location-tracking",
-    "family-safety",
-    "privacy-first",
+    "maps",
+    "location",
+    "discovery",
+    "family",
+    "adventure",
     "geofencing"
   ],
-  "author": "NaviKid Team",
+  "author": "MapMuse Team",
   "license": "MIT",
   "dependencies": {
     "@fastify/cors": "^9.0.1",

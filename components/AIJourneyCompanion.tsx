@@ -73,7 +73,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
 - AI Recommendation: ${selectedRoute.aiRecommendations[0]}`;
       }
 
-      const response = await fetch('https://toolkit.rork.com/text/llm/', {
+      const response = await fetch('https://api.mapmuse.app/text/llm/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -138,11 +138,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
     }
   };
 
-  const generateQuiz = async () => {
-    if (!destination) return;
-
-    try {
-      const response = await fetch('https://toolkit.rork.com/text/llm/', {
+const response = await fetch('https://api.mapmuse.app/text/llm/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -187,7 +183,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
     if (!selectedRoute) return;
 
     try {
-      const response = await fetch('https://toolkit.rork.com/text/llm/', {
+      const response = await fetch('https://api.mapmuse.app/text/llm/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
