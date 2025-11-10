@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable, Alert, Image } from 'react-native';
-import globalStyles from
-
+import globalStyles from '../styles';
 import Colors from '@/constants/colors';
 import {
   Shield,

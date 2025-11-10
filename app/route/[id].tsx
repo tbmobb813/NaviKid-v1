@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
-import globalStyles from
+import globalStyles from '../../styles';
 import transitStyles from '@/app/styles/transit';
-
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Colors from '@/constants/colors';
 import DirectionStep from '@/components/DirectionStep';
