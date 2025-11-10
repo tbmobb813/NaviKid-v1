@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
-import globalStyles from '../../styles'; // Use globalStyles for shared styles
+import globalStyles from
 import transitStyles from '@/app/styles/transit';
 
-// TODO: Move any shared/reusable styles to styles.ts and use globalStyles
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Colors from '@/constants/colors';
 import DirectionStep from '@/components/DirectionStep';

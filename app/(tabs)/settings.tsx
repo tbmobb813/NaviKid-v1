@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Switch, ScrollView, Pressable } from 'react-native';
-import globalStyles from '../../styles'; // Use globalStyles for shared styles
+import globalStyles from
 
-// TODO: Move any shared/reusable styles to styles.ts and use globalStyles
 import Colors from '@/constants/colors';
 import {
   Bell,
