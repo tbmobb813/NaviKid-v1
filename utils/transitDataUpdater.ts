@@ -1,5 +1,6 @@
 import { RegionConfig } from '@/types/region';
 import { useRegionStore } from '@/stores/regionStore';
+import { getMockFeed } from '@/config/mock-feeds';
 
 export type TransitDataUpdateResult = {
   success: boolean;
@@ -148,13 +149,19 @@ export class TransitDataUpdater {
         // Mock feed loader: feedUrl starting with mock://<id> will load from config/mock-feeds/<id>.json
         if (system.feedUrl.startsWith('mock://')) {
           const id = system.feedUrl.replace('mock://', '');
-          // TODO: Fix dynamic import for web builds
 
-          // const mock = require(`@/config/mock-feeds/${id}.json`);
-          console.log(`Mock feed ${id} loading disabled for web builds`);
-          // if (mock.routes) allRoutes.push(...mock.routes);
-          // if (mock.schedules) allSchedules.push(...mock.schedules);
-          // if (mock.alerts) allAlerts.push(...mock.alerts);
+          // Use static import mapping (web-compatible)
+          const mock = getMockFeed(id);
+
+          if (mock) {
+            console.log(`Loading mock feed: ${id}`);
+            if (mock.routes) allRoutes.push(...mock.routes);
+            if (mock.schedules) allSchedules.push(...mock.schedules);
+            if (mock.alerts) allAlerts.push(...mock.alerts);
+          } else {
+            console.warn(`Mock feed not found: ${id}. Available feeds: mta-subway, mta-bus`);
+          }
+
           continue;
         }
 

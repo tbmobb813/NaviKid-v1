@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Switch, ScrollView, Pressable } from 'react-native';
-import globalStyles from
-
+import globalStyles from '../../styles';
 import Colors from '@/constants/colors';
 import {
   Bell,
