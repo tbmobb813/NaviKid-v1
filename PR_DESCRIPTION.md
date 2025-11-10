@@ -211,9 +211,10 @@ All 9 TODO items from codebase analysis:
 
 **Remaining for 100/100:**
 - Analytics dashboard configuration (Plausible)
-- Data retention automation (utilities created, needs initialization)
 - User research validation
 - Legal compliance documentation
+
+**Note:** Data retention automation is complete and operational! See DATA_RETENTION_SUMMARY.md
 
 ---
 
@@ -236,16 +237,17 @@ All 9 TODO items from codebase analysis:
 
 2. **Set Up Analytics**
    - Configure Plausible endpoint and site ID
-   - Initialize analytics on app startup
+   - Test analytics tracking
 
 3. **Add Real Transit Feeds**
    - Configure MTA API keys
    - Add other transit agency endpoints
    - Test real-time data updates
 
-4. **Initialize Data Retention**
-   - Call initializeDataRetention() in app startup
-   - Configure retention policies
+4. **Data Retention** ✅
+   - Already complete and running automatically!
+   - Review DATA_RETENTION_SUMMARY.md for details
+   - Adjust retention policies if needed (see configuration guide)
 
 ---
 
