@@ -341,6 +341,7 @@ export class TransitDataUpdater {
         if (entity.tripUpdate) {
           const tripUpdate = entity.tripUpdate;
           const trip = tripUpdate.trip;
+          let maxDelay = 0; // Track max delay for this trip
 
           if (trip && tripUpdate.stopTimeUpdate) {
             for (const stopTimeUpdate of tripUpdate.stopTimeUpdate) {
@@ -350,6 +351,11 @@ export class TransitDataUpdater {
               if (arrival || departure) {
                 const timestamp = arrival?.time || departure?.time;
                 const delay = arrival?.delay || departure?.delay || 0;
+
+                // Track maximum delay for status determination
+                if (Math.abs(delay) > Math.abs(maxDelay)) {
+                  maxDelay = delay;
+                }
 
                 schedules.push({
                   systemId,
@@ -370,7 +376,7 @@ export class TransitDataUpdater {
               id: `${systemId}-${trip.routeId}`,
               name: trip.routeId,
               systemId,
-              status: delay && Math.abs(delay) > 300 ? 'delayed' : 'on-time', // 5+ min delay
+              status: maxDelay && Math.abs(maxDelay) > 300 ? 'delayed' : 'on-time', // 5+ min delay
               tripId: trip.tripId,
             });
           }
