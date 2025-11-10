@@ -30,8 +30,10 @@ export default function AuthScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
 
-  const { login, register, error, clearError } = useAuth();
+  const { login, register, resetPassword, error, clearError } = useAuth();
 
   const handleSubmit = async () => {
     clearError();
@@ -275,14 +277,91 @@ export default function AuthScreen() {
             {isLogin && (
               <Pressable
                 style={styles.forgotPasswordButton}
-                onPress={() => {
-                  // TODO: Implement forgot password
-                  Alert.alert('Forgot Password', 'This feature will be available soon.');
-                }}
+                onPress={() => setShowForgotPassword(true)}
                 testID="forgot-password-button"
               >
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
               </Pressable>
+            )}
+
+            {/* Forgot Password Modal */}
+            {showForgotPassword && (
+              <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Reset Password</Text>
+                  <Text style={styles.modalSubtitle}>
+                    Enter your email address and we'll send you a link to reset your password.
+                  </Text>
+
+                  <View style={styles.inputContainer}>
+                    <Mail size={20} color={Colors.textSecondary} style={styles.inputIcon} />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Email Address"
+                      placeholderTextColor={Colors.textSecondary}
+                      value={resetEmail}
+                      onChangeText={setResetEmail}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      testID="reset-email-input"
+                    />
+                  </View>
+
+                  <View style={styles.modalButtons}>
+                    <Pressable
+                      style={[styles.modalButton, styles.modalButtonSecondary]}
+                      onPress={() => {
+                        setShowForgotPassword(false);
+                        setResetEmail('');
+                      }}
+                      testID="cancel-reset-button"
+                    >
+                      <Text style={styles.modalButtonTextSecondary}>Cancel</Text>
+                    </Pressable>
+
+                    <Pressable
+                      style={[styles.modalButton, styles.modalButtonPrimary]}
+                      onPress={async () => {
+                        if (!isValidEmail(resetEmail)) {
+                          Alert.alert('Invalid Email', 'Please enter a valid email address');
+                          return;
+                        }
+
+                        setIsLoading(true);
+                        const result = await resetPassword(resetEmail);
+                        setIsLoading(false);
+
+                        if (result.success) {
+                          Alert.alert(
+                            'Reset Link Sent',
+                            'If an account exists with this email, you will receive a password reset link shortly.',
+                            [
+                              {
+                                text: 'OK',
+                                onPress: () => {
+                                  setShowForgotPassword(false);
+                                  setResetEmail('');
+                                },
+                              },
+                            ],
+                          );
+                        } else {
+                          Alert.alert('Error', result.error || 'Failed to send reset link');
+                        }
+                      }}
+                      testID="send-reset-button"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <ActivityIndicator color="white" size="small" />
+                      ) : (
+                        <Text style={styles.modalButtonTextPrimary}>Send Reset Link</Text>
+                      )}
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
             )}
           </View>
 
@@ -440,6 +519,68 @@ const styles = StyleSheet.create({
   footerLink: {
     color: Colors.primary,
     fontSize: 14,
+    fontWeight: '600',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalContent: {
+    backgroundColor: Colors.background,
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.text,
+    marginBottom: 8,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
+  },
+  modalButtonPrimary: {
+    backgroundColor: Colors.primary,
+  },
+  modalButtonSecondary: {
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  modalButtonTextPrimary: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  modalButtonTextSecondary: {
+    color: Colors.text,
+    fontSize: 16,
     fontWeight: '600',
   },
 });
