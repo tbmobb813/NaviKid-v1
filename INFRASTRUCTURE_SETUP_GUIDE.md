@@ -9,6 +9,7 @@
 ## 📊 Current Infrastructure Status
 
 ### ✅ Complete & Ready
+
 - **Frontend (React Native/Expo):** Production-ready, all TODOs resolved
 - **Transit Adapter Service:** Fully implemented in `server/` directory
 - **CI/CD Workflows:** Comprehensive GitHub Actions workflows exist
@@ -17,6 +18,7 @@
 - **Kubernetes Manifests:** K8s YAMLs for deployment ready
 
 ### ⚠️ **NOT** Complete - Requires Setup
+
 - **Backend API Server:** Configuration exists but NO implementation
 - **PostgreSQL Database:** Schema exists but not deployed
 - **Redis Cache:** Configuration exists but not deployed
@@ -68,11 +70,13 @@
 **Status:** ⚠️ **Configuration only - NO implementation exists**
 
 **What Exists:**
+
 - `backend/.env` - Configuration file with database/Redis settings
 - `.github/workflows/backend-ci.yml` - CI/CD pipeline ready
 - Frontend code expects: `http://localhost:3000/api`
 
 **What's Missing:**
+
 - **NO backend server code** - The `backend/` directory only contains:
   - `.env` (configuration)
   - `package-lock.json` (no package.json!)
@@ -81,6 +85,7 @@
 - **NO database models/migrations**
 
 **Required Implementation:**
+
 ```
 backend/
 ├── src/
@@ -114,6 +119,7 @@ backend/
 **Status:** ✅ **Fully implemented** but ⚠️ **NOT deployed**
 
 **What Exists:**
+
 - ✅ Complete Fastify server implementation (`server/index.js`)
 - ✅ GTFS-RT protobuf decoder
 - ✅ PostgreSQL support with schema
@@ -122,7 +128,9 @@ backend/
 - ✅ Comprehensive test suite
 
 **What's Needed:**
+
 1. **Database Setup:**
+
    ```bash
    # Create PostgreSQL database
    createdb transit_adapter
@@ -137,6 +145,7 @@ backend/
    ```
 
 2. **Environment Configuration:**
+
    ```bash
    # server/.env
    PORT=3001
@@ -164,6 +173,7 @@ backend/
 **Required Databases:**
 
 1. **Main Database** (`navikid_db`):
+
    ```sql
    -- User accounts
    CREATE TABLE users (
@@ -212,6 +222,7 @@ backend/
    - Tables: `routes`, `trips`, `stops`, `stop_times`, `shapes`
 
 **Hosting Options:**
+
 - **AWS RDS:** Managed PostgreSQL with automated backups
 - **Google Cloud SQL:** Fully managed with high availability
 - **DigitalOcean Managed Databases:** Cost-effective option
@@ -226,12 +237,14 @@ backend/
 **Status:** ⚠️ **NOT provisioned**
 
 **Purpose:**
+
 - Transit feed caching (10-30 second TTL)
 - Rate limiting state
 - Session management
 - Real-time data invalidation
 
 **Configuration:**
+
 ```bash
 # Production Redis config
 maxmemory 2gb
@@ -241,6 +254,7 @@ appendfsync everysec
 ```
 
 **Hosting Options:**
+
 - **AWS ElastiCache:** Managed Redis with automatic failover
 - **Google Cloud Memorystore:** Fully managed Redis
 - **Redis Cloud:** Redis Labs managed service
@@ -257,6 +271,7 @@ appendfsync everysec
 **Required Production Configuration:**
 
 **Mobile App (`.env.production`):**
+
 ```bash
 # API Endpoints
 API_URL=https://api.navikid.app
@@ -277,6 +292,7 @@ PERF_TIME_MULTIPLIER=1
 ```
 
 **Backend API (Production):**
+
 ```bash
 NODE_ENV=production
 PORT=3000
@@ -312,6 +328,7 @@ CORS_ORIGIN=https://navikid.app,exp://navikid.app
 ```
 
 **Transit Adapter (Production):**
+
 ```bash
 PORT=3001
 NODE_ENV=production
@@ -335,6 +352,7 @@ FEED_REFRESH_INTERVAL_SEC=30
 ```
 
 **Secret Generation Commands:**
+
 ```bash
 # Generate JWT secrets (256-bit)
 openssl rand -base64 32
@@ -357,7 +375,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 **Required Services:**
 
 #### A. **Sentry** (Error Tracking)
-- **Sign up:** https://sentry.io/signup/
+
+- **Sign up:** <https://sentry.io/signup/>
 - **Create project:** "NaviKid Mobile" (React Native)
 - **Get DSN:** Settings → Client Keys
 - **Configure:**
@@ -368,7 +387,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 - **Cost:** Free tier: 5K errors/month, $26/month for 50K
 
 #### B. **MTA API** (Real-time Transit Data)
-- **Register:** https://datamine.mta.info/
+
+- **Register:** <https://datamine.mta.info/>
 - **Request API key:** Free for development, paid for production
 - **Configure feeds:**
   - Subway: `https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs`
@@ -377,7 +397,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 - **Cost:** Free for <5K requests/day
 
 #### C. **OpenRouteService** (Routing)
-- **Sign up:** https://openrouteservice.org/sign-up/
+
+- **Sign up:** <https://openrouteservice.org/sign-up/>
 - **Get API key:** Dashboard → API Key
 - **Configure:**
   - Profile: `foot-walking`
@@ -386,7 +407,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 - **Cost:** Free tier: 2K requests/day, €24/month for 50K
 
 #### D. **Plausible Analytics** (Privacy-focused Analytics)
-- **Sign up:** https://plausible.io/register
+
+- **Sign up:** <https://plausible.io/register>
 - **Add site:** `navikid.app` (or your domain)
 - **Get:**
   - Site ID
@@ -398,7 +420,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 - **Cost:** $9/month for 10K pageviews
 
 #### E. **Mapbox** (Optional - Better Maps)
-- **Sign up:** https://account.mapbox.com/auth/signup/
+
+- **Sign up:** <https://account.mapbox.com/auth/signup/>
 - **Get access token:** Account → Access Tokens
 - **Configure:**
   - Style: Streets, Outdoors, or custom
@@ -414,25 +437,24 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 **Status:** ⚠️ **NOT provisioned**
 
 **Required Domains:**
-```
+
 Main App:        navikid.app (or your domain)
 API:             api.navikid.app
 Transit Adapter: transit.navikid.app
 Admin Dashboard: admin.navikid.app (future)
-```
 
 **SSL Certificate Options:**
+
 1. **Let's Encrypt** (Free, auto-renewal)
 2. **AWS Certificate Manager** (Free for AWS resources)
 3. **Cloudflare** (Free + DDoS protection)
 
 **DNS Configuration:**
-```
+
 A     navikid.app          → Your CDN/hosting IP
 A     api.navikid.app      → Backend server IP
 A     transit.navikid.app  → Transit adapter IP
 CNAME www.navikid.app      → navikid.app
-```
 
 **Estimated Work:** 2-3 hours (domain purchase + DNS setup + SSL)
 
@@ -445,7 +467,7 @@ CNAME www.navikid.app      → navikid.app
 **Recommended Production Setup:**
 
 #### **Option A: AWS (Full-featured)**
-```
+
 - EC2 instances (t3.medium): Backend + Transit Adapter
 - RDS PostgreSQL (db.t3.micro): Both databases
 - ElastiCache Redis (cache.t3.micro): Cache layer
@@ -453,34 +475,30 @@ CNAME www.navikid.app      → navikid.app
 - CloudFront: CDN for assets
 - Route 53: DNS management
 - Cost: ~$150-200/month
-```
 
 #### **Option B: Google Cloud Platform (Modern)**
-```
+
 - Cloud Run: Backend + Transit Adapter (serverless)
 - Cloud SQL PostgreSQL: Both databases
 - Cloud Memorystore Redis: Cache
 - Cloud Storage: Backups
 - Cloud CDN: Asset delivery
 - Cost: ~$120-180/month (pay-per-use)
-```
 
 #### **Option C: DigitalOcean (Cost-effective)**
-```
+
 - Droplets (2x $12/month): Backend + Transit
 - Managed Database PostgreSQL ($15/month): Both DBs
 - Managed Redis ($15/month): Cache
 - Spaces: S3-compatible storage
 - Cost: ~$50-70/month
-```
 
 #### **Option D: Kubernetes (Scalable)**
-```
+
 - GKE/EKS/DOKS cluster
 - Use existing k8s manifests in server/
 - Auto-scaling, load balancing
 - Cost: ~$100-150/month (small cluster)
-```
 
 **Estimated Work:** 8-16 hours (provisioning + setup + testing)
 
@@ -489,6 +507,7 @@ CNAME www.navikid.app      → navikid.app
 ## 📝 Implementation Checklist
 
 ### Phase 1: Backend API Development (Week 1-2)
+
 - [ ] **Create backend package.json** with dependencies
   - Fastify/Express
   - PostgreSQL client (pg)
@@ -542,6 +561,7 @@ CNAME www.navikid.app      → navikid.app
   - Load tests for performance
 
 ### Phase 2: Database Setup (Week 2)
+
 - [ ] **Provision PostgreSQL databases**
   - Main database (`navikid_db`)
   - Transit database (`transit_adapter`)
@@ -561,6 +581,7 @@ CNAME www.navikid.app      → navikid.app
   - Backup retention (30 days)
 
 ### Phase 3: Redis Setup (Week 2)
+
 - [ ] **Provision Redis instance**
   - Production configuration
   - Persistence enabled
@@ -572,6 +593,7 @@ CNAME www.navikid.app      → navikid.app
   - Rate limit counters
 
 ### Phase 4: Transit Adapter Deployment (Week 3)
+
 - [ ] **Configure environment variables**
   - MTA API key
   - Database connection
@@ -591,6 +613,7 @@ CNAME www.navikid.app      → navikid.app
   - Monitor cache hit rates
 
 ### Phase 5: Third-Party Services (Week 3)
+
 - [ ] **Register and configure Sentry**
   - Create projects (mobile + backend)
   - Configure DSNs
@@ -613,6 +636,7 @@ CNAME www.navikid.app      → navikid.app
   - Test event tracking
 
 ### Phase 6: Domain & SSL (Week 3)
+
 - [ ] **Purchase domain**
   - Register `navikid.app` (or your choice)
 
@@ -626,6 +650,7 @@ CNAME www.navikid.app      → navikid.app
   - Configure certificate auto-renewal
 
 ### Phase 7: Backend API Deployment (Week 4)
+
 - [ ] **Build Docker image**
   - Multi-stage build
   - Production optimizations
@@ -641,6 +666,7 @@ CNAME www.navikid.app      → navikid.app
   - Rate limiting
 
 ### Phase 8: Integration Testing (Week 4)
+
 - [ ] **Test mobile app with production backend**
   - Authentication flow
   - Location tracking
@@ -660,6 +686,7 @@ CNAME www.navikid.app      → navikid.app
   - JWT validation
 
 ### Phase 9: Monitoring & Observability (Week 4)
+
 - [ ] **Set up application monitoring**
   - Sentry for errors
   - Plausible for analytics
@@ -678,6 +705,7 @@ CNAME www.navikid.app      → navikid.app
   - Certificate expiration alerts
 
 ### Phase 10: Documentation (Week 4)
+
 - [ ] **Write API documentation**
   - OpenAPI/Swagger spec
   - Authentication guide
@@ -701,6 +729,7 @@ CNAME www.navikid.app      → navikid.app
 ## 💰 Estimated Costs
 
 ### **Development (One-time)**
+
 - Backend API development: $8,000 - $12,000 (80-120 hours @ $100/hr)
 - Database schema & migrations: $1,000 - $2,000
 - Deployment & DevOps: $2,000 - $3,000
@@ -708,6 +737,7 @@ CNAME www.navikid.app      → navikid.app
 - **Total Development:** $13,000 - $20,000
 
 ### **Infrastructure (Monthly - Option A: AWS)**
+
 - EC2 instances (2x t3.medium): $60
 - RDS PostgreSQL: $30
 - ElastiCache Redis: $15
@@ -717,6 +747,7 @@ CNAME www.navikid.app      → navikid.app
 - **Total Monthly (AWS):** ~$150/month
 
 ### **Infrastructure (Monthly - Option C: DigitalOcean)**
+
 - Droplets (2x $12): $24
 - Managed PostgreSQL: $15
 - Managed Redis: $15
@@ -724,6 +755,7 @@ CNAME www.navikid.app      → navikid.app
 - **Total Monthly (DO):** ~$60/month
 
 ### **Third-Party Services (Monthly)**
+
 - Sentry: $26 (or free tier)
 - Plausible Analytics: $9
 - MTA API: Free (or $50/month for higher limits)
@@ -731,6 +763,7 @@ CNAME www.navikid.app      → navikid.app
 - **Total Services:** $35-110/month
 
 ### **Grand Total**
+
 - **Initial Investment:** $13,000 - $20,000
 - **Monthly Operating Cost:** $95 - $260/month (depending on hosting choice)
 
@@ -746,6 +779,7 @@ CNAME www.navikid.app      → navikid.app
 - **Week 4:** Testing + Monitoring + Documentation (30 hours)
 
 **Critical Path Dependencies:**
+
 1. Backend API development → Database setup
 2. Database setup → Backend deployment
 3. Backend deployment → Integration testing
@@ -756,18 +790,21 @@ CNAME www.navikid.app      → navikid.app
 ## 🎯 Recommended Next Steps
 
 ### **Immediate (This Week)**
+
 1. **Create backend package.json** and project structure
 2. **Provision PostgreSQL database** (can use DigitalOcean $15/month managed DB for development)
 3. **Provision Redis** (can use local Redis for development)
 4. **Register for third-party services** (Sentry, MTA API, ORS)
 
 ### **Short-term (Next 2 Weeks)**
+
 1. **Implement authentication endpoints** (login, register, JWT)
 2. **Implement location tracking endpoints**
 3. **Implement geofencing endpoints**
 4. **Deploy transit adapter** to staging environment
 
 ### **Medium-term (Next 4 Weeks)**
+
 1. **Complete backend API** implementation
 2. **Deploy to production** infrastructure
 3. **Integration testing** with mobile app
