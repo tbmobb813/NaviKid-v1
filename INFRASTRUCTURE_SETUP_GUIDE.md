@@ -812,6 +812,39 @@ CNAME www.navikid.app      → navikid.app
 
 ---
 
+### 🖥️ Developer note — inotify watchers (Linux)
+
+When running Metro (Expo / React Native) on Linux you may encounter an "ENOSPC: System limit for number of file watchers reached" error. This is caused by the OS limit on inotify watchers and is common on larger projects.
+
+Quick remedy (temporary, active immediately):
+
+```bash
+# increase limit for current system runtime (requires sudo)
+sudo sysctl fs.inotify.max_user_watches=524288
+```
+
+Make it persistent across reboots:
+
+```bash
+echo "fs.inotify.max_user_watches=524288" | sudo tee /etc/sysctl.d/99-inotify.conf
+sudo sysctl --system
+```
+
+Verify the value:
+
+```bash
+cat /proc/sys/fs/inotify/max_user_watches
+```
+
+If you can't run `sudo` on the host, alternatives are:
+- exclude large directories (e.g. node_modules) from Metro's watcher
+- run Metro with reduced watchers or polling mode (slower)
+- close other watcher-heavy apps/IDEs
+
+This short note helps contributors avoid ENOSPC when starting the dev server.
+
+---
+
 ## 📞 Decision Points
 
 Before proceeding, you need to decide:
