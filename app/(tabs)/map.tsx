@@ -188,7 +188,7 @@ try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const _bs = require('@gorhom/bottom-sheet');
   BottomSheet = _bs.default ?? _bs;
-  BottomSheetView = _bs.BottomSheetView ?? _bs.BottomSheetView;
+  BottomSheetView = _bs.BottomSheetView ?? _bs;
   BottomSheetHandle = _bs.BottomSheetHandle ?? _bs.BottomSheetHandle;
   BottomSheetModalProvider =
     _bs.BottomSheetModalProvider ?? _bs.BottomSheetModalProvider ?? BottomSheetModalProvider;
