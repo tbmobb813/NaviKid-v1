@@ -50,8 +50,10 @@ class Logger {
       this.logs = this.logs.slice(-this.maxLogs);
     }
 
-    // Console output in development
-    if (Config.isDev) {
+    // Console output in development, but suppress during tests to avoid noisy slowdowns
+    const isTest =
+      process.env.NODE_ENV === 'test' || typeof process.env.JEST_WORKER_ID !== 'undefined';
+    if (Config.isDev && !isTest) {
       const formattedMessage = this.formatMessage(level, message, context);
 
       switch (level) {
@@ -78,40 +80,15 @@ class Logger {
 
   private async sendToCrashReporting(logEntry: LogEntry, error?: Error) {
     try {
-      // Send errors to Sentry in production
-      const Sentry = require('@sentry/react-native');
-
-      if (error) {
-        // Capture exception with context
-        Sentry.captureException(error, {
-          level: logEntry.level >= LogLevel.ERROR ? 'error' : 'warning',
-          contexts: {
-            log: {
-              message: logEntry.message,
-              timestamp: logEntry.timestamp,
-              context: logEntry.context,
-            },
-          },
-          tags: {
-            log_level: LogLevel[logEntry.level],
-          },
-        });
-      } else {
-        // Capture message for errors without exception objects
-        Sentry.captureMessage(logEntry.message, {
-          level: 'error',
-          contexts: {
-            log: {
-              timestamp: logEntry.timestamp,
-              context: logEntry.context,
-            },
-          },
-        });
+      // In a real app, you'd send to services like Sentry, Bugsnag, etc.
+      // During tests avoid writing to console to keep output clean.
+      const isTest =
+        process.env.NODE_ENV === 'test' || typeof process.env.JEST_WORKER_ID !== 'undefined';
+      if (!isTest) {
+        console.error('Production Error:', logEntry, error);
       }
     } catch (e) {
-      // Fallback to console if Sentry fails
-      console.error('Failed to send crash report:', e);
-      console.error('Original error:', logEntry, error);
+      if (process.env.NODE_ENV !== 'test') console.error('Failed to send crash report:', e);
     }
   }
 

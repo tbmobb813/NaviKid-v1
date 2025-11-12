@@ -2,8 +2,8 @@ import type { ExpoConfig } from '@expo/config';
 
 // Inlined values from app.json -> expo to make app.config.ts the single source of truth
 const baseConfig: ExpoConfig = {
-  name: 'MapMuse',
-  slug: 'mapmuse',
+  name: 'Kid-Friendly Map & Transit Navigator',
+  slug: 'kid-friendly-map-transit-navigator',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
@@ -18,11 +18,11 @@ const baseConfig: ExpoConfig = {
   },
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'app.mapmuse',
+    bundleIdentifier: 'app.rork.kid-friendly-map-transit-navigator',
     infoPlist: {
-      NSLocationAlwaysAndWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
-      NSLocationAlwaysUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
-      NSLocationWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationAlwaysAndWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
+      NSLocationAlwaysUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
+      NSLocationWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
       UIBackgroundModes: ['location', 'audio'],
       NSPhotoLibraryUsageDescription: 'Allow $(PRODUCT_NAME) to access your photos',
       NSCameraUsageDescription: 'Allow $(PRODUCT_NAME) to access your camera',
@@ -45,7 +45,7 @@ const baseConfig: ExpoConfig = {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
-    package: 'app.mapmuse',
+    package: 'app.rork.kid_friendly_map_transit_navigator',
     permissions: [
       'ACCESS_COARSE_LOCATION',
       'ACCESS_FINE_LOCATION',
@@ -67,7 +67,7 @@ const baseConfig: ExpoConfig = {
     [
       'expo-router',
       {
-        origin: 'https://mapmuse.app/',
+        origin: 'https://rork.com/',
       },
     ],
     [
@@ -76,7 +76,7 @@ const baseConfig: ExpoConfig = {
         isAndroidForegroundServiceEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isIosBackgroundLocationEnabled: true,
-        locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+        locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
       },
     ],
     [
@@ -101,35 +101,23 @@ const baseConfig: ExpoConfig = {
         microphonePermission: 'Allow $(PRODUCT_NAME) to access your microphone',
       },
     ],
-    'expo-font',
-    'expo-web-browser',
-    'expo-secure-store',
+  'expo-font',
+  'expo-web-browser',
   ],
   experiments: {
     typedRoutes: false,
   },
   extra: {
-    api: {
-      baseUrl: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000',
-      timeout: 15000,
-    },
     monitoring: {
-      // Enable Sentry in production, disable in development
-      enabled: process.env.NODE_ENV === 'production',
-      // Set SENTRY_DSN environment variable in production
-      sentryDsn: process.env.SENTRY_DSN || '',
-      // Environment: development, staging, or production
-      environment: process.env.NODE_ENV || 'development',
-      // Sample 20% of transactions for performance monitoring
+      enabled: true,
+      sentryDsn: '',
+      environment: 'development',
       tracesSampleRate: 0.2,
-      // Automatically track user sessions
       autoSessionTracking: true,
-      // Sample 0% of profiles (set to > 0 to enable profiling)
-      profileSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0,
+      profileSampleRate: 0,
     },
     analytics: {
-      // Enable analytics in production, disable in development
-      enabled: process.env.NODE_ENV === 'production',
+      enabled: false,
       batchSize: 10,
       flushInterval: 30000,
       plausible: {
@@ -137,11 +125,10 @@ const baseConfig: ExpoConfig = {
         endpoint: '',
         siteId: '',
         sharedKey: '',
-        defaultUrl: 'https://app.mapmuse.example',
-        source: 'mapmuse-app',
+        defaultUrl: 'https://app.kidfriendlymap.example',
+        source: 'kid-map-app',
       },
       privacy: {
-        // Default: opt-out (users must consent before tracking)
         defaultOptIn: false,
       },
     },
@@ -223,15 +210,15 @@ const routingExtras = {
   baseUrl:
     typeof orsBaseUrlFromEnv === 'string' && orsBaseUrlFromEnv.length > 0
       ? orsBaseUrlFromEnv
-      : (baseConfig.extra as any)?.routing?.baseUrl ?? 'https://api.openrouteservice.org',
+      : ((baseConfig.extra as any)?.routing?.baseUrl ?? 'https://api.openrouteservice.org'),
   orsApiKey:
     typeof orsApiKeyFromEnv === 'string' && orsApiKeyFromEnv.length > 0
       ? orsApiKeyFromEnv
-      : (baseConfig.extra as any)?.routing?.orsApiKey ?? '',
+      : ((baseConfig.extra as any)?.routing?.orsApiKey ?? ''),
   defaultProfile:
     typeof orsProfileFromEnv === 'string' && orsProfileFromEnv.length > 0
       ? orsProfileFromEnv
-      : (baseConfig.extra as any)?.routing?.defaultProfile ?? 'foot-walking',
+      : ((baseConfig.extra as any)?.routing?.defaultProfile ?? 'foot-walking'),
   requestTimeout: ensureNumber(
     (baseConfig.extra as any)?.routing?.requestTimeout,
     ensureNumber(orsTimeoutFromEnv, 15000),
@@ -245,7 +232,7 @@ const routingExtras = {
 const iosInfoPlist = {
   ...(baseConfig.ios?.infoPlist ?? {}),
   NSLocationWhenInUseUsageDescription:
-    'This app uses your location for navigation and to discover nearby points of interest.',
+    'This app uses your location for safety and navigation purposes, including showing nearby transit options.',
 };
 
 const androidPermissions = Array.from(

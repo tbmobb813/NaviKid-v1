@@ -9,15 +9,16 @@ const Platform = {
   select: (obj) => (obj.linux ?? obj.default ?? obj),
 };
 
-const View = (props) => React.createElement('View', props, props.children);
-const Text = (props) => React.createElement('Text', props, props.children);
-const Pressable = (props) => React.createElement('Pressable', props, props.children);
-const TextInput = (props) => React.createElement('TextInput', props, props.children);
-const Image = (props) => React.createElement('Image', props, props.children);
-const Switch = (props) => React.createElement('Switch', props, props.children);
-const FlatList = (props) => React.createElement('FlatList', props, props.children);
-const ScrollView = (props) => React.createElement('ScrollView', props, props.children);
-const Modal = (props) => React.createElement('Modal', props, props.children);
+// Export host component tags as strings so the test renderer treats them as host nodes
+// Use React Native-like host tags so testing utilities can query by component names
+const View = 'View';
+const Text = 'Text';
+const Pressable = 'Pressable';
+const TextInput = 'TextInput';
+const Image = 'Image';
+const Switch = 'Switch';
+const ScrollView = 'ScrollView';
+const Modal = 'Modal';
 
 const StyleSheet = {
   create: (styles) => styles,
@@ -31,7 +32,7 @@ const Dimensions = {
 const NativeModules = {};
 
 const Animated = {
-  View: (props) => React.createElement('AnimatedView', props, props.children),
+  View: 'View',
   createAnimatedComponent: (c) => c,
   // Minimal Value implementation
   Value: function (initialValue) {
@@ -55,8 +56,8 @@ const Animated = {
     this.interpolate = (config) => ({ __isInterpolated: true, config });
     this.__getValue = () => this._value;
   },
-    timing: (value, config) => ({
-      start: (cb) => {
+  timing: (value, config) => ({
+    start: (cb) => {
       // apply end value synchronously to keep tests deterministic
       try {
         if (value && typeof value.setValue === 'function') {
