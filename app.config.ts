@@ -114,15 +114,22 @@ const baseConfig: ExpoConfig = {
       timeout: 15000,
     },
     monitoring: {
-      enabled: true,
-      sentryDsn: '',
-      environment: 'development',
+      // Enable Sentry in production, disable in development
+      enabled: process.env.NODE_ENV === 'production',
+      // Set SENTRY_DSN environment variable in production
+      sentryDsn: process.env.SENTRY_DSN || '',
+      // Environment: development, staging, or production
+      environment: process.env.NODE_ENV || 'development',
+      // Sample 20% of transactions for performance monitoring
       tracesSampleRate: 0.2,
+      // Automatically track user sessions
       autoSessionTracking: true,
-      profileSampleRate: 0,
+      // Sample 0% of profiles (set to > 0 to enable profiling)
+      profileSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 0,
     },
     analytics: {
-      enabled: false,
+      // Enable analytics in production, disable in development
+      enabled: process.env.NODE_ENV === 'production',
       batchSize: 10,
       flushInterval: 30000,
       plausible: {
@@ -134,6 +141,7 @@ const baseConfig: ExpoConfig = {
         source: 'mapmuse-app',
       },
       privacy: {
+        // Default: opt-out (users must consent before tracking)
         defaultOptIn: false,
       },
     },

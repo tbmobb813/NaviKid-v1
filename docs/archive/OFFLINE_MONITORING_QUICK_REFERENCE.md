@@ -24,6 +24,7 @@ offlineManager.addNetworkListener((state) => {
 await offlineManager.syncOfflineActions();
 ```
 
+
 ### Monitoring System
 
 ```typescript
@@ -56,6 +57,7 @@ monitoring.trackUserAction({
 // Check health
 const health = monitoring.getSystemHealth();
 ```
+
 
 ---
 
@@ -122,6 +124,7 @@ npm run test:all
 node demo-offline-monitoring.js
 ```
 
+
 ---
 
 ## 📚 Documentation
@@ -180,6 +183,7 @@ if (offlineManager.isOffline()) {
 }
 ```
 
+
 ### 2. Track Navigation Error
 
 ```typescript
@@ -195,6 +199,7 @@ try {
 }
 ```
 
+
 ### 3. Monitor API Performance
 
 ```typescript
@@ -207,6 +212,7 @@ try {
   endTimer({ count: routes?.length });
 }
 ```
+
 
 ### 4. Show Network Status to User
 
@@ -224,6 +230,7 @@ function NetworkIndicator() {
 }
 ```
 
+
 ---
 
 ## ⚙️ Configuration
@@ -236,6 +243,7 @@ SENTRY_DSN=https://your-dsn@sentry.io/project
 MONITORING_SAMPLE_RATE=0.2
 MONITORING_ENVIRONMENT=production
 ```
+
 
 ### Monitoring Init Options
 
@@ -250,6 +258,7 @@ MONITORING_ENVIRONMENT=production
   environment: 'development' | 'staging' | 'production',
 }
 ```
+
 
 ---
 

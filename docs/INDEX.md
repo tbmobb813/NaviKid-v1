@@ -77,7 +77,32 @@ Comprehensive 50+ page deep dive into roadmap, market gaps, and technical stack 
 - **[data-handling-checklist.md](./data-handling-checklist.md)** - Release checklist covering data minimization, retention, and vendors
 - **[monitoring-runbook.md](./monitoring-runbook.md)** - Operational guide for Sentry, Plausible, and alerting workflows
 
+### Archive
+
+- Conversations (archived):
+  - [CONVERSATION_SUMMARY.md](./archive/conversations/CONVERSATION_SUMMARY.md)
+  - [conversation-summary-2025-10-01.md](./archive/conversations/conversation-summary-2025-10-01.md)
+- Performance case studies:
+  - [BUNDLE_ANALYSIS.md](./performance/BUNDLE_ANALYSIS.md)
+- Changelogs:
+  - [CI_FIX_SUMMARY.md](./changelogs/CI_FIX_SUMMARY.md) — CI and workflow fixes summary (archived)
+  - [DOCS_CHANGELOG.md](./changelogs/DOCS_CHANGELOG.md) — Documentation standardization changelog (archival record)
+
 ---
+
+## 🧭 Canonical Developer Docs (single-source)
+
+To reduce duplication, prefer these as the authoritative developer guides:
+
+- [QUICK_START.md](./QUICK_START.md) — Minimal commands to run and test locally
+- [RUNNING_THE_APP.md](./RUNNING_THE_APP.md) — Full setup, platforms, and options
+- [BUILD_APK_GUIDE.md](./BUILD_APK_GUIDE.md) — Android builds (EAS/dev/prod)
+- [MAPLIBRE_INTEGRATION_GUIDE.md](./MAPLIBRE_INTEGRATION_GUIDE.md) — Native MapLibre in Expo/EAS
+- [OFFLINE_VALIDATION_AND_MONITORING.md](./OFFLINE_VALIDATION_AND_MONITORING.md) — Offline + monitoring system
+- [TESTING_GUIDE.md](./TESTING_GUIDE.md) — Test suites and how to run them
+- [PERFORMANCE_OPTIMIZATION.md](./PERFORMANCE_OPTIMIZATION.md) — Runtime and bundle size tips
+
+Older summaries like `IMPLEMENTATION_COMPLETE.md`, `COMPLETE_IMPLEMENTATION_SUMMARY.md`, and `COMPLETE_SOLUTION_SUMMARY.md` are kept for historical reference and may be archived in a future cleanup.
 
 ## 📅 Documentation Roadmap
 
@@ -201,6 +226,7 @@ Compliance Documentation      100%      [ ]
 Strategic Documentation       100%      [ ]
 ```
 
+
 ### Technical Phase (Week 8 Target)
 
 ```text
@@ -214,6 +240,7 @@ Partnership Outreach          10+       [ ]
 Test Coverage                 70%+      ✅ 70%+
 ```
 
+
 ### Launch Phase (Week 12 Target)
 
 ```text
@@ -226,6 +253,7 @@ Support Response Time         <2hr      [ ]
 User Satisfaction             4.5+      [ ]
 Compliance Approved           ✓         [ ]
 ```
+
 
 ---
 

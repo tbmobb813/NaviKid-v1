@@ -19,6 +19,7 @@ The project includes Gradle wrapper scripts in the root directory that automatic
 npm run gradle -- <task>
 ```
 
+
 ## Common Gradle Tasks
 
 ### Check Gradle Version
@@ -29,6 +30,7 @@ npm run gradle -- <task>
 npm run gradle -- --version
 ```
 
+
 ### List All Available Tasks
 
 ```bash
@@ -36,6 +38,7 @@ npm run gradle -- --version
 # or
 npm run gradle:tasks
 ```
+
 
 ### View Project Dependencies
 
@@ -45,6 +48,7 @@ npm run gradle:tasks
 npm run gradle:dependencies
 ```
 
+
 ### Clean Build Artifacts
 
 ```bash
@@ -53,6 +57,7 @@ npm run gradle:dependencies
 npm run gradle:clean
 ```
 
+
 ### Build the Android App
 
 ```bash
@@ -60,6 +65,7 @@ npm run gradle:clean
 # or
 npm run gradle:build
 ```
+
 
 ## Checking for Outdated Dependencies
 
@@ -84,7 +90,8 @@ buildscript {
 }
 ```
 
-2. Apply the plugin in the same file after the other plugins:
+
+1. Apply the plugin in the same file after the other plugins:
 
 ```gradle
 apply plugin: "expo-root-project"
@@ -92,13 +99,15 @@ apply plugin: "com.facebook.react.rootproject"
 apply plugin: "com.github.ben-manes.versions"  // Add this line
 ```
 
-3. Run the dependency update check:
+
+1. Run the dependency update check:
 
 ```bash
 ./gradlew dependencyUpdates
 # or
 npm run gradle:dependencyUpdates
 ```
+
 
 This will generate a report of all outdated dependencies in `android/build/dependencyUpdates/report.txt`.
 
@@ -120,6 +129,7 @@ npm audit
 npm audit fix
 ```
 
+
 ## Known Issues
 
 ### Gradle Build Error During Settings Evaluation
@@ -131,24 +141,31 @@ A problem occurred evaluating settings 'android'.
 > Process 'command 'node'' finished with non-zero exit value 1
 ```
 
+
 **This is a known issue** with React Native autolinking. You have several workarounds:
 
 1. **Test in Expo Go** (recommended for development):
+
    ```bash
    npm start
    # Then scan QR code with Expo Go app
    ```
 
-2. **Use Expo CLI to build**:
+
+1. **Use Expo CLI to build**:
+
    ```bash
    npx expo run:android
    # Requires a connected Android device or emulator
    ```
 
-3. **Use EAS Build** (cloud build):
+
+1. **Use EAS Build** (cloud build):
+
    ```bash
    npm run build:android:dev
    ```
+
 
 ## Wrapper Script Details
 
@@ -164,6 +181,7 @@ If you see an error about missing Android directory, run:
 ```bash
 npx expo prebuild
 ```
+
 
 This will regenerate the `android/` and `ios/` directories with all the native build files.
 
@@ -206,6 +224,7 @@ chmod +x ./gradlew
 chmod +x ./android/gradlew
 ```
 
+
 ### Gradle Daemon Issues
 
 If builds are slow or hanging:
@@ -217,6 +236,7 @@ If builds are slow or hanging:
 # Check Gradle daemon status
 ./gradlew --status
 ```
+
 
 ## See Also
 

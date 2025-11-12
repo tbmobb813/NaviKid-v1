@@ -25,6 +25,7 @@ EXPO_PUBLIC_ORS_PROFILE=foot-walking
 EXPO_PUBLIC_ORS_TIMEOUT=15000
 ```
 
+
 ### Getting an OpenRouteService API Key
 
 1. Visit [OpenRouteService.org](https://openrouteservice.org/)
@@ -66,6 +67,7 @@ function MyComponent() {
 }
 ```
 
+
 ### Custom Route Options
 
 ```tsx
@@ -75,6 +77,7 @@ const { geojson, loading, error } = useRouteORS(start, end, {
   includeEta: true, // parse duration/distance from response
 });
 ```
+
 
 ### Map Component with Route
 
@@ -95,6 +98,7 @@ function RouteScreen() {
   );
 }
 ```
+
 
 ## Routing Profiles
 
@@ -174,11 +178,13 @@ Run the routing hook tests:
 npm test -- useRouteORS
 ```
 
+
 Run the map component tests:
 
 ```bash
 npm test -- MapLibreRouteView
 ```
+
 
 ## Development Workflow
 
