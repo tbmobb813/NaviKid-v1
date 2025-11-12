@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 // (View, Text already imported below)
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native';
-import { HelpCircle, Accessibility, Menu } from 'lucide-react-native';
+// import { HelpCircle, Accessibility, Menu } from 'lucide-react-native';
 import MapLibreGL from '@maplibre/maplibre-react-native';
 // MapLibreGL Native Map scaffold
 const MapLibreMapView = ({
