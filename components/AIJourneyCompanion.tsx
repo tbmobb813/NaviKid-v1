@@ -138,7 +138,9 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
     }
   };
 
-const response = await fetch('https://api.mapmuse.app/text/llm/', {
+  const generateQuiz = async () => {
+    try {
+      const response = await fetch('https://api.mapmuse.app/text/llm/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +154,7 @@ const response = await fetch('https://api.mapmuse.app/text/llm/', {
             },
             {
               role: 'user',
-              content: `Create a quiz question about ${destination.name} or the ${destination.category} category in general.`,
+              content: `Create a quiz question about ${destination?.name || 'this place'} or the ${destination?.category || 'area'} category in general.`,
             },
           ],
         }),
