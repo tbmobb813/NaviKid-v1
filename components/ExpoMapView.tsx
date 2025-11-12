@@ -58,7 +58,7 @@ export default function ExpoMapView({
   const GoogleMaps = ExpoMaps.GoogleMaps;
 
   const mapRef = useRef<any>(null);
-  const [mapReady, setMapReady] = useState(false);
+  const [, setMapReady] = useState(false);
 
   // Default center (NYC)
   const defaultCenter = { latitude: 40.7128, longitude: -74.006 };
