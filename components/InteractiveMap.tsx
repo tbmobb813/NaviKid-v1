@@ -92,14 +92,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     );
   }, [showTransitStations]);
 
-  const routeCoords = useMemo(() => {
-    if (!route?.metadata?.geometry?.coordinates) return [];
-    return route.metadata.geometry.coordinates;
-  }, [route]);
+  
 
   const handleMessage = (event: any) => {
     try {
-      const data = typeof event?.nativeEvent?.data === 'string' ? JSON.parse(event.nativeEvent.data) : null;
+      const data =
+        typeof event?.nativeEvent?.data === 'string' ? JSON.parse(event.nativeEvent.data) : null;
       if (data?.type === 'tap' && typeof data.lat === 'number' && typeof data.lng === 'number') {
         onSelectLocation?.({ latitude: data.lat, longitude: data.lng });
       }
@@ -119,7 +117,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       <MapViewWrapper
         origin={origin}
         destination={destination}
-        route={route}
         onMapReady={handleMapReady}
         onSelectLocation={handleLocationSelect}
         onStationPress={handleStationPress}

@@ -9,6 +9,7 @@ npm start -- --android # Start and open in Android
 npm start -- --ios     # Start and open in iOS
 ```
 
+
 ## ✅ Run Tests
 
 ```bash
@@ -25,6 +26,7 @@ npm run test:logic
 npm run test:all
 ```
 
+
 ## ❌ Common Mistakes
 
 **DON'T DO THIS:**
@@ -34,12 +36,14 @@ npm expo start        # ❌ Wrong! This causes TypeScript errors
 bun test __tests__/   # ❌ Wrong! Bun can't handle React Native
 ```
 
+
 **DO THIS INSTEAD:**
 
 ```bash
 npm start             # ✅ Correct way to start Expo
 npm run test:routing  # ✅ Use Jest for React Native tests
 ```
+
 
 ## 📝 Remember
 

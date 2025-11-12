@@ -1,5 +1,6 @@
 import { RegionConfig } from '@/types/region';
 import { useRegionStore } from '@/stores/regionStore';
+import { getMockFeed } from '@/config/mock-feeds';
 
 export type TransitDataUpdateResult = {
   success: boolean;
@@ -148,13 +149,19 @@ export class TransitDataUpdater {
         // Mock feed loader: feedUrl starting with mock://<id> will load from config/mock-feeds/<id>.json
         if (system.feedUrl.startsWith('mock://')) {
           const id = system.feedUrl.replace('mock://', '');
-          // TODO: Fix dynamic import for web builds
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          // const mock = require(`@/config/mock-feeds/${id}.json`);
-          console.log(`Mock feed ${id} loading disabled for web builds`);
-          // if (mock.routes) allRoutes.push(...mock.routes);
-          // if (mock.schedules) allSchedules.push(...mock.schedules);
-          // if (mock.alerts) allAlerts.push(...mock.alerts);
+
+          // Use static import mapping (web-compatible)
+          const mock = getMockFeed(id);
+
+          if (mock) {
+            console.log(`Loading mock feed: ${id}`);
+            if (mock.routes) allRoutes.push(...mock.routes);
+            if (mock.schedules) allSchedules.push(...mock.schedules);
+            if (mock.alerts) allAlerts.push(...mock.alerts);
+          } else {
+            console.warn(`Mock feed not found: ${id}. Available feeds: mta-subway, mta-bus`);
+          }
+
           continue;
         }
 
@@ -190,12 +197,43 @@ export class TransitDataUpdater {
               continue;
             }
 
-            // TODO: If endpoint returns GTFS-RT protobuf, use gtfs-realtime-bindings to decode.
-            // Guarded example (uncomment after installing gtfs-realtime-bindings):
-            // const buffer = await res.arrayBuffer();
-            // const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
-            // const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(new Uint8Array(buffer));
-            // parse feed.entity for trip_update and alerts
+            // If endpoint returns GTFS-RT protobuf, decode it
+            if (
+              contentType &&
+              (contentType.includes('application/octet-stream') ||
+                contentType.includes('application/x-protobuf') ||
+                system.feedUrl.includes('gtfs'))
+            ) {
+              try {
+                const buffer = await res.arrayBuffer();
+                const GtfsRealtimeBindings = require('gtfs-realtime-bindings');
+                const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(
+                  new Uint8Array(buffer),
+                );
+
+                console.log(`Decoded GTFS-RT feed for ${system.id}:`, {
+                  entities: feed.entity?.length || 0,
+                  timestamp: feed.header?.timestamp,
+                });
+
+                // Parse feed entities
+                const parsedData = this.parseGtfsRealtimeFeed(feed, system.id);
+
+                if (parsedData.routes.length > 0) allRoutes.push(...parsedData.routes);
+                if (parsedData.schedules.length > 0) allSchedules.push(...parsedData.schedules);
+                if (parsedData.alerts.length > 0) allAlerts.push(...parsedData.alerts);
+
+                console.log(
+                  `Parsed GTFS-RT data for ${system.id}:`,
+                  `${parsedData.routes.length} routes, ${parsedData.schedules.length} schedules, ${parsedData.alerts.length} alerts`,
+                );
+
+                continue;
+              } catch (protobufError) {
+                console.warn(`Failed to decode GTFS-RT protobuf for ${system.id}:`, protobufError);
+                // Fall through to try other methods or fail gracefully
+              }
+            }
           } catch (err) {
             console.warn(`Failed to fetch/parse feed for ${system.id}:`, err);
           }
@@ -276,6 +314,163 @@ export class TransitDataUpdater {
     }
 
     return alerts;
+  }
+
+  /**
+   * Parse GTFS Realtime feed into normalized format
+   * @param feed - Decoded GTFS-RT FeedMessage
+   * @param systemId - Transit system ID
+   * @returns Normalized transit data
+   */
+  private parseGtfsRealtimeFeed(
+    feed: any,
+    systemId: string,
+  ): { routes: any[]; schedules: any[]; alerts: any[] } {
+    const routes: any[] = [];
+    const schedules: any[] = [];
+    const alerts: any[] = [];
+
+    if (!feed.entity || !Array.isArray(feed.entity)) {
+      console.warn(`No entities found in GTFS-RT feed for ${systemId}`);
+      return { routes, schedules, alerts };
+    }
+
+    for (const entity of feed.entity) {
+      try {
+        // Parse trip updates (real-time schedule data)
+        if (entity.tripUpdate) {
+          const tripUpdate = entity.tripUpdate;
+          const trip = tripUpdate.trip;
+          let maxDelay = 0; // Track max delay for this trip
+
+          if (trip && tripUpdate.stopTimeUpdate) {
+            for (const stopTimeUpdate of tripUpdate.stopTimeUpdate) {
+              const arrival = stopTimeUpdate.arrival;
+              const departure = stopTimeUpdate.departure;
+
+              if (arrival || departure) {
+                const timestamp = arrival?.time || departure?.time;
+                const delay = arrival?.delay || departure?.delay || 0;
+
+                // Track maximum delay for status determination
+                if (Math.abs(delay) > Math.abs(maxDelay)) {
+                  maxDelay = delay;
+                }
+
+                schedules.push({
+                  systemId,
+                  routeId: trip.routeId || 'unknown',
+                  tripId: trip.tripId || entity.id,
+                  stopId: stopTimeUpdate.stopId,
+                  time: timestamp ? new Date(Number(timestamp) * 1000).toISOString() : undefined,
+                  delay: delay,
+                  scheduleRelationship: stopTimeUpdate.scheduleRelationship,
+                });
+              }
+            }
+          }
+
+          // Add route info from trip update
+          if (trip?.routeId) {
+            routes.push({
+              id: `${systemId}-${trip.routeId}`,
+              name: trip.routeId,
+              systemId,
+              status: maxDelay && Math.abs(maxDelay) > 300 ? 'delayed' : 'on-time', // 5+ min delay
+              tripId: trip.tripId,
+            });
+          }
+        }
+
+        // Parse vehicle positions (real-time location data)
+        if (entity.vehicle) {
+          const vehicle = entity.vehicle;
+          const trip = vehicle.trip;
+
+          if (trip?.routeId) {
+            routes.push({
+              id: `${systemId}-${trip.routeId}`,
+              name: trip.routeId,
+              systemId,
+              status: vehicle.currentStatus === 'STOPPED_AT' ? 'stopped' : 'moving',
+              position: vehicle.position
+                ? {
+                    latitude: vehicle.position.latitude,
+                    longitude: vehicle.position.longitude,
+                    bearing: vehicle.position.bearing,
+                    speed: vehicle.position.speed,
+                  }
+                : undefined,
+              vehicleId: vehicle.vehicle?.id,
+              timestamp: vehicle.timestamp,
+            });
+          }
+        }
+
+        // Parse service alerts
+        if (entity.alert) {
+          const alert = entity.alert;
+
+          alerts.push({
+            id: entity.id,
+            systemId,
+            type: this.mapGtfsAlertCause(alert.cause),
+            severity: this.mapGtfsAlertSeverity(alert.severityLevel),
+            headerText: alert.headerText?.translation?.[0]?.text || 'Service Alert',
+            descriptionText: alert.descriptionText?.translation?.[0]?.text || '',
+            affectedRoutes: alert.informedEntity
+              ?.map((e: any) => e.routeId)
+              .filter((r: string) => r) || [],
+            activePeriod: alert.activePeriod?.[0]
+              ? {
+                  start: alert.activePeriod[0].start,
+                  end: alert.activePeriod[0].end,
+                }
+              : undefined,
+          });
+        }
+      } catch (entityError) {
+        console.warn(`Failed to parse GTFS-RT entity ${entity.id}:`, entityError);
+        // Continue processing other entities
+      }
+    }
+
+    return { routes, schedules, alerts };
+  }
+
+  /**
+   * Map GTFS-RT alert cause to normalized type
+   */
+  private mapGtfsAlertCause(cause: number | undefined): string {
+    // GTFS-RT Cause enum values
+    const causes: Record<number, string> = {
+      1: 'other',
+      2: 'technical',
+      3: 'strike',
+      4: 'demonstration',
+      5: 'accident',
+      6: 'holiday',
+      7: 'weather',
+      8: 'maintenance',
+      9: 'construction',
+      10: 'police',
+      11: 'medical',
+    };
+    return causes[cause || 1] || 'other';
+  }
+
+  /**
+   * Map GTFS-RT severity level to normalized severity
+   */
+  private mapGtfsAlertSeverity(severity: number | undefined): string {
+    // GTFS-RT SeverityLevel enum values
+    const severities: Record<number, string> = {
+      1: 'info',
+      2: 'warning',
+      3: 'severe',
+      4: 'severe',
+    };
+    return severities[severity || 1] || 'info';
   }
 
   isUpdateInProgress(regionId: string): boolean {
