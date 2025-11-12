@@ -189,7 +189,6 @@ try {
   const _bs = require('@gorhom/bottom-sheet');
   BottomSheet = _bs.default ?? _bs;
   BottomSheetView = _bs.BottomSheetView ?? _bs;
-  BottomSheetHandle = _bs.BottomSheetHandle ?? _bs.BottomSheetHandle;
   BottomSheetModalProvider =
     _bs.BottomSheetModalProvider ?? _bs.BottomSheetModalProvider ?? BottomSheetModalProvider;
 } catch (e) {
