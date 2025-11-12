@@ -56,7 +56,6 @@ export default function ExpoMapView({
   // Only import expo-maps if we've confirmed it's available
   const ExpoMaps = require('expo-maps');
   const GoogleMaps = ExpoMaps.GoogleMaps;
-  const AppleMaps = ExpoMaps.AppleMaps;
 
   const mapRef = useRef<any>(null);
   const [mapReady, setMapReady] = useState(false);
