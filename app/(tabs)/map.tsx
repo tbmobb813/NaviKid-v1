@@ -362,14 +362,6 @@ export default function MapScreen() {
   );
 
   // Get real nearby stations using helper
-  const nearbyStations = useMemo(() => {
-    if (origin?.coordinates) {
-      return findNearestStations(origin.coordinates.latitude, origin.coordinates.longitude, 10).map(
-        (s) => s.station,
-      );
-    }
-    return [];
-  }, [origin?.coordinates?.latitude, origin?.coordinates?.longitude]);
 
   const { geojson: orsRouteGeoJSON } = useRouteORS(originCoord, destinationCoord, {
     enabled: Boolean(originCoord && destinationCoord && Config.ROUTING.ORS_API_KEY),
