@@ -190,7 +190,7 @@ try {
   BottomSheet = _bs.default ?? _bs;
   BottomSheetView = _bs.BottomSheetView ?? _bs;
   BottomSheetModalProvider =
-    _bs.BottomSheetModalProvider ?? _bs.BottomSheetModalProvider ?? BottomSheetModalProvider;
+    _bs.BottomSheetModalProvider ?? _bs.default?.BottomSheetModalProvider ?? BottomSheetModalProvider;
 } catch (e) {
   // If module isn't present at runtime (e.g. tests), fallback to no-op components
   BottomSheet = ({ children }: any) => <>{children}</>;
