@@ -14,7 +14,13 @@ export default [
       '.expo/**',
       '.build/**',
       'dist/**',
-  'templates/**',
+      'templates/**',
+      'backend/**',
+      'server/**',
+      'docker/**',
+      '*.md',
+      '*.log',
+      '*.patch',
     ],
   },
   {
@@ -22,7 +28,8 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
+        // Disable type-aware linting for faster performance
+        // project: './tsconfig.json',
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
