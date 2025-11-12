@@ -2,8 +2,8 @@ import type { ExpoConfig } from '@expo/config';
 
 // Inlined values from app.json -> expo to make app.config.ts the single source of truth
 const baseConfig: ExpoConfig = {
-  name: 'Kid-Friendly Map & Transit Navigator',
-  slug: 'kid-friendly-map-transit-navigator',
+  name: 'MapMuse',
+  slug: 'mapmuse',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
@@ -18,11 +18,11 @@ const baseConfig: ExpoConfig = {
   },
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'app.rork.kid-friendly-map-transit-navigator',
+    bundleIdentifier: 'app.mapmuse',
     infoPlist: {
-      NSLocationAlwaysAndWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
-      NSLocationAlwaysUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
-      NSLocationWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location.',
+      NSLocationAlwaysAndWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationAlwaysUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
       UIBackgroundModes: ['location', 'audio'],
       NSPhotoLibraryUsageDescription: 'Allow $(PRODUCT_NAME) to access your photos',
       NSCameraUsageDescription: 'Allow $(PRODUCT_NAME) to access your camera',
@@ -45,7 +45,7 @@ const baseConfig: ExpoConfig = {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
-    package: 'app.rork.kid_friendly_map_transit_navigator',
+    package: 'app.mapmuse',
     permissions: [
       'ACCESS_COARSE_LOCATION',
       'ACCESS_FINE_LOCATION',
@@ -67,7 +67,7 @@ const baseConfig: ExpoConfig = {
     [
       'expo-router',
       {
-        origin: 'https://rork.com/',
+        origin: 'https://mapmuse.app/',
       },
     ],
     [
@@ -76,7 +76,7 @@ const baseConfig: ExpoConfig = {
         isAndroidForegroundServiceEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isIosBackgroundLocationEnabled: true,
-        locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location.',
+        locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
       },
     ],
     [
@@ -109,6 +109,10 @@ const baseConfig: ExpoConfig = {
     typedRoutes: false,
   },
   extra: {
+    api: {
+      baseUrl: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000',
+      timeout: 15000,
+    },
     monitoring: {
       // Enable Sentry in production, disable in development
       enabled: process.env.NODE_ENV === 'production',
@@ -129,15 +133,12 @@ const baseConfig: ExpoConfig = {
       batchSize: 10,
       flushInterval: 30000,
       plausible: {
-        enabled: process.env.NODE_ENV === 'production',
-        // Plausible endpoint (use EU endpoint if GDPR compliance needed)
-        endpoint: process.env.PLAUSIBLE_ENDPOINT || 'https://plausible.io/api/event',
-        // Your Plausible site ID
-        siteId: process.env.PLAUSIBLE_SITE_ID || '',
-        // Optional: API key for goal tracking
-        sharedKey: process.env.PLAUSIBLE_SHARED_KEY || '',
-        defaultUrl: 'https://app.kidfriendlymap.example',
-        source: 'kid-map-app',
+        enabled: false,
+        endpoint: '',
+        siteId: '',
+        sharedKey: '',
+        defaultUrl: 'https://app.mapmuse.example',
+        source: 'mapmuse-app',
       },
       privacy: {
         // Default: opt-out (users must consent before tracking)
@@ -244,7 +245,7 @@ const routingExtras = {
 const iosInfoPlist = {
   ...(baseConfig.ios?.infoPlist ?? {}),
   NSLocationWhenInUseUsageDescription:
-    'This app uses your location for safety and navigation purposes, including showing nearby transit options.',
+    'This app uses your location for navigation and to discover nearby points of interest.',
 };
 
 const androidPermissions = Array.from(

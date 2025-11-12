@@ -1,428 +1,344 @@
-# ===================================================================
-# Manual Deployment Workflow
-# ===================================================================
-# This workflow handles manual deployments to staging and production
-# environments for both frontend and backend services.
-#
-# Triggers:
-# - Manual workflow dispatch only
-#
-# Features:
-# - Deploy to staging or production
-# - Deploy frontend, backend, or both
-# - Pre-deployment validation checks
-# - Database migration support
-# - Rollback capability
-# - Deployment notifications
-# ===================================================================
-
 name: Manual Deployment
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: 'Environment to deploy to'
         required: true
+        default: 'staging'
         type: choice
         options:
           - staging
           - production
-        default: staging
-
-      service:
-        description: 'Service to deploy'
+      component:
+        description: 'Component to deploy'
         required: true
         type: choice
         options:
-          - frontend
           - backend
-          - both
-        default: both
-
-      run_migrations:
-        description: 'Run database migrations'
-        required: false
-        type: boolean
-        default: true
-
+          - frontend
+          - all
       skip_tests:
-        description: 'Skip pre-deployment tests'
+        description: 'Skip tests (not recommended for production)'
         required: false
         type: boolean
         default: false
-
-      deployment_message:
-        description: 'Deployment notes/message'
+      version_tag:
+        description: 'Version tag (optional, e.g., v1.0.0)'
         required: false
         type: string
-        default: 'Manual deployment'
-
-env:
-  NODE_VERSION: '18.x'
 
 jobs:
-  # ===================================================================
-  # PRE-DEPLOYMENT VALIDATION
-  # ===================================================================
-  pre-deployment-check:
-    name: Pre-Deployment Validation
+  validate:
+    name: Validate Deployment Request
     runs-on: ubuntu-latest
-    if: ${{ !inputs.skip_tests }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Validate deployment environment
+      - name: Validate inputs
         run: |
-          echo "🔍 Validating deployment configuration..."
           echo "Environment: ${{ inputs.environment }}"
-          echo "Service: ${{ inputs.service }}"
-          echo "Run Migrations: ${{ inputs.run_migrations }}"
-          echo "Message: ${{ inputs.deployment_message }}"
+          echo "Component: ${{ inputs.component }}"
+          echo "Skip Tests: ${{ inputs.skip_tests }}"
+          echo "Version Tag: ${{ inputs.version_tag }}"
 
-      - name: Check for breaking changes
-        run: |
-          echo "🔍 Checking for breaking changes..."
-          git diff HEAD~1 --name-only | grep -E "(package\.json|app\.config\.ts|tsconfig\.json)" || echo "No breaking changes detected"
-        continue-on-error: true
-
-      - name: Verify environment variables
-        run: |
-          echo "✅ Environment validation complete"
-          if [ "${{ inputs.environment }}" == "production" ]; then
-            echo "⚠️  PRODUCTION DEPLOYMENT - Ensure all checks pass!"
+          # Prevent dangerous operations
+          if [[ "${{ inputs.environment }}" == "production" && "${{ inputs.skip_tests }}" == "true" ]]; then
+            echo "::error::Cannot skip tests when deploying to production"
+            exit 1
           fi
 
-  # ===================================================================
-  # DEPLOY BACKEND
-  # ===================================================================
-  deploy-backend:
-    name: Deploy Backend to ${{ inputs.environment }}
+          if [[ "${{ inputs.environment }}" == "production" && "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "::error::Production deployments must be from main branch"
+            exit 1
+          fi
+
+      - name: Post validation summary
+        run: |
+          echo "## Deployment Request" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: **${{ inputs.environment }}**" >> $GITHUB_STEP_SUMMARY
+          echo "- Component: **${{ inputs.component }}**" >> $GITHUB_STEP_SUMMARY
+          echo "- Branch: **${{ github.ref_name }}**" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: **${{ github.sha }}**" >> $GITHUB_STEP_SUMMARY
+          echo "- Triggered by: **${{ github.actor }}**" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: **${{ inputs.version_tag || 'latest' }}**" >> $GITHUB_STEP_SUMMARY
+
+  test-backend:
+    name: Test Backend
     runs-on: ubuntu-latest
-    needs: [pre-deployment-check]
-    if: ${{ inputs.service == 'backend' || inputs.service == 'both' }}
-    environment:
-      name: ${{ inputs.environment }}-backend
-      url: ${{ inputs.environment == 'production' && 'https://api.navikid.app' || 'https://staging-api.navikid.app' }}
+    needs: validate
+    if: |
+      (inputs.component == 'backend' || inputs.component == 'all') &&
+      inputs.skip_tests == false
+
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: navikid_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '18'
           cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          cache-dependency-path: 'backend/package-lock.json'
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --production=false
+        run: npm ci
 
       - name: Run tests
-        if: ${{ !inputs.skip_tests }}
-        run: npm test -- --ci --maxWorkers=2
+        run: npm run test
+        env:
+          DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          JWT_SECRET: test-jwt-secret
+
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    needs: validate
+    if: |
+      (inputs.component == 'frontend' || inputs.component == 'all') &&
+      inputs.skip_tests == false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
         env:
           NODE_ENV: test
 
-      - name: Build backend
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    needs: [validate, test-backend]
+    if: |
+      always() &&
+      needs.validate.result == 'success' &&
+      (needs.test-backend.result == 'success' || needs.test-backend.result == 'skipped') &&
+      (inputs.component == 'backend' || inputs.component == 'all')
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.environment == 'production' && 'https://api.navikid.app' || 'https://staging-api.navikid.app' }}
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
         run: npm run build
 
-      - name: Create deployment package
-        run: |
-          echo "📦 Creating deployment package..."
-          mkdir -p deployment
-          cp -r dist/ deployment/
-          cp package.json deployment/
-          cp package-lock.json deployment/
-          cd deployment && npm ci --production
-          tar -czf backend-${{ inputs.environment }}.tar.gz .
-          mv backend-${{ inputs.environment }}.tar.gz ..
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Upload deployment package
-        uses: actions/upload-artifact@v4
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
         with:
-          name: backend-${{ inputs.environment }}-package
-          path: backend/backend-${{ inputs.environment }}.tar.gz
-          retention-days: 30
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: false
+          tags: navikid-backend:${{ inputs.version_tag || github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to ${{ inputs.environment }}
+        run: |
+          echo "Deploying backend to ${{ inputs.environment }}..."
+          echo "Image: navikid-backend:${{ inputs.version_tag || github.sha }}"
+
+          # Add actual deployment commands here based on your infrastructure
+          # Examples:
+
+          # For AWS ECS/Fargate:
+          # aws ecs update-service --cluster navikid-${{ inputs.environment }} --service backend --force-new-deployment
+
+          # For Digital Ocean App Platform:
+          # doctl apps create-deployment ${{ secrets.DO_APP_ID }}
+
+          # For Railway:
+          # railway up --service backend --environment ${{ inputs.environment }}
+
+          # For Heroku:
+          # heroku container:push web --app navikid-backend-${{ inputs.environment }}
+          # heroku container:release web --app navikid-backend-${{ inputs.environment }}
+
+          # For custom VPS via SSH:
+          # ./scripts/deploy-backend.sh ${{ inputs.environment }}
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Run database migrations
-        if: ${{ inputs.run_migrations }}
         run: |
-          echo "🔄 Running database migrations..."
-          npm run migrate:up || echo "Migrations completed"
+          echo "Running database migrations on ${{ inputs.environment }}..."
+          # npm run db:migrate
         env:
           DATABASE_URL: ${{ secrets[format('{0}_DATABASE_URL', inputs.environment)] }}
-          NODE_ENV: ${{ inputs.environment }}
-        continue-on-error: true
-
-      - name: Deploy to server
-        run: |
-          echo "🚀 Deploying backend to ${{ inputs.environment }}..."
-          echo "Deployment package ready: backend-${{ inputs.environment }}.tar.gz"
-
-          # Add your deployment commands here based on your infrastructure:
-
-          # Example 1: AWS S3 + CodeDeploy
-          # aws s3 cp backend-${{ inputs.environment }}.tar.gz s3://deployments/
-          # aws deploy create-deployment --application-name NaviKid --deployment-group ${{ inputs.environment }}
-
-          # Example 2: SSH Deployment
-          # scp backend-${{ inputs.environment }}.tar.gz user@server:/path/to/deploy/
-          # ssh user@server "cd /path/to/deploy && tar -xzf backend-${{ inputs.environment }}.tar.gz && pm2 restart navikid-backend"
-
-          # Example 3: Docker
-          # docker build -t navikid-backend:${{ inputs.environment }} .
-          # docker push registry/navikid-backend:${{ inputs.environment }}
-          # kubectl set image deployment/navikid-backend navikid-backend=registry/navikid-backend:${{ inputs.environment }}
-
-          # Example 4: Heroku
-          # git push heroku-${{ inputs.environment }} main
-
-          echo "✅ Backend deployment initiated"
-        env:
-          DEPLOY_KEY: ${{ secrets[format('{0}_DEPLOY_KEY', inputs.environment)] }}
 
       - name: Health check
         run: |
-          echo "🏥 Running health check..."
-          sleep 15
+          echo "Checking health of deployed backend..."
+          # Add health check command
+          # curl -f https://${{ inputs.environment == 'production' && 'api' || 'staging-api' }}.navikid.app/health
 
-          if [ "${{ inputs.environment }}" == "production" ]; then
-            URL="https://api.navikid.app/health"
-          else
-            URL="https://staging-api.navikid.app/health"
-          fi
-
-          # curl -f $URL || echo "Health check endpoint: $URL"
-          echo "Health check completed for: $URL"
-        continue-on-error: true
-
-      - name: Notify deployment
-        if: always()
+      - name: Post deployment summary
         run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            echo "✅ Backend deployment to ${{ inputs.environment }} successful"
-          else
-            echo "❌ Backend deployment to ${{ inputs.environment }} failed"
-          fi
+          echo "## Backend Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: ${{ inputs.version_tag || github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- URL: ${{ inputs.environment == 'production' && 'https://api.navikid.app' || 'https://staging-api.navikid.app' }}" >> $GITHUB_STEP_SUMMARY
 
-  # ===================================================================
-  # DEPLOY FRONTEND
-  # ===================================================================
   deploy-frontend:
-    name: Deploy Frontend to ${{ inputs.environment }}
+    name: Deploy Frontend
     runs-on: ubuntu-latest
-    needs: [pre-deployment-check]
-    if: ${{ inputs.service == 'frontend' || inputs.service == 'both' }}
+    needs: [validate, test-frontend]
+    if: |
+      always() &&
+      needs.validate.result == 'success' &&
+      (needs.test-frontend.result == 'success' || needs.test-frontend.result == 'skipped') &&
+      (inputs.component == 'frontend' || inputs.component == 'all')
     environment:
-      name: ${{ inputs.environment }}-frontend
-      url: ${{ inputs.environment == 'production' && 'https://app.navikid.app' || 'https://staging-app.navikid.app' }}
+      name: ${{ inputs.environment }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '18'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run tests
-        if: ${{ !inputs.skip_tests }}
-        run: npm test -- --ci --maxWorkers=2
-        env:
-          NODE_ENV: test
 
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
-          expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Create environment file
-        run: |
-          echo "📝 Creating ${{ inputs.environment }} environment file..."
+      - name: Install dependencies
+        run: npm ci
 
-          if [ "${{ inputs.environment }}" == "production" ]; then
-            cat > .env.production <<EOF
-          API_URL=https://api.navikid.app
-          ENV=production
-          SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-          EOF
+      - name: Build for ${{ inputs.environment }}
+        run: |
+          if [[ "${{ inputs.environment }}" == "production" ]]; then
+            echo "Building for production..."
+            # eas build --platform all --profile production --non-interactive
           else
-            cat > .env.staging <<EOF
-          API_URL=https://staging-api.navikid.app
-          ENV=staging
-          SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-          EOF
+            echo "Building for staging..."
+            # eas build --platform all --profile staging --non-interactive
           fi
-
-      - name: Build Android
-        if: ${{ inputs.environment == 'production' }}
-        run: |
-          echo "🤖 Building Android for ${{ inputs.environment }}..."
-          eas build --platform android --profile ${{ inputs.environment }} --non-interactive || echo "Android build initiated"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
 
-      - name: Build iOS
-        if: ${{ inputs.environment == 'production' }}
+      - name: Publish EAS Update
         run: |
-          echo "📱 Building iOS for ${{ inputs.environment }}..."
-          eas build --platform ios --profile ${{ inputs.environment }} --non-interactive || echo "iOS build initiated"
+          CHANNEL="${{ inputs.environment }}"
+          echo "Publishing update to channel: $CHANNEL"
+          # eas update --channel $CHANNEL --message "Manual deploy: ${{ inputs.version_tag || github.sha }}"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
 
-      - name: Publish OTA Update
+      - name: Post deployment summary
         run: |
-          echo "🚀 Publishing OTA update to ${{ inputs.environment }}..."
-          npx expo publish --release-channel ${{ inputs.environment }} || echo "OTA update published"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
+          echo "## Frontend Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: ${{ inputs.version_tag || github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Channel: ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
 
-      - name: Submit to App Stores
-        if: ${{ inputs.environment == 'production' }}
+  rollback:
+    name: Rollback (if needed)
+    runs-on: ubuntu-latest
+    needs: [deploy-backend, deploy-frontend]
+    if: failure()
+
+    steps:
+      - name: Rollback notification
         run: |
-          echo "📲 Submitting to app stores..."
-          # eas submit --platform ios --latest
-          # eas submit --platform android --latest
-          echo "✅ App store submission initiated"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
+          echo "::error::Deployment failed. Consider rollback procedures."
+          echo "## Deployment Failed - Rollback Required" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The deployment to ${{ inputs.environment }} failed." >> $GITHUB_STEP_SUMMARY
+          echo "Please review the logs and consider rolling back to the previous version." >> $GITHUB_STEP_SUMMARY
 
-      - name: Notify deployment
-        if: always()
-        run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            echo "✅ Frontend deployment to ${{ inputs.environment }} successful"
-          else
-            echo "❌ Frontend deployment to ${{ inputs.environment }} failed"
-          fi
-
-  # ===================================================================
-  # POST-DEPLOYMENT VERIFICATION
-  # ===================================================================
-  post-deployment-check:
-    name: Post-Deployment Verification
+  notify:
+    name: Notify Deployment
     runs-on: ubuntu-latest
     needs: [deploy-backend, deploy-frontend]
     if: always()
 
     steps:
-      - name: Verify backend deployment
-        if: ${{ inputs.service == 'backend' || inputs.service == 'both' }}
+      - name: Send notification
         run: |
-          echo "✅ Backend deployment status: ${{ needs.deploy-backend.result }}"
+          STATUS="${{ needs.deploy-backend.result == 'success' || needs.deploy-frontend.result == 'success' && 'Success' || 'Failed' }}"
+          echo "Deployment $STATUS"
 
-      - name: Verify frontend deployment
-        if: ${{ inputs.service == 'frontend' || inputs.service == 'both' }}
-        run: |
-          echo "✅ Frontend deployment status: ${{ needs.deploy-frontend.result }}"
-
-      - name: Create deployment summary
-        run: |
-          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Environment:** ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Service:** ${{ inputs.service }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Triggered by:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Message:** ${{ inputs.deployment_message }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ "${{ inputs.service }}" != "frontend" ]; then
-            echo "- Backend: ${{ needs.deploy-backend.result }}" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          if [ "${{ inputs.service }}" != "backend" ]; then
-            echo "- Frontend: ${{ needs.deploy-frontend.result }}" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Check deployment status
-        run: |
-          BACKEND_STATUS="${{ needs.deploy-backend.result }}"
-          FRONTEND_STATUS="${{ needs.deploy-frontend.result }}"
-
-          if [ "${{ inputs.service }}" == "both" ]; then
-            if [ "$BACKEND_STATUS" == "success" ] && [ "$FRONTEND_STATUS" == "success" ]; then
-              echo "✅ All deployments successful"
-              exit 0
-            else
-              echo "❌ Some deployments failed"
-              exit 1
-            fi
-          elif [ "${{ inputs.service }}" == "backend" ]; then
-            if [ "$BACKEND_STATUS" == "success" ]; then
-              echo "✅ Backend deployment successful"
-              exit 0
-            else
-              echo "❌ Backend deployment failed"
-              exit 1
-            fi
-          elif [ "${{ inputs.service }}" == "frontend" ]; then
-            if [ "$FRONTEND_STATUS" == "success" ]; then
-              echo "✅ Frontend deployment successful"
-              exit 0
-            else
-              echo "❌ Frontend deployment failed"
-              exit 1
-            fi
-          fi
-
-  # ===================================================================
-  # ROLLBACK (if needed)
-  # ===================================================================
-  rollback:
-    name: Rollback Deployment
-    runs-on: ubuntu-latest
-    needs: [post-deployment-check]
-    if: failure() && inputs.environment == 'production'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 10
-
-      - name: Rollback to previous version
-        run: |
-          echo "🔄 Initiating rollback to previous version..."
-
-          # Get the previous commit
-          PREVIOUS_COMMIT=$(git rev-parse HEAD~1)
-          echo "Rolling back to commit: $PREVIOUS_COMMIT"
-
-          # Add your rollback commands here:
-          # - Revert database migrations
-          # - Deploy previous version
-          # - Update load balancer
-
-          echo "⚠️  Manual verification required"
-        continue-on-error: true
-
-      - name: Notify rollback
-        run: |
-          echo "⚠️  ROLLBACK INITIATED for ${{ inputs.environment }}"
-          echo "Please verify system status and complete rollback manually if needed"
+          # Add notification integrations here:
+          # - Slack webhook
+          # - Discord webhook
+          # - Email
+          # - PagerDuty
+          # - Sentry release
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

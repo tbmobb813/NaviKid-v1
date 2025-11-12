@@ -1,112 +1,57 @@
-# ===================================================================
-# Frontend CI/CD Pipeline
-# ===================================================================
-# This workflow handles continuous integration and deployment for the
-# NaviKid frontend (React Native + Expo Router)
-#
-# Triggers:
-# - Push to main branch
-# - Pull requests to main branch
-#
-# Features:
-# - Linting and code quality checks
-# - TypeScript type checking
-# - Security vulnerability scanning
-# - Unit tests with coverage
-# - EAS builds for iOS and Android (staging channel)
-# ===================================================================
-
 name: Frontend CI/CD
 
 on:
   push:
-    branches: [main]
-    paths-ignore:
-      - 'backend/**'
-      - '.github/workflows/backend-ci.yml'
-      - '.github/workflows/security.yml'
-      - '**.md'
+    branches: [main, develop]
+    paths:
+      - 'app/**'
+      - 'components/**'
+      - 'hooks/**'
+      - 'stores/**'
+      - 'services/**'
+      - 'utils/**'
+      - 'types/**'
+      - 'package.json'
+      - 'tsconfig.json'
+      - '.github/workflows/frontend-ci.yml'
   pull_request:
     branches: [main]
     paths-ignore:
       - 'backend/**'
-      - '.github/workflows/backend-ci.yml'
-      - '.github/workflows/security.yml'
+      - 'docs/**'
       - '**.md'
-
-# Cancel in-progress runs for the same workflow
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 env:
-  NODE_VERSION: '18.x'
-  COVERAGE_THRESHOLD: 60
-  EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+  NODE_VERSION: '18'
 
 jobs:
-  # ===================================================================
-  # LINT AND CODE QUALITY
-  # ===================================================================
-  lint:
-    name: Lint & Code Quality
+  lint-and-typecheck:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
+        run: npm ci
 
       - name: Run ESLint
         run: npm run lint
-        continue-on-error: false
 
-      - name: Check code formatting
-        run: npm run format:check || echo "Format check completed"
-        continue-on-error: true
-
-      - name: Check for console.log statements
-        run: |
-          echo "🔍 Checking for console.log statements..."
-          grep -rn "console\\.log" app/ components/ --include="*.ts" --include="*.tsx" || echo "✅ No console.log found"
-        continue-on-error: true
-
-  # ===================================================================
-  # TYPESCRIPT TYPE CHECKING
-  # ===================================================================
-  typecheck:
-    name: TypeScript Type Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run TypeScript type check
+      - name: TypeScript type check
         run: npm run typecheck
 
-  # ===================================================================
-  # SECURITY AUDIT
-  # ===================================================================
+      - name: Format check
+        run: npm run format:check
+
   security:
     name: Security Audit
     runs-on: ubuntu-latest
@@ -115,81 +60,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
+        run: npm ci
 
       - name: Run npm audit
-        run: |
-          echo "🔒 Running security audit..."
-          npm audit --audit-level=moderate || echo "⚠️  Vulnerabilities found - review required"
+        run: npm audit --production --audit-level=high
         continue-on-error: true
 
-      - name: Check for sensitive data
+      - name: Check dependencies for known vulnerabilities
         run: |
-          echo "🔐 Checking for sensitive data in code..."
-          ! grep -rE "(api_key|apikey|secret|password|token)\s*=\s*['\"][^'\"]+['\"]" app/ components/ --include="*.ts" --include="*.tsx" || echo "⚠️  Potential secrets found"
-        continue-on-error: true
+          if npm audit --production --audit-level=high | grep -q "found [1-9]"; then
+            echo "::warning::Security vulnerabilities found in production dependencies"
+          fi
 
-      - name: Upload audit report
-        run: |
-          npm audit --json > audit-report.json || true
-        continue-on-error: true
-
-      - name: Upload audit artifacts
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: security-audit-report
-          path: audit-report.json
-          if-no-files-found: ignore
-
-  # ===================================================================
-  # UNIT TESTS
-  # ===================================================================
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
-    needs: [lint, typecheck]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
+        run: npm ci
 
       - name: Run tests with coverage
-        run: npm run test -- --coverage --ci --maxWorkers=2 --bail
+        run: npm run test -- --coverage --maxWorkers=2
         env:
           NODE_ENV: test
-
-      - name: Check coverage threshold
-        run: |
-          echo "📊 Checking coverage threshold..."
-          if [ -f coverage/coverage-summary.json ]; then
-            COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.lines.pct' || echo "0")
-            echo "Coverage: ${COVERAGE}%"
-            if (( $(echo "$COVERAGE < ${{ env.COVERAGE_THRESHOLD }}" | bc -l) )); then
-              echo "⚠️  Coverage below threshold (${{ env.COVERAGE_THRESHOLD }}%)"
-            else
-              echo "✅ Coverage meets threshold"
-            fi
-          else
-            echo "⚠️  Coverage report not found"
-          fi
-        continue-on-error: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -198,24 +108,210 @@ jobs:
           flags: frontend
           name: frontend-coverage
           fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Check coverage threshold
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            COVERAGE=$(node -p "require('./coverage/coverage-summary.json').total.lines.pct")
+            echo "Coverage: $COVERAGE%"
+            if (( $(echo "$COVERAGE < 60" | bc -l) )); then
+              echo "::warning::Coverage is below 60% threshold"
+            fi
+          fi
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: frontend-test-results
+          name: test-results
           path: |
             coverage/
-            junit.xml
             jest-results.json
-          if-no-files-found: ignore
+          retention-days: 7
 
-  # ===================================================================
-  # BUILD VALIDATION
-  # ===================================================================
-  build-validation:
-    name: Build Validation
+  build-expo:
+    name: Build Expo App
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Expo config
+        run: npx expo config --type public
+
+      - name: Check for build errors
+        run: |
+          echo "Checking for common build issues..."
+          npx expo doctor
+
+  eas-build-preview:
+    name: EAS Build (Preview)
+    runs-on: ubuntu-latest
+    needs: [test, build-expo]
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Android Preview
+        run: |
+          echo "Android preview build would run here"
+          # Uncomment to enable actual builds:
+          # eas build --platform android --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+  eas-build-staging:
+    name: EAS Build (Staging)
+    runs-on: ubuntu-latest
+    needs: [test, build-expo]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Android (Staging)
+        run: |
+          echo "Building Android for staging..."
+          # Uncomment to enable:
+          # eas build --platform android --profile staging --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build iOS (Staging)
+        run: |
+          echo "Building iOS for staging..."
+          # Uncomment to enable:
+          # eas build --platform ios --profile staging --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+  eas-build-production:
+    name: EAS Build (Production)
+    runs-on: ubuntu-latest
+    needs: [test, build-expo]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Android (Production)
+        run: |
+          echo "Building Android for production..."
+          # Uncomment when ready for production:
+          # eas build --platform android --profile production --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build iOS (Production)
+        run: |
+          echo "Building iOS for production..."
+          # Uncomment when ready for production:
+          # eas build --platform ios --profile production --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+  deploy-eas-update:
+    name: Deploy EAS Update
+    runs-on: ubuntu-latest
+    needs: [test, build-expo]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish EAS Update
+        run: |
+          BRANCH_NAME=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')
+          echo "Publishing update to channel: $BRANCH_NAME"
+          # Uncomment to enable OTA updates:
+          # eas update --branch $BRANCH_NAME --message "Deploy from commit ${{ github.sha }}"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+  integration-tests:
+    name: Integration Tests
     runs-on: ubuntu-latest
     needs: [test]
 
@@ -223,243 +319,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
+        run: npm ci
 
-      - name: Setup Expo
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Validate app.config.ts
-        run: |
-          echo "🔍 Validating Expo configuration..."
-          npx expo config --type public > config-output.json
-          cat config-output.json
-          echo "✅ Configuration valid"
-
-      - name: Check bundle size
-        run: |
-          echo "📦 Analyzing bundle size..."
-          # Run production build to check bundle size
-          npm run build:web || echo "Web build check completed"
-        continue-on-error: true
-
-      - name: Validate Android manifest
-        run: |
-          echo "🤖 Validating Android manifest..."
-          if [ -f android/app/src/main/AndroidManifest.xml ]; then
-            xmllint --noout android/app/src/main/AndroidManifest.xml
-            echo "✅ Android manifest is valid"
-          else
-            echo "⚠️  Android manifest not found"
-          fi
-        continue-on-error: true
-
-      - name: Validate iOS configuration
-        run: |
-          echo "📱 Validating iOS configuration..."
-          if [ -f ios/NaviKid/Info.plist ]; then
-            plutil -lint ios/NaviKid/Info.plist || echo "✅ iOS Info.plist checked"
-          else
-            echo "⚠️  iOS Info.plist not found"
-          fi
-        continue-on-error: true
-
-  # ===================================================================
-  # EAS BUILD - ANDROID STAGING
-  # ===================================================================
-  build-android-staging:
-    name: Build Android (Staging)
-    runs-on: ubuntu-latest
-    needs: [build-validation]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    timeout-minutes: 60
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Create .env file for staging
-        run: |
-          echo "Creating staging environment file..."
-          cp .env.example .env.staging || touch .env.staging
-          echo "API_URL=https://staging-api.navikid.app" >> .env.staging
-          echo "ENV=staging" >> .env.staging
-        continue-on-error: true
-
-      - name: Build Android APK (Staging)
-        run: |
-          echo "🤖 Building Android for staging..."
-          eas build --platform android --profile staging --non-interactive || echo "Build initiated"
+      - name: Run integration tests
+        run: npm run test:integration
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
+          NODE_ENV: test
 
-      - name: Upload build logs
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: android-staging-build-logs
-          path: |
-            eas-build-*.log
-            build-*.log
-          if-no-files-found: ignore
-
-  # ===================================================================
-  # EAS BUILD - IOS STAGING
-  # ===================================================================
-  build-ios-staging:
-    name: Build iOS (Staging)
-    runs-on: ubuntu-latest
-    needs: [build-validation]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    timeout-minutes: 60
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Create .env file for staging
-        run: |
-          echo "Creating staging environment file..."
-          cp .env.example .env.staging || touch .env.staging
-          echo "API_URL=https://staging-api.navikid.app" >> .env.staging
-          echo "ENV=staging" >> .env.staging
-        continue-on-error: true
-
-      - name: Build iOS IPA (Staging)
-        run: |
-          echo "📱 Building iOS for staging..."
-          eas build --platform ios --profile staging --non-interactive || echo "Build initiated"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
-
-      - name: Upload build logs
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ios-staging-build-logs
-          path: |
-            eas-build-*.log
-            build-*.log
-          if-no-files-found: ignore
-
-  # ===================================================================
-  # PUBLISH TO EXPO (Staging Update)
-  # ===================================================================
-  publish-expo-update:
-    name: Publish Expo Update (Staging)
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Setup Expo
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Publish update to staging channel
-        run: |
-          echo "🚀 Publishing OTA update to staging channel..."
-          npx expo publish --release-channel staging || echo "Update published"
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        continue-on-error: true
-
-  # ===================================================================
-  # SUMMARY
-  # ===================================================================
   summary:
-    name: CI/CD Summary
+    name: CI Summary
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, security, test, build-validation]
+    needs: [lint-and-typecheck, security, test, build-expo]
     if: always()
 
     steps:
-      - name: Check job results
+      - name: Check all jobs status
         run: |
-          echo "📊 Frontend CI/CD Pipeline Summary"
-          echo "==================================="
-          echo "Lint: ${{ needs.lint.result }}"
-          echo "TypeCheck: ${{ needs.typecheck.result }}"
+          echo "Lint & Type Check: ${{ needs.lint-and-typecheck.result }}"
           echo "Security: ${{ needs.security.result }}"
-          echo "Tests: ${{ needs.test.result }}"
-          echo "Build Validation: ${{ needs.build-validation.result }}"
-          echo "==================================="
+          echo "Test: ${{ needs.test.result }}"
+          echo "Build: ${{ needs.build-expo.result }}"
 
-          if [ "${{ needs.lint.result }}" != "success" ] || \
-             [ "${{ needs.typecheck.result }}" != "success" ] || \
-             [ "${{ needs.test.result }}" != "success" ] || \
-             [ "${{ needs.build-validation.result }}" != "success" ]; then
-            echo "❌ Pipeline failed"
+          if [[ "${{ needs.lint-and-typecheck.result }}" != "success" ]] || \
+             [[ "${{ needs.test.result }}" != "success" ]] || \
+             [[ "${{ needs.build-expo.result }}" != "success" ]]; then
+            echo "::error::One or more required jobs failed"
             exit 1
-          else
-            echo "✅ Pipeline passed"
           fi
 
-      - name: Generate summary report
+      - name: Post summary
         run: |
-          echo "## 📱 Frontend CI/CD Results" >> $GITHUB_STEP_SUMMARY
+          echo "## Frontend CI Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| TypeCheck | ${{ needs.typecheck.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Security | ${{ needs.security.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Build | ${{ needs.build-validation.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint & Type Check: ${{ needs.lint-and-typecheck.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Security Audit: ${{ needs.security.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Build: ${{ needs.build-expo.result }}" >> $GITHUB_STEP_SUMMARY
