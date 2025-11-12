@@ -174,7 +174,7 @@ const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       const max = 2;
       while (attempts <= max) {
         try {
-          const res = await fetch('https://toolkit.rork.com/stt/transcribe/', {
+          const res = await fetch('https://api.mapmuse.app/stt/transcribe/', {
             method: 'POST',
             body: form,
           });

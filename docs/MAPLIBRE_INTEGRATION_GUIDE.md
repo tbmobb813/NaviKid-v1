@@ -25,6 +25,7 @@ EXPO_PUBLIC_ORS_PROFILE=foot-walking
 EXPO_PUBLIC_ORS_TIMEOUT=15000
 ```
 
+
 ### Getting an OpenRouteService API Key
 
 1. Visit [OpenRouteService.org](https://openrouteservice.org/)
@@ -66,6 +67,7 @@ function MyComponent() {
 }
 ```
 
+
 ### Custom Route Options
 
 ```tsx
@@ -75,6 +77,7 @@ const { geojson, loading, error } = useRouteORS(start, end, {
   includeEta: true, // parse duration/distance from response
 });
 ```
+
 
 ### Map Component with Route
 
@@ -95,6 +98,7 @@ function RouteScreen() {
   );
 }
 ```
+
 
 ## Routing Profiles
 
@@ -174,21 +178,21 @@ Run the routing hook tests:
 npm test -- useRouteORS
 ```
 
+
 Run the map component tests:
 
 ```bash
 npm test -- MapLibreRouteView
 ```
 
+
 ## Development Workflow
 
 1. **Set up environment**: Add ORS API key to `.env`
-<<<<<<< HEAD
 2. **Start development server**: `npx expo start`
 3. **Test on device**: Use Expo Go or development build
 4. **Debug routing**: Check network tab for API requests/responses
 5. **Iterate on map styling**: Update style URL and refresh
-=======
->>>>>>> feat/transit
+6. **Run tests and open PR**: Run tests locally, commit, push, and open a pull request for review
 
 For additional help, see the [OpenRouteService documentation](https://openrouteservice.org/dev/#/api-docs) or the project's main README.

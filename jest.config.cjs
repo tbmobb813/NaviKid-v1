@@ -1,12 +1,9 @@
 module.exports = {
-  preset: 'ts-jest',
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
-  globals: {
-    'ts-jest': {},
-  },
-  testPathIgnorePatterns: ['/node_modules/', '/bun-tests/', '/server/__tests__/'],
+  // Ignore helper module that lives inside __tests__ but isn't a test file
+  testPathIgnorePatterns: ['/node_modules/', '/server/__tests__/', '/__tests__/test-utils\.(ts|tsx|js)$'],
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|expo-router|@expo/vector-icons|react-native-svg|react-native-reanimated|@react-navigation|lucide-react-native|@react-native-async-storage)/)',
+    'node_modules/(?!(react-native|@react-native|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|expo-router|@expo/vector-icons|react-native-svg|react-native-reanimated|@react-navigation|lucide-react-native|@react-native-async-storage|@nkzw)/)',
   ],
   testMatch: ['**/__tests__/**/*.(ts|tsx|js)', '**/*.(test|spec).(ts|tsx|js)'],
   collectCoverageFrom: [
@@ -37,10 +34,12 @@ module.exports = {
     '^utils/(.*)$': '<rootDir>/utils/$1.ts',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  // Explicit transforms instead of relying on the ts-jest preset
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': ['ts-jest', { useESM: false }],
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   setupFiles: ['<rootDir>/jest.setup.cjs'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
 };
