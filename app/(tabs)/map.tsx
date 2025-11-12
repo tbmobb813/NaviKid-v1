@@ -218,7 +218,6 @@ export default function MapScreen() {
   const [showPreferences, setShowPreferences] = useState(false);
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
-  const mapLibreCameraRef = React.useRef(null);
   const {
     origin,
     destination,
