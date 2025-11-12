@@ -78,11 +78,40 @@ class Logger {
 
   private async sendToCrashReporting(logEntry: LogEntry, error?: Error) {
     try {
-      // In a real app, you'd send to services like Sentry, Bugsnag, etc.
-      // For now, we'll just store it locally
-      console.error('Production Error:', logEntry, error);
+      // Send errors to Sentry in production
+      const Sentry = require('@sentry/react-native');
+
+      if (error) {
+        // Capture exception with context
+        Sentry.captureException(error, {
+          level: logEntry.level >= LogLevel.ERROR ? 'error' : 'warning',
+          contexts: {
+            log: {
+              message: logEntry.message,
+              timestamp: logEntry.timestamp,
+              context: logEntry.context,
+            },
+          },
+          tags: {
+            log_level: LogLevel[logEntry.level],
+          },
+        });
+      } else {
+        // Capture message for errors without exception objects
+        Sentry.captureMessage(logEntry.message, {
+          level: 'error',
+          contexts: {
+            log: {
+              timestamp: logEntry.timestamp,
+              context: logEntry.context,
+            },
+          },
+        });
+      }
     } catch (e) {
+      // Fallback to console if Sentry fails
       console.error('Failed to send crash report:', e);
+      console.error('Original error:', logEntry, error);
     }
   }
 
@@ -102,33 +131,23 @@ class Logger {
     this.addLog(LogLevel.ERROR, message, context, error);
   }
 
-  // Performance logging
   time(label: string) {
-    if (Config.isDev) {
-      console.time(label);
-    }
+    if (Config.isDev) console.time(label);
   }
 
   timeEnd(label: string) {
-    if (Config.isDev) {
-      console.timeEnd(label);
-    }
+    if (Config.isDev) console.timeEnd(label);
   }
 
-  // Get logs for debugging
   getLogs(level?: LogLevel): LogEntry[] {
-    if (level !== undefined) {
-      return this.logs.filter((log) => log.level >= level);
-    }
+    if (level !== undefined) return this.logs.filter((l) => l.level >= level);
     return [...this.logs];
   }
 
-  // Clear logs
   clearLogs() {
     this.logs = [];
   }
 
-  // Export logs for support
   exportLogs(): string {
     return this.logs
       .map((log) => this.formatMessage(log.level, log.message, log.context))
@@ -138,7 +157,6 @@ class Logger {
 
 export const logger = new Logger();
 
-// Convenience functions
 export const log = {
   debug: (message: string, context?: Record<string, any>) => logger.debug(message, context),
   info: (message: string, context?: Record<string, any>) => logger.info(message, context),
@@ -149,21 +167,31 @@ export const log = {
   timeEnd: (label: string) => logger.timeEnd(label),
 };
 
-// Global error handler
-if (Platform.OS !== 'web') {
-  const originalHandler = ErrorUtils.getGlobalHandler();
+// Safe global error handler setup (only when ErrorUtils exists)
+if ((global as any).ErrorUtils && Platform.OS !== 'web') {
+  const errUtils = (global as any).ErrorUtils;
+  const originalHandler =
+    typeof errUtils.getGlobalHandler === 'function' ? errUtils.getGlobalHandler() : undefined;
 
-  ErrorUtils.setGlobalHandler((error, isFatal) => {
-    logger.error(`Global ${isFatal ? 'Fatal' : 'Non-Fatal'} Error`, error, {
-      isFatal,
-      stack: error.stack,
-    });
-
-    // Call original handler
-    if (originalHandler) {
-      originalHandler(error, isFatal);
+  if (typeof errUtils.setGlobalHandler === 'function') {
+    try {
+      errUtils.setGlobalHandler((error: any, isFatal?: boolean) => {
+        logger.error(`Global ${isFatal ? 'Fatal' : 'Non-Fatal'} Error`, error, {
+          isFatal,
+          stack: error?.stack,
+        });
+        if (typeof originalHandler === 'function') {
+          try {
+            originalHandler(error, isFatal);
+          } catch (_) {
+            // ignore
+          }
+        }
+      });
+    } catch (e) {
+      // ignore in environments where ErrorUtils behaves differently
     }
-  });
+  }
 }
 
 export default logger;

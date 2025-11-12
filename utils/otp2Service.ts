@@ -6,6 +6,7 @@
 import { log } from './logger';
 import { monitoring } from './monitoring';
 import { offlineStorage } from './api';
+import { timeoutSignal } from './abortSignal';
 
 // OTP2 Configuration
 export interface OTP2Config {
@@ -335,7 +336,7 @@ class OpenTripPlanner2 {
         headers: {
           Accept: 'application/json',
         },
-        signal: AbortSignal.timeout(this.config.timeout),
+        signal: timeoutSignal(this.config.timeout),
       });
 
       if (!response.ok) {
@@ -381,7 +382,7 @@ class OpenTripPlanner2 {
         headers: {
           Accept: 'application/json',
         },
-        signal: AbortSignal.timeout(this.config.timeout),
+        signal: timeoutSignal(this.config.timeout),
       });
 
       if (!response.ok) {
@@ -419,7 +420,7 @@ class OpenTripPlanner2 {
         headers: {
           Accept: 'application/json',
         },
-        signal: AbortSignal.timeout(this.config.timeout),
+        signal: timeoutSignal(this.config.timeout),
       });
 
       if (!response.ok) {
@@ -469,7 +470,7 @@ class OpenTripPlanner2 {
         headers: {
           Accept: 'application/json',
         },
-        signal: AbortSignal.timeout(this.config.timeout),
+        signal: timeoutSignal(this.config.timeout),
       });
 
       if (!response.ok) {
@@ -510,7 +511,7 @@ class OpenTripPlanner2 {
         headers: {
           Accept: 'application/json',
         },
-        signal: AbortSignal.timeout(this.config.timeout),
+        signal: timeoutSignal(this.config.timeout),
       });
 
       if (!response.ok) {
@@ -588,7 +589,7 @@ class OpenTripPlanner2 {
       headers: {
         Accept: 'application/json',
       },
-      signal: AbortSignal.timeout(this.config.timeout),
+      signal: timeoutSignal(this.config.timeout),
     });
 
     if (!response.ok) {

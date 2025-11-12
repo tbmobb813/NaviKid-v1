@@ -2,9 +2,7 @@
 
 ## Overview
 
-This guide covers setting up OpenRouteService (ORS) and OpenTripPlanner 2 (OTP2) for the Kid-Friendly
-Map application. These services provide comprehensive routing capabilities including walking, cycling,
-driving, and transit directions with kid-friendly optimizations.
+This guide covers setting up OpenRouteService (ORS) and OpenTripPlanner 2 (OTP2) for the Kid-Friendly Map application. These services provide comprehensive routing capabilities including walking, cycling, driving, and transit directions with kid-friendly optimizations.
 
 ## Quick Start
 
@@ -29,24 +27,19 @@ ORS_CUSTOM_ENDPOINT=https://your-custom-ors-instance.com
 OTP2_CUSTOM_ENDPOINT=https://your-custom-otp2-instance.com
 ```
 
+
 ### 2. Get OpenRouteService API Key
 
 1. Visit [OpenRouteService](https://openrouteservice.org/)
-
-1. Sign up for a free account
-
-1. Navigate to your dashboard
-
-1. Create a new API token
-
-1. Copy the token to your `.env` file
+2. Sign up for a free account
+3. Navigate to your dashboard
+4. Create a new API token
+5. Copy the token to your `.env` file
 
 **Free tier limits:**
 
 - 2,000 requests per day
-
 - 40 requests per minute
-
 - For production, consider upgrading to a paid plan
 
 ### 3. Set up OpenTripPlanner 2
@@ -56,9 +49,7 @@ OTP2_CUSTOM_ENDPOINT=https://your-custom-otp2-instance.com
 Some cities provide public OTP2 instances:
 
 - **New York**: `https://otp.mta.info/otp`
-
 - **Portland**: `https://maps.trimet.org/otp`
-
 - **Helsinki**: `https://reittiopas.hsl.fi/otp`
 
 #### Option B: Local Development Instance
@@ -81,6 +72,7 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --build --save .
 java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 ```
 
+
 ## Service Capabilities
 
 ### OpenRouteService (ORS)
@@ -88,35 +80,22 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 #### Supported Profiles
 
 - **foot-walking**: Regular walking routes
-
 - **foot-hiking**: Hiking and trail routes
-
 - **cycling-regular**: Standard cycling routes
-
 - **cycling-road**: Road cycling optimized
-
 - **cycling-safe**: Family-friendly cycling
-
 - **cycling-mountain**: Mountain biking
-
 - **cycling-electric**: E-bike routes
-
 - **driving-car**: Car routing
-
 - **wheelchair**: Wheelchair accessible routes
 
 #### ORS Features
 
 - **Isochrone Analysis**: Reachability maps
-
 - **Matrix Calculations**: Distance/time matrices
-
 - **POI Search**: Points of interest
-
 - **Elevation Profiles**: Route elevation data
-
 - **Kid-Friendly Routing**: Safety-optimized paths
-
 - **Accessibility Support**: Wheelchair routing
 
 ### OpenTripPlanner 2 (OTP2)
@@ -124,27 +103,18 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 #### Supported Modes
 
 - **WALK**: Walking
-
 - **BIKE**: Cycling
-
 - **TRANSIT**: Public transportation
-
 - **CAR**: Driving
-
 - **Combined**: Multimodal trips
 
 #### OTP2 Features
 
 - **Real-time Data**: Live transit updates
-
 - **Trip Planning**: Multi-modal journey planning
-
 - **Stop Information**: Transit stop details
-
 - **Service Alerts**: Disruption notifications
-
 - **Accessibility**: Wheelchair accessible routes
-
 - **Kid-Friendly Transit**: Family-optimized options
 
 ## Kid-Friendly Features
@@ -154,33 +124,23 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 #### Walking Routes
 
 - Avoid busy highways and main roads
-
 - Prefer routes through parks and quiet streets
-
 - Prioritize well-lit areas
-
 - Include crosswalks and traffic lights
-
 - Avoid construction zones
 
 #### Cycling Routes
 
 - Use protected bike lanes when available
-
 - Avoid high-traffic roads
-
 - Prefer dedicated cycling paths
-
 - Include bike-friendly intersections
 
 #### Transit Routes
 
 - Minimize transfers for younger children
-
 - Prefer direct routes
-
 - Include accessible stations
-
 - Provide clear step-by-step directions
 
 ### Age-Based Adjustments
@@ -209,6 +169,7 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 }
 ```
 
+
 ## API Usage Examples
 
 ### Basic Walking Route
@@ -230,6 +191,7 @@ console.log(`Duration: ${route.routes[0].summary.duration}s`);
 console.log(`Distance: ${route.routes[0].summary.distance}m`);
 ```
 
+
 ### Kid-Friendly Route
 
 ```typescript
@@ -246,6 +208,7 @@ const kidRoute = await orsService.getKidFriendlyRoute(
 // Route optimized for 8-year-old safety
 ```
 
+
 ### Transit Planning
 
 ```typescript
@@ -260,6 +223,7 @@ const trip = await otp2Service.planTrip({
 
 console.log(`Transfers: ${trip.plan.itineraries[0].transfers}`);
 ```
+
 
 ### Unified Routing
 
@@ -283,6 +247,7 @@ routes.forEach((route) => {
 });
 ```
 
+
 ## Testing Configuration
 
 ### Integration Tests
@@ -295,6 +260,7 @@ npm test -- __tests__/routing-integration.test.ts
 npm test -- __tests__/routing-integration.test.ts --env=production
 ```
 
+
 ### Demo Component
 
 ```bash
@@ -303,6 +269,7 @@ expo start
 
 # Navigate to RoutingDemo component to test live routing
 ```
+
 
 ## Monitoring and Analytics
 
@@ -315,6 +282,7 @@ import { monitoring } from './utils/monitoring';
 // Configure Sentry for production error tracking
 ```
 
+
 ### Performance Monitoring
 
 ```typescript
@@ -323,6 +291,7 @@ const timer = monitoring.trackPerformance('ors_route_request');
 const route = await orsService.getRoute(params);
 timer.end();
 ```
+
 
 ### Usage Analytics
 
@@ -334,6 +303,7 @@ monitoring.trackUserAction({
   metadata: { mode: 'walking', distance: 1200 },
 });
 ```
+
 
 ## Production Deployment
 
@@ -351,6 +321,7 @@ SENTRY_DSN=your_sentry_dsn
 ENABLE_ANALYTICS=true
 ```
 
+
 ### Rate Limiting
 
 ```typescript
@@ -361,6 +332,7 @@ const config = {
   retryDelay: 1000,
 };
 ```
+
 
 ### Caching Strategy
 
@@ -373,6 +345,7 @@ const cacheConfig = {
 };
 ```
 
+
 ## Troubleshooting
 
 ### Common Issues
@@ -383,6 +356,7 @@ const cacheConfig = {
 Error: ORS API error: 403 Forbidden
 ```
 
+
 **Solution**: Check API key validity and rate limits
 
 #### OTP2 Connection Issues
@@ -391,6 +365,7 @@ Error: ORS API error: 403 Forbidden
 Error: OTP2 server unavailable
 ```
 
+
 **Solution**: Verify OTP2_BASE_URL and server status
 
 #### No Routes Found
@@ -398,6 +373,7 @@ Error: OTP2 server unavailable
 ```bash
 No routes available between locations
 ```
+
 
 **Solution**: Check coordinate format and routing distance limits
 
@@ -409,6 +385,7 @@ process.env.DEBUG_ROUTING = 'true';
 
 // Logs will show API requests and responses
 ```
+
 
 ### Health Checks
 
@@ -423,6 +400,7 @@ console.log('ORS Status:', orsHealth);
 console.log('OTP2 Status:', otp2Health);
 ```
 
+
 ## API Reference
 
 ### OpenRouteService API
@@ -432,9 +410,7 @@ console.log('OTP2 Status:', otp2Health);
 **Rate Limits**:
 
 - Free: 2,000 requests/day, 40/minute
-
 - Standard: 100,000 requests/day, 300/minute
-
 - Premium: Custom limits
 
 ### OpenTripPlanner 2 API
@@ -450,39 +426,29 @@ console.log('OTP2 Status:', otp2Health);
 ### Getting Help
 
 1. **Documentation**: Check service-specific docs
-
-1. **Community**: OpenRouteService and OTP2 forums
-
-1. **Issues**: Report bugs in respective GitHub repos
-
-1. **API Support**: Contact service providers for API issues
+2. **Community**: OpenRouteService and OTP2 forums
+3. **Issues**: Report bugs in respective GitHub repos
+4. **API Support**: Contact service providers for API issues
 
 ### Contributing
 
 1. **Bug Reports**: Use GitHub issues
-
-1. **Feature Requests**: Propose enhancements
-
-1. **Code Contributions**: Submit pull requests
-
-1. **Documentation**: Help improve guides
+2. **Feature Requests**: Propose enhancements
+3. **Code Contributions**: Submit pull requests
+4. **Documentation**: Help improve guides
 
 ## License and Attribution
 
 ### OpenRouteService
 
 - **License**: MIT
-
 - **Attribution**: Required for public apps
-
 - **Data**: OpenStreetMap contributors
 
 ### OpenTripPlanner 2
 
 - **License**: LGPL
-
 - **Attribution**: Recommended
-
 - **Data**: GTFS providers and OpenStreetMap
 
 ### Usage in App
@@ -495,3 +461,4 @@ const attribution = {
   osm: '© OpenStreetMap contributors',
 };
 ```
+

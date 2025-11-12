@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import globalStyles from '../../styles';
+import transitStyles from '@/app/styles/transit';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Colors from '@/constants/colors';
 import DirectionStep from '@/components/DirectionStep';
@@ -37,7 +39,7 @@ export default function RouteDetailScreen() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, transitStyles.container]}>
       <MapPlaceholder message={`Map showing route from ${origin.name} to ${destination.name}`} />
 
       <VoiceNavigation
@@ -105,7 +107,9 @@ export default function RouteDetailScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionTitle}>Step by Step Directions</Text>
+        <Text style={[styles.sectionTitle, transitStyles.sectionTitle]}>
+          Step by Step Directions
+        </Text>
 
         <View style={styles.stepsContainer}>
           {route.steps.map((step, index) => (

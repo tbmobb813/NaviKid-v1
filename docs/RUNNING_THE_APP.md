@@ -14,11 +14,13 @@ npm run start:ios      # iOS Simulator (Mac only)
 npm run start:android  # Android Emulator
 ```
 
+
 ### With Dev Client
 
 ```bash
 npm run demo:routing   # Start with dev client
 ```
+
 
 ## ✅ Running Tests
 
@@ -37,7 +39,8 @@ npm run test:monitoring # Monitoring tests
 npm run test:integration:watch
 ```
 
-### Logic Tests (Pure TypeScript - Use Bun)
+
+### Logic Tests (Pure TypeScript - Use Jest)
 
 ```bash
 # All logic tests (fast)
@@ -47,12 +50,14 @@ npm run test:logic
 npm run test:logic:watch
 ```
 
+
 ### Run All Tests
 
 ```bash
 npm run test:all   # Both Jest and Bun tests
 npm run test:full  # Same as test:all
 ```
+
 
 ## 🎯 Demo Scripts
 
@@ -65,6 +70,7 @@ npm run demo:integration
 # Test offline monitoring
 npm run demo:offline
 ```
+
 
 ## ⚠️ Common Issues & Solutions
 
@@ -93,6 +99,7 @@ npm run demo:offline
 npm run test:routing  # ✅ Works with Jest
 ```
 
+
 ## 📁 Test Directory Structure
 
 ```text
@@ -101,10 +108,11 @@ __tests__/          → React Native integration tests (use Jest)
   ├── offline-validation.test.ts
   └── monitoring.test.ts
 
-bun-tests/          → Pure logic tests (use Bun - faster)
+__tests__/          → Pure logic tests and integration tests (use Jest)
   ├── performance/
   └── utils/
 ```
+
 
 ## 🔧 Development Workflow
 
@@ -117,11 +125,13 @@ npm run test:routing  # If you changed routing code
 npm run test:logic    # If you changed utility functions
 ```
 
+
 ### 3. Start the app
 
 ```bash
 npm start
 ```
+
 
 ### 4. Press keys to interact
 
@@ -168,12 +178,14 @@ rm -rf node_modules
 npm install
 ```
 
+
 ### Check Node/npm versions
 
 ```bash
 node --version   # Should be >= 18
 npm --version    # Should be >= 9
 ```
+
 
 ## 📝 Quick Reference
 

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
 import Colors from '@/constants/colors';
 import { Mic, Volume2 } from 'lucide-react-native';
 import * as Speech from 'expo-speech';
-import { Audio } from 'expo-av';
+import { Audio } from '@/utils/expoAudioBridge';
 import { useToast } from '@/hooks/useToast';
 
 type VoiceNavigationProps = {
@@ -174,7 +174,7 @@ const VoiceNavigation: React.FC<VoiceNavigationProps> = ({
       const max = 2;
       while (attempts <= max) {
         try {
-          const res = await fetch('https://toolkit.rork.com/stt/transcribe/', {
+          const res = await fetch('https://api.mapmuse.app/stt/transcribe/', {
             method: 'POST',
             body: form,
           });

@@ -1,6 +1,6 @@
 # Android Device Connection Troubleshooting
 
-**Current Status:** Device not recognized by ADB
+**Current Status:** Device not recognized by ADB  
 **Goal:** Connect device for `npx expo run:android` build
 
 ---
@@ -12,14 +12,10 @@
 **On your Android device:**
 
 1. Go to **Settings** → **About phone**
-
-1. Tap **Build number** 7 times (you'll see "You are now a developer!")
-
-1. Go back to **Settings** → **System** → **Developer options**
-
-1. Enable **USB debugging**
-
-1. **Important:** Also enable **USB debugging (Security settings)** if available
+2. Tap **Build number** 7 times (you'll see "You are now a developer!")
+3. Go back to **Settings** → **System** → **Developer options**
+4. Enable **USB debugging**
+5. **Important:** Also enable **USB debugging (Security settings)** if available
 
 ### 2. Restart ADB Server
 
@@ -29,14 +25,12 @@ adb start-server
 adb devices
 ```
 
+
 ### 3. Check USB Connection
 
 - **Unplug and replug** your USB cable
-
 - Try a **different USB cable** (some cables are charge-only!)
-
 - Try a **different USB port** on your computer
-
 - **Unlock your phone** - keep screen awake
 
 ### 4. Authorize Your Computer
@@ -46,7 +40,6 @@ When you plug in your device with USB debugging enabled, you should see a popup 
 **"Allow USB debugging?"**
 
 - ✅ Check "Always allow from this computer"
-
 - Tap **OK**
 
 If you don't see this popup:
@@ -56,6 +49,7 @@ adb kill-server
 adb start-server
 # Then unplug and replug your device
 ```
+
 
 ---
 
@@ -67,6 +61,7 @@ adb start-server
 adb devices
 ```
 
+
 **Expected output:**
 
 ```
@@ -74,10 +69,10 @@ List of devices attached
 ABC123456789    device
 ```
 
+
 **If you see "unauthorized":**
 
 - Check your phone for the authorization popup
-
 - Tap "Always allow" and OK
 
 **If you see "no permissions":**
@@ -88,11 +83,13 @@ sudo adb start-server
 adb devices
 ```
 
+
 ### Step 2: Once device shows as "device", try building
 
 ```bash
 npx expo run:android
 ```
+
 
 ---
 
@@ -106,21 +103,16 @@ npx expo run:android
    # Download from: https://developer.android.com/studio
    ```
 
+
 1. **Create an emulator:**
-
    - Open Android Studio
-
    - Go to **Tools** → **Device Manager**
-
    - Click **Create Device**
-
    - Select a device (e.g., Pixel 5)
-
    - Download a system image (API 33 recommended)
-
    - Click **Finish**
 
-3. **Start emulator:**
+1. **Start emulator:**
 
    ```bash
    # List available emulators
@@ -130,15 +122,14 @@ npx expo run:android
    emulator -avd Pixel_5_API_33 &
    ```
 
+
 ### Option B: Use Expo Dev Client (Easiest for Testing)
 
 Since you're on the dev server already, you can use the Expo Go app temporarily:
 
 1. **Install Expo Go** on your Android phone from Play Store
-
-1. **Make sure phone and computer are on same WiFi**
-
-1. **Scan the QR code** shown in your terminal
+2. **Make sure phone and computer are on same WiFi**
+3. **Scan the QR code** shown in your terminal
 
 **Note:** Expo Go won't support native modules (MapLibre, MMKV), but you can test navigation!
 
@@ -153,6 +144,7 @@ Once device is connected, you can build:
 ```bash
 npx expo run:android
 ```
+
 
 This creates a dev build with native modules that you can test immediately.
 
@@ -172,6 +164,7 @@ eas build:configure
 eas build --profile development --platform android
 ```
 
+
 ---
 
 ## Common Issues & Solutions
@@ -185,31 +178,25 @@ echo 'export PATH=$PATH:$HOME/Android/Sdk/platform-tools' >> ~/.bashrc
 source ~/.bashrc
 ```
 
+
 ### Issue: Device shows as "unauthorized"
 
 **Solution:**
 
 1. Revoke USB debugging authorizations on phone:
-
    - Settings → Developer options → Revoke USB debugging authorizations
-
 1. Unplug device
-
-1. Replug device
-
-1. Authorize popup should appear
+2. Replug device
+3. Authorize popup should appear
 
 ### Issue: "No Android connected device found"
 
 **Solution:**
 
 1. Check `adb devices` shows device as "device" (not "unauthorized")
-
-1. Ensure USB debugging is enabled
-
-1. Try different USB cable/port
-
-1. Restart ADB server: `adb kill-server && adb start-server`
+2. Ensure USB debugging is enabled
+3. Try different USB cable/port
+4. Restart ADB server: `adb kill-server && adb start-server`
 
 ### Issue: Device connected but build fails
 
@@ -224,6 +211,7 @@ rm -rf android/app/build
 npx expo run:android
 ```
 
+
 ---
 
 ## Why Native Build is Important
@@ -231,11 +219,8 @@ npx expo run:android
 Building with `npx expo run:android` will:
 
 - ✅ **Fix the navigation context error** (native React Navigation setup)
-
 - ✅ **Enable MapLibre** (native mapping library)
-
 - ✅ **Enable MMKV** (native storage with TurboModules)
-
 - ✅ **Test in production-like environment**
 
 ---
@@ -244,28 +229,24 @@ Building with `npx expo run:android` will:
 
 Your Metro bundler is running on port 8082. Once you get your device connected or emulator running, the build will automatically connect to it!
 
-``` text
+```
 Server: http://192.168.1.19:8082
 ```
+
 
 ---
 
 ## Next Steps
 
 1. **Try the Quick Fix Steps above** (USB debugging, ADB restart, cable check)
-
-1. **Run `adb devices`** - you should see your device listed
-
-1. **Run `npx expo run:android`** - this will build and install the app
-
-1. **Test navigation** - the "prevent remove context" error should be gone!
+2. **Run `adb devices`** - you should see your device listed
+3. **Run `npx expo run:android`** - this will build and install the app
+4. **Test navigation** - the "prevent remove context" error should be gone!
 
 If device connection continues to fail after trying everything:
 
 - Use Android Emulator (Option A above)
-
 - Or test with Expo Go temporarily (won't solve native issues but tests navigation)
-
 - Or let me know and we can explore other options!
 
 ---
@@ -293,6 +274,7 @@ echo $ANDROID_SDK_ROOT
 # Test ADB connection
 adb shell echo "Connection successful!"
 ```
+
 
 **Status:** ⚠️ Waiting for device connection
 

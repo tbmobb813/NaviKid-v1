@@ -25,15 +25,13 @@ EXPO_PUBLIC_ORS_PROFILE=foot-walking
 EXPO_PUBLIC_ORS_TIMEOUT=15000
 ```
 
+
 ### Getting an OpenRouteService API Key
 
 1. Visit [OpenRouteService.org](https://openrouteservice.org/)
-
-1. Sign up for a free account
-
-1. Generate an API key in your dashboard
-
-1. Add it to your environment as `EXPO_PUBLIC_ORS_API_KEY`
+2. Sign up for a free account
+3. Generate an API key in your dashboard
+4. Add it to your environment as `EXPO_PUBLIC_ORS_API_KEY`
 
 **Free tier limits:** 2,000 requests/day, 40 requests/minute
 
@@ -69,6 +67,7 @@ function MyComponent() {
 }
 ```
 
+
 ### Custom Route Options
 
 ```tsx
@@ -78,6 +77,7 @@ const { geojson, loading, error } = useRouteORS(start, end, {
   includeEta: true, // parse duration/distance from response
 });
 ```
+
 
 ### Map Component with Route
 
@@ -99,6 +99,7 @@ function RouteScreen() {
 }
 ```
 
+
 ## Routing Profiles
 
 | Profile           | Use Case              | Speed    | Restrictions        |
@@ -114,31 +115,24 @@ function RouteScreen() {
 **"Missing OpenRouteService API key"**
 
 - Ensure `EXPO_PUBLIC_ORS_API_KEY` is set in your environment
-
 - Restart your Expo development server after adding the key
 
 **Route not displaying on map**
 
 - Check that coordinates are in `[longitude, latitude]` order (not lat/lng)
-
 - Verify the API key has sufficient quota remaining
-
 - Check network connectivity and API response in developer tools
 
 **Map not loading**
 
 - Confirm MapLibre style URL is valid and accessible
-
 - On web, the app falls back to Leaflet-based InteractiveMap
-
 - Check that required permissions are granted on mobile
 
 ### Performance Tips
 
 - Use the `enabled` option to avoid unnecessary API calls
-
 - Cache route results when possible for repeated requests
-
 - Consider using lower-resolution routing profiles for overview maps
 
 ### Rate Limiting
@@ -146,15 +140,12 @@ function RouteScreen() {
 The free OpenRouteService tier allows:
 
 - 2,000 requests per day
-
 - 40 requests per minute
 
 For production apps, consider:
 
 - Implementing client-side caching
-
 - Upgrading to a paid plan
-
 - Using request debouncing for interactive route selection
 
 ## Configuration Reference
@@ -187,14 +178,21 @@ Run the routing hook tests:
 npm test -- useRouteORS
 ```
 
+
 Run the map component tests:
 
 ```bash
 npm test -- MapLibreRouteView
 ```
 
+
 ## Development Workflow
 
 1. **Set up environment**: Add ORS API key to `.env`
+2. **Start development server**: `npx expo start`
+3. **Test on device**: Use Expo Go or development build
+4. **Debug routing**: Check network tab for API requests/responses
+5. **Iterate on map styling**: Update style URL and refresh
+6. **Run tests and open PR**: Run tests locally, commit, push, and open a pull request for review
 
 For additional help, see the [OpenRouteService documentation](https://openrouteservice.org/dev/#/api-docs) or the project's main README.

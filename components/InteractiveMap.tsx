@@ -6,8 +6,7 @@ import { Place, Route } from '@/types/navigation';
 import { nycStations } from '@/config/transit/nyc-stations';
 import MapPlaceholder from './MapPlaceholder';
 import { Crosshair, Train } from 'lucide-react-native';
-import ExpoMapView from './ExpoMapView';
-import MapLibreRouteView from './MapLibreRouteView';
+import MapViewWrapper from './MapViewWrapper';
 import { isMapLibreAvailable } from './MapLibreMap';
 
 type LatLng = { latitude: number; longitude: number };
@@ -93,14 +92,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     );
   }, [showTransitStations]);
 
-  const routeCoords = useMemo(() => {
-    if (!route?.metadata?.geometry?.coordinates) return [];
-    return route.metadata.geometry.coordinates;
-  }, [route]);
+  
 
   const handleMessage = (event: any) => {
     try {
-      const data = typeof event?.nativeEvent?.data === 'string' ? JSON.parse(event.nativeEvent.data) : null;
+      const data =
+        typeof event?.nativeEvent?.data === 'string' ? JSON.parse(event.nativeEvent.data) : null;
       if (data?.type === 'tap' && typeof data.lat === 'number' && typeof data.lng === 'number') {
         onSelectLocation?.({ latitude: data.lat, longitude: data.lng });
       }
@@ -117,10 +114,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       // @ts-ignore allow onMessage in test environment
       onMessage={handleMessage}
     >
-      <ExpoMapView
+      <MapViewWrapper
         origin={origin}
         destination={destination}
-        route={route}
         onMapReady={handleMapReady}
         onSelectLocation={handleLocationSelect}
         onStationPress={handleStationPress}

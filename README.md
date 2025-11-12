@@ -1,6 +1,9 @@
-# Kid-Friendly Map & Transit Navigator
+# Family Adventure & Discovery Map
 
-This repository contains an Expo React Native application focused on kid-friendly navigation, safety features, and transit info.
+This repository contains an Expo React Native application designed for families to discover new places, embark on fun adventures, and explore their city together.
+
+[![CI Lite](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml)
+[![CI Full](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml)
 
 ## Quickstart
 
@@ -44,14 +47,15 @@ This project uses Expo Application Services (EAS) for production mobile builds.
 npm install -g eas-cli
 ```
 
-Login and configure credentials:
+2. Login and configure credentials:
 
 ```bash
 eas login
 # Follow prompts to configure your account
 ```
 
-Add secrets (Sentry DSN, API keys, signing keys) in EAS or GitHub Actions secrets.
+Add secrets (Sentry DSN, API keys, signing keys) in EAS or GitHub Actions
+secrets.
 
 Build:
 
@@ -71,7 +75,8 @@ This repo includes placeholder assets; replace them with production artwork.
 
 **Map & Routing Configuration:**
 
-Set these environment variables for MapLibre and OpenRouteService integration:
+Set these environment variables for MapLibre and OpenRouteService
+integration:
 
 ```bash
 # Map configuration
@@ -91,12 +96,13 @@ EXPO_PUBLIC_ORS_PROFILE=foot-walking                # Default routing profile
 EXPO_PUBLIC_ORS_TIMEOUT=15000                       # Request timeout in ms
 ```
 
-**MapLibre Integration:**
+**Map & Routing Integration:**
 
-- **Mobile platforms** (iOS/Android): Uses native MapLibre GL with configurable styles
-- **Web platform**: Falls back to Leaflet-based InteractiveMap for broader compatibility
-- **Route visualization**: Integrates with OpenRouteService for walking/transit directions
-- **Transit stations**: Shows NYC subway/bus stations with safety ratings and live arrivals
+- **Mobile platforms** (iOS/Android): Uses native MapLibre GL with configurable styles.
+- **Web platform**: Falls back to a Leaflet-based InteractiveMap for broader compatibility.
+- **Route visualization**: Integrates with OpenRouteService for walking/transit directions to your next adventure.
+- **Points of Interest**: Highlights family-friendly locations like parks, museums, and playgrounds.
+- **Transit Integration**: Shows real-time arrivals for public transit, making it easy to plan family outings.
 
 ## Monitoring & Crash Reporting
 
@@ -104,39 +110,134 @@ A Sentry integration skeleton is available at `utils/sentry.ts`. Add `SENTRY_DSN
 
 ## CI/CD
 
-There is a GitHub Actions pipeline in `.github/workflows/ci.yml`. It expects Bun for install steps; if you prefer npm/yarn, update CI to match your chosen package manager.
+There is a GitHub Actions pipeline in `.github/workflows/ci.yml` and a lightweight PR workflow at `.github/workflows/ci-lite.yml`.
 
-## Strategic Planning & Roadmap
+Notes:
+- We removed Bun-specific test runners from the main PR pipelines and migrated tests to run under Jest/npm. Prefer `npm ci` in CI unless you intentionally want Bun for performance experiments.
 
-**New!** Comprehensive strategic documentation suite available:
+- See `CI_FIX_SUMMARY.md` → "Active GitHub Actions workflows" for a compact reference of which workflow runs what and how to trigger manual/heavy jobs.
 
-- **[docs/ONE_PAGER.md](docs/ONE_PAGER.md)** - Quick overview (2 min read)
-- **[docs/EXECUTIVE_SUMMARY.md](docs/EXECUTIVE_SUMMARY.md)** - Leadership summary (5 min)
-- **[docs/QUICK_REFERENCE_ACTION_PLAN.md](docs/QUICK_REFERENCE_ACTION_PLAN.md)** - Action checklists (10 min)
-- **[docs/90_DAY_ROADMAP.md](docs/90_DAY_ROADMAP.md)** - Visual timeline (10 min)
-- **[docs/STRATEGIC_ROADMAP_ALIGNMENT.md](docs/STRATEGIC_ROADMAP_ALIGNMENT.md)** - Complete analysis (60 min)
-- **[docs/INDEX.md](docs/INDEX.md)** - Documentation hub
+## Project Vision & Status
 
-**Key Insights:**
+This project aims to make urban exploration fun and accessible for the whole family. By combining interactive maps with gamified achievements, we encourage curiosity and create shared experiences.
 
-- ✅ Product is production-ready with 100% roadmap completion + bonuses
-- 🎯 90-day plan to beta launch with 100+ families
-- 💰 $20K-40K investment needed for research, compliance, backend
-- 🚀 Strong market position (28.4% CAGR, clear differentiation)
+- **Technical Status:** The application is in active development, with a robust technical foundation, 70%+ test coverage, and operational CI/CD.
+- **Feature Status:** Core features for mapping, routing, and transit are implemented. The next phase focuses on expanding our points-of-interest database and enhancing the "Achievements" system.
+- **Next Phase:** We are preparing for an initial beta test with a small group of families to gather feedback and refine the user experience.
 
-See `docs/CONVERSATION_SUMMARY.md` for complete overview of strategic review.
-
-## Project Status
-
-- **Technical Status:** Production ready, 70%+ test coverage, CI/CD operational
-- **Feature Status:** All roadmap phases complete (see `FINAL_IMPLEMENTATION_SUMMARY.md`)
-- **Next Phase:** User research validation, compliance documentation, beta launch
-- **Documentation:** See `COMPREHENSIVE_PROJECT_STATUS.md` for detailed status
+See the `docs/` directory for more detailed planning and historical documents.
 
 ## Contributing
 
 See `docs/TESTING_GUIDE.md` and `docs/PERFORMANCE_OPTIMIZATION.md` for developer guidance.
 
+## Acknowledgements
+
+We extend our sincere gratitude to rork for their foundational contributions and support in the early stages of this project.
+
+## Testing (three suites)
+
+This repository separates tests into three focused suites to keep transforms and
+environments clean.
+
+Run the default suite:
+
+```bash
+npm test
+```
+
+Server-only tests:
+
+```bash
+npm run test:server
+```
+
+Logic test suite:
+
+```bash
+npm run test:logic
+```
+
+Run all three locally in parallel with the helper script (it prints a
+consolidated summary):
+
+```bash
+npm run test:concurrent
+```
+
+CI runs these suites in parallel jobs — see `.github/workflows/tests.yml` for
+the workflow definition.
+
+
+Notes on performance-sensitive tests
+
+- PERF_TIME_MULTIPLIER: You can relax strict timing assertions locally by
+  setting the environment variable `PERF_TIME_MULTIPLIER`. For example, to
+  double allowed times:
+
+  ```bash
+  PERF_TIME_MULTIPLIER=2 npm run test:bun
+  ```
+
+- FORCE_CONCURRENT: The concurrent runner defaults to sequential execution
+  for local stability. To force parallel runs locally (not recommended on
+  low-powered machines):
+
+  ```bash
+  FORCE_CONCURRENT=1 npm run test:concurrent
+  ```
+
+CI runs the strict performance checks with `PERF_TIME_MULTIPLIER=1` by
+default; if you see failures locally, increase `PERF_TIME_MULTIPLIER` for
+development runs.
+
+
 ## License
 
 Add a license file (e.g., MIT) if you intend to open-source this project.
+
+## Enabling MapLibre in Expo / EAS builds
+
+This project uses the native MapLibre React Native module for mobile builds.
+MapLibre will not be available in the stock Expo Go app — you must create a
+development or production build that includes the native module.
+
+Minimal steps (EAS / Expo):
+
+- Install the native dependency (already listed in package.json):
+
+  ```bash
+  npm install @maplibre/maplibre-react-native
+  ```
+
+- Create an EAS dev build to include the native module (recommended for
+  development):
+
+  ```bash
+  # login to EAS if you haven't
+  npx eas login
+
+  # create a dev build for Android
+  npx eas build --profile development --platform android
+
+  # or for iOS (requires proper credentials / Apple account)
+  npx eas build --profile development --platform ios
+  ```
+
+- For production, run a normal EAS build:
+
+  ```bash
+  npx eas build --profile production --platform all
+  ```
+
+Notes:
+
+- In local dev you can still run the JS-only fallback (OpenStreetMap-based
+  InteractiveMap) in Expo Go. To use MapLibre you must run an EAS development
+  build or a bare React Native build that includes native modules.
+- iOS: run `cd ios && pod install` inside a bare project or when using a
+  local native workspace.
+- Android: Gradle autolinking will pick up the module; ensure your
+  `android/` gradle configuration matches Expo/EAS expectations.
+- If you want a short checklist added to this README for CI/EAS credentials
+  or app signing, I can add that.

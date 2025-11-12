@@ -292,9 +292,6 @@ describe('Offline Validation Tests', () => {
       await expect(
         offlineManager.queueAction('SAVE_ROUTE', { routeId: '123' }),
       ).resolves.toBeDefined();
-      
-      // Restore original mock to prevent error leakage
-      AsyncStorage.setItem = originalSetItem;
     });
 
     it('should validate cached data structure', async () => {

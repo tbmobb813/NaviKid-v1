@@ -15,6 +15,7 @@ const Pressable = (props) => React.createElement('Pressable', props, props.child
 const TextInput = (props) => React.createElement('TextInput', props, props.children);
 const Image = (props) => React.createElement('Image', props, props.children);
 const Switch = (props) => React.createElement('Switch', props, props.children);
+const FlatList = (props) => React.createElement('FlatList', props, props.children);
 const ScrollView = (props) => React.createElement('ScrollView', props, props.children);
 const Modal = (props) => React.createElement('Modal', props, props.children);
 
@@ -32,6 +33,7 @@ const NativeModules = {};
 const Animated = {
   View: (props) => React.createElement('AnimatedView', props, props.children),
   createAnimatedComponent: (c) => c,
+  // Minimal Value implementation
   Value: function (initialValue) {
     this._value = typeof initialValue === 'number' ? initialValue : 0;
     this._listeners = {};
@@ -53,8 +55,9 @@ const Animated = {
     this.interpolate = (config) => ({ __isInterpolated: true, config });
     this.__getValue = () => this._value;
   },
-  timing: (value, config) => ({
-    start: (cb) => {
+    timing: (value, config) => ({
+      start: (cb) => {
+      // apply end value synchronously to keep tests deterministic
       try {
         if (value && typeof value.setValue === 'function') {
           value.setValue(config.toValue);

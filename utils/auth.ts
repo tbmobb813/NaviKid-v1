@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
-import { apiClient } from './api';
+import { apiClient as oldApiClient } from './api';
+import apiClient from '@/services/api';
+import wsClient from '@/services/websocket';
 import { SafeAsyncStorage } from './errorHandling';
 import { log } from './logger';
 import { Config } from './config';
@@ -86,6 +88,11 @@ class AuthManager {
       if (storedTokens && storedTokens.expiresAt > Date.now()) {
         this.tokens = storedTokens;
         apiClient.setAuthToken(storedTokens.accessToken);
+        oldApiClient.setAuthToken(storedTokens.accessToken);
+
+        // Connect WebSocket with token
+        wsClient.setAccessToken(storedTokens.accessToken);
+        wsClient.connect();
 
         // Load user data
         await this.loadUserProfile();
@@ -109,12 +116,25 @@ class AuthManager {
 
   private async loadUserProfile() {
     try {
-      const response = await apiClient.get<AuthUser>('/auth/profile');
-      if (response.success) {
-        this.currentUser = response.data;
+      const response = await apiClient.auth.me();
+      if (response.success && response.data) {
+        // Map backend user to frontend user structure
+        this.currentUser = {
+          id: response.data.user.id,
+          email: response.data.user.email,
+          name: '', // TODO: Backend needs to include name
+          role: response.data.user.role === 'parent' ? 'parent' : 'user',
+          preferences: {
+            notifications: true,
+            locationSharing: true,
+            emergencyContacts: [],
+          },
+          createdAt: response.data.user.createdAt,
+          lastLoginAt: new Date().toISOString(),
+        };
 
         // Cache user data
-        await SafeAsyncStorage.setItem('user_profile', response.data, { strategy: 'retry' });
+        await SafeAsyncStorage.setItem('user_profile', this.currentUser, { strategy: 'retry' });
       }
     } catch (error) {
       log.warn('Failed to load user profile', error as Error);
@@ -156,16 +176,21 @@ class AuthManager {
     try {
       log.debug('Refreshing auth tokens');
 
-      const response = await apiClient.post<AuthTokens>('/auth/refresh', {
-        refreshToken: this.tokens.refreshToken,
-      });
+      const response = await apiClient.auth.refreshToken();
 
-      if (response.success) {
-        this.tokens = response.data;
-        apiClient.setAuthToken(response.data.accessToken);
+      if (response.success && response.data) {
+        this.tokens = {
+          accessToken: response.data.tokens.accessToken,
+          refreshToken: response.data.tokens.refreshToken,
+          expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
+        };
+
+        apiClient.setAuthToken(this.tokens.accessToken);
+        oldApiClient.setAuthToken(this.tokens.accessToken);
+        wsClient.setAccessToken(this.tokens.accessToken);
 
         // Store new tokens
-        await SafeAsyncStorage.setItem('auth_tokens', response.data, { strategy: 'retry' });
+        await SafeAsyncStorage.setItem('auth_tokens', this.tokens, { strategy: 'retry' });
 
         // Setup next refresh
         this.setupTokenRefresh();
@@ -186,41 +211,53 @@ class AuthManager {
     try {
       log.info('Attempting login', { email: credentials.email });
 
-      const response = await apiClient.post<{
-        user: AuthUser;
-        tokens: AuthTokens;
-      }>('/auth/login', {
-        email: credentials.email,
-        password: credentials.password,
-        platform: Platform.OS,
-        deviceInfo: {
-          platform: Platform.OS,
-          version: Platform.Version,
-        },
-      });
+      const response = await apiClient.auth.login(credentials.email, credentials.password);
 
-      if (response.success) {
-        this.currentUser = response.data.user;
-        this.tokens = response.data.tokens;
+      if (response.success && response.data) {
+        // Map backend user to frontend user structure
+        this.currentUser = {
+          id: response.data.user.id,
+          email: response.data.user.email,
+          name: '', // TODO: Backend needs to include name
+          role: response.data.user.role === 'parent' ? 'parent' : 'user',
+          preferences: {
+            notifications: true,
+            locationSharing: true,
+            emergencyContacts: [],
+          },
+          createdAt: response.data.user.createdAt,
+          lastLoginAt: new Date().toISOString(),
+        };
 
-        // Set API token
-        apiClient.setAuthToken(response.data.tokens.accessToken);
+        this.tokens = {
+          accessToken: response.data.tokens.accessToken,
+          refreshToken: response.data.tokens.refreshToken,
+          expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
+        };
+
+        // Set API tokens
+        apiClient.setAuthToken(this.tokens.accessToken);
+        oldApiClient.setAuthToken(this.tokens.accessToken);
+
+        // Connect WebSocket
+        wsClient.setAccessToken(this.tokens.accessToken);
+        wsClient.connect();
 
         // Store tokens and user data
         await Promise.all([
-          SafeAsyncStorage.setItem('auth_tokens', response.data.tokens),
-          SafeAsyncStorage.setItem('user_profile', response.data.user),
+          SafeAsyncStorage.setItem('auth_tokens', this.tokens),
+          SafeAsyncStorage.setItem('user_profile', this.currentUser),
         ]);
 
         // Setup token refresh
         this.setupTokenRefresh();
 
-        log.info('Login successful', { userId: response.data.user.id });
+        log.info('Login successful', { userId: this.currentUser.id });
         this.notifyListeners();
 
         return { success: true };
       } else {
-        return { success: false, error: response.message || 'Login failed' };
+        return { success: false, error: response.error?.message || 'Login failed' };
       }
     } catch (error) {
       const err = error as Error;
@@ -233,40 +270,57 @@ class AuthManager {
     try {
       log.info('Attempting registration', { email: data.email, role: data.role });
 
-      const response = await apiClient.post<{
-        user: AuthUser;
-        tokens: AuthTokens;
-      }>('/auth/register', {
-        ...data,
-        platform: Platform.OS,
-        deviceInfo: {
-          platform: Platform.OS,
-          version: Platform.Version,
-        },
-      });
+      const response = await apiClient.auth.register(
+        data.email,
+        data.password,
+        data.role === 'parent' ? 'parent' : 'guardian'
+      );
 
-      if (response.success) {
-        this.currentUser = response.data.user;
-        this.tokens = response.data.tokens;
+      if (response.success && response.data) {
+        // Map backend user to frontend user structure
+        this.currentUser = {
+          id: response.data.user.id,
+          email: response.data.user.email,
+          name: data.name,
+          role: response.data.user.role === 'parent' ? 'parent' : 'user',
+          preferences: {
+            notifications: true,
+            locationSharing: true,
+            emergencyContacts: [],
+          },
+          createdAt: response.data.user.createdAt,
+          lastLoginAt: new Date().toISOString(),
+        };
 
-        // Set API token
-        apiClient.setAuthToken(response.data.tokens.accessToken);
+        this.tokens = {
+          accessToken: response.data.tokens.accessToken,
+          refreshToken: response.data.tokens.refreshToken,
+          expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
+        };
+
+        // Set API tokens
+        apiClient.setAuthToken(this.tokens.accessToken);
+        oldApiClient.setAuthToken(this.tokens.accessToken);
+
+        // Connect WebSocket
+        wsClient.setAccessToken(this.tokens.accessToken);
+        wsClient.connect();
 
         // Store tokens and user data
         await Promise.all([
-          SafeAsyncStorage.setItem('auth_tokens', response.data.tokens),
-          SafeAsyncStorage.setItem('user_profile', response.data.user),
+          SafeAsyncStorage.setItem('auth_tokens', this.tokens),
+          SafeAsyncStorage.setItem('user_profile', this.currentUser),
         ]);
 
         // Setup token refresh
         this.setupTokenRefresh();
 
-        log.info('Registration successful', { userId: response.data.user.id });
+        log.info('Registration successful', { userId: this.currentUser.id });
         this.notifyListeners();
 
         return { success: true };
       } else {
-        return { success: false, error: response.message || 'Registration failed' };
+        return { success: false, error: response.error?.message || 'Registration failed' };
       }
     } catch (error) {
       const err = error as Error;
@@ -282,13 +336,14 @@ class AuthManager {
       // Notify server
       if (this.tokens) {
         try {
-          await apiClient.post('/auth/logout', {
-            refreshToken: this.tokens.refreshToken,
-          });
+          await apiClient.auth.logout();
         } catch (error) {
           log.warn('Server logout failed', error as Error);
         }
       }
+
+      // Disconnect WebSocket
+      wsClient.disconnect();
 
       await this.clearAuth();
       log.info('Logout completed');
@@ -310,8 +365,12 @@ class AuthManager {
     this.currentUser = null;
     this.tokens = null;
 
-    // Clear API token
+    // Clear API tokens
     apiClient.clearAuthToken();
+    oldApiClient.clearAuthToken();
+
+    // Disconnect WebSocket
+    wsClient.disconnect();
 
     // Clear storage
     try {

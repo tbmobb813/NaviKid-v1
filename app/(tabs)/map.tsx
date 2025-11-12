@@ -1,255 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 // (View, Text already imported below)
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native';
-import { HelpCircle, Accessibility, Menu } from 'lucide-react-native';
-import MapLibreGL from '@maplibre/maplibre-react-native';
-// MapLibreGL Native Map scaffold
-const MapLibreMapView = ({
-  origin,
-  destination,
-  route,
-  showTransitStations,
-  stations,
-  onStationPress,
-  mapStyle,
-}: any) => (
-  <MapLibreGL.MapView style={{ flex: 1 }} mapStyle={mapStyle}>
-    {/* Center on origin if available */}
-    <MapLibreGL.Camera
-      zoomLevel={13}
-      centerCoordinate={
-        origin?.coordinates
-          ? [origin.coordinates.longitude, origin.coordinates.latitude]
-          : [-74.006, 40.7128]
-      }
-    />
-    {/* Marker for origin/current location */}
-    {origin?.coordinates && (
-      <MapLibreGL.PointAnnotation
-        id="origin"
-        coordinate={[origin.coordinates.longitude, origin.coordinates.latitude]}
-      >
-        <View style={{ backgroundColor: '#4F8EF7', borderRadius: 12, padding: 6 }}>
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>📍</Text>
-        </View>
-      </MapLibreGL.PointAnnotation>
-    )}
-    {/* Marker for destination */}
-    {destination?.coordinates && (
-      <MapLibreGL.PointAnnotation
-        id="destination"
-        coordinate={[destination.coordinates.longitude, destination.coordinates.latitude]}
-      >
-        <View style={{ backgroundColor: '#F7B500', borderRadius: 12, padding: 6 }}>
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>🏁</Text>
-        </View>
-      </MapLibreGL.PointAnnotation>
-    )}
-    {/* Polyline for route */}
-    {route?.geometry?.coordinates && (
-      <MapLibreGL.ShapeSource
-        id="route"
-        shape={{ type: 'LineString', coordinates: route.geometry.coordinates }}
-      >
-        <MapLibreGL.LineLayer id="routeLine" style={{ lineColor: '#4F8EF7', lineWidth: 5 }} />
-      </MapLibreGL.ShapeSource>
-    )}
-    {/* Show transit stations as markers, wire up tap logic */}
-    {showTransitStations &&
-      Array.isArray(stations) &&
-      stations.map((station: any) => (
-        <MapLibreGL.PointAnnotation
-          key={station.id}
-          id={station.id}
-          coordinate={[station.coordinates.longitude, station.coordinates.latitude]}
-          onSelected={() => onStationPress?.(station.id)}
-        >
-          <View
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: 8,
-              padding: 4,
-              borderWidth: 1,
-              borderColor: '#4F8EF7',
-            }}
-          >
-            <Text style={{ color: '#4F8EF7', fontWeight: 'bold', fontSize: 12 }}>🚉</Text>
-          </View>
-        </MapLibreGL.PointAnnotation>
-      ))}
-  </MapLibreGL.MapView>
-);
-// Placeholder implementations for missing components
-const ExpoMapView = (props: any) => (
-  <View style={{ flex: 1, backgroundColor: '#e0e0e0' }}>
-    <Text>ExpoMapView</Text>
-  </View>
-);
+import BottomSheetContent from '@/components/BottomSheetContent';
 
 // FAB bullet/burger menu: single main FAB that toggles small action buttons above it
-const FloatingMenu = ({ onRecenter, onHelp, onToggleAccessibility }: any) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <View style={{ alignItems: 'center' }}>
-      {open && (
-        <View style={{ marginBottom: 8, alignItems: 'center' }}>
-          <TouchableOpacity
-            onPress={() => {
-              onRecenter?.();
-              setOpen(false);
-            }}
-            style={{ marginVertical: 6 }}
-            accessibilityLabel="Recenter map"
-          >
-            <View
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 24,
-                backgroundColor: '#4F8EF7',
-                alignItems: 'center',
-                justifyContent: 'center',
-                elevation: 8,
-              }}
-            >
-              <Navigation color="#fff" size={22} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              onHelp?.();
-              setOpen(false);
-            }}
-            style={{ marginVertical: 6 }}
-            accessibilityLabel="Help"
-          >
-            <View
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 24,
-                backgroundColor: '#F7B500',
-                alignItems: 'center',
-                justifyContent: 'center',
-                elevation: 8,
-              }}
-            >
-              <HelpCircle color="#fff" size={22} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              onToggleAccessibility?.();
-              setOpen(false);
-            }}
-            style={{ marginVertical: 6 }}
-            accessibilityLabel="Toggle accessibility mode"
-          >
-            <View
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 24,
-                backgroundColor: '#98DDA1',
-                alignItems: 'center',
-                justifyContent: 'center',
-                elevation: 8,
-              }}
-            >
-              <Accessibility color="#fff" size={22} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <TouchableOpacity onPress={() => setOpen((o) => !o)} accessibilityLabel="Open menu">
-        <View
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 32,
-            backgroundColor: '#2D3748',
-            alignItems: 'center',
-            justifyContent: 'center',
-            elevation: 12,
-          }}
-        >
-          <Menu color="#fff" size={28} />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
+import MapOverlay from '@/components/MapOverlay';
+import { strings } from '@/constants/strings';
 // Removed local BottomSheet placeholder to avoid naming conflict
-const RouteInfoPanel = ({ route, unifiedRoute }: any) => {
-  if (!route && !unifiedRoute) {
-    return (
-      <View style={{ padding: 8 }}>
-        <Text style={{ fontWeight: '600', color: '#4F8EF7' }}>No route selected</Text>
-        <Text style={{ color: '#666', marginTop: 6 }}>
-          Set an origin and destination to see route details here.
-        </Text>
-      </View>
-    );
-  }
 
-  const summary = route?.properties?.summary ?? unifiedRoute?.properties?.summary ?? null;
-
-  return (
-    <View style={{ padding: 8 }}>
-      <Text style={{ fontWeight: '700', fontSize: 16, color: '#0f172a' }}>
-        {route?.name ?? unifiedRoute?.name ?? 'Selected route'}
-      </Text>
-      {summary && (
-        <Text
-          style={{ color: '#374151', marginTop: 6 }}
-        >{`Distance: ${Math.round(((summary.distance ?? 0) / 1000) * 10) / 10} km · Duration: ${Math.round((summary.duration ?? 0) / 60)} min`}</Text>
-      )}
-    </View>
-  );
-};
-
-const SafetyPanel = ({ children }: any) => (
-  <View style={{ padding: 8, backgroundColor: '#FEF3F2', borderRadius: 8, marginVertical: 8 }}>
-    <Text style={{ fontWeight: '700', color: '#B91C1C' }}>Safety tips</Text>
-    <Text style={{ color: '#7F1D1D', marginTop: 6 }}>
-      • Stay on well-lit routes at night
-      {'\n'}• Keep an eye on surroundings and avoid isolated areas
-      {'\n'}• Make sure your child is visible to drivers
-    </Text>
-    {children}
-  </View>
-);
-
-const FunFactCard = ({ fact }: any) => (
-  <View style={{ padding: 8, backgroundColor: '#EEF2FF', borderRadius: 8, marginVertical: 8 }}>
-    <Text style={{ fontWeight: '700', color: '#3730A3' }}>Fun fact</Text>
-    <Text style={{ color: '#3730A3', marginTop: 6 }}>
-      {fact ?? 'Parks make kids happier — take a detour!'}
-    </Text>
-  </View>
-);
-
-const ParentControlsTab = ({ onOpenSettings }: any) => (
-  <View style={{ padding: 8 }}>
-    <Text style={{ fontWeight: '700' }}>Parent Controls</Text>
-    <TouchableOpacity onPress={onOpenSettings} style={{ marginTop: 8 }}>
-      <View
-        style={{
-          padding: 10,
-          backgroundColor: '#fff',
-          borderRadius: 8,
-          borderWidth: 1,
-          borderColor: '#E6E6E6',
-        }}
-      >
-        <Text>Settings</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
 const AnimatedConfetti = () => (
   <View
     style={{
@@ -280,18 +40,21 @@ let BottomSheet: any = null;
 let BottomSheetView: any = null;
 let BottomSheetHandle: any = null;
 let BottomSheetModalProvider: any = ({ children }: any) => children;
-try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const _bs = require('@gorhom/bottom-sheet');
-  BottomSheet = _bs.default ?? _bs;
-  BottomSheetView = _bs.BottomSheetView ?? _bs.BottomSheetView;
-  BottomSheetHandle = _bs.BottomSheetHandle ?? _bs.BottomSheetHandle;
-  BottomSheetModalProvider =
-    _bs.BottomSheetModalProvider ?? _bs.BottomSheetModalProvider ?? BottomSheetModalProvider;
-} catch (e) {
-  // If module isn't present at runtime (e.g. tests), fallback to no-op components
-  BottomSheet = ({ children }: any) => <>{children}</>;
-}
+
+(async () => {
+  try {
+    // Use dynamic import to avoid triggering @typescript-eslint/no-var-requires
+    const _bs = await import('@gorhom/bottom-sheet');
+    const mod = (_bs as any)?.default ?? _bs;
+    BottomSheet = mod ?? BottomSheet;
+    BottomSheetView = (_bs as any)?.BottomSheetView ?? BottomSheetView;
+    BottomSheetHandle = (_bs as any)?.BottomSheetHandle ?? BottomSheetHandle;
+    BottomSheetModalProvider = (_bs as any)?.BottomSheetModalProvider ?? BottomSheetModalProvider;
+  } catch (e) {
+    // If module isn't present at runtime (e.g. tests), fallback to no-op components
+    BottomSheet = ({ children }: any) => <>{children}</>;
+  }
+})();
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/colors';
 import MapWithInfoPanel from '@/components/MapWithInfoPanel';
@@ -300,7 +63,7 @@ import { Route } from '@/types/navigation';
 import { Navigation, MapPin, Search, X, Settings, AlertCircle, Zap } from 'lucide-react-native';
 import useLocation from '@/hooks/useLocation';
 import { findStationById, findNearestStations } from '@/config/transit/nyc-stations';
-import MapLibreRouteView from '@/components/MapLibreRouteView';
+import MapView from '@/components/MapView';
 import { isMapLibreAvailable } from '@/components/MapLibreMap';
 import { useRouteORS } from '@/hooks/useRouteORS';
 import Config from '@/utils/config';
@@ -315,7 +78,7 @@ export default function MapScreen() {
   const [showPreferences, setShowPreferences] = useState(false);
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
-  const mapLibreCameraRef = React.useRef(null);
+  const mapLibreCameraRef = React.useRef<any>(null);
   const {
     origin,
     destination,
@@ -371,6 +134,9 @@ export default function MapScreen() {
     router.push(`/(tabs)/transit` as any);
   };
 
+  const handleAdvancedRouteSelect = (unifiedRoute: any) => {
+    selectUnifiedRoute(unifiedRoute);
+    router.push(`/(tabs)/transit` as any);
     router.push('/(tabs)/transit');
   };
 
@@ -399,7 +165,12 @@ export default function MapScreen() {
   const selectedStation = selectedStationId ? findStationById(selectedStationId) : null;
 
   const mapLibreSupported = useMemo(() => {
-    if (!isMapLibreAvailable) {
+    try {
+      // call the runtime function to check availability without forcing require at import time
+      if (!isMapLibreAvailable()) {
+        return false;
+      }
+    } catch {
       return false;
     }
 
@@ -420,45 +191,17 @@ export default function MapScreen() {
   useEffect(() => {
     if (!mapLibreSupported) {
       console.warn(
-        'MapLibre native module not detected. Falling back to InteractiveMap. Run a development build with the MapLibre module installed to enable advanced map features.',
+        'MapLibre not detected. Using fallback OpenStreetMap. For better performance, run a development build with MapLibre.',
       );
     }
   }, [mapLibreSupported]);
 
-  const useMapLibre = mapLibreSupported;
+  // Priority: MapLibre > Interactive Map (OpenStreetMap)
+  const mapImplementation = useMemo(() => {
+    return mapLibreSupported ? 'maplibre' : 'interactive';
+  }, [mapLibreSupported]);
 
-  const originCoord = useMemo(
-    () =>
-      origin
-        ? ([origin.coordinates.longitude, origin.coordinates.latitude] as [number, number])
-        : undefined,
-    [origin?.coordinates?.longitude, origin?.coordinates?.latitude],
-  );
-
-  const destinationCoord = useMemo(
-    () =>
-      destination
-        ? ([destination.coordinates.longitude, destination.coordinates.latitude] as [
-            number,
-            number,
-          ])
-        : undefined,
-    [destination?.coordinates?.longitude, destination?.coordinates?.latitude],
-  );
-
-  // Get real nearby stations using helper
-  const nearbyStations = useMemo(() => {
-    if (origin?.coordinates) {
-      return findNearestStations(origin.coordinates.latitude, origin.coordinates.longitude, 10).map(
-        (s) => s.station,
-      );
-    }
-    return [];
-  }, [origin?.coordinates?.latitude, origin?.coordinates?.longitude]);
-
-  const { geojson: orsRouteGeoJSON } = useRouteORS(originCoord, destinationCoord, {
-    enabled: Boolean(originCoord && destinationCoord && Config.ROUTING.ORS_API_KEY),
-  });
+  
 
   // ...existing code...
   // Snap points for bottom sheet
@@ -470,43 +213,40 @@ export default function MapScreen() {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           {/* AnimatedConfetti overlays everything */}
           <AnimatedConfetti />
-          {/* MapView fills space above bottom sheet */}
-          <View style={{ flex: 1 }}>
-            <MapLibreMapView
-              origin={origin}
-              destination={destination}
-              route={selectedRoute}
-              showTransitStations={true}
-              stations={nearbyStations}
-              mapStyle={Config.MAP.STYLE_URL ?? 'https://demotiles.maplibre.org/style.json'}
-              onStationPress={handleStationPress}
-            />
-          </View>
-          {/* FloatingControls float above map, not inside it */}
-          <View style={{ position: 'absolute', bottom: 240, right: 24, zIndex: 10 }}>
-            <FloatingMenu
-              onRecenter={() => {
-                // Recenter map to origin (user location)
-                if (origin?.coordinates && globalThis?.mapLibreCameraRef?.current) {
-                  globalThis.mapLibreCameraRef.current.setCamera({
+          <MapView
+            origin={origin}
+            destination={destination}
+            selectedUnifiedRoute={selectedUnifiedRoute}
+            onStationPress={handleStationPress}
+            mapLibreCameraRef={mapLibreCameraRef}
+          />
+          <MapOverlay
+            mapImplementation={mapImplementation}
+            onRecenter={() => {
+              // Recenter map to origin (user location)
+              if (origin?.coordinates && mapLibreCameraRef?.current?.setCamera) {
+                try {
+                  mapLibreCameraRef.current.setCamera({
                     centerCoordinate: [origin.coordinates.longitude, origin.coordinates.latitude],
                     zoomLevel: 15,
                     animationDuration: 800,
                   });
+                } catch (e) {
+                  // Defensive: some test harnesses or fallback map implementations
+                  // may not expose setCamera; ignore failures silently.
+                  console.warn('Recenter failed:', e);
                 }
-              }}
-              onHelp={() => {
-                // Show help modal or info
-                alert(
-                  'Help: Tap stations for info, drag up the panel for details, use accessibility for larger text.',
-                );
-              }}
-              onToggleAccessibility={() => {
-                // Toggle accessibility mode in navigation store
-                setShowPreferences((prev) => !prev);
-              }}
-            />
-          </View>
+              }
+            }}
+            onHelp={() => {
+              // Show help modal or info
+              alert(strings.mapOverlay.help);
+            }}
+            onToggleAccessibility={() => {
+              // Toggle accessibility mode in navigation store
+              setShowPreferences((prev) => !prev);
+            }}
+          />
           {/* Interactive BottomSheet from @gorhom/bottom-sheet */}
           <BottomSheet
             index={0}
@@ -530,15 +270,8 @@ export default function MapScreen() {
               marginVertical: 8,
             }}
           >
-            <BottomSheetView style={{ padding: 16 }}>
-              <RouteInfoPanel />
-              <SafetyPanel />
-              <FunFactCard />
-              <ParentControlsTab />
-              {/* Test content for visibility */}
-              <Text style={{ textAlign: 'center', color: '#4F8EF7', marginTop: 16 }}>
-                BottomSheet is visible!
-              </Text>
+            <BottomSheetView>
+              <BottomSheetContent />
             </BottomSheetView>
           </BottomSheet>
         </View>

@@ -16,10 +16,9 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "forceConsistentCasingInFileNames": true,
-    "ignoreDeprecations": "5.0"
+  "forceConsistentCasingInFileNames": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["templates/**", "bun-tests/**"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
+  "exclude": ["templates/**", "node_modules/**"],
   "extends": "expo/tsconfig.base"
 }
