@@ -24,25 +24,39 @@ function getTimeoutMs() {
 async function main() {
   const timeoutMs = getTimeoutMs();
 
-  // Resolve local eslint binary (use node driver)
+  // Try to resolve a local eslint binary; fall back to using `npx eslint` if
+  // the package's exports do not expose the bin file (some newer eslint
+  // packages don't allow require.resolve on the bin path).
+  let useNpx = false;
   let eslintBin;
   try {
     eslintBin = require.resolve('eslint/bin/eslint.js', { paths: [process.cwd()] });
   } catch (err) {
-    console.error('Unable to resolve local eslint binary. Make sure dependencies are installed.');
-    console.error(err && err.message ? err.message : err);
-    process.exit(2);
+    // Fallback to npx if resolution fails
+    useNpx = true;
   }
 
   const userArgs = process.argv.slice(2);
   const defaultArgs = ['**/*.{ts,tsx}', '--max-warnings=0'];
   const args = userArgs.length ? userArgs : defaultArgs;
 
-  const child = spawn(process.execPath, [eslintBin, ...args], {
-    stdio: 'inherit',
-    cwd: process.cwd(),
-    env: process.env,
-  });
+  let child;
+  if (useNpx) {
+    // Spawn `npx eslint ...`
+    child = spawn('npx', ['eslint', ...args], {
+      stdio: 'inherit',
+      cwd: process.cwd(),
+      env: process.env,
+    });
+  } else {
+    // Spawn Node with the local eslint JS file
+    child = spawn(process.execPath, [eslintBin, ...args], {
+      stdio: 'inherit',
+      cwd: process.cwd(),
+      env: process.env,
+    });
+  }
+
 
   let timedOut = false;
 
