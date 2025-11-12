@@ -3,6 +3,27 @@
 // Run tests in development mode to avoid production crash-reporting side-effects
 global.__DEV__ = true;
 
+// Ensure a global `fetch` exists in the Node test environment. Some CI
+// environments or Node versions may not expose `fetch` to Jest; prefer
+// cross-fetch if available, otherwise fall back to node-fetch.
+try {
+  if (typeof global.fetch === 'undefined') {
+    try {
+      // cross-fetch exports a fetch function
+      // eslint-disable-next-line global-require
+      global.fetch = require('cross-fetch');
+    } catch (e) {
+      // fallback to node-fetch (v2 returns a function)
+      // eslint-disable-next-line global-require
+      global.fetch = require('node-fetch');
+    }
+  }
+} catch (e) {
+  // If no fetch polyfill is available, tests that rely on network calls
+  // should provide their own mocks. We swallow the error to avoid failing
+  // unrelated tests during setup.
+}
+
 // Minimal ErrorUtils shim to satisfy React Native global error handling usage
 // Provides getGlobalHandler and setGlobalHandler used by utils/logger.ts
 global.ErrorUtils = (function () {

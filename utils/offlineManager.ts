@@ -5,10 +5,18 @@ import { log } from './logger';
 import { backendHealthMonitor } from './api';
 
 type OfflineAction = {
+  // Persisted ID
   id: string;
-  type: string;
-  payload: any;
-  timestamp: number;
+  // Primary/action fields (support both modern and legacy names)
+  type?: string; // legacy name (e.g. 'location_update')
+  actionType?: string; // newer name
+  // payload/data (support both names)
+  payload?: any;
+  data?: any;
+  // timestamps
+  timestamp?: number; // legacy
+  createdAt?: number; // newer
+  // retry controls (keep required internally but allow defaults)
   retryCount: number;
   maxRetries: number;
 };

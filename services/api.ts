@@ -101,10 +101,17 @@ export interface EmergencyAlert {
 }
 
 export interface OfflineAction {
-  id: string;
-  actionType: 'location_update' | 'safe_zone_check' | 'emergency_alert';
-  data: any;
-  createdAt: number;
+  // Support both the newer and legacy offline action shapes to maintain
+  // backward compatibility with branches/tests that still construct the
+  // older shape ({ id, type, data, timestamp }).
+  id?: string;
+  // new shape
+  actionType?: 'location_update' | 'safe_zone_check' | 'emergency_alert';
+  data?: any;
+  createdAt?: number;
+  // legacy/alternate fields (kept optional)
+  type?: string;
+  timestamp?: number;
 }
 
 // ============================================================================

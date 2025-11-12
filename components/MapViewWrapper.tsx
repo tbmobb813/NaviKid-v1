@@ -20,6 +20,8 @@ type MapViewWrapperProps = {
   onStationPress?: (stationId: string) => void;
   showTransitStations?: boolean;
   testId?: string;
+  // Backwards-compatible camera ref prop used by some tests/consumers
+  cameraRef?: React.RefObject<any>;
 };
 
 // Helper: lazy-require MapLibre native module (keeps tests/mockability)
@@ -71,6 +73,7 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
   onStationPress,
   showTransitStations = false,
   testId,
+  cameraRef,
 }) => {
   const centerCoordinate = origin?.coordinates
     ? ([origin.coordinates.longitude, origin.coordinates.latitude] as [number, number])
@@ -115,6 +118,7 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
     <View style={styles.container} testID={testId}>
       {/* If MapLibre or MapLibreMapComp not available, render MapLibreMapComp will handle fallback */}
       <MapLibreMapComp
+        ref={cameraRef}
         centerCoordinate={centerCoordinate}
         zoomLevel={12}
         onMapReady={onMapReady}
