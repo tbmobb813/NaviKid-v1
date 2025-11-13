@@ -42,7 +42,7 @@ export const locationService = {
   async checkGeofences(userId, coordinates) {
     const { latitude, longitude } = coordinates
     
-    const { data: safeLocations } = await supabase.rpc('nearby_safe_locations', {
+    await supabase.rpc('nearby_safe_locations', {
       user_id: userId,
       lat: latitude,
       lng: longitude,
