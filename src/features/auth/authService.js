@@ -1,5 +1,6 @@
 // src/features/auth/authService.js
 import { supabase } from '../../lib/supabase'
+import { randomBytes } from 'crypto';
 
 export const authService = {
   // Register a parent user
@@ -25,8 +26,9 @@ export const authService = {
   // Add a child account
   async addChild(parentId, displayName) {
     // Generate a random email/password for the child account
-    const email = `child_${Math.random().toString(36).substring(2)}@navikid.internal`
-    const password = Math.random().toString(36).substring(2)
+    const randomEmailStr = randomBytes(8).toString('hex');
+    const email = `child_${randomEmailStr}@navikid.internal`;
+    const password = randomBytes(12).toString('base64').replace(/[^a-zA-Z0-9]/g, '').slice(0, 16);
     
     const { data, error } = await supabase.auth.signUp({
       email,
