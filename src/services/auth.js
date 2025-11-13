@@ -1,5 +1,6 @@
 // src/services/auth.js
 import { supabase } from '../lib/supabase'
+import crypto from 'crypto';
 
 export const authService = {
   // Register a parent
@@ -37,7 +38,7 @@ export const authService = {
     // Create auth account for child
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email: childEmail,
-      password: Math.random().toString(36).substring(2),
+      password: crypto.randomBytes(16).toString('base64'),
       email_confirm: true
     })
     
