@@ -6,18 +6,14 @@
 
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import apiClient from './api';
+import apiClient, { OfflineAction as ApiOfflineAction } from './api';
 import { log } from '@/utils/logger';
 
 // ============================================================================
 // Types
 // ============================================================================
 
-export interface OfflineAction {
-  id: string;
-  type: 'location_update' | 'safe_zone_check' | 'emergency_alert';
-  data: any;
-  timestamp: number;
+export interface OfflineAction extends ApiOfflineAction {
   retryCount?: number;
 }
 
@@ -111,7 +107,7 @@ class OfflineQueueService {
       this.queue.push(queuedAction);
 
       log.debug('Action added to queue', {
-        type: queuedAction.type,
+        actionType: queuedAction.actionType,
         queueSize: this.queue.length,
       });
 

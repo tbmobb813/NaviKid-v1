@@ -483,7 +483,7 @@ class AuthManager {
 
     try {
       const response = await apiClient.post<{ valid: boolean }>('/auth/verify-pin', { pin });
-      return response.success && response.data.valid;
+      return response.success && response.data?.valid === true;
     } catch (error) {
       log.error('PIN verification error', error as Error);
       return false;

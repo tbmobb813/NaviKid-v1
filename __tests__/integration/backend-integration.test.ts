@@ -340,25 +340,25 @@ describe('Backend Integration Tests', () => {
       const offlineActions = [
         {
           id: '1',
-          type: 'location_update' as const,
+          actionType: 'location_update' as const,
           data: {
             latitude: 40.7128,
             longitude: -74.006,
             accuracy: 10,
             timestamp: Date.now(),
           },
-          timestamp: Date.now(),
+          createdAt: Date.now(),
         },
         {
           id: '2',
-          type: 'location_update' as const,
+          actionType: 'location_update' as const,
           data: {
             latitude: 40.7129,
             longitude: -74.007,
             accuracy: 15,
             timestamp: Date.now(),
           },
-          timestamp: Date.now(),
+          createdAt: Date.now(),
         },
       ];
 

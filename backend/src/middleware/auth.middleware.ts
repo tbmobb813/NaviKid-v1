@@ -2,14 +2,6 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import authService from '../services/auth.service';
 import config from '../config';
 import logger from '../utils/logger';
-import { JWTPayload } from '../types';
-
-// Extend FastifyRequest to include user
-declare module 'fastify' {
-  interface FastifyRequest {
-    user?: JWTPayload;
-  }
-}
 
 /**
  * Authentication middleware

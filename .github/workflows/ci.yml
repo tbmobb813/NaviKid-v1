@@ -22,6 +22,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm ci
+      - name: Install backend dependencies
+        run: cd backend && npm ci && cd ..
       - name: Run markdownlint on docs
         # Lint only the canonical docs folder to reduce noise from historical files.
         # Mark non-blocking so the pipeline doesn't fail while we gradually clean up

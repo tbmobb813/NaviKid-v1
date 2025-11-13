@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install backend dependencies
+        run: cd backend && npm ci && cd ..
+
       - name: Run tests
         run: npm test -- --runInBand
         env:

@@ -46,6 +46,22 @@ try {
   // ignore if util is not available in some environments
 }
 
+// Polyfill fetch for backend integration tests
+// Node 18+ has global fetch, but Jest may not expose it by default
+if (typeof global.fetch === 'undefined') {
+  try {
+    // Use undici to provide fetch API in test environment
+    const { fetch, Headers, Request, Response } = require('undici');
+    global.fetch = fetch;
+    global.Headers = Headers;
+    global.Request = Request;
+    global.Response = Response;
+  } catch (e) {
+    // If undici is not available, log a warning
+    console.warn('Warning: fetch API not available in test environment. Backend integration tests may fail.');
+  }
+}
+
 // Increase default test timeout globally to accommodate tests that use timers
 if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
   jest.setTimeout(60000);

@@ -18,6 +18,8 @@ jobs:
           node-version: 20
       - name: Install dependencies (npm)
         run: npm ci
+      - name: Install backend dependencies
+        run: cd backend && npm ci && cd ..
       - name: Run frontend tests (produce junit)
         env:
           JEST_JUNIT_OUTPUT: frontend-junit.xml
@@ -44,6 +46,8 @@ jobs:
           node-version: 20
       - name: Install dependencies (npm)
         run: npm ci
+      - name: Install backend dependencies
+        run: cd backend && npm ci && cd ..
       - name: Run server tests (produce junit)
         env:
           JEST_JUNIT_OUTPUT: server-junit.xml

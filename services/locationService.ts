@@ -212,9 +212,9 @@ class LocationService {
 
       // Queue for offline sync
       await offlineQueue.addAction({
-        type: 'location_update',
+        actionType: 'location_update',
         data: location,
-        timestamp: Date.now(),
+        createdAt: Date.now(),
       });
     }
   }
