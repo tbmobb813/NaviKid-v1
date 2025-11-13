@@ -42,6 +42,21 @@ try {
   // ignore if util is not available in some environments
 }
 
+// Polyfill fetch for backend integration tests
+// Jest/JSDOM doesn't provide fetch by default
+if (typeof global.fetch === 'undefined') {
+  try {
+    const { fetch, Headers, Request, Response, FormData } = require('undici');
+    global.fetch = fetch;
+    global.Headers = Headers;
+    global.Request = Request;
+    global.Response = Response;
+    global.FormData = FormData;
+  } catch (e) {
+    console.warn('Warning: Could not load fetch polyfill. Backend integration tests may fail.');
+  }
+}
+
 // Increase default test timeout globally to accommodate tests that use timers
 if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
   jest.setTimeout(60000);
