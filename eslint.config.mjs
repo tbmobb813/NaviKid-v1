@@ -1,8 +1,15 @@
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import prettierPlugin from 'eslint-plugin-prettier';
+import { createRequire } from 'module';
+
+// Use createRequire so the config can load plugins/parsers that may be
+// CommonJS-only. This avoids ERR_MODULE_NOT_FOUND when Node tries to ESM-import
+// packages that don't expose ESM entry points in certain CI/install setups.
+const require = createRequire(import.meta.url);
+
+const tsParser = require('@typescript-eslint/parser');
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const reactPlugin = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const prettierPlugin = require('eslint-plugin-prettier');
 
 export default [
   {
