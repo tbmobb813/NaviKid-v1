@@ -144,6 +144,12 @@ export const config = {
     level: env.LOG_LEVEL,
     pretty: env.LOG_PRETTY,
   },
+
+  supabase: {
+    url: env.DATABASE_URL || process.env.SUPABASE_URL || undefined,
+    anonKey: process.env.SUPABASE_ANON_KEY || undefined,
+    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
+  },
 } as const;
 
 // Type export for use throughout the application
