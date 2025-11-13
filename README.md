@@ -1,7 +1,6 @@
-# Kid-Friendly Map & Transit Navigator
+# Family Adventure & Discovery Map
 
-This repository contains an Expo React Native application focused on kid-friendly
-navigation, safety features, and transit info.
+This repository contains an Expo React Native application designed for families to discover new places, embark on fun adventures, and explore their city together.
 
 [![CI Lite](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml)
 [![CI Full](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml)
@@ -97,12 +96,13 @@ EXPO_PUBLIC_ORS_PROFILE=foot-walking                # Default routing profile
 EXPO_PUBLIC_ORS_TIMEOUT=15000                       # Request timeout in ms
 ```
 
-**MapLibre Integration:**
+**Map & Routing Integration:**
 
-- **Mobile platforms** (iOS/Android): Uses native MapLibre GL with configurable styles
-- **Web platform**: Falls back to Leaflet-based InteractiveMap for broader compatibility
-- **Route visualization**: Integrates with OpenRouteService for walking/transit directions
-- **Transit stations**: Shows NYC subway/bus stations with safety ratings and live arrivals
+- **Mobile platforms** (iOS/Android): Uses native MapLibre GL with configurable styles.
+- **Web platform**: Falls back to a Leaflet-based InteractiveMap for broader compatibility.
+- **Route visualization**: Integrates with OpenRouteService for walking/transit directions to your next adventure.
+- **Points of Interest**: Highlights family-friendly locations like parks, museums, and playgrounds.
+- **Transit Integration**: Shows real-time arrivals for public transit, making it easy to plan family outings.
 
 ## Monitoring & Crash Reporting
 
@@ -117,36 +117,23 @@ Notes:
 
 - See `CI_FIX_SUMMARY.md` → "Active GitHub Actions workflows" for a compact reference of which workflow runs what and how to trigger manual/heavy jobs.
 
-## Strategic Planning & Roadmap
+## Project Vision & Status
 
-**New!** Comprehensive strategic documentation suite available:
+This project aims to make urban exploration fun and accessible for the whole family. By combining interactive maps with gamified achievements, we encourage curiosity and create shared experiences.
 
-- **[docs/ONE_PAGER.md](docs/ONE_PAGER.md)** - Quick overview (2 min read)
-- **[docs/EXECUTIVE_SUMMARY.md](docs/EXECUTIVE_SUMMARY.md)** - Leadership summary (5 min)
-- **[docs/QUICK_REFERENCE_ACTION_PLAN.md](docs/QUICK_REFERENCE_ACTION_PLAN.md)** - Action checklists (10 min)
-- **[docs/90_DAY_ROADMAP.md](docs/90_DAY_ROADMAP.md)** - Visual timeline (10 min)
-- **[docs/STRATEGIC_ROADMAP_ALIGNMENT.md](docs/STRATEGIC_ROADMAP_ALIGNMENT.md)** - Complete analysis (60 min)
-- **[docs/INDEX.md](docs/INDEX.md)** - Documentation hub
+- **Technical Status:** The application is in active development, with a robust technical foundation, 70%+ test coverage, and operational CI/CD.
+- **Feature Status:** Core features for mapping, routing, and transit are implemented. The next phase focuses on expanding our points-of-interest database and enhancing the "Achievements" system.
+- **Next Phase:** We are preparing for an initial beta test with a small group of families to gather feedback and refine the user experience.
 
-**Key Insights:**
-
-- ✅ Product is production-ready with 100% roadmap completion + bonuses
-- 🎯 90-day plan to beta launch with 100+ families
-- 💰 $20K-40K investment needed for research, compliance, backend
-- 🚀 Strong market position (28.4% CAGR, clear differentiation)
-
-See `docs/CONVERSATION_SUMMARY.md` for complete overview of strategic review.
-
-## Project Status
-
-- **Technical Status:** Production ready, 70%+ test coverage, CI/CD operational
-- **Feature Status:** All roadmap phases complete (see `FINAL_IMPLEMENTATION_SUMMARY.md`)
-- **Next Phase:** User research validation, compliance documentation, beta launch
-- **Documentation:** See `COMPREHENSIVE_PROJECT_STATUS.md` for detailed status
+See the `docs/` directory for more detailed planning and historical documents.
 
 ## Contributing
 
 See `docs/TESTING_GUIDE.md` and `docs/PERFORMANCE_OPTIMIZATION.md` for developer guidance.
+
+## Acknowledgements
+
+We extend our sincere gratitude to rork for their foundational contributions and support in the early stages of this project.
 
 ## Testing (three suites)
 

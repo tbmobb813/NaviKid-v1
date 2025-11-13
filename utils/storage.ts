@@ -12,22 +12,6 @@
 
 import type { MMKV } from 'react-native-mmkv';
 import { createMMKV } from 'react-native-mmkv';
-
-// Type assertion helper to ensure createMMKV returns correct type
-const createTypedMMKV = (config?: Parameters<typeof createMMKV>[0]): MMKV => {
-  const instance = createMMKV(config);
-  
-  // Runtime check to ensure the instance has expected MMKV methods
-  if (typeof instance.set !== 'function' || 
-      typeof instance.getString !== 'function' ||
-      typeof instance.getNumber !== 'function' ||
-      typeof instance.getBoolean !== 'function' ||
-      typeof instance.remove !== 'function') {
-    throw new Error('createMMKV did not return a valid MMKV instance');
-  }
-  
-  return instance as MMKV;
-};
 import { log } from './logger';
 
 type StorageInstance = {
@@ -100,7 +84,7 @@ class MemoryStorage implements StorageInstance {
 type StorageDriver = 'mmkv' | 'memory';
 
 const createStorageInstance = (
-  config?: Parameters<typeof createMMKV>[0],
+  config?: ConstructorParameters<typeof MMKV>[0],
 ): { instance: StorageInstance; driver: StorageDriver } => {
   const label = config?.id ?? 'default';
 
@@ -116,14 +100,7 @@ const createStorageInstance = (
     log.warn(
       `MMKV native module unavailable for ${label}. Falling back to in-memory storage. Persistent data will reset between sessions.`,
       {
-        error: error instanceof Error
-          ? {
-              name: error.name,
-              message: error.message,
-            }
-          : {
-              message: String(error),
-            },
+        error: error instanceof Error ? { name: error.name, message: error.message } : { message: String(error) },
       },
     );
     return { instance: new MemoryStorage(label), driver: 'memory' };
