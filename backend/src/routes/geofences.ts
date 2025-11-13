@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { query, transaction } from '../db/connection';
+import { query } from '../db/connection';
 import { getAuthUser } from '../utils/auth';
 
 // Request schemas
