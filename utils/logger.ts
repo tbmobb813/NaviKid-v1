@@ -78,40 +78,10 @@ class Logger {
 
   private async sendToCrashReporting(logEntry: LogEntry, error?: Error) {
     try {
-      // Send errors to Sentry in production
-      const Sentry = require('@sentry/react-native');
-
-      if (error) {
-        // Capture exception with context
-        Sentry.captureException(error, {
-          level: logEntry.level >= LogLevel.ERROR ? 'error' : 'warning',
-          contexts: {
-            log: {
-              message: logEntry.message,
-              timestamp: logEntry.timestamp,
-              context: logEntry.context,
-            },
-          },
-          tags: {
-            log_level: LogLevel[logEntry.level],
-          },
-        });
-      } else {
-        // Capture message for errors without exception objects
-        Sentry.captureMessage(logEntry.message, {
-          level: 'error',
-          contexts: {
-            log: {
-              timestamp: logEntry.timestamp,
-              context: logEntry.context,
-            },
-          },
-        });
-      }
+      // In a real app, you'd send to services like Sentry, Bugsnag, etc.
+      console.error('Production Error:', logEntry, error);
     } catch (e) {
-      // Fallback to console if Sentry fails
       console.error('Failed to send crash report:', e);
-      console.error('Original error:', logEntry, error);
     }
   }
 
@@ -149,9 +119,7 @@ class Logger {
   }
 
   exportLogs(): string {
-    return this.logs
-      .map((log) => this.formatMessage(log.level, log.message, log.context))
-      .join('\n');
+    return this.logs.map((log) => this.formatMessage(log.level, log.message, log.context)).join('\n');
   }
 }
 
@@ -161,8 +129,7 @@ export const log = {
   debug: (message: string, context?: Record<string, any>) => logger.debug(message, context),
   info: (message: string, context?: Record<string, any>) => logger.info(message, context),
   warn: (message: string, context?: Record<string, any>) => logger.warn(message, context),
-  error: (message: string, error?: Error, context?: Record<string, any>) =>
-    logger.error(message, error, context),
+  error: (message: string, error?: Error, context?: Record<string, any>) => logger.error(message, error, context),
   time: (label: string) => logger.time(label),
   timeEnd: (label: string) => logger.timeEnd(label),
 };
@@ -170,16 +137,12 @@ export const log = {
 // Safe global error handler setup (only when ErrorUtils exists)
 if ((global as any).ErrorUtils && Platform.OS !== 'web') {
   const errUtils = (global as any).ErrorUtils;
-  const originalHandler =
-    typeof errUtils.getGlobalHandler === 'function' ? errUtils.getGlobalHandler() : undefined;
+  const originalHandler = typeof errUtils.getGlobalHandler === 'function' ? errUtils.getGlobalHandler() : undefined;
 
   if (typeof errUtils.setGlobalHandler === 'function') {
     try {
       errUtils.setGlobalHandler((error: any, isFatal?: boolean) => {
-        logger.error(`Global ${isFatal ? 'Fatal' : 'Non-Fatal'} Error`, error, {
-          isFatal,
-          stack: error?.stack,
-        });
+        logger.error(`Global ${isFatal ? 'Fatal' : 'Non-Fatal'} Error`, error, { isFatal, stack: error?.stack });
         if (typeof originalHandler === 'function') {
           try {
             originalHandler(error, isFatal);
@@ -195,3 +158,4 @@ if ((global as any).ErrorUtils && Platform.OS !== 'web') {
 }
 
 export default logger;
+

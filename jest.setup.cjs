@@ -3,6 +3,27 @@
 // Run tests in development mode to avoid production crash-reporting side-effects
 global.__DEV__ = true;
 
+// Ensure a global `fetch` exists in the Node test environment. Some CI
+// environments or Node versions may not expose `fetch` to Jest; prefer
+// cross-fetch if available, otherwise fall back to node-fetch.
+try {
+  if (typeof global.fetch === 'undefined') {
+    try {
+      // cross-fetch exports a fetch function
+      // eslint-disable-next-line global-require
+      global.fetch = require('cross-fetch');
+    } catch (e) {
+      // fallback to node-fetch (v2 returns a function)
+      // eslint-disable-next-line global-require
+      global.fetch = require('node-fetch');
+    }
+  }
+} catch (e) {
+  // If no fetch polyfill is available, tests that rely on network calls
+  // should provide their own mocks. We swallow the error to avoid failing
+  // unrelated tests during setup.
+}
+
 // Minimal ErrorUtils shim to satisfy React Native global error handling usage
 // Provides getGlobalHandler and setGlobalHandler used by utils/logger.ts
 global.ErrorUtils = (function () {
@@ -31,6 +52,7 @@ try {
   // Use require to avoid top-level failures if the package isn't installed.
   // If it's not available, this will throw and we'll silently continue.
   // Tests that actually rely on reanimated may still need the package installed.
+  // eslint-disable-next-line global-require
   jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 } catch (e) {
   // ignore if reanimated isn't installed in the environment running tests
@@ -54,6 +76,7 @@ if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
 // Some older JS tests call error handling helpers without importing them.
 // Make the common error handling utilities available globally to avoid fragile test order dependencies.
 try {
+  // eslint-disable-next-line global-require
   const errorHandling = require('./utils/errorHandling');
 
   if (errorHandling) {
@@ -96,7 +119,8 @@ const _safeErrorLogger = (...args) => {
     }
 
     // Fallback to console.log which is less likely to throw in test environments
-  if (typeof console.log === 'function') console.log(...args);
+    // eslint-disable-next-line no-console
+    if (typeof console.log === 'function') console.log(...args);
   } catch (e) {
     // Intentionally swallow any errors to avoid crashing the test runner
   }

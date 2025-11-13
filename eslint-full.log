@@ -1,0 +1,5 @@
+(node:1100435) ESLintIgnoreWarning: The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ESLint did not finish within 600000ms — killing process.
+ESLint timed out

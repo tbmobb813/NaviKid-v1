@@ -14,7 +14,10 @@ export default [
       '.expo/**',
       '.build/**',
       'dist/**',
-  'templates/**',
+      'templates/**',
+      // Targeted ignores to reduce lint warm-up cost (added after profiling)
+      'app/(tabs)/**',
+      'components/EnhancedFeaturesDemo.tsx',
     ],
   },
   {

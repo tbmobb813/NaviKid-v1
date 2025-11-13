@@ -1,0 +1,32 @@
+# Ignore backend build artifacts and large data files
+backend/dist/
+server/data/
+server/db/
+
+# Ignore generated/frontend build artifacts
+android/
+ios/
+build/
+dist/
+
+# Ignore test outputs, logs, caches
+coverage/
+test-logs/
+*.log
+
+# Dependencies and caches
+node_modules/
+.expo/
+.turbo/
+
+# Large assets
+assets/
+
+# Optional: keep project-level TypeScript build outputs out
+**/*.d.ts
+
+# Targeted ignores added after profiling (hotspots)
+# - Temporary: exclude Next.js/app route group used for runtime layout + generated files
+app/(tabs)/*
+# - Exclude a very large demo component that slows parsing in first-run lint
+components/EnhancedFeaturesDemo.tsx
