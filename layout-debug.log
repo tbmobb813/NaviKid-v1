@@ -1,0 +1,43 @@
+2025-11-12T18:25:54.725Z eslint:cli CLI args: [ '--debug', 'app/(tabs)/_layout.tsx' ]
+2025-11-12T18:25:54.727Z eslint:cli Using flat config? true
+2025-11-12T18:25:54.738Z eslint:cli Running on files
+2025-11-12T18:25:54.741Z eslint:eslint Using config loader LegacyConfigLoader
+2025-11-12T18:25:54.743Z eslint:eslint Using file patterns: app/(tabs)/_layout.tsx
+2025-11-12T18:25:54.744Z eslint:eslint Deleting cache file at /home/nixstation-remote/Projects/NaviKid-v1/.eslintcache
+(node:1083967) ESLintIgnoreWarning: The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+(Use `node --trace-warnings ...` to show where the warning was created)
+2025-11-12T18:25:54.748Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:25:54.748Z eslint:config-loader Searching for eslint.config.js
+2025-11-12T18:25:54.753Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:25:54.754Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-12T18:25:54.755Z eslint:config-loader Calculating config array from config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-12T18:25:54.757Z eslint:config-loader Loading config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js
+2025-11-12T18:25:54.757Z eslint:config-loader Loading config from /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js
+2025-11-12T18:25:54.758Z eslint:config-loader Config file URL is file:///home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js
+2025-11-12T18:25:55.912Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2025-11-12T18:25:55.942Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2025-11-12T18:25:55.951Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2025-11-12T18:25:55.953Z eslint:rules Loading rule 'max-params' (remaining=288)
+2025-11-12T18:25:56.009Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2025-11-12T18:25:56.018Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2025-11-12T18:25:56.040Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2025-11-12T18:25:56.043Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2025-11-12T18:25:56.045Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2025-11-12T18:25:56.047Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2025-11-12T18:25:56.093Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2025-11-12T18:25:56.288Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2025-11-12T18:25:56.295Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2025-11-12T18:25:56.321Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+2025-11-12T18:25:57.195Z eslint:config-loader Config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.js is not empty
+2025-11-12T18:25:57.197Z eslint:eslint 1 file(s) found in 2451 ms
+2025-11-12T18:25:57.197Z eslint:eslint Linting in single-thread mode.
+2025-11-12T18:25:57.198Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:25:57.198Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-12T18:25:57.227Z eslint:eslint-helpers File "/home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx" read in 2 ms
+2025-11-12T18:25:57.228Z eslint:linter Linting code for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx (pass 1)
+2025-11-12T18:25:57.229Z eslint:linter Verify
+2025-11-12T18:25:57.229Z eslint:linter With flat config: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:25:57.231Z eslint:languages:js Parsing: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:26:06.713Z eslint:languages:js Parsing successful: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:26:06.714Z eslint:languages:js Scope analysis: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-12T18:26:06.714Z eslint:languages:js Scope analysis successful: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx

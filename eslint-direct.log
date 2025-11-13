@@ -1,0 +1,5 @@
+2025-11-12T19:10:02.372Z eslint:cli CLI args: [ '--debug', '--parallel', 'app/**/*.{ts,tsx,js,jsx}', 'components/**/*.{ts,tsx,js,jsx}', 'hooks/**/*.{ts,tsx,js,jsx}', 'utils/**/*.{ts,tsx,js,jsx}', '--cache', '--max-warnings=0' ]
+2025-11-12T19:10:02.375Z eslint:cli Using flat config? true
+2025-11-12T19:10:02.387Z eslint:cli Error parsing CLI options: Invalid option '--parallel' - perhaps you meant '--parser'?
+Invalid option '--parallel' - perhaps you meant '--parser'?
+You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details.
