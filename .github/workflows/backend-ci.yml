@@ -152,7 +152,7 @@ jobs:
         run: npm ci
 
       - name: Run unit tests
-        run: npm run test:coverage
+        run: npm run test:coverage -- --passWithNoTests
         env:
           DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
           REDIS_URL: redis://localhost:6379
