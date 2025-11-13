@@ -48,7 +48,9 @@
     "gradle:dependencies": "./gradlew dependencies",
     "gradle:dependencyUpdates": "./gradlew dependencyUpdates",
     "gradle:clean": "./gradlew clean",
-    "gradle:build": "./gradlew build"
+    "gradle:build": "./gradlew build",
+  "lint:progress": "node scripts/lint-perfile.cjs",
+  "typecheck:progress": "node scripts/run-typecheck.cjs"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",

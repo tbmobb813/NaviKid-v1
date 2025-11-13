@@ -140,80 +140,117 @@ export async function authRoutes(server: FastifyInstance) {
    * POST /api/auth/login
    * User login
    */
-  server.post('/login',
+  // Simple in-memory rate limiting for login (per-IP and per-account) to mitigate brute force.
+  // Note: In-memory limits reset on process restart. For clustered deployments, use a shared store.
+  const ipLoginAttempts = new Map<string, { count: number; first: number }>();
+  const accountLoginAttempts = new Map<string, { count: number; first: number }>();
+
+  server.post(
+    '/login',
     {
       config: {
         rateLimit: {
-          max: 5, // max 5 requests
-          timeWindow: '1 minute', // per minute per IP
-        }
-      }
+          max: 5, // plugin-level: max 5 requests
+          timeWindow: 60 * 1000, // plugin-level: 1 minute (ms)
+        },
+      },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const body = loginSchema.parse(request.body);
+      const ip = getClientIP(request);
+      const now = Date.now();
 
-    // Find user
-    const result = await query(
-      `SELECT id, email, password_hash, role, first_name, last_name, is_active
+      const WINDOW_MS = 60 * 1000; // 1 minute
+      const THRESHOLD = 5;
+
+      const bump = (map: Map<string, { count: number; first: number }>, key: string) => {
+        const entry = map.get(key);
+        if (!entry || now - entry.first > WINDOW_MS) {
+          map.set(key, { count: 1, first: now });
+          return 1;
+        }
+        entry.count += 1;
+        map.set(key, entry);
+        return entry.count;
+      };
+
+      // Check IP attempts
+      if (bump(ipLoginAttempts, ip) > THRESHOLD) {
+        return reply.code(429).send('Too many login attempts from this IP. Try again later.');
+      }
+
+      // Check account (email) attempts
+      if (bump(accountLoginAttempts, body.email) > THRESHOLD) {
+        return reply.code(429).send('Too many login attempts for this account. Try again later.');
+      }
+
+      // Find user
+      const result = await query(
+        `SELECT id, email, password_hash, role, first_name, last_name, is_active
        FROM users
        WHERE email = $1`,
-      [body.email]
-    );
+        [body.email]
+      );
 
-    if (result.rowCount === 0) {
-      return reply.unauthorized('Invalid email or password');
-    }
+      if (result.rowCount === 0) {
+        return reply.unauthorized('Invalid email or password');
+      }
 
-    const user = result.rows[0];
+      const user = result.rows[0];
 
-    // Check if user is active
-    if (!user.is_active) {
-      return reply.forbidden('Account is disabled');
-    }
+      // Check if user is active
+      if (!user.is_active) {
+        return reply.forbidden('Account is disabled');
+      }
 
-    // Verify password
-    const isValid = await verifyPassword(body.password, user.password_hash);
-    if (!isValid) {
-      return reply.unauthorized('Invalid email or password');
-    }
+      // Verify password
+      const isValid = await verifyPassword(body.password, user.password_hash);
+      if (!isValid) {
+        return reply.unauthorized('Invalid email or password');
+      }
 
-    // Update last login
-    await query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
+      // Successful login: clear attempt counters for IP and account
+      ipLoginAttempts.delete(ip);
+      accountLoginAttempts.delete(body.email);
 
-    // Generate JWT tokens
-    const payload: JWTPayload = {
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-    };
+      // Update last login
+      await query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
 
-    const accessToken = server.jwt.sign(payload);
-    const refreshToken = generateToken();
-
-    // Store refresh token
-    const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-    await query(
-      `INSERT INTO refresh_tokens (user_id, token, expires_at, ip_address, user_agent)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [user.id, refreshToken, refreshExpiresAt, getClientIP(request), getUserAgent(request)]
-    );
-
-    reply.send({
-      message: 'Login successful',
-      user: {
-        id: user.id,
+      // Generate JWT tokens
+      const payload: JWTPayload = {
+        userId: user.id,
         email: user.email,
         role: user.role,
-        firstName: user.first_name,
-        lastName: user.last_name,
-      },
-      tokens: {
-        accessToken,
-        refreshToken,
-        expiresIn: config.jwt.accessExpiresIn,
-      },
-    });
-  });
+      };
+
+      const accessToken = server.jwt.sign(payload);
+      const refreshToken = generateToken();
+
+      // Store refresh token
+      const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+      await query(
+        `INSERT INTO refresh_tokens (user_id, token, expires_at, ip_address, user_agent)
+       VALUES ($1, $2, $3, $4, $5)`,
+        [user.id, refreshToken, refreshExpiresAt, getClientIP(request), getUserAgent(request)]
+      );
+
+      reply.send({
+        message: 'Login successful',
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          firstName: user.first_name,
+          lastName: user.last_name,
+        },
+        tokens: {
+          accessToken,
+          refreshToken,
+          expiresIn: config.jwt.accessExpiresIn,
+        },
+      });
+    }
+  );
 
   /**
    * POST /api/auth/refresh
