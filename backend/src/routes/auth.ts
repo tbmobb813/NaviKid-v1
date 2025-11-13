@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { query, transaction } from '../db/connection';
+import rateLimit from '@fastify/rate-limit';
 import {
   hashPassword,
   verifyPassword,
@@ -41,6 +42,12 @@ const resetPasswordSchema = z.object({
 });
 
 export async function authRoutes(server: FastifyInstance) {
+  // Register the rate limit plugin if not already registered
+  // (Safe to register repeatedly, Fastify will handle it)
+  // Make sure not to register globally elsewhere, or remove this if globally registered.
+  // See: https://github.com/fastify/fastify-rate-limit
+  await server.register(rateLimit);
+
   /**
    * POST /api/auth/register
    * Register a new user
@@ -133,8 +140,17 @@ export async function authRoutes(server: FastifyInstance) {
    * POST /api/auth/login
    * User login
    */
-  server.post('/login', async (request: FastifyRequest, reply: FastifyReply) => {
-    const body = loginSchema.parse(request.body);
+  server.post('/login',
+    {
+      config: {
+        rateLimit: {
+          max: 5, // max 5 requests
+          timeWindow: '1 minute', // per minute per IP
+        }
+      }
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const body = loginSchema.parse(request.body);
 
     // Find user
     const result = await query(
