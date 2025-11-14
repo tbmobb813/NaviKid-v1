@@ -10,8 +10,7 @@
  * - Encryption support
  */
 
-import type { MMKV } from 'react-native-mmkv';
-import { createMMKV } from 'react-native-mmkv';
+import { MMKV, createMMKV } from 'react-native-mmkv';
 import { log } from './logger';
 
 type StorageInstance = {
@@ -84,7 +83,7 @@ class MemoryStorage implements StorageInstance {
 type StorageDriver = 'mmkv' | 'memory';
 
 const createStorageInstance = (
-  config?: ConstructorParameters<typeof MMKV>[0],
+  config?: Parameters<typeof createMMKV>[0],
 ): { instance: StorageInstance; driver: StorageDriver } => {
   const label = config?.id ?? 'default';
 
