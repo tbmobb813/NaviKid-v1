@@ -122,19 +122,20 @@ async function buildServer() {
   await fastify.register(offlineRoutes);
 
   // WebSocket route for real-time location updates
-  fastify.get('/ws/locations', { websocket: true }, (socket, req) => {
+  // @ts-ignore
+  fastify.get('/ws/locations', { websocket: true }, (connection, req) => {
     logger.info({
-      url: req.url,
-      ip: req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+      ip: (req as any).socket?.remoteAddress,
+      headers: req.headers,
     }, 'WebSocket connection established');
 
-    socket.on('message', (message: any) => {
+    (connection as any).socket.on('message', (message: any) => {
       try {
         const data = JSON.parse(message.toString());
         logger.debug({ data }, 'WebSocket message received');
 
         // Echo back for now (implement real-time logic later)
-        socket.send(
+        (connection as any).socket.send(
           JSON.stringify({
             type: 'ack',
             timestamp: new Date(),
@@ -146,11 +147,11 @@ async function buildServer() {
       }
     });
 
-    socket.on('close', () => {
+    (connection as any).socket.on('close', () => {
       logger.info('WebSocket connection closed');
     });
 
-    socket.on('error', (error: any) => {
+    (connection as any).socket.on('error', (error: any) => {
       logger.error({ error  }, 'WebSocket error');
     });
   });

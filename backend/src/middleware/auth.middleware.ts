@@ -5,13 +5,6 @@ import logger from '../utils/logger';
 import { JWTPayload } from '../types';
 
 // Extend FastifyRequest to include user
-declare module 'fastify' {
-  interface FastifyRequest {
-    // Use a non-optional declaration but allow undefined to avoid
-    // conflicts with other augmentations that may declare `user`.
-    user: JWTPayload | undefined;
-  }
-}
 
 /**
  * Authentication middleware
