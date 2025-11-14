@@ -46,7 +46,9 @@ export async function authRoutes(server: FastifyInstance) {
   // (Safe to register repeatedly, Fastify will handle it)
   // Make sure not to register globally elsewhere, or remove this if globally registered.
   // See: https://github.com/fastify/fastify-rate-limit
-  await server.register(rateLimit);
+  await server.register(rateLimit, {
+    global: false, // Only use per-route rate limiting unless global is desired
+  });
 
   /**
    * POST /api/auth/register
@@ -140,50 +142,24 @@ export async function authRoutes(server: FastifyInstance) {
    * POST /api/auth/login
    * User login
    */
-  // Simple in-memory rate limiting for login (per-IP and per-account) to mitigate brute force.
-  // Note: In-memory limits reset on process restart. For clustered deployments, use a shared store.
-  const ipLoginAttempts = new Map<string, { count: number; first: number }>();
-  const accountLoginAttempts = new Map<string, { count: number; first: number }>();
+  // Use Fastify's built-in rate limit plugin on this route, plugin handles per-IP rate limiting.
 
   server.post(
     '/login',
     {
       config: {
         rateLimit: {
-          max: 5, // plugin-level: max 5 requests
-          timeWindow: 60 * 1000, // plugin-level: 1 minute (ms)
+          max: 5, // max 5 requests per time window per IP
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function(req, context) {
+            // Custom error message
+            return { error: 'Too many login attempts. Please try again later.' };
+          },
         },
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const body = loginSchema.parse(request.body);
-      const ip = getClientIP(request);
-      const now = Date.now();
-
-      const WINDOW_MS = 60 * 1000; // 1 minute
-      const THRESHOLD = 5;
-
-      const bump = (map: Map<string, { count: number; first: number }>, key: string) => {
-        const entry = map.get(key);
-        if (!entry || now - entry.first > WINDOW_MS) {
-          map.set(key, { count: 1, first: now });
-          return 1;
-        }
-        entry.count += 1;
-        map.set(key, entry);
-        return entry.count;
-      };
-
-      // Check IP attempts
-      if (bump(ipLoginAttempts, ip) > THRESHOLD) {
-        return reply.code(429).send('Too many login attempts from this IP. Try again later.');
-      }
-
-      // Check account (email) attempts
-      if (bump(accountLoginAttempts, body.email) > THRESHOLD) {
-        return reply.code(429).send('Too many login attempts for this account. Try again later.');
-      }
-
+      const body = loginSchema.parse(request.body);        
       // Find user
       const result = await query(
         `SELECT id, email, password_hash, role, first_name, last_name, is_active
@@ -209,9 +185,7 @@ export async function authRoutes(server: FastifyInstance) {
         return reply.unauthorized('Invalid email or password');
       }
 
-      // Successful login: clear attempt counters for IP and account
-      ipLoginAttempts.delete(ip);
-      accountLoginAttempts.delete(body.email);
+      // Successful login: Nothing needed, rate limiting handled by plugin.
 
       // Update last login
       await query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
