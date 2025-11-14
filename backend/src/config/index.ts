@@ -97,6 +97,7 @@ export const config = {
   server: {
     port: env.PORT,
     host: env.HOST,
+    nodeEnv: env.NODE_ENV,
   },
 
   database: {
