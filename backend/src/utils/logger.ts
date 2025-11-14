@@ -24,3 +24,6 @@ export const logger = pino({
 export function createLogger(context: Record<string, any>) {
   return logger.child(context);
 }
+
+// Provide a default export for modules that import the logger as default
+export default logger;

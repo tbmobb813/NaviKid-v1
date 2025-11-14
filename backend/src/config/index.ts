@@ -104,10 +104,21 @@ export const config = {
     ssl: env.DB_SSL,
     poolMin: env.DB_POOL_MIN,
     poolMax: env.DB_POOL_MAX,
+    // Backwards-compatible fields used across the codebase
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    name: env.DB_NAME,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
   },
 
   redis: {
     url: getRedisUrl(),
+    // Backwards-compatible fields used across the codebase
+    host: env.REDIS_HOST,
+    port: env.REDIS_PORT,
+    password: env.REDIS_PASSWORD,
+    db: env.REDIS_DB,
   },
 
   jwt: {
@@ -122,6 +133,8 @@ export const config = {
     rateLimit: {
       max: env.RATE_LIMIT_MAX,
       window: env.RATE_LIMIT_WINDOW,
+      // some parts of the app expect `timeWindow`
+      timeWindow: env.RATE_LIMIT_WINDOW,
     },
   },
 
@@ -134,6 +147,8 @@ export const config = {
 
   dataRetention: {
     locationDays: env.LOCATION_RETENTION_DAYS,
+    // alias used in some scripts
+    locationRetentionDays: env.LOCATION_RETENTION_DAYS,
   },
 
   cors: {
@@ -154,3 +169,6 @@ export const config = {
 
 // Type export for use throughout the application
 export type Config = typeof config;
+
+// Provide a default export for modules that import the config as default
+export default config;
