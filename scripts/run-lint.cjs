@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 const { run } = require('./runner.cjs');
-const path = require('path');
 
 // Build a robust eslint command string that prefers a local binary, enables
 // caching, and restricts the glob to the likely source folders. This avoids
 // npx/network stalls and re-parsing the whole repo on every run.
 function buildCommand() {
-	let eslintCmd = 'npx eslint';
+	let eslintCmd;
 		try {
 			// prefer local eslint binary when available (fast, deterministic)
 			const eslintBin = require.resolve('eslint/bin/eslint.js', { paths: [process.cwd()] });
