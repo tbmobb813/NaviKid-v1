@@ -94,3 +94,8 @@ yarn-error.*
 coverage/
 # @end expo-cli
 .env.local
+
+# Local env files (do not commit secrets)
+/.env
+/backend/.env
+/backend/.env.local
