@@ -72,7 +72,7 @@ export async function authRoutes(server: FastifyInstance) {
       [body.email]
     );
 
-    if (existingUser.rowCount > 0) {
+    if ((existingUser.rowCount ?? 0) > 0) {
       return reply.conflict('User with this email already exists');
     }
 

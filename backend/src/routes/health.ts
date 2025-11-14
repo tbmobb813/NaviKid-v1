@@ -21,7 +21,7 @@ export async function healthRoutes(server: FastifyInstance) {
    * GET /api/health/detailed
    * Detailed health check with dependencies
    */
-  server.get('/detailed', async (request, reply) => {
+  server.get('/detailed', async (_request, reply) => {
     const startTime = Date.now();
 
     // Check database
@@ -62,7 +62,7 @@ export async function healthRoutes(server: FastifyInstance) {
    * GET /api/health/ready
    * Kubernetes readiness probe
    */
-  server.get('/ready', async (request, reply) => {
+  server.get('/ready', async (_request, reply) => {
     const dbReady = await checkConnection().catch(() => false);
 
     if (dbReady) {
@@ -76,7 +76,7 @@ export async function healthRoutes(server: FastifyInstance) {
    * GET /api/health/live
    * Kubernetes liveness probe
    */
-  server.get('/live', async (request, reply) => {
+  server.get('/live', async (_request, reply) => {
     reply.code(200).send({ alive: true });
   });
 }

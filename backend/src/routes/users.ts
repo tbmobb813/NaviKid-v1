@@ -296,7 +296,7 @@ export async function userRoutes(server: FastifyInstance) {
       [user.userId, child.id]
     );
 
-    if (existingLink.rowCount > 0) {
+    if ((existingLink.rowCount ?? 0) > 0) {
       return reply.conflict('Child account already linked');
     }
 
