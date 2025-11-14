@@ -1,0 +1,39 @@
+[Unit]
+Description=Supabase PostgreSQL SSH Tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+Restart=always
+RestartSec=10
+StartLimitInterval=0
+
+# Environment variables - UPDATE THESE
+Environment="JUMPHOST_IP=your-jumphost-ip"
+Environment="JUMPHOST_USER=ubuntu"
+Environment="JUMPHOST_PORT=22"
+Environment="SUPABASE_HOST=db.yourproject.supabase.co"
+Environment="SUPABASE_PORT=5432"
+Environment="LOCAL_PORT=5432"
+
+# SSH tunnel command
+ExecStart=/usr/bin/ssh -N \
+    -L ${LOCAL_PORT}:${SUPABASE_HOST}:${SUPABASE_PORT} \
+    -o ServerAliveInterval=60 \
+    -o ServerAliveCountMax=3 \
+    -o ExitOnForwardFailure=yes \
+    -o StrictHostKeyChecking=accept-new \
+    -i /home/%i/.ssh/id_ed25519 \
+    ${JUMPHOST_USER}@${JUMPHOST_IP} \
+    -p ${JUMPHOST_PORT}
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
