@@ -124,8 +124,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
+        # No host port mapping: GitHub-hosted runner provides service network
 
       redis:
         image: redis:7-alpine
@@ -134,8 +133,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 6379:6379
+        # No host port mapping: GitHub-hosted runner provides service network
 
     steps:
       - name: Checkout code
@@ -157,6 +155,7 @@ jobs:
           DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
           REDIS_URL: redis://localhost:6379
           NODE_ENV: test
+          LOG_PRETTY: false
           JWT_SECRET: test-jwt-secret-key-for-testing-only
 
       - name: Upload coverage to Codecov
@@ -219,7 +218,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -239,6 +238,7 @@ jobs:
           # Prefer a Supabase-provided DATABASE_URL secret if present; fall back to DB_* below
           DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
           NODE_ENV: test
+          LOG_PRETTY: false
           DB_HOST: localhost
           DB_PORT: '5432'
           DB_NAME: navikid_test
@@ -251,6 +251,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
           REDIS_URL: redis://localhost:6379
           NODE_ENV: test
+          LOG_PRETTY: false
           JWT_SECRET: test-jwt-secret-key-for-testing-only
 
   docker-build:
