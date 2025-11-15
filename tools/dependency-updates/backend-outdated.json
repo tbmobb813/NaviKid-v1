@@ -1,0 +1,22 @@
+{
+  "@fastify/cors": { "current": "9.0.1", "wanted": "9.0.1", "latest": "11.1.0" },
+  "@fastify/helmet": { "current": "11.1.1", "wanted": "11.1.1", "latest": "13.0.2" },
+  "@fastify/jwt": { "current": "8.0.1", "wanted": "8.0.1", "latest": "10.0.0" },
+  "@fastify/rate-limit": { "current": "9.1.0", "wanted": "9.1.0", "latest": "10.3.0" },
+  "@fastify/sensible": { "current": "5.6.0", "wanted": "5.6.0", "latest": "6.0.3" },
+  "@fastify/websocket": { "current": null, "wanted": "8.3.1", "latest": "11.2.0" },
+  "@sentry/node": { "current": "7.120.4", "wanted": "7.120.4", "latest": "10.25.0" },
+  "@types/bcrypt": { "current": "5.0.2", "wanted": "5.0.2", "latest": "6.0.0" },
+  "@types/jest": { "current": "29.5.14", "wanted": "29.5.14", "latest": "30.0.0" },
+  "@types/node": { "current": "20.19.24", "wanted": "20.19.25", "latest": "24.10.1" },
+  "@typescript-eslint/eslint-plugin": { "current": "7.18.0", "wanted": "7.18.0", "latest": "8.46.4" },
+  "@typescript-eslint/parser": { "current": "7.18.0", "wanted": "7.18.0", "latest": "8.46.4" },
+  "bcrypt": { "current": "5.1.1", "wanted": "5.1.1", "latest": "6.0.0" },
+  "dotenv": { "current": "16.6.1", "wanted": "16.6.1", "latest": "17.2.3" },
+  "eslint": { "current": "8.57.1", "wanted": "8.57.1", "latest": "9.39.1" },
+  "fastify": { "current": "4.29.1", "wanted": "4.29.1", "latest": "5.6.2" },
+  "jest": { "current": "29.7.0", "wanted": "29.7.0", "latest": "30.2.0" },
+  "pino": { "current": "9.14.0", "wanted": "9.14.0", "latest": "10.1.0" },
+  "pino-pretty": { "current": "11.3.0", "wanted": "11.3.0", "latest": "13.1.2" },
+  "zod": { "current": "3.25.76", "wanted": "3.25.76", "latest": "4.1.12" }
+}
