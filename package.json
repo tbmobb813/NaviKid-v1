@@ -168,10 +168,10 @@
   "prepare": "husky install",
   "lint-staged": {
     "*.(ts|tsx)": [
-      "npm run lint:frontend:fast --"
+      "cross-env LINT_TIMEOUT_MS=180000 npm run lint:frontend:fast --"
     ],
     "backend/**/*.(ts|tsx)": [
-      "npm --prefix backend run lint --"
+      "cross-env LINT_TIMEOUT_MS=180000 npm --prefix backend run lint --"
     ]
   },
   "private": true,

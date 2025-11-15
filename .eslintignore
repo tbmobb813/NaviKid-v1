@@ -1,3 +1,13 @@
+# DEPRECATED - kept for backwards compatibility; primary ignore list is now in eslint.config.js
+dist/
+/backend/dist/
+docs/
+templates/
+server/data/
+coverage/
+node_modules/
+backend/node_modules/
+*.lock
 .cache/
 dist/
 /backend/dist/

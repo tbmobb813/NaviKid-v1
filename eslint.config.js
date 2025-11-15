@@ -1,3 +1,22 @@
+// Central ESLint config entry for the repository. We only use this file to
+// declare 'ignores' for very large generated folders so that ESLint will not
+// attempt to scan them when running in the new Flat Config mode. The project
+// still uses legacy `.eslintrc.json` files for per-package rules — keep those
+// intact.
+
+export default {
+  ignores: [
+    'dist/',
+    'backend/dist/',
+    'docs/',
+    'templates/',
+    'server/data/',
+    'coverage/',
+    'node_modules/',
+    'backend/node_modules/',
+    '*.lock'
+  ]
+};
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import reactPlugin from 'eslint-plugin-react';

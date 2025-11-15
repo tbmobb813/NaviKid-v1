@@ -43,6 +43,49 @@ jobs:
       - name: Format check
         run: npm run format:check
 
+  lint-ci:
+    name: CI Lint (frontend + backend)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [frontend, backend]
+    defaults:
+      run:
+        # do not change default working-directory here; individual steps set it explicitly
+        working-directory: .
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          # Use package-lock from backend for backend target, otherwise root package-lock
+          cache-dependency-path: ${{ matrix.target == 'backend' && 'backend/package-lock.json' || 'package-lock.json' }}
+
+      - name: Install dependencies (frontend)
+        if: ${{ matrix.target == 'frontend' }}
+        run: npm ci
+
+      - name: Install dependencies (backend)
+        if: ${{ matrix.target == 'backend' }}
+        run: npm ci --prefix backend
+
+      - name: Run lint for target
+        env:
+          LINT_TIMEOUT_MS: 600000 # 10 minutes
+          NODE_ENV: test
+        run: |
+          if [ "${{ matrix.target }}" = "frontend" ]; then
+            npm run lint:frontend --if-present;
+          else
+            npm --prefix backend run lint --if-present;
+          fi
+
+
   security:
     name: Security Audit
     runs-on: ubuntu-latest
