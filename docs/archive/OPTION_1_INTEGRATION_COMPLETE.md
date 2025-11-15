@@ -85,7 +85,6 @@ interface Station {
 }
 ```
 
-
 ### Map Integration
 
 - Leaflet-based markers with custom styling

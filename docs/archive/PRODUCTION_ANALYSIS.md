@@ -48,7 +48,7 @@ node scripts/build-production.js
 
 Quality gates (minimum before publishing), tests, build script):
 
-```bash
+`````bash
 
 # Install dependencies (choose one and standardize)
 
@@ -263,5 +263,4 @@ Create eas.json example and document steps to add App Store / Play credentials t
 Add assets folder placeholders (icons/splash) and update app.json paths if necessary (small).
 Integrate Sentry skeleton (small).
 Standardize package manager (decide bun or npm) and update CI/workflow to match (small → medium).
-````
-
+`````

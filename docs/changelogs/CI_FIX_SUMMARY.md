@@ -223,39 +223,37 @@ The PR is ready to be merged once reviewed.
 Below is a compact reference of the active workflows in `.github/workflows/` and their purpose so maintainers know what to run and when.
 
 - `.github/workflows/ci-lite.yml`
-  
-   - Triggers: `pull_request` (main), `workflow_dispatch`
+  - Triggers: `pull_request` (main), `workflow_dispatch`
 
-   - Purpose: Lightweight PR checks (typecheck, lint, fast unit tests)
-  
-   - Notes: Heavy E2E & perf run manually via "Run workflow"
+  - Purpose: Lightweight PR checks (typecheck, lint, fast unit tests)
+  - Notes: Heavy E2E & perf run manually via "Run workflow"
 
 - `.github/workflows/ci.yml`
-   - Triggers: `push` (main), `pull_request` (main), `workflow_dispatch`, nightly `schedule`
-   - Purpose: Harmonized CI: quick checks, integration, heavy E2E/perf, platform matrices, security checks
-   - Notes: Heavy jobs run on dispatch or schedule
+  - Triggers: `push` (main), `pull_request` (main), `workflow_dispatch`, nightly `schedule`
+  - Purpose: Harmonized CI: quick checks, integration, heavy E2E/perf, platform matrices, security checks
+  - Notes: Heavy jobs run on dispatch or schedule
 
 - `.github/workflows/tests.yml`
-   - Triggers: `push` (main), `pull_request` (main)
-   - Purpose: Separate frontend and server test suites with logs/junit artifacts, consolidated summary step
+  - Triggers: `push` (main), `pull_request` (main)
+  - Purpose: Separate frontend and server test suites with logs/junit artifacts, consolidated summary step
 
 - `.github/workflows/ci-transit-adapter.yml`
-   - Triggers: `pull_request` (feat/transit)
-   - Purpose: Transit adapter smoke/integration: prepare GTFS, start server, smoke-test endpoint
+  - Triggers: `pull_request` (feat/transit)
+  - Purpose: Transit adapter smoke/integration: prepare GTFS, start server, smoke-test endpoint
 
 - `.github/workflows/ci-postgres-transit-adapter.yml`
-   - Triggers: `pull_request` (feat/transit)
-   - Purpose: Full transit adapter integration with Postgres (imports GTFS, runs migrations, starts server, asserts enrichment)
-   - Notes: Useful for end-to-end validation
+  - Triggers: `pull_request` (feat/transit)
+  - Purpose: Full transit adapter integration with Postgres (imports GTFS, runs migrations, starts server, asserts enrichment)
+  - Notes: Useful for end-to-end validation
 
 - `.github/workflows/nightly-gtfs-import.yml`
-   - Triggers: nightly `schedule`, `workflow_dispatch`
-   - Purpose: Periodic GTFS import to JSON/Postgres (download, import, optional COPY)
+  - Triggers: nightly `schedule`, `workflow_dispatch`
+  - Purpose: Periodic GTFS import to JSON/Postgres (download, import, optional COPY)
 
 - `.github/workflows/perf-nightly.yml`
-   - Triggers: nightly `schedule`, `workflow_dispatch`
-   - Purpose: Nightly performance benchmarks (historical runs, artifacts)
-   - Notes: Formerly "Bun perf"; perf suite now optional
+  - Triggers: nightly `schedule`, `workflow_dispatch`
+  - Purpose: Nightly performance benchmarks (historical runs, artifacts)
+  - Notes: Formerly "Bun perf"; perf suite now optional
 
 ## ⚠️ Deprecated / legacy workflows
 

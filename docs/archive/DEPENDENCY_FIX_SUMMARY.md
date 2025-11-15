@@ -18,7 +18,6 @@ Code: _layout.tsx
   5 |   return <Stack />;
 ```
 
-
 This error occurred even with a minimal `_layout.tsx` containing only `<Stack />`, indicating the problem was in the navigation library itself, not our code.
 
 ---
@@ -33,7 +32,6 @@ This error occurred even with a minimal `_layout.tsx` containing only `<Stack />
 ```bash
 bun install @react-navigation/native@7.1.8
 ```
-
 
 ### 2. Why 7.1.8 Specifically?
 
@@ -90,13 +88,11 @@ bun install @react-navigation/native@7.1.8
    rm -rf node_modules/.cache .expo
    ```
 
-
 1. **Start dev server:**
 
    ```bash
    npx expo start --dev-client --clear
    ```
-
 
 1. **Expected behavior:**
    - ✅ No "prevent remove context" error
@@ -120,7 +116,6 @@ bun install @react-navigation/native@7.1.8
    # or
    eas build --profile development --platform android
    ```
-
 
    This will enable MapLibre and MMKV native modules
 
@@ -183,7 +178,6 @@ npm view @react-navigation/native versions --json
 rm -rf node_modules bun.lockb
 bun install
 ```
-
 
 ---
 

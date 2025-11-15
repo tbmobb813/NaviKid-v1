@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: navikid-postgres
+    environment:
+      POSTGRES_DB: navikid_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./src/db/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - navikid-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: navikid-redis
+    command: redis-server --appendonly yes
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - navikid-network
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: navikid-backend
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      HOST: 0.0.0.0
+
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: navikid_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_SSL: 'false'
+
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+      # JWT Secrets (CHANGE IN PRODUCTION!)
+      JWT_ACCESS_SECRET: navikid_dev_access_secret_change_in_production_2025
+      JWT_REFRESH_SECRET: navikid_dev_refresh_secret_change_in_production_2025
+
+      # Logging
+      LOG_LEVEL: debug
+      LOG_PRETTY: 'true'
+
+      # CORS
+      CORS_ORIGIN: http://localhost:8081,exp://localhost:8081,http://localhost:19006
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      # Mount source code for development
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+    networks:
+      - navikid-network
+    restart: unless-stopped
+
+  # Database Admin (Optional - for development)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: navikid-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@navikid.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    networks:
+      - navikid-network
+    profiles:
+      - tools
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  navikid-network:
+    driver: bridge

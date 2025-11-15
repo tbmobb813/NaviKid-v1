@@ -1,0 +1,30 @@
+[Unit]
+Description=Persistent SSH tunnel to Supabase DB
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Load environment variables from /etc/default/ssh-tunnel or a unit-specific file
+EnvironmentFile=/etc/default/ssh-tunnel
+Type=simple
+# Run as the current user by default; set User= if you want system-wide
+ExecStart=/usr/bin/ssh -o ExitOnForwardFailure=yes -o ServerAliveInterval=60 -o ServerAliveCountMax=3 \
+  -L 127.0.0.1:${LOCAL_PORT:-15432}:${REMOTE_DB_HOST:-db.feqfhdwmwrolaafchldq.supabase.co}:${REMOTE_DB_PORT:-5432} ${REMOTE_SSH}
+Restart=always
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+# Notes:
+# - Create /etc/default/ssh-tunnel with variables REMOTE_SSH, LOCAL_PORT, REMOTE_DB_HOST, REMOTE_DB_PORT.
+#   Example:
+#     REMOTE_SSH="ubuntu@203.0.113.5"
+#     LOCAL_PORT=15432
+#     REMOTE_DB_HOST=db.feqfhdwmwrolaafchldq.supabase.co
+#     REMOTE_DB_PORT=5432
+# - Then copy this file to /etc/systemd/system/ssh-tunnel.service and run:
+#     sudo systemctl daemon-reload
+#     sudo systemctl enable --now ssh-tunnel.service
+# - The unit will keep the SSH tunnel running and restart on failure.

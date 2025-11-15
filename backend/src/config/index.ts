@@ -1,107 +1,183 @@
 import dotenv from 'dotenv';
 import path from 'path';
+import { z } from 'zod';
 
-// Load environment variables
+// Load environment variables from .env file
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-interface Config {
-  server: {
-    nodeEnv: string;
-    port: number;
-    host: string;
-  };
-  database: {
-    host: string;
-    port: number;
-    name: string;
-    user: string;
-    password: string;
-    ssl: boolean;
-  };
-  redis: {
-    host: string;
-    port: number;
-    password: string;
-    db: number;
-  };
-  jwt: {
-    accessSecret: string;
-    refreshSecret: string;
-    accessExpiresIn: string;
-    refreshExpiresIn: string;
-  };
-  security: {
-    bcryptSaltRounds: number;
-    rateLimit: {
-      max: number;
-      timeWindow: number;
-    };
-  };
-  sentry: {
-    dsn: string;
-    environment: string;
-    tracesSampleRate: number;
-  };
-  dataRetention: {
-    locationRetentionDays: number;
-  };
-  cors: {
-    origin: string[];
-  };
-  logging: {
-    level: string;
-    pretty: boolean;
-  };
-}
+// Environment variable validation schema
+const envSchema = z.object({
+  // Server
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  PORT: z.string().transform(Number).default('3000'),
+  HOST: z.string().default('0.0.0.0'),
 
-const config: Config = {
-  server: {
-    nodeEnv: process.env.NODE_ENV || 'development',
-    port: parseInt(process.env.PORT || '3000', 10),
-    host: process.env.HOST || '0.0.0.0',
-  },
-  database: {
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT || '5432', 10),
-    name: process.env.DB_NAME || 'navikid_db',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || '',
-    ssl: process.env.DB_SSL === 'true',
-  },
-  redis: {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT || '6379', 10),
-    password: process.env.REDIS_PASSWORD || '',
-    db: parseInt(process.env.REDIS_DB || '0', 10),
-  },
-  jwt: {
-    accessSecret: process.env.JWT_ACCESS_SECRET || 'change-me-in-production',
-    refreshSecret: process.env.JWT_REFRESH_SECRET || 'change-me-in-production',
-    accessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
-    refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
-  },
-  security: {
-    bcryptSaltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS || '12', 10),
-    rateLimit: {
-      max: parseInt(process.env.RATE_LIMIT_MAX || '100', 10),
-      timeWindow: parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10),
-    },
-  },
-  sentry: {
-    dsn: process.env.SENTRY_DSN || '',
-    environment: process.env.SENTRY_ENVIRONMENT || 'development',
-    tracesSampleRate: parseFloat(process.env.SENTRY_TRACES_SAMPLE_RATE || '0.1'),
-  },
-  dataRetention: {
-    locationRetentionDays: parseInt(process.env.LOCATION_RETENTION_DAYS || '30', 10),
-  },
-  cors: {
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:8081'],
-  },
-  logging: {
-    level: process.env.LOG_LEVEL || 'info',
-    pretty: process.env.LOG_PRETTY === 'true',
-  },
+  // Database
+  DATABASE_URL: z.string().optional(),
+  DB_HOST: z.string().default('localhost'),
+  DB_PORT: z.string().transform(Number).default('5432'),
+  DB_NAME: z.string().default('navikid_db'),
+  DB_USER: z.string().default('postgres'),
+  DB_PASSWORD: z.string().default('postgres'),
+  DB_SSL: z
+    .string()
+    .transform((val) => val === 'true')
+    .default('false'),
+  DB_POOL_MIN: z.string().transform(Number).default('2'),
+  DB_POOL_MAX: z.string().transform(Number).default('10'),
+
+  // Redis
+  REDIS_URL: z.string().optional(),
+  REDIS_HOST: z.string().default('localhost'),
+  REDIS_PORT: z.string().transform(Number).default('6379'),
+  REDIS_PASSWORD: z.string().optional(),
+  REDIS_DB: z.string().transform(Number).default('0'),
+
+  // JWT
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+
+  // Security
+  BCRYPT_SALT_ROUNDS: z.string().transform(Number).default('12'),
+  RATE_LIMIT_MAX: z.string().transform(Number).default('100'),
+  RATE_LIMIT_WINDOW: z.string().transform(Number).default('60000'),
+
+  // Sentry (optional)
+  SENTRY_DSN: z.string().optional(),
+  SENTRY_ENVIRONMENT: z.string().default('development'),
+  SENTRY_TRACES_SAMPLE_RATE: z.string().transform(Number).default('0.1'),
+
+  // Data Retention
+  LOCATION_RETENTION_DAYS: z.string().transform(Number).default('30'),
+
+  // CORS
+  CORS_ORIGIN: z.string().default('http://localhost:8081,exp://localhost:8081'),
+
+  // Local CA path for DB TLS (optional) - do NOT commit cert files to repo
+  DB_CA_PATH: z.string().optional(),
+
+  // Logging
+  LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
+  LOG_PRETTY: z
+    .string()
+    .transform((val) => val === 'true')
+    .default('true'),
+});
+
+// Parse and validate environment variables
+const env = envSchema.parse(process.env);
+
+// Build database URL if not provided
+const getDatabaseUrl = (): string => {
+  if (env.DATABASE_URL) {
+    return env.DATABASE_URL;
+  }
+
+  const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = env;
+  return `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 };
 
+// Build Redis URL if not provided. Honor REDIS_ENABLED env var to disable Redis in dev/test.
+const getRedisUrl = (): string | undefined => {
+  if (process.env.REDIS_ENABLED === 'false') {
+    return undefined;
+  }
+
+  if (env.REDIS_URL) {
+    return env.REDIS_URL;
+  }
+
+  const { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_DB } = env;
+  const auth = REDIS_PASSWORD ? `:${REDIS_PASSWORD}@` : '';
+  return `redis://${auth}${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB}`;
+};
+
+// Export typed configuration
+export const config = {
+  env: env.NODE_ENV,
+  isDevelopment: env.NODE_ENV === 'development',
+  isProduction: env.NODE_ENV === 'production',
+  isTest: env.NODE_ENV === 'test',
+
+  server: {
+    port: env.PORT,
+    host: env.HOST,
+    nodeEnv: env.NODE_ENV,
+  },
+
+  database: {
+    url: getDatabaseUrl(),
+    ssl: env.DB_SSL,
+    poolMin: env.DB_POOL_MIN,
+    poolMax: env.DB_POOL_MAX,
+    caPath: env.DB_CA_PATH || undefined,
+    // Backwards-compatible fields used across the codebase
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    name: env.DB_NAME,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
+  },
+
+  redis: {
+    url: getRedisUrl(),
+    // Backwards-compatible fields used across the codebase
+    host: env.REDIS_HOST,
+    port: env.REDIS_PORT,
+    password: env.REDIS_PASSWORD,
+    db: env.REDIS_DB,
+  },
+
+  jwt: {
+    accessSecret: env.JWT_ACCESS_SECRET,
+    refreshSecret: env.JWT_REFRESH_SECRET,
+    accessExpiresIn: env.JWT_ACCESS_EXPIRES_IN,
+    refreshExpiresIn: env.JWT_REFRESH_EXPIRES_IN,
+  },
+
+  security: {
+    bcryptSaltRounds: env.BCRYPT_SALT_ROUNDS,
+    rateLimit: {
+      max: env.RATE_LIMIT_MAX,
+      window: env.RATE_LIMIT_WINDOW,
+      // some parts of the app expect `timeWindow`
+      timeWindow: env.RATE_LIMIT_WINDOW,
+    },
+  },
+
+  sentry: {
+    dsn: env.SENTRY_DSN,
+    environment: env.SENTRY_ENVIRONMENT,
+    tracesSampleRate: env.SENTRY_TRACES_SAMPLE_RATE,
+    enabled: !!env.SENTRY_DSN && env.NODE_ENV === 'production',
+  },
+
+  dataRetention: {
+    locationDays: env.LOCATION_RETENTION_DAYS,
+    // alias used in some scripts
+    locationRetentionDays: env.LOCATION_RETENTION_DAYS,
+  },
+
+  cors: {
+    origin: env.CORS_ORIGIN.split(',').map((o) => o.trim()),
+  },
+
+  logging: {
+    level: env.LOG_LEVEL,
+    pretty: env.LOG_PRETTY,
+  },
+
+  supabase: {
+    url: env.DATABASE_URL || process.env.SUPABASE_URL || undefined,
+    anonKey: process.env.SUPABASE_ANON_KEY || undefined,
+    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
+  },
+} as const;
+
+// Type export for use throughout the application
+export type Config = typeof config;
+
+// Provide a default export for modules that import the config as default
 export default config;

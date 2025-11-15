@@ -124,7 +124,7 @@ class LocationService {
         },
         (location) => {
           this.handleLocationUpdate(location);
-        }
+        },
       );
 
       this.isTracking = true;
@@ -199,7 +199,7 @@ class LocationService {
         location.latitude,
         location.longitude,
         location.accuracy,
-        location.context
+        location.context,
       );
 
       if (response.success && response.data) {
@@ -212,9 +212,8 @@ class LocationService {
 
       // Queue for offline sync
       await offlineQueue.addAction({
-        type: 'location_update',
+        actionType: 'location_update',
         data: location,
-        timestamp: Date.now(),
       });
     }
   }

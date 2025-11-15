@@ -1,6 +1,6 @@
 Running tests
-# Contributing
 
+# Contributing
 
 ## Running tests
 

@@ -200,7 +200,6 @@
 </ErrorBoundary>
 ```
 
-
 ### Validation Integration
 
 ```typescript
@@ -212,7 +211,6 @@ if (!locationValidation.isValid) {
 }
 ```
 
-
 ### Retry Mechanism Integration
 
 ```typescript
@@ -223,7 +221,6 @@ await withRetry(
   'Emergency 911 call',
 );
 ```
-
 
 ## 🛡️ SAFETY GUARANTEES
 

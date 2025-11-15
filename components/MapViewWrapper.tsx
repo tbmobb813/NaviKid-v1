@@ -175,15 +175,26 @@ const MapViewWrapper: React.FC<MapViewWrapperProps> = ({
               const { nycStations } = require('@/config/transit/nyc-stations');
               const stationFeatures: FeatureCollection = {
                 type: 'FeatureCollection',
-                features: nycStations.map((s: { id: string; name: string; kidFriendly: { safetyRating: number }; coordinates: { longitude: number; latitude: number } }) => ({
-                  type: 'Feature',
-                  id: s.id,
-                  properties: { id: s.id, name: s.name, safetyRating: s.kidFriendly?.safetyRating },
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [s.coordinates.longitude, s.coordinates.latitude],
-                  },
-                })),
+                features: nycStations.map(
+                  (s: {
+                    id: string;
+                    name: string;
+                    kidFriendly: { safetyRating: number };
+                    coordinates: { longitude: number; latitude: number };
+                  }) => ({
+                    type: 'Feature',
+                    id: s.id,
+                    properties: {
+                      id: s.id,
+                      name: s.name,
+                      safetyRating: s.kidFriendly?.safetyRating,
+                    },
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [s.coordinates.longitude, s.coordinates.latitude],
+                    },
+                  }),
+                ),
               };
 
               return (
@@ -232,4 +243,3 @@ const styles = StyleSheet.create({
   },
   mapTypeText: { color: '#fff', fontSize: 12, fontWeight: '600' },
 });
-

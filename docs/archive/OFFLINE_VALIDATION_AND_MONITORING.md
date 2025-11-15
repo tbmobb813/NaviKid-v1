@@ -35,7 +35,6 @@ const unsubscribe = offlineManager.addNetworkListener((state) => {
 });
 ```
 
-
 ### Network Quality Indicators
 
 ```typescript
@@ -49,7 +48,6 @@ if (quality === 'excellent') {
   // Use cached data only
 }
 ```
-
 
 ---
 
@@ -71,7 +69,6 @@ const cached = await offlineStorage.getCachedResponse('routes_list', 5 * 60 * 10
 // Clear all cache
 await offlineStorage.clearCache();
 ```
-
 
 ### Action Queue System
 
@@ -100,7 +97,6 @@ await offlineManager.forcSync();
 await offlineManager.clearPendingActions();
 ```
 
-
 ### Supported Offline Actions
 
 The system handles these action types:
@@ -128,7 +124,6 @@ if (offlineManager.isOnline()) {
 }
 ```
 
-
 ### Retry Strategy
 
 Actions use exponential backoff:
@@ -140,7 +135,6 @@ Actions use exponential backoff:
 // Retry 3: after 8 seconds
 // After max retries: action is dropped with error log
 ```
-
 
 ### Sync Status Monitoring
 
@@ -159,7 +153,6 @@ if (pendingCount > 0) {
   console.log(`Syncing ${pendingCount} actions...`);
 }
 ```
-
 
 ---
 
@@ -182,7 +175,6 @@ await monitoring.initialize({
 });
 ```
 
-
 ### Error Tracking
 
 ```typescript
@@ -200,7 +192,6 @@ monitoring.captureError({
 
 // Severity levels: 'low' | 'medium' | 'high' | 'critical'
 ```
-
 
 ### Performance Monitoring
 
@@ -224,7 +215,6 @@ try {
 }
 ```
 
-
 ### User Action Tracking
 
 ```typescript
@@ -246,7 +236,6 @@ function HomeScreen() {
 }
 ```
 
-
 ### System Health Monitoring
 
 ```typescript
@@ -262,7 +251,6 @@ console.log(health);
 // }
 ```
 
-
 ### User Context
 
 ```typescript
@@ -276,7 +264,6 @@ monitoring.setUser('user-123', {
 monitoring.clearUser();
 ```
 
-
 ### Custom Breadcrumbs
 
 ```typescript
@@ -286,7 +273,6 @@ monitoring.addBreadcrumb('User started navigation to Central Park', 'navigation'
   routeType: 'scenic',
 });
 ```
-
 
 ### Statistics and Reporting
 
@@ -306,7 +292,6 @@ console.log(stats);
 await monitoring.flush();
 ```
 
-
 ---
 
 ## 🧪 Testing
@@ -323,7 +308,6 @@ npm run test __tests__/monitoring.test.ts
 # Run all tests
 npm run test:all
 ```
-
 
 ### Test Coverage
 
@@ -437,7 +421,6 @@ ENABLE_PERFORMANCE_TRACKING=true
 ENABLE_USER_TRACKING=true
 ```
 
-
 ### Monitoring Setup
 
 #### Sentry Configuration
@@ -453,7 +436,6 @@ ENABLE_USER_TRACKING=true
    npx expo install @sentry/react-native
    ```
 
-
 1. **Configure Sentry**
 
    ```typescript
@@ -463,7 +445,6 @@ ENABLE_USER_TRACKING=true
      sampleRate: 0.2, // 20% of events
    });
    ```
-
 
 1. **Set Up Alerts**
    - Configure error rate alerts
@@ -509,7 +490,6 @@ If not using Sentry, the monitoring system still works with local logging:
 ✅ High Memory Pressure: < 5% of sessions
 ```
 
-
 ---
 
 ## 🔍 Debugging
@@ -528,7 +508,6 @@ offlineManager.addNetworkListener((state) => {
 });
 ```
 
-
 ### View Queued Actions
 
 ```typescript
@@ -540,7 +519,6 @@ if (__DEV__) {
   await offlineManager.forcSync();
 }
 ```
-
 
 ### Monitor System Health
 
@@ -567,7 +545,6 @@ function HealthMonitor() {
   );
 }
 ```
-
 
 ---
 

@@ -1,84 +1,109 @@
 # NaviKid Backend API
 
-Privacy-first family location tracking backend for NaviKid mobile app.
+Production-ready backend API for the NaviKid child safety application.
 
 ## Features
 
-- **Authentication**: JWT-based auth with bcrypt password hashing, refresh tokens, and session management
-- **Location Tracking**: Store, retrieve, and manage GPS location history with COPPA-compliant data retention
-- **Safe Zones (Geofencing)**: Create and monitor safe zones, detect geofence violations
-- **Emergency Alerts**: Trigger emergency alerts to contacts with location snapshots
-- **Offline Sync**: Batch sync offline actions from mobile app
-- **Real-time Updates**: WebSocket support for live location updates
-- **Security**: Rate limiting, request validation, audit logging
-- **Monitoring**: Sentry integration, structured logging with Pino
+- ✅ JWT-based authentication with refresh tokens
+- ✅ User management (parents and children)
+- ✅ Parent-child account linking
+- ✅ Real-time location tracking
+- ✅ Geofencing (safe zones) with event tracking
+- ✅ Password reset functionality
+- ✅ Email verification
+- ✅ PostgreSQL database with migrations
+- ✅ Redis caching and session management
+- ✅ Rate limiting
+- ✅ CORS configuration
+- ✅ Sentry error tracking
+- ✅ Comprehensive API documentation
+- ✅ Docker support
+- ✅ Health check endpoints
 
 ## Tech Stack
 
-- **Runtime**: Node.js with TypeScript
-- **Framework**: Fastify
-- **Database**: PostgreSQL
-- **Cache/Sessions**: Redis
-- **Authentication**: JWT with bcrypt
-- **Validation**: Zod schemas
-- **Logging**: Pino
-- **Monitoring**: Sentry
-
-## Prerequisites
-
-- Node.js 18+ or higher
-- PostgreSQL 13+ or higher
-- Redis 6+ or higher
-- npm or yarn
+- **Runtime:** Node.js 18+
+- **Framework:** Fastify 4.x
+- **Language:** TypeScript 5.x
+- **Database:** PostgreSQL 15+
+- **Cache:** Redis 7+
+- **Authentication:** JWT
+- **Validation:** Zod
+- **Logging:** Pino
+- **Error Tracking:** Sentry (optional)
 
 ## Quick Start
 
-### 1. Install Dependencies
+### Prerequisites
+
+- Node.js 18+ and npm
+- PostgreSQL 15+
+- Redis 7+
+- Docker and Docker Compose (optional)
+
+### Option 1: Docker Compose (Recommended for Development)
+
+1. **Clone and navigate to backend directory:**
 
 ```bash
 cd backend
+```
+
+2. **Start all services:**
+
+```bash
+docker-compose up -d
+```
+
+This will start:
+
+- PostgreSQL on port 5432
+- Redis on port 6379
+- Backend API on port 3000
+
+3. **View logs:**
+
+```bash
+docker-compose logs -f backend
+```
+
+4. **Stop services:**
+
+```bash
+docker-compose down
+```
+
+### Option 2: Local Development
+
+1. **Install dependencies:**
+
+```bash
 npm install
 ```
 
-### 2. Environment Setup
-
-Copy the example environment file and configure:
+2. **Set up environment variables:**
 
 ```bash
 cp .env.example .env
+# Edit .env with your configuration
 ```
 
-Edit `.env` with your database and Redis credentials:
-
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=navikid_db
-DB_USER=postgres
-DB_PASSWORD=your_password
-
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-JWT_ACCESS_SECRET=your_secret_key_here
-JWT_REFRESH_SECRET=your_refresh_secret_here
-```
-
-### 3. Database Setup
-
-Create the PostgreSQL database:
+3. **Start PostgreSQL and Redis:**
 
 ```bash
-createdb navikid_db
+# Using Docker:
+docker-compose up -d postgres redis
+
+# Or use local installations
 ```
 
-Run migrations:
+4. **Run database migrations:**
 
 ```bash
-npm run db:migrate
+npm run migrate
 ```
 
-### 4. Start Development Server
+5. **Start development server:**
 
 ```bash
 npm run dev
@@ -86,263 +111,291 @@ npm run dev
 
 The API will be available at `http://localhost:3000`
 
+## Environment Variables
+
+Create a `.env` file in the backend directory:
+
+```bash
+# Server
+NODE_ENV=development
+PORT=3000
+HOST=0.0.0.0
+
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=navikid_db
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_SSL=false
+
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# JWT Secrets (GENERATE NEW VALUES FOR PRODUCTION!)
+JWT_ACCESS_SECRET=your-256-bit-secret-here
+JWT_REFRESH_SECRET=your-256-bit-secret-here
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+
+# Security
+BCRYPT_SALT_ROUNDS=12
+RATE_LIMIT_MAX=100
+RATE_LIMIT_WINDOW=60000
+
+# Sentry (optional)
+SENTRY_DSN=
+SENTRY_ENVIRONMENT=development
+SENTRY_TRACES_SAMPLE_RATE=0.1
+
+# Data Retention
+LOCATION_RETENTION_DAYS=30
+
+# CORS
+CORS_ORIGIN=http://localhost:8081,exp://localhost:8081
+
+# Logging
+LOG_LEVEL=info
+LOG_PRETTY=true
+```
+
+### Generating Secrets
+
+```bash
+# Generate JWT secrets (256-bit)
+openssl rand -base64 32
+
+# Generate API keys
+openssl rand -hex 32
+```
+
 ## API Endpoints
 
 ### Authentication
 
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login user
-- `POST /auth/refresh` - Refresh access token
-- `POST /auth/logout` - Logout user
-- `POST /auth/change-password` - Change password
-- `GET /auth/me` - Get current user
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/refresh` - Refresh access token
+- `POST /api/auth/logout` - Logout user
+- `POST /api/auth/request-password-reset` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
+- `GET /api/auth/verify-email/:token` - Verify email address
+- `GET /api/auth/me` - Get current user info
 
-### Location Tracking
+### Users
 
-- `POST /locations` - Store new location
-- `GET /locations` - Get location history (with date filters, pagination)
-- `GET /locations/current` - Get current (latest) location
-- `DELETE /locations/:id` - Delete specific location
-- `POST /locations/batch` - Batch store locations (offline sync)
+- `GET /api/users/me` - Get user profile
+- `PATCH /api/users/me` - Update user profile
+- `DELETE /api/users/me` - Deactivate account
+- `POST /api/users/change-password` - Change password
+- `GET /api/users/children` - Get linked children (parents)
+- `GET /api/users/parents` - Get linked parents (children)
+- `POST /api/users/link-child` - Link child account
+- `DELETE /api/users/unlink-child/:childId` - Unlink child
 
-### Safe Zones
+### Locations
 
-- `GET /safe-zones` - List all safe zones
-- `POST /safe-zones` - Create safe zone
-- `GET /safe-zones/:id` - Get safe zone by ID
-- `PUT /safe-zones/:id` - Update safe zone
-- `DELETE /safe-zones/:id` - Delete safe zone
-- `POST /safe-zones/check` - Check if location is in safe zone
+- `POST /api/locations` - Store location update
+- `GET /api/locations` - Get location history
+- `GET /api/locations/latest/:userId?` - Get latest location
+- `DELETE /api/locations/:id` - Delete specific location
+- `DELETE /api/locations` - Delete all location history
 
-### Emergency Contacts & Alerts
+### Safe Zones (Geofences)
 
-- `GET /emergency-contacts` - List emergency contacts
-- `POST /emergency-contacts` - Add emergency contact
-- `PUT /emergency-contacts/:id` - Update contact
-- `DELETE /emergency-contacts/:id` - Delete contact
-- `POST /emergency/alert` - Trigger emergency alert
-- `GET /emergency/alerts` - Get alert history
-- `POST /emergency/alerts/:id/acknowledge` - Acknowledge alert
+- `POST /api/safe-zones` - Create safe zone
+- `GET /api/safe-zones` - Get all safe zones
+- `GET /api/safe-zones/:id` - Get specific safe zone
+- `PATCH /api/safe-zones/:id` - Update safe zone
+- `DELETE /api/safe-zones/:id` - Delete safe zone
+- `POST /api/safe-zones/events` - Record geofence event
+- `GET /api/safe-zones/:id/events` - Get events for safe zone
 
-### Offline Sync
+### Health
 
-- `POST /offline-actions/sync` - Sync batch of offline actions
-- `GET /offline-actions/pending` - Get pending actions
+- `GET /api/health` - Basic health check
+- `GET /api/health/detailed` - Detailed health with dependencies
+- `GET /api/health/ready` - Kubernetes readiness probe
+- `GET /api/health/live` - Kubernetes liveness probe
 
-### Health & Monitoring
+## Database Schema
 
-- `GET /health` - Health check (database + Redis status)
-- `GET /` - API info
+### Tables
 
-### WebSocket
+- `users` - User accounts (parents and children)
+- `user_relationships` - Parent-child linkages
+- `refresh_tokens` - JWT refresh tokens
+- `location_history` - Location tracking (30-day retention)
+- `safe_zones` - Geofenced safe zones
+- `geofence_events` - Safe zone entry/exit events
+- `password_reset_tokens` - Password reset tokens
+- `email_verification_tokens` - Email verification
+- `audit_log` - Security audit trail
 
-- `WS /ws/locations` - Real-time location updates
+### Migrations
 
-## Authentication
-
-All protected endpoints require a JWT access token in the Authorization header:
-
-```
-Authorization: Bearer <access_token>
-```
-
-### Token Flow
-
-1. Login with email/password → receive `accessToken` (15 min) and `refreshToken` (7 days)
-2. Use `accessToken` for API requests
-3. When `accessToken` expires, use `refreshToken` to get new tokens
-4. Logout to invalidate refresh token
-
-## Request/Response Format
-
-### Success Response
-
-```json
-{
-  "success": true,
-  "data": {
-    // Response data
-  },
-  "meta": {
-    "timestamp": "2025-11-04T00:00:00Z"
-  }
-}
-```
-
-### Error Response
-
-```json
-{
-  "success": false,
-  "error": {
-    "message": "Error message",
-    "code": "ERROR_CODE",
-    "details": {}
-  },
-  "meta": {
-    "timestamp": "2025-11-04T00:00:00Z",
-    "requestId": "req-123"
-  }
-}
-```
-
-## Data Retention & Compliance
-
-- **Location History**: Automatically deleted after 30 days (COPPA compliance)
-- **Offline Actions**: Deleted 7 days after sync
-- **Audit Logs**: Retained for 90 days
-
-Run cleanup manually:
+Migrations are located in `src/db/migrations/` and run automatically on first startup or manually via:
 
 ```bash
-npm run cleanup
-```
-
-Or set up a daily cron job:
-
-```bash
-0 2 * * * cd /path/to/backend && npm run cleanup
-```
-
-## Development
-
-### Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build TypeScript to JavaScript
-- `npm start` - Start production server
-- `npm run db:migrate` - Run database migrations
-- `npm test` - Run tests
-- `npm run lint` - Lint code
-- `npm run format` - Format code with Prettier
-
-### Project Structure
-
-```
-backend/
-├── src/
-│   ├── config/           # Configuration files
-│   ├── database/         # Database connection, Redis, migrations
-│   ├── middleware/       # Auth, error handling, validation
-│   ├── routes/           # API route handlers
-│   ├── services/         # Business logic layer
-│   ├── types/            # TypeScript type definitions
-│   ├── utils/            # Utility functions, logger, validation
-│   ├── scripts/          # Migration, cleanup scripts
-│   └── index.ts          # Main application entry point
-├── dist/                 # Compiled JavaScript (gitignored)
-├── .env                  # Environment variables (gitignored)
-├── .env.example          # Example environment file
-├── package.json          # Dependencies and scripts
-├── tsconfig.json         # TypeScript configuration
-└── README.md             # This file
-```
-
-## Security Features
-
-- **Password Hashing**: bcrypt with 12 salt rounds + random salt per user
-- **JWT Tokens**: Short-lived access tokens, long-lived refresh tokens
-- **Session Management**: Redis-based session storage
-- **Rate Limiting**: 100 requests per minute per IP
-- **Request Validation**: Zod schemas for all inputs
-- **Audit Logging**: All user actions logged with IP address
-- **CORS**: Configurable allowed origins
-- **Error Handling**: Sanitized error messages in production
-
-## Deployment
-
-### Production Checklist
-
-1. Set strong `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`
-2. Configure production database (managed PostgreSQL recommended)
-3. Configure production Redis (ElastiCache or managed Redis)
-4. Set `NODE_ENV=production`
-5. Enable Sentry with production DSN
-6. Configure CORS origins for production domains
-7. Set up daily cleanup cron job
-8. Enable database backups
-9. Set up SSL/TLS certificates
-10. Configure reverse proxy (nginx/CloudFlare)
-
-### Environment Variables
-
-See `.env.example` for all available configuration options.
-
-### Docker Support
-
-Create `Dockerfile`:
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist ./dist
-EXPOSE 3000
-CMD ["node", "dist/index.js"]
-```
-
-Build and run:
-
-```bash
-npm run build
-docker build -t navikid-backend .
-docker run -p 3000:3000 --env-file .env navikid-backend
-```
-
-## Monitoring & Logging
-
-### Sentry Integration
-
-Set `SENTRY_DSN` in `.env` to enable error tracking:
-
-```env
-SENTRY_DSN=https://your-sentry-dsn@sentry.io/project
-SENTRY_ENVIRONMENT=production
-SENTRY_TRACES_SAMPLE_RATE=0.1
-```
-
-### Structured Logging
-
-All logs include contextual information:
-
-```json
-{
-  "level": "info",
-  "time": "2025-11-04T00:00:00Z",
-  "msg": "Request completed",
-  "method": "POST",
-  "url": "/locations",
-  "statusCode": 201,
-  "responseTime": 45,
-  "requestId": "req-123"
-}
+npm run migrate
 ```
 
 ## Testing
 
-Run tests with:
-
 ```bash
+# Run all tests
 npm test
-```
 
-Watch mode:
-
-```bash
+# Run tests in watch mode
 npm run test:watch
-```
 
-Coverage:
-
-```bash
+# Run tests with coverage
 npm run test:coverage
 ```
 
+## Building for Production
+
+```bash
+# Build TypeScript
+npm run build
+
+# Start production server
+npm run start:prod
+```
+
+## Docker Deployment
+
+### Build Image
+
+```bash
+docker build -t navikid-backend:latest .
+```
+
+### Run Container
+
+```bash
+docker run -d \
+  -p 3000:3000 \
+  -e DATABASE_URL=postgresql://user:pass@host:5432/db \
+  -e REDIS_URL=redis://host:6379 \
+  -e JWT_ACCESS_SECRET=your-secret \
+  -e JWT_REFRESH_SECRET=your-secret \
+  navikid-backend:latest
+```
+
+## Security Best Practices
+
+1. **Always use HTTPS in production**
+2. **Generate new JWT secrets** for each environment
+3. **Enable Sentry** for error tracking
+4. **Set up rate limiting** on your reverse proxy
+5. **Use strong passwords** (validated automatically)
+6. **Enable email verification** for new accounts
+7. **Regular security audits** of dependencies
+8. **Database backups** with encrypted storage
+9. **Monitor authentication failures** for suspicious activity
+10. **Implement IP whitelisting** if possible
+
+## Monitoring
+
+### Health Checks
+
+The API includes comprehensive health checks:
+
+- `/api/health` - Quick health status
+- `/api/health/detailed` - Database and Redis status
+- `/api/health/ready` - Kubernetes readiness
+- `/api/health/live` - Kubernetes liveness
+
+### Logging
+
+All logs are structured JSON (via Pino) and include:
+
+- Request ID
+- User ID (if authenticated)
+- IP address
+- Response time
+- Error details
+
+### Metrics
+
+Consider integrating:
+
+- **Prometheus** for metrics collection
+- **Grafana** for dashboards
+- **Sentry** for error tracking
+- **DataDog** or **New Relic** for APM
+
+## Data Retention
+
+Automated cleanup functions run daily:
+
+- Location history: 30 days
+- Geofence events: 90 days
+- Expired tokens: Immediate
+- Audit logs: 1 year
+
+Configure retention periods via environment variables.
+
+## Troubleshooting
+
+### Database Connection Failed
+
+```bash
+# Check PostgreSQL is running
+docker-compose ps postgres
+
+# View PostgreSQL logs
+docker-compose logs postgres
+
+# Test connection
+psql -h localhost -U postgres -d navikid_db
+```
+
+### Redis Connection Failed
+
+```bash
+# Check Redis is running
+docker-compose ps redis
+
+# Test connection
+redis-cli ping
+```
+
+### Running without Redis (local tests/dev)
+
+If you want to run the backend locally without a Redis server (for CI or quick local tests), set the environment variable `REDIS_ENABLED=false`. When disabled the app uses a Postgres-backed session store and cache fallbacks so Redis is not required.
+
+Example run commands from the project root:
+
+```bash
+DB_CA_PATH=backend/supabase-ca.pem REDIS_ENABLED=false npm --prefix backend run dev
+
+DB_CA_PATH=backend/supabase-ca.pem REDIS_ENABLED=false npm --prefix backend test
+```
+
+Ensure `DB_CA_PATH` points to a valid PEM file if your Postgres/Supabase requires a custom CA.
+
+### Migration Errors
+
+```bash
+# Reset database (DANGER: Deletes all data)
+psql -h localhost -U postgres -d navikid_db < src/db/migrations/001_initial_schema.sql
+```
+
+## Contributing
+
+1. Follow TypeScript best practices
+2. Add tests for new features
+3. Update API documentation
+4. Run linter before committing
+5. Use conventional commits
+
 ## License
 
-MIT
+UNLICENSED - Private
 
 ## Support
 
-For issues or questions, please open an issue on GitHub or contact the development team.
+For issues or questions, contact the NaviKid development team.

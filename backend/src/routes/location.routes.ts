@@ -6,7 +6,7 @@ import {
   batchStoreLocationsSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse } from '../types';
+import { ApiResponse, JWTPayload } from '../types';
 import logger from '../utils/logger';
 
 export async function locationRoutes(fastify: FastifyInstance) {
@@ -21,7 +21,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { latitude, longitude, accuracy, timestamp, context } = request.body as any;
 
         const location = await locationService.storeLocation(
@@ -43,7 +43,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Store location error');
+        logger.error({ error }, 'Store location error');
         reply.status(500).send({
           success: false,
           error: {
@@ -66,7 +66,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const query = request.query as any;
 
         const startDate = query.startDate ? new Date(query.startDate) : undefined;
@@ -100,7 +100,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get location history error');
+        logger.error({ error }, 'Get location history error');
         reply.status(500).send({
           success: false,
           error: {
@@ -123,7 +123,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
 
         const location = await locationService.getCurrentLocation(userId);
 
@@ -147,7 +147,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get current location error');
+        logger.error({ error }, 'Get current location error');
         reply.status(500).send({
           success: false,
           error: {
@@ -170,7 +170,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
 
         const deleted = await locationService.deleteLocation(userId, id);
@@ -195,7 +195,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Delete location error');
+        logger.error({ error }, 'Delete location error');
         reply.status(500).send({
           success: false,
           error: {
@@ -218,7 +218,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { locations } = request.body as any;
 
         const processedLocations = locations.map((loc: any) => ({
@@ -244,7 +244,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Batch store locations error');
+        logger.error({ error }, 'Batch store locations error');
         reply.status(500).send({
           success: false,
           error: {

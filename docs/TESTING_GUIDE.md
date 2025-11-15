@@ -394,7 +394,6 @@ What actually happened
 Any other relevant information
 ```
 
-
 ## Test Automation
 
 ### Unit Tests

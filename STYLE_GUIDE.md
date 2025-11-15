@@ -50,4 +50,5 @@ Add, extend, or move sections into `docs/` when convenient.
 - If you want automated linting (markdownlint or style checks), add a dedicated step to the existing `ci.yml` tests job or `tests.yml` summary rather than a new workflow.
 
 ---
+
 If you'd like, I can expand any section into a more formal `docs/STYLE_GUIDE.md`, add markdownlint config, or open a PR with this scaffold. Which one do you want next?

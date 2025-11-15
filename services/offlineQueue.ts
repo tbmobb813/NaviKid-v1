@@ -15,9 +15,9 @@ import { log } from '@/utils/logger';
 
 export interface OfflineAction {
   id: string;
-  type: 'location_update' | 'safe_zone_check' | 'emergency_alert';
+  actionType: 'location_update' | 'safe_zone_check' | 'emergency_alert';
   data: any;
-  timestamp: number;
+  createdAt: number;
   retryCount?: number;
 }
 
@@ -94,7 +94,9 @@ class OfflineQueueService {
   // Queue Management
   // ==========================================================================
 
-  async addAction(action: Omit<OfflineAction, 'id'>): Promise<void> {
+  async addAction(
+    action: Omit<OfflineAction, 'id' | 'createdAt'> & { actionType: OfflineAction['actionType'] },
+  ): Promise<void> {
     try {
       // Check queue size limit
       if (this.queue.length >= this.maxQueueSize) {
@@ -105,13 +107,14 @@ class OfflineQueueService {
       const queuedAction: OfflineAction = {
         ...action,
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        createdAt: Date.now(),
         retryCount: 0,
       };
 
       this.queue.push(queuedAction);
 
       log.debug('Action added to queue', {
-        type: queuedAction.type,
+        actionType: queuedAction.actionType,
         queueSize: this.queue.length,
       });
 
@@ -189,7 +192,7 @@ class OfflineQueueService {
 
       // Get actions to sync (exclude those that have failed too many times)
       const actionsToSync = this.queue.filter(
-        (action) => (action.retryCount || 0) < this.maxRetries
+        (action) => (action.retryCount || 0) < this.maxRetries,
       );
 
       if (actionsToSync.length === 0) {
@@ -288,7 +291,7 @@ class OfflineQueueService {
 
   getStatus(): SyncStatus {
     const failedCount = this.queue.filter(
-      (action) => (action.retryCount || 0) >= this.maxRetries
+      (action) => (action.retryCount || 0) >= this.maxRetries,
     ).length;
 
     return {

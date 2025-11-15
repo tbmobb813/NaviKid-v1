@@ -99,7 +99,6 @@ components/
 └── CityManagement.tsx
 ```
 
-
 ### Data Structure
 
 Each city configuration includes:
@@ -245,7 +244,6 @@ export const newCityConfig: RegionConfig = {
 };
 ```
 
-
 ### Updating Transit Data
 
 ```typescript
@@ -255,6 +253,5 @@ const result = await transitDataUpdater.updateRegionTransitData('nyc');
 // Update all cities
 const results = await transitDataUpdater.updateAllRegions();
 ```
-
 
 This system provides a solid foundation for a production-ready transit app that can easily scale to support cities worldwide while maintaining up-to-date transit information and regional customization.

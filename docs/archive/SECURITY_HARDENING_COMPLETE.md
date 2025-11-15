@@ -28,7 +28,6 @@ const setParentPin = async (pin: string) => {
 };
 ```
 
-
 **Solution:** Cryptographic hashing with salt
 
 ```typescript
@@ -51,8 +50,8 @@ const setParentPin = async (pin: string) => {
 };
 ```
 
-
 **Security Benefits:**
+
 - ✅ PIN never stored in plain text
 - ✅ Each installation has unique salt
 - ✅ SHA-256 cryptographic hash (irreversible)
@@ -75,7 +74,6 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
   return false; // Try again unlimited times!
 };
 ```
-
 
 **Solution:** Track attempts and enforce lockout
 
@@ -116,8 +114,8 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 };
 ```
 
-
 **Security Benefits:**
+
 - ✅ Maximum 5 attempts before 15-minute lockout
 - ✅ Prevents brute force attacks
 - ✅ Lockout persists across app restarts
@@ -135,10 +133,13 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 ```typescript
 const startSessionTimeout = () => {
   clearSessionTimeout();
-  sessionTimeoutRef.current = setTimeout(() => {
-    exitParentMode();
-    console.log('[Security] Parent mode session expired after 30 minutes');
-  }, 30 * 60 * 1000); // 30 minutes
+  sessionTimeoutRef.current = setTimeout(
+    () => {
+      exitParentMode();
+      console.log('[Security] Parent mode session expired after 30 minutes');
+    },
+    30 * 60 * 1000,
+  ); // 30 minutes
 };
 
 const exitParentMode = () => {
@@ -147,8 +148,8 @@ const exitParentMode = () => {
 };
 ```
 
-
 **Security Benefits:**
+
 - ✅ Auto-logout after 30 minutes
 - ✅ Prevents unauthorized access to parent controls
 - ✅ Timeout cleared on manual logout
@@ -171,8 +172,8 @@ await SecureStore.setItemAsync('kidmap_pin_salt', salt);
 await AsyncStorage.setItem('kidmap_parental_settings', JSON.stringify(settings));
 ```
 
-
 **Security Benefits:**
+
 - ✅ Hardware-backed encryption on supported devices
 - ✅ Keychain/KeyStore integration (iOS/Android)
 - ✅ Separate storage for sensitive vs. non-sensitive data
@@ -185,6 +186,7 @@ await AsyncStorage.setItem('kidmap_parental_settings', JSON.stringify(settings))
 ### Files Modified
 
 **1. `stores/parentalStore.ts` (180 lines changed)**
+
 - Added imports: `expo-crypto`, `expo-secure-store`
 - Added security constants: `SECURITY_CONFIG`, updated `STORAGE_KEYS`
 - Added security state: `authAttempts`, `lockoutUntil`, `sessionTimeoutRef`
@@ -204,8 +206,8 @@ plugins: [
 ],
 ```
 
-
 **3. `__tests__/parental-auth-security.test.ts` (NEW - 442 lines)**
+
 - Comprehensive test suite covering all security features
 - 15+ test cases for PIN hashing, rate limiting, session timeout
 - Mocked dependencies for isolated testing
@@ -220,13 +222,11 @@ expo-crypto@15.0.7        # Cryptographic functions (SHA-256, random bytes)
 expo-secure-store@15.0.7   # Hardware-backed encrypted storage
 ```
 
-
 **Installation:**
 
 ```bash
 npx expo install expo-crypto expo-secure-store
 ```
-
 
 ---
 
@@ -237,6 +237,7 @@ npx expo install expo-crypto expo-secure-store
 **New Test File:** `__tests__/parental-auth-security.test.ts`
 
 **Test Suites:**
+
 1. **PIN Hashing Tests** (3 tests)
    - Hash before storing
    - Validate PIN format (4-6 digits)
@@ -267,7 +268,6 @@ npx expo install expo-crypto expo-secure-store
 ```bash
 npm test -- __tests__/parental-auth-security.test.ts
 ```
-
 
 ---
 
@@ -301,15 +301,15 @@ npm test -- __tests__/parental-auth-security.test.ts
 
 ### Threat Mitigations
 
-| Threat | Mitigation |
-|---|---|
-| **Plain text PIN theft** | SHA-256 hashing + salt |
-| **Brute force attacks** | Rate limiting (5 attempts → 15min lockout) |
-| **Unauthorized access (device left unlocked)** | 30-minute session timeout |
-| **Data extraction from device** | Hardware-backed encryption (SecureStore) |
-| **Rainbow table attacks** | Unique salt per installation |
-| **Side-channel attacks** | Secure random number generation |
-| **Session hijacking** | Session tied to authentication event |
+| Threat                                         | Mitigation                                 |
+| ---------------------------------------------- | ------------------------------------------ |
+| **Plain text PIN theft**                       | SHA-256 hashing + salt                     |
+| **Brute force attacks**                        | Rate limiting (5 attempts → 15min lockout) |
+| **Unauthorized access (device left unlocked)** | 30-minute session timeout                  |
+| **Data extraction from device**                | Hardware-backed encryption (SecureStore)   |
+| **Rainbow table attacks**                      | Unique salt per installation               |
+| **Side-channel attacks**                       | Secure random number generation            |
+| **Session hijacking**                          | Session tied to authentication event       |
 
 ### Known Limitations
 
@@ -335,7 +335,6 @@ try {
 }
 ```
 
-
 ### Authenticating
 
 ```typescript
@@ -354,7 +353,6 @@ try {
 }
 ```
 
-
 ### Manual Logout
 
 ```typescript
@@ -362,7 +360,6 @@ const { exitParentMode } = useParentalStore();
 
 exitParentMode(); // Clears session timeout
 ```
-
 
 ---
 

@@ -20,9 +20,12 @@ const baseConfig: ExpoConfig = {
     supportsTablet: true,
     bundleIdentifier: 'app.mapmuse',
     infoPlist: {
-      NSLocationAlwaysAndWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
-      NSLocationAlwaysUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
-      NSLocationWhenInUseUsageDescription: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationAlwaysAndWhenInUseUsageDescription:
+        'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationAlwaysUsageDescription:
+        'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+      NSLocationWhenInUseUsageDescription:
+        'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
       UIBackgroundModes: ['location', 'audio'],
       NSPhotoLibraryUsageDescription: 'Allow $(PRODUCT_NAME) to access your photos',
       NSCameraUsageDescription: 'Allow $(PRODUCT_NAME) to access your camera',
@@ -76,7 +79,8 @@ const baseConfig: ExpoConfig = {
         isAndroidForegroundServiceEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isIosBackgroundLocationEnabled: true,
-        locationAlwaysAndWhenInUsePermission: 'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
+        locationAlwaysAndWhenInUsePermission:
+          'Allow $(PRODUCT_NAME) to use your location for navigation and to discover nearby points of interest.',
       },
     ],
     [
@@ -223,15 +227,15 @@ const routingExtras = {
   baseUrl:
     typeof orsBaseUrlFromEnv === 'string' && orsBaseUrlFromEnv.length > 0
       ? orsBaseUrlFromEnv
-      : (baseConfig.extra as any)?.routing?.baseUrl ?? 'https://api.openrouteservice.org',
+      : ((baseConfig.extra as any)?.routing?.baseUrl ?? 'https://api.openrouteservice.org'),
   orsApiKey:
     typeof orsApiKeyFromEnv === 'string' && orsApiKeyFromEnv.length > 0
       ? orsApiKeyFromEnv
-      : (baseConfig.extra as any)?.routing?.orsApiKey ?? '',
+      : ((baseConfig.extra as any)?.routing?.orsApiKey ?? ''),
   defaultProfile:
     typeof orsProfileFromEnv === 'string' && orsProfileFromEnv.length > 0
       ? orsProfileFromEnv
-      : (baseConfig.extra as any)?.routing?.defaultProfile ?? 'foot-walking',
+      : ((baseConfig.extra as any)?.routing?.defaultProfile ?? 'foot-walking'),
   requestTimeout: ensureNumber(
     (baseConfig.extra as any)?.routing?.requestTimeout,
     ensureNumber(orsTimeoutFromEnv, 15000),

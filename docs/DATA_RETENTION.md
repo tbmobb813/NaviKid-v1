@@ -21,12 +21,12 @@ Automatic data cleanup system for COPPA compliance. Purges old location history,
 
 ## What Gets Cleaned
 
-| Data Type | Retention | Policy |
-|-----------|-----------|--------|
-| Location History | 30 days | COPPA requirement |
-| Recent Searches | 90 days | Analytics retention |
-| Offline Actions | 14 days | Sync queue cleanup |
-| Cache Data | 7 days | Performance optimization |
+| Data Type        | Retention | Policy                   |
+| ---------------- | --------- | ------------------------ |
+| Location History | 30 days   | COPPA requirement        |
+| Recent Searches  | 90 days   | Analytics retention      |
+| Offline Actions  | 14 days   | Sync queue cleanup       |
+| Cache Data       | 7 days    | Performance optimization |
 
 ---
 
@@ -50,7 +50,6 @@ For each key matching pattern:
 Log cleanup results
 ```
 
-
 ### Manual Usage
 
 ```typescript
@@ -65,16 +64,15 @@ const stats = getStorageStats();
 console.log(`Storage: ${stats.totalKeys} keys, ~${stats.estimatedSize} bytes`);
 ```
 
-
 ---
 
 ## Files Created
 
-| File | Purpose |
-|------|---------|
-| `utils/dataRetention.ts` | Cleanup functions and policies |
-| `stores/dataRetentionStore.ts` | Cleanup scheduling and state |
-| `docs/DATA_RETENTION.md` | This documentation |
+| File                           | Purpose                        |
+| ------------------------------ | ------------------------------ |
+| `utils/dataRetention.ts`       | Cleanup functions and policies |
+| `stores/dataRetentionStore.ts` | Cleanup scheduling and state   |
+| `docs/DATA_RETENTION.md`       | This documentation             |
 
 ---
 
@@ -84,13 +82,12 @@ console.log(`Storage: ${stats.totalKeys} keys, ~${stats.estimatedSize} bytes`);
 
 ```typescript
 export const RETENTION_POLICIES = {
-  LOCATION_HISTORY: 30 * 24 * 60 * 60 * 1000,  // 30 days
-  RECENT_SEARCHES: 90 * 24 * 60 * 60 * 1000,   // 90 days
-  OFFLINE_ACTIONS: 14 * 24 * 60 * 60 * 1000,   // 14 days
-  CACHE_DATA: 7 * 24 * 60 * 60 * 1000,         // 7 days
+  LOCATION_HISTORY: 30 * 24 * 60 * 60 * 1000, // 30 days
+  RECENT_SEARCHES: 90 * 24 * 60 * 60 * 1000, // 90 days
+  OFFLINE_ACTIONS: 14 * 24 * 60 * 60 * 1000, // 14 days
+  CACHE_DATA: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 ```
-
 
 ### Scheduling (`stores/dataRetentionStore.ts`)
 
@@ -105,10 +102,9 @@ export const RETENTION_POLICIES = {
 // Automatically called on app startup
 useEffect(() => {
   initializePlausible();
-  initializeDataRetention();  // ← Here
+  initializeDataRetention(); // ← Here
 }, []);
 ```
-
 
 ---
 
@@ -117,12 +113,14 @@ useEffect(() => {
 ### `runDataRetentionCleanup()`
 
 Runs all cleanup operations at once
+
 - Returns: Total number of deleted items
 - Logs: Summary of cleanup results
 
 ### `cleanupLocationHistory()`
 
 Deletes location data older than 30 days
+
 - Scans keys starting with `location_history_`
 - Checks `timestamp` field
 - Returns: Number of deleted items
@@ -130,24 +128,28 @@ Deletes location data older than 30 days
 ### `cleanupRecentSearches()`
 
 Deletes search history older than 90 days
+
 - Scans keys starting with `search_`
 - Returns: Number of deleted items
 
 ### `cleanupOfflineActions()`
 
 Deletes queued offline actions older than 14 days
+
 - Scans keys starting with `offline_action_`
 - Returns: Number of deleted items
 
 ### `cleanupCacheData()`
 
 Deletes cache entries older than 7 days
+
 - Uses separate cache storage
 - Returns: Number of deleted items
 
 ### `getStorageStats()`
 
 Returns storage usage information
+
 - Returns: `{ totalKeys, estimatedSize }`
 
 ---
@@ -183,7 +185,6 @@ cacheStorage.set('cache_transit', {
 });
 ```
 
-
 ---
 
 ## Testing
@@ -199,7 +200,6 @@ console.log('Last cleanup:', store.lastCleanupTime);
 console.log('Time since:', store.getTimeSinceLastCleanup());
 ```
 
-
 ### Trigger Cleanup Manually
 
 ```typescript
@@ -209,7 +209,6 @@ const store = useDataRetentionStore.getState();
 const deleted = await store.performCleanup();
 console.log(`Deleted ${deleted} items`);
 ```
-
 
 ### Check Storage Stats
 
@@ -221,18 +220,19 @@ console.log(`Total keys: ${stats.totalKeys}`);
 console.log(`Estimated size: ${(stats.estimatedSize / 1024).toFixed(2)} KB`);
 ```
 
-
 ---
 
 ## COPPA Compliance
 
 ✅ **What this implements:**
+
 - 30-day location data retention (COPPA max)
 - Automatic purge without user intervention
 - Non-recoverable deletion (compliance)
 - No personal data retained long-term
 
 ✅ **What to add separately:**
+
 - Update privacy policy to disclose 30-day retention
 - Document cleanup mechanism to regulators
 - Create audit logs of deletions (for compliance evidence)

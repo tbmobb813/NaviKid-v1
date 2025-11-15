@@ -12,21 +12,25 @@ Welcome to the NaviKid-v1 CI/CD documentation!
 ## Available Workflows
 
 ### 1. Backend CI/CD
+
 **File:** `.github/workflows/backend-ci.yml`
 
 Continuous integration for the Node.js + Fastify backend with PostgreSQL and Redis testing.
 
 ### 2. Frontend CI/CD
+
 **File:** `.github/workflows/frontend-ci.yml`
 
 Continuous integration for React Native + Expo frontend with EAS builds.
 
 ### 3. Security Scanning
+
 **File:** `.github/workflows/security.yml`
 
 Weekly security scanning with Trivy and dependency audits.
 
 ### 4. Manual Deployment
+
 **File:** `.github/workflows/deploy.yml`
 
 Manual deployment workflow for staging and production environments.

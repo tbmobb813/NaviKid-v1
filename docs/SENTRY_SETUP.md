@@ -26,7 +26,6 @@ Sentry is now fully integrated into the Kid-Friendly Map application for:
 npx expo install @sentry/react-native
 ```
 
-
 **Installed Packages:**
 
 - `@sentry/react-native@7.2.0` - Main Sentry SDK
@@ -64,14 +63,13 @@ npx expo install @sentry/react-native
 
 ```typescript
 interface SentryConfig {
-  dsn: string;              // Sentry project DSN
-  environment: string;      // development, staging, production
+  dsn: string; // Sentry project DSN
+  environment: string; // development, staging, production
   tracesSampleRate: number; // 0.2 = sample 20% of transactions
   autoSessionTracking: boolean; // Enable session tracking
   profileSampleRate: number; // Profile sampling rate
 }
 ```
-
 
 ### 4. ✅ App Configuration
 
@@ -90,7 +88,6 @@ extra: {
 }
 ```
 
-
 ### 5. ✅ Environment Variables
 
 To enable Sentry in production, set these environment variables:
@@ -102,7 +99,6 @@ SENTRY_DSN=https://xxxxx@sentry.io/PROJECT_ID
 # Optional but recommended
 NODE_ENV=production
 ```
-
 
 ---
 
@@ -165,7 +161,6 @@ try {
 }
 ```
 
-
 ### Capture Messages
 
 ```typescript
@@ -180,7 +175,6 @@ captureMessage('Location permission denied', 'warning');
 // Error level
 captureMessage('Failed to sync data', 'error');
 ```
-
 
 ### Add Breadcrumbs
 
@@ -198,7 +192,6 @@ addBreadcrumb({
 });
 ```
 
-
 ### Set User Context
 
 ```typescript
@@ -215,7 +208,6 @@ setUser({
 setUser(null);
 ```
 
-
 ### Set Custom Tags
 
 ```typescript
@@ -224,7 +216,6 @@ import { setTag } from '@sentry/react-native';
 setTag('app-region', 'new-york');
 setTag('feature-flags', 'beta');
 ```
-
 
 ### Set Custom Context
 
@@ -237,7 +228,6 @@ setContext('location-tracking', {
   lastUpdate: new Date().toISOString(),
 });
 ```
-
 
 ---
 
@@ -259,7 +249,6 @@ SENTRY_DSN=https://YOUR_KEY@sentry.io/YOUR_PROJECT_ID
 NODE_ENV=production
 ```
 
-
 Or set in your CI/CD platform:
 
 - GitHub Actions
@@ -274,7 +263,6 @@ export SENTRY_DSN=https://YOUR_KEY@sentry.io/YOUR_PROJECT_ID
 npm start
 ```
 
-
 Trigger a test error to verify it's captured:
 
 ```typescript
@@ -283,7 +271,6 @@ import * as Sentry from '@sentry/react-native';
 Sentry.captureException(new Error('Test error from Sentry'));
 ```
 
-
 ### Step 4: Deploy
 
 ```bash
@@ -291,7 +278,6 @@ Sentry.captureException(new Error('Test error from Sentry'));
 eas build --platform ios --env SENTRY_DSN=https://...
 eas build --platform android --env SENTRY_DSN=https://...
 ```
-
 
 ---
 
@@ -349,7 +335,6 @@ captureException(error, {
 });
 ```
 
-
 ### 2. Relevant Context
 
 ```typescript
@@ -366,7 +351,6 @@ addBreadcrumb({
   data: { entireState: globalState }, // Don't dump everything!
 });
 ```
-
 
 ### 3. Error Severity
 
@@ -390,7 +374,6 @@ captureException(error, {
 });
 ```
 
-
 ### 4. Release Tracking
 
 In your build process, ensure releases are tagged:
@@ -402,7 +385,6 @@ export SENTRY_RELEASE=kid-friendly-map@1.0.0+5
 # Build
 eas build --platform ios
 ```
-
 
 ---
 
@@ -443,14 +425,12 @@ eas build --platform ios
    echo $SENTRY_DSN
    ```
 
-
 1. **Verify in development:**
 
    ```typescript
    console.log('[Sentry] Environment:', Config.MONITORING.ENVIRONMENT);
    console.log('[Sentry] DSN:', Config.MONITORING.SENTRY_DSN);
    ```
-
 
 1. **Check network requests:**
    - Open DevTools → Network tab
@@ -466,7 +446,6 @@ sentry-cli releases files upload-sourcemaps \
   --dist=5 \
   dist/
 ```
-
 
 ### Too Many Events
 

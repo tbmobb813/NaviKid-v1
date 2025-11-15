@@ -10,10 +10,7 @@ export class AuthService {
   /**
    * Hash password with bcrypt
    */
-  private async hashPassword(
-    password: string,
-    salt: string
-  ): Promise<string> {
+  private async hashPassword(password: string, salt: string): Promise<string> {
     const combined = password + salt;
     return await bcrypt.hash(combined, config.security.bcryptSaltRounds);
   }
@@ -47,10 +44,9 @@ export class AuthService {
   ): Promise<User> {
     try {
       // Check if user already exists
-      const existingUser = await db.query<User>(
-        'SELECT id FROM users WHERE email = $1',
-        [email.toLowerCase()]
-      );
+      const existingUser = await db.query<User>('SELECT id FROM users WHERE email = $1', [
+        email.toLowerCase(),
+      ]);
 
       if (existingUser.rows.length > 0) {
         throw new Error('User with this email already exists');
@@ -73,11 +69,11 @@ export class AuthService {
       // Log audit trail
       await this.logAudit(user.id, 'user_registered', { email, role });
 
-      logger.info({ userId: user.id, email  }, 'User registered successfully');
+      logger.info({ userId: user.id, email }, 'User registered successfully');
 
       return user;
     } catch (error) {
-      logger.error({ email, error  }, 'Registration failed');
+      logger.error({ email, error }, 'Registration failed');
       throw error;
     }
   }
@@ -92,10 +88,9 @@ export class AuthService {
   ): Promise<{ user: User; tokens: AuthTokens }> {
     try {
       // Find user
-      const result = await db.query<User>(
-        'SELECT * FROM users WHERE email = $1',
-        [email.toLowerCase()]
-      );
+      const result = await db.query<User>('SELECT * FROM users WHERE email = $1', [
+        email.toLowerCase(),
+      ]);
 
       if (result.rows.length === 0) {
         throw new Error('Invalid credentials');
@@ -104,11 +99,7 @@ export class AuthService {
       const user = result.rows[0];
 
       // Verify password
-      const isValid = await this.verifyPassword(
-        password,
-        user.salt,
-        user.password_hash
-      );
+      const isValid = await this.verifyPassword(password, user.salt, user.password_hash);
 
       if (!isValid) {
         await this.logAudit(user.id, 'login_failed', { email, ipAddress });
@@ -121,7 +112,7 @@ export class AuthService {
       // Log audit trail
       await this.logAudit(user.id, 'user_login', { email, ipAddress });
 
-      logger.info({ userId: user.id, email  }, 'User logged in successfully');
+      logger.info({ userId: user.id, email }, 'User logged in successfully');
 
       // Remove sensitive data
       delete (user as any).password_hash;
@@ -129,7 +120,7 @@ export class AuthService {
 
       return { user, tokens };
     } catch (error) {
-      logger.error({ email, error  }, 'Login failed');
+      logger.error({ email, error }, 'Login failed');
       throw error;
     }
   }
@@ -159,9 +150,7 @@ export class AuthService {
     );
 
     // Store refresh token in Redis
-    const refreshExpiry = this.parseExpiryToSeconds(
-      config.jwt.refreshExpiresIn
-    );
+    const refreshExpiry = this.parseExpiryToSeconds(config.jwt.refreshExpiresIn);
     await redis.setSession(user.id, refreshToken, refreshExpiry);
 
     return { accessToken, refreshToken };
@@ -219,9 +208,7 @@ export class AuthService {
       }
 
       // Decode payload
-      const payload = JSON.parse(
-        Buffer.from(encodedPayload, 'base64url').toString()
-      );
+      const payload = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString());
 
       // Check expiration
       if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
@@ -230,7 +217,7 @@ export class AuthService {
 
       return payload;
     } catch (error) {
-      logger.error({ error  }, 'JWT verification failed');
+      logger.error({ error }, 'JWT verification failed');
       throw new Error('Invalid token');
     }
   }
@@ -238,9 +225,7 @@ export class AuthService {
   /**
    * Refresh access token
    */
-  public async refreshAccessToken(
-    refreshToken: string
-  ): Promise<AuthTokens> {
+  public async refreshAccessToken(refreshToken: string): Promise<AuthTokens> {
     try {
       // Verify refresh token
       const payload = this.verifyJWT(refreshToken, config.jwt.refreshSecret);
@@ -252,10 +237,9 @@ export class AuthService {
       }
 
       // Get user
-      const result = await db.query<User>(
-        'SELECT * FROM users WHERE id = $1',
-        [payload.userId]
-      );
+      const result = await db.query<User>('SELECT * FROM users WHERE id = $1', [
+        payload.userId,
+      ]);
 
       if (result.rows.length === 0) {
         throw new Error('User not found');
@@ -269,11 +253,11 @@ export class AuthService {
       // Delete old refresh token session
       await redis.deleteSession(payload.userId, refreshToken);
 
-      logger.info({ userId: user.id  }, 'Access token refreshed');
+      logger.info({ userId: user.id }, 'Access token refreshed');
 
       return tokens;
     } catch (error) {
-      logger.error({ error  }, 'Token refresh failed');
+      logger.error({ error }, 'Token refresh failed');
       throw error;
     }
   }
@@ -285,9 +269,9 @@ export class AuthService {
     try {
       await redis.deleteSession(userId, refreshToken);
       await this.logAudit(userId, 'user_logout', {});
-      logger.info({ userId  }, 'User logged out');
+      logger.info({ userId }, 'User logged out');
     } catch (error) {
-      logger.error({ userId, error  }, 'Logout failed');
+      logger.error({ userId, error }, 'Logout failed');
       throw error;
     }
   }
@@ -302,10 +286,7 @@ export class AuthService {
   ): Promise<void> {
     try {
       // Get user
-      const result = await db.query<User>(
-        'SELECT * FROM users WHERE id = $1',
-        [userId]
-      );
+      const result = await db.query<User>('SELECT * FROM users WHERE id = $1', [userId]);
 
       if (result.rows.length === 0) {
         throw new Error('User not found');
@@ -340,9 +321,9 @@ export class AuthService {
       // Log audit trail
       await this.logAudit(userId, 'password_changed', {});
 
-      logger.info({ userId  }, 'Password changed successfully');
+      logger.info({ userId }, 'Password changed successfully');
     } catch (error) {
-      logger.error({ userId, error  }, 'Password change failed');
+      logger.error({ userId, error }, 'Password change failed');
       throw error;
     }
   }
@@ -361,9 +342,9 @@ export class AuthService {
       // Log audit trail (before deletion)
       await this.logAudit(userId, 'account_deleted', {});
 
-      logger.info({ userId  }, 'Account deleted');
+      logger.info({ userId }, 'Account deleted');
     } catch (error) {
-      logger.error({ userId, error  }, 'Account deletion failed');
+      logger.error({ userId, error }, 'Account deletion failed');
       throw error;
     }
   }
@@ -404,7 +385,7 @@ export class AuthService {
         [userId, action, JSON.stringify(details), ipAddress || null]
       );
     } catch (error) {
-      logger.error({ userId, action, error  }, 'Failed to log audit trail');
+      logger.error({ userId, action, error }, 'Failed to log audit trail');
     }
   }
 }

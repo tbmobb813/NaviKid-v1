@@ -62,21 +62,25 @@ This document describes the complete frontend-backend integration for NaviKid, i
 ### Backend Setup
 
 1. **Navigate to backend directory:**
+
    ```bash
    cd backend
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment:**
+
    ```bash
    cp .env.example .env
    ```
 
    Edit `.env` with your configuration:
+
    ```env
    # Server
    PORT=3000
@@ -99,12 +103,14 @@ This document describes the complete frontend-backend integration for NaviKid, i
    ```
 
 4. **Setup database:**
+
    ```bash
    npm run db:migrate
    npm run db:seed  # Optional: seed test data
    ```
 
 5. **Start backend server:**
+
    ```bash
    npm run dev
    ```
@@ -112,11 +118,13 @@ This document describes the complete frontend-backend integration for NaviKid, i
    Backend should be running on `http://localhost:3000`
 
 6. **Verify backend health:**
+
    ```bash
    curl http://localhost:3000/health
    ```
 
    Expected response:
+
    ```json
    {
      "status": "healthy",
@@ -131,21 +139,25 @@ This document describes the complete frontend-backend integration for NaviKid, i
 ### Frontend Setup
 
 1. **Navigate to project root:**
+
    ```bash
    cd /path/to/NaviKid-v1
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment:**
+
    ```bash
    cp .env.example .env
    ```
 
    Edit `.env`:
+
    ```env
    # Backend API URL
    EXPO_PUBLIC_API_URL=http://localhost:3000
@@ -163,6 +175,7 @@ This document describes the complete frontend-backend integration for NaviKid, i
    ```
 
 4. **Start Expo development server:**
+
    ```bash
    npm start
    ```
@@ -218,16 +231,11 @@ await apiClient.auth.changePassword(oldPassword, newPassword);
 import apiClient from '@/services/api';
 
 // Send location
-const result = await apiClient.locations.sendLocation(
-  latitude,
-  longitude,
-  accuracy,
-  {
-    batteryLevel: 85,
-    isMoving: true,
-    speed: 2.5
-  }
-);
+const result = await apiClient.locations.sendLocation(latitude, longitude, accuracy, {
+  batteryLevel: 85,
+  isMoving: true,
+  speed: 2.5,
+});
 
 // Get location history
 const result = await apiClient.locations.getHistory(startDate, endDate);
@@ -251,9 +259,9 @@ const result = await apiClient.safeZones.list();
 const result = await apiClient.safeZones.create(
   'Home',
   40.7128,
-  -74.0060,
+  -74.006,
   200, // radius in meters
-  'home'
+  'home',
 );
 
 // Update safe zone
@@ -279,7 +287,7 @@ const result = await apiClient.emergency.addContact(
   'John Doe',
   '+1234567890',
   'john@example.com',
-  'Parent'
+  'Parent',
 );
 
 // Update contact
@@ -303,8 +311,8 @@ const result = await apiClient.offline.syncActions([
     id: '1',
     type: 'location_update',
     data: { latitude, longitude, accuracy },
-    timestamp: Date.now()
-  }
+    timestamp: Date.now(),
+  },
 ]);
 ```
 
@@ -383,13 +391,7 @@ import safeZoneService from '@/services/safeZoneService';
 await safeZoneService.fetchSafeZones();
 
 // Create safe zone
-const zone = await safeZoneService.createSafeZone(
-  'School',
-  40.7128,
-  -74.0060,
-  300,
-  'school'
-);
+const zone = await safeZoneService.createSafeZone('School', 40.7128, -74.006, 300, 'school');
 
 // Update safe zone
 await safeZoneService.updateSafeZone(id, { radius: 400 });
@@ -424,7 +426,7 @@ const contact = await emergencyService.addContact(
   'Mom',
   '+1234567890',
   'mom@example.com',
-  'Parent'
+  'Parent',
 );
 
 // Update contact
@@ -456,7 +458,7 @@ import offlineQueue from '@/services/offlineQueue';
 await offlineQueue.addAction({
   type: 'location_update',
   data: { latitude, longitude, accuracy },
-  timestamp: Date.now()
+  timestamp: Date.now(),
 });
 
 // Sync queue with backend
@@ -485,6 +487,7 @@ const isOnline = offlineQueue.isNetworkOnline();
 ### Running Tests
 
 1. **Start backend server:**
+
    ```bash
    cd backend && npm run dev
    ```
@@ -556,6 +559,7 @@ The integration test suite covers all 8 required scenarios:
 **Problem:** `Network request failed` or `ECONNREFUSED`
 
 **Solution:**
+
 - Verify backend is running on `http://localhost:3000`
 - Check `EXPO_PUBLIC_API_URL` in `.env`
 - For iOS Simulator: use `http://localhost:3000`
@@ -567,6 +571,7 @@ The integration test suite covers all 8 required scenarios:
 **Problem:** `401 Unauthorized` errors
 
 **Solution:**
+
 - Check JWT secret in backend `.env`
 - Verify token expiration settings
 - Clear app storage and re-login
@@ -577,6 +582,7 @@ The integration test suite covers all 8 required scenarios:
 **Problem:** WebSocket fails to connect
 
 **Solution:**
+
 - Verify WebSocket endpoint is accessible
 - Check firewall settings
 - Ensure backend WebSocket support is enabled
@@ -587,6 +593,7 @@ The integration test suite covers all 8 required scenarios:
 **Problem:** Backend fails to connect to PostgreSQL
 
 **Solution:**
+
 - Verify PostgreSQL is running: `pg_isready`
 - Check database credentials in `.env`
 - Verify database exists: `psql -l`
@@ -597,6 +604,7 @@ The integration test suite covers all 8 required scenarios:
 **Problem:** Location tracking doesn't start
 
 **Solution:**
+
 - Check app permissions in device settings
 - Request permissions programmatically
 - For iOS: add location usage descriptions in `app.config.ts`

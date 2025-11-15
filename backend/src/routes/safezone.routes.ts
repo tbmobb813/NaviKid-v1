@@ -7,7 +7,7 @@ import {
   checkLocationInSafeZoneSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, SafeZoneType } from '../types';
+import { ApiResponse, SafeZoneType, JWTPayload } from '../types';
 import logger from '../utils/logger';
 
 export async function safeZoneRoutes(fastify: FastifyInstance) {
@@ -22,7 +22,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
 
         const safeZones = await safeZoneService.getSafeZones(userId);
 
@@ -36,7 +36,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get safe zones error');
+        logger.error({ error }, 'Get safe zones error');
         reply.status(500).send({
           success: false,
           error: {
@@ -59,7 +59,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
 
         const safeZone = await safeZoneService.getSafeZoneById(userId, id);
@@ -84,7 +84,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get safe zone error');
+        logger.error({ error }, 'Get safe zone error');
         reply.status(500).send({
           success: false,
           error: {
@@ -107,7 +107,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { name, centerLatitude, centerLongitude, radius, type } =
           request.body as any;
 
@@ -130,7 +130,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Create safe zone error');
+        logger.error({ error }, 'Create safe zone error');
         reply.status(500).send({
           success: false,
           error: {
@@ -153,7 +153,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
         const updates = request.body as any;
 
@@ -179,7 +179,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Update safe zone error');
+        logger.error({ error }, 'Update safe zone error');
         reply.status(500).send({
           success: false,
           error: {
@@ -202,7 +202,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
 
         const deleted = await safeZoneService.deleteSafeZone(userId, id);
@@ -227,7 +227,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Delete safe zone error');
+        logger.error({ error }, 'Delete safe zone error');
         reply.status(500).send({
           success: false,
           error: {
@@ -250,7 +250,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { latitude, longitude } = request.body as any;
 
         const result = await safeZoneService.checkLocationInSafeZones(
@@ -269,7 +269,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Check safe zone error');
+        logger.error({ error }, 'Check safe zone error');
         reply.status(500).send({
           success: false,
           error: {

@@ -46,14 +46,12 @@ Building an APK from your Expo project requires either:
    Settings → Developer options → Enable "USB debugging"
    ```
 
-
 1. **Check connection:**
 
    ```bash
    adb devices
    # Should show your device
    ```
-
 
 1. **Build APK:**
 
@@ -62,13 +60,11 @@ Building an APK from your Expo project requires either:
    npx expo run:android --variant release
    ```
 
-
 1. **Find your APK:**
 
    ```bash
    find android/app/build/outputs/apk -name "*.apk"
    ```
-
 
 The APK will be at: `android/app/build/outputs/apk/release/app-release.apk`
 
@@ -87,7 +83,6 @@ While fixing the USB/APK build issue, test your app NOW:
    ```bash
    npx expo start
    ```
-
 
 1. **Press `s`** to switch to Expo Go mode
 
@@ -129,7 +124,6 @@ sudo apt autoremove --purge
 df -h /
 ```
 
-
 **If you get to 8GB+ free:**
 
 ```bash
@@ -149,7 +143,6 @@ adb devices
 npx expo run:android --variant release
 ```
 
-
 ---
 
 ### Option 4: Fix EAS Login and Build on Cloud
@@ -168,7 +161,6 @@ npx expo run:android --variant release
 eas login
 eas build --platform android --profile preview
 ```
-
 
 **Advantages:**
 
@@ -250,7 +242,6 @@ If your USB port or cable is truly broken:
    Tap "Pair device with pairing code"
    ```
 
-
 1. **On laptop:**
 
    ```bash
@@ -261,13 +252,11 @@ If your USB port or cable is truly broken:
    adb devices
    ```
 
-
 1. **Then build:**
 
    ```bash
    npx expo run:android --variant release
    ```
-
 
 ---
 

@@ -22,6 +22,7 @@ import SafeZoneManagement from '@/components/SafeZoneManagement';
 import { SafeZoneStatusCard } from '@/components/SafeZoneStatusCard';
 import { SafeZoneActivityLog } from '@/components/SafeZoneActivityLog';
 import DevicePingHistory from '@/components/DevicePingHistory';
+import { useGeofenceEvents } from '@/hooks/useGeofenceEvents';
 
 type ParentDashboardProps = {
   onExit: () => void;
@@ -30,6 +31,19 @@ type ParentDashboardProps = {
 const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
   const { dashboardData, checkInRequests, safeZones, settings, sendDevicePing, requestCheckIn } =
     useParentalStore();
+
+  // Listen for real-time geofence events from background tasks
+  useGeofenceEvents((event) => {
+    // Real-time dashboard updates when child enters/exits safe zones
+    console.log(`Real-time geofence ${event.type}: ${event.regionId}`, event);
+
+    // Optional: Show in-app notification or update UI state
+    // You can add additional logic here to:
+    // - Update a local state to show recent activity
+    // - Display a toast notification
+    // - Trigger sound/vibration alerts
+    // - Send notifications to other parent devices via backend API
+  });
 
   const { getPendingCategories, approveCategory } = useCategoryStore();
   const [activeTab, setActiveTab] = useState<

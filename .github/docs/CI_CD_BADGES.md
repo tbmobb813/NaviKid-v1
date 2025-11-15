@@ -25,12 +25,14 @@ Add these badges to your README.md to display real-time CI/CD status:
 ### Branch-Specific Badges
 
 **Main Branch:**
+
 ```markdown
 ![Backend CI](https://github.com/YOUR_USERNAME/NaviKid-v1/workflows/Backend%20CI%2FCD/badge.svg?branch=main)
 ![Frontend CI](https://github.com/YOUR_USERNAME/NaviKid-v1/workflows/Frontend%20CI%2FCD/badge.svg?branch=main)
 ```
 
 **Develop Branch:**
+
 ```markdown
 ![Backend CI](https://github.com/YOUR_USERNAME/NaviKid-v1/workflows/Backend%20CI%2FCD/badge.svg?branch=develop)
 ![Frontend CI](https://github.com/YOUR_USERNAME/NaviKid-v1/workflows/Frontend%20CI%2FCD/badge.svg?branch=develop)
@@ -49,11 +51,13 @@ Add to README.md after setting up Codecov integration:
 ```
 
 ### Backend Coverage
+
 ```markdown
 [![Backend Coverage](https://codecov.io/gh/YOUR_USERNAME/NaviKid-v1/branch/main/graph/badge.svg?flag=backend-unit)](https://codecov.io/gh/YOUR_USERNAME/NaviKid-v1)
 ```
 
 ### Frontend Coverage
+
 ```markdown
 [![Frontend Coverage](https://codecov.io/gh/YOUR_USERNAME/NaviKid-v1/branch/main/graph/badge.svg?flag=frontend)](https://codecov.io/gh/YOUR_USERNAME/NaviKid-v1)
 ```
@@ -192,6 +196,7 @@ GitHub Actions badges automatically show status colors:
 ```
 
 To create dynamic badges:
+
 1. Create a GitHub Gist with badge data
 2. Use shields.io endpoint API
 3. Update Gist from workflow using GitHub API
@@ -225,6 +230,7 @@ Add these links to quickly access monitoring:
 ### Testing Badges
 
 Run a workflow to see badges update:
+
 ```bash
 git commit -m "test: trigger CI" --allow-empty
 git push
@@ -249,6 +255,7 @@ git push
 **Problem:** Badge shows "invalid" or doesn't appear
 
 **Solutions:**
+
 - Verify workflow file name matches badge URL
 - Check if workflow has run at least once
 - Ensure repository is public (or use tokens for private repos)
@@ -259,6 +266,7 @@ git push
 **Problem:** Badge doesn't reflect latest run
 
 **Solutions:**
+
 - Clear browser cache
 - Add `?cache=none` to badge URL temporarily
 - Wait for GitHub cache to expire (usually 5-10 minutes)
@@ -266,6 +274,7 @@ git push
 ### Private Repository Badges
 
 For private repositories, use token authentication:
+
 ```markdown
 ![CI](https://github.com/YOUR_USERNAME/NaviKid-v1/workflows/CI/badge.svg?token=YOUR_TOKEN)
 ```

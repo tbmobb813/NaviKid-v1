@@ -173,7 +173,7 @@ Only after creating pointer stubs or moving to archive:
   - ORS_OTP2_IMPLEMENTATION_SUMMARY.md
   - MAPLIBRE_INTEGRATION_COMPLETE.md
   - IMPLEMENTATION_COMPLETE.md
-  - OPTION_1_*.md (both)
+  - OPTION*1*\*.md (both)
 
 Note: prefer a minimal pointer file at root for high-traffic topics (e.g., QUICK_START) if that aids discoverability.
 

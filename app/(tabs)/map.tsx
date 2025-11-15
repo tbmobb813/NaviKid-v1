@@ -201,8 +201,6 @@ export default function MapScreen() {
     return mapLibreSupported ? 'maplibre' : 'interactive';
   }, [mapLibreSupported]);
 
-  
-
   // ...existing code...
   // Snap points for bottom sheet
   const bottomSheetSnapPoints = ['25%', '60%'];

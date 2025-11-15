@@ -183,11 +183,7 @@ Add this to `backend/src/config/index.ts`:
 ```typescript
 // Production security checks
 if (process.env.NODE_ENV === 'production') {
-  const requiredSecrets = [
-    'JWT_ACCESS_SECRET',
-    'JWT_REFRESH_SECRET',
-    'DB_PASSWORD',
-  ];
+  const requiredSecrets = ['JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET', 'DB_PASSWORD'];
 
   for (const secret of requiredSecrets) {
     const value = process.env[secret];
@@ -248,6 +244,7 @@ hostnossl all all 0.0.0.0/0 reject
 #### Enable Encryption at Rest
 
 **AWS RDS:**
+
 ```bash
 # Enable encryption when creating RDS instance
 aws rds create-db-instance \
@@ -258,6 +255,7 @@ aws rds create-db-instance \
 ```
 
 **Self-Hosted PostgreSQL:**
+
 ```bash
 # Use encrypted file system (LUKS, dm-crypt)
 # Or use pgcrypto for field-level encryption
@@ -299,20 +297,21 @@ this.pool = new Pool({
   user: config.database.user,
   password: config.database.password,
   ssl: {
-    rejectUnauthorized: true,  // IMPORTANT: Enable certificate validation
+    rejectUnauthorized: true, // IMPORTANT: Enable certificate validation
     ca: fs.readFileSync('/path/to/ca-cert.pem').toString(),
   },
-  max: 20,                      // Maximum pool size
-  min: 5,                       // Minimum pool size
-  idleTimeoutMillis: 30000,     // Close idle clients after 30 seconds
+  max: 20, // Maximum pool size
+  min: 5, // Minimum pool size
+  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
   connectionTimeoutMillis: 2000, // Fail fast on connection issues
-  statement_timeout: 30000,     // Query timeout (30 seconds)
+  statement_timeout: 30000, // Query timeout (30 seconds)
 });
 ```
 
 #### Automated Backups
 
 **AWS RDS:**
+
 ```bash
 # Enable automated backups (7-day retention)
 aws rds modify-db-instance \
@@ -322,6 +321,7 @@ aws rds modify-db-instance \
 ```
 
 **Self-Hosted:**
+
 ```bash
 #!/bin/bash
 # /etc/cron.daily/pg_backup.sh
@@ -453,6 +453,7 @@ server {
 ```
 
 Enable site:
+
 ```bash
 sudo ln -s /etc/nginx/sites-available/navikid /etc/nginx/sites-enabled/
 sudo nginx -t
@@ -506,28 +507,29 @@ sudo ufw status verbose
 
 **Backend EC2 Security Group:**
 
-| Type | Protocol | Port Range | Source | Description |
-|------|----------|------------|--------|-------------|
-| HTTP | TCP | 80 | 0.0.0.0/0 | Allow HTTP (redirect to HTTPS) |
-| HTTPS | TCP | 443 | 0.0.0.0/0 | Allow HTTPS |
-| SSH | TCP | 22 | YOUR_IP/32 | SSH access (restricted IP) |
-| Custom TCP | TCP | 3000 | ALB Security Group | Backend from load balancer |
+| Type       | Protocol | Port Range | Source             | Description                    |
+| ---------- | -------- | ---------- | ------------------ | ------------------------------ |
+| HTTP       | TCP      | 80         | 0.0.0.0/0          | Allow HTTP (redirect to HTTPS) |
+| HTTPS      | TCP      | 443        | 0.0.0.0/0          | Allow HTTPS                    |
+| SSH        | TCP      | 22         | YOUR_IP/32         | SSH access (restricted IP)     |
+| Custom TCP | TCP      | 3000       | ALB Security Group | Backend from load balancer     |
 
 **RDS Security Group:**
 
-| Type | Protocol | Port Range | Source | Description |
-|------|----------|------------|--------|-------------|
-| PostgreSQL | TCP | 5432 | Backend SG | Allow backend to database |
+| Type       | Protocol | Port Range | Source     | Description               |
+| ---------- | -------- | ---------- | ---------- | ------------------------- |
+| PostgreSQL | TCP      | 5432       | Backend SG | Allow backend to database |
 
 **ElastiCache Security Group:**
 
-| Type | Protocol | Port Range | Source | Description |
-|------|----------|------------|--------|-------------|
-| Redis | TCP | 6379 | Backend SG | Allow backend to Redis |
+| Type  | Protocol | Port Range | Source     | Description            |
+| ----- | -------- | ---------- | ---------- | ---------------------- |
+| Redis | TCP      | 6379       | Backend SG | Allow backend to Redis |
 
 ### DDoS Protection
 
 **Cloudflare (Recommended):**
+
 1. Add domain to Cloudflare
 2. Update DNS to point to Cloudflare
 3. Enable "Under Attack Mode" if needed
@@ -535,6 +537,7 @@ sudo ufw status verbose
 5. Enable WAF (Web Application Firewall)
 
 **AWS Shield:**
+
 - AWS Shield Standard: Enabled by default (free)
 - AWS Shield Advanced: $3000/month (optional, for large-scale DDoS)
 
@@ -885,6 +888,7 @@ aws s3 cp "/var/backups/navikid/redis_$DATE.rdb.gz" \
 **Disaster Recovery Steps:**
 
 1. **Database Restoration:**
+
 ```bash
 # Download latest backup from S3
 aws s3 cp s3://navikid-backups-prod/database/db_latest.dump.gz.gpg ./
@@ -910,6 +914,7 @@ npm run db:migrate
 ```
 
 2. **Application Deployment:**
+
 ```bash
 # Pull latest code
 git clone https://github.com/navikid/backend.git
@@ -926,6 +931,7 @@ npm run start
 ```
 
 3. **Verify restoration:**
+
 ```bash
 # Health check
 curl https://api.navikid.com/health
@@ -1168,16 +1174,19 @@ https://www.ssllabs.com/ssltest/analyze.html?d=api.navikid.com
 ## Emergency Contacts
 
 **Security Incidents:**
+
 - Email: security@navikid.com
 - Phone: +1-XXX-XXX-XXXX (24/7 on-call)
 - Slack: #security-incidents
 
 **Infrastructure Issues:**
+
 - Email: devops@navikid.com
 - Phone: +1-XXX-XXX-XXXX
 - Slack: #devops
 
 **Legal/Compliance:**
+
 - Email: legal@navikid.com
 - Phone: +1-XXX-XXX-XXXX
 

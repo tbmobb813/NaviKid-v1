@@ -5,11 +5,6 @@ import logger from '../utils/logger';
 import { JWTPayload } from '../types';
 
 // Extend FastifyRequest to include user
-declare module 'fastify' {
-  interface FastifyRequest {
-    user?: JWTPayload;
-  }
-}
 
 /**
  * Authentication middleware
@@ -36,12 +31,12 @@ export async function authMiddleware(
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Verify token
-    const payload = authService.verifyJWT(token, config.jwt.accessSecret);
+    const payload = authService.verifyJWT(token, config.jwt.accessSecret) as JWTPayload;
 
-    // Attach user to request
+    // Attach user to request (typed via Fastify declaration merge)
     request.user = payload;
   } catch (error: any) {
-    logger.warn({ error: error.message  }, 'Authentication failed');
+    logger.warn({ error: error.message }, 'Authentication failed');
     return reply.status(401).send({
       success: false,
       error: {
@@ -65,12 +60,12 @@ export async function optionalAuthMiddleware(
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
-      const payload = authService.verifyJWT(token, config.jwt.accessSecret);
+      const payload = authService.verifyJWT(token, config.jwt.accessSecret) as JWTPayload;
       request.user = payload;
     }
   } catch (error) {
     // Silently fail for optional auth
-    logger.debug({ error  }, 'Optional auth failed');
+    logger.debug({ error }, 'Optional auth failed');
   }
 }
 
@@ -89,7 +84,8 @@ export function requireRole(...roles: string[]) {
       });
     }
 
-    if (!roles.includes(request.user.role)) {
+    const user = request.user as JWTPayload;
+    if (!roles.includes(user.role)) {
       return reply.status(403).send({
         success: false,
         error: {

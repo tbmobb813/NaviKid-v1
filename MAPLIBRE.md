@@ -3,15 +3,18 @@
 This document explains how to enable and ship the native MapLibre React Native module in this project, common troubleshooting steps, and the deployment/build options available (EAS dev builds, production EAS builds, and bare React Native).
 
 Purpose
+
 - Make MapLibre the primary mobile map implementation for better on-device performance and native feature parity.
 - Explain the minimal steps to include the native module in an Expo-managed project using EAS, and for bare React Native projects.
 
 Quick summary
+
 - Preferred development flow (recommended): Create an EAS development build that includes `@maplibre/maplibre-react-native`.
 - Production: Build with EAS (production profile) or use a bare RN build pipeline.
 - In Expo Go the native module is not available — the app falls back to a JS/OpenStreetMap implementation. Use EAS dev builds when testing the native experience.
 
 Prerequisites
+
 - Node, npm (or yarn/bun) and project dependencies installed.
 - EAS CLI installed for EAS builds: `npm install -g eas-cli` or use `npx eas`.
 - For iOS builds: Apple credentials (App Store / private signing) when running EAS builds for iOS.
@@ -50,6 +53,7 @@ npx eas build --profile development --platform ios
 ```
 
 Notes:
+
 - An EAS dev build gives you an installable APK / AAB or iOS build you can run on device and contains the native MapLibre modules.
 - Dev builds are faster to iterate than production builds and are intended for local testing of native modules.
 
@@ -69,7 +73,6 @@ If you're not using EAS or need full native control, convert to a bare RN workfl
 Environment and configuration
 
 - This project reads map style and tokens from `Config`/environment variables. Set these in your environment or `.env` as needed:
-
   - EXPO_PUBLIC_MAP_STYLE_URL (style.json URL)
   - EXPO_PUBLIC_MAPBOX_TOKEN (only if your style requires a Mapbox token)
 
@@ -167,6 +170,5 @@ npm run check:native-view-managers
 ```
 
 This runs `adb logcat -s NativeCheck:I *:S` to show only the NativeCheck logs.
-
 
 If you want me to make any of these next steps (add CI job, hide debug badge, link the doc), tell me which and I'll implement them.

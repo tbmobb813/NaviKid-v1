@@ -46,7 +46,11 @@ const PlaceCard: React.FC<PlaceCardProps> = ({ place, onPress }) => {
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.container, globalStyles.shadow, pressed && globalStyles.pressed]}
+      style={({ pressed }) => [
+        styles.container,
+        globalStyles.shadow,
+        pressed && globalStyles.pressed,
+      ]}
       onPress={() => onPress(place)}
     >
       <View style={globalStyles.iconContainerLarge}>{getIcon()}</View>

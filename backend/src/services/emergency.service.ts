@@ -23,11 +23,11 @@ export class EmergencyService {
 
       const contact = result.rows[0];
 
-      logger.info({ userId, contactId: contact.id  }, 'Emergency contact added');
+      logger.info({ userId, contactId: contact.id }, 'Emergency contact added');
 
       return contact;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to add emergency contact');
+      logger.error({ userId, error }, 'Failed to add emergency contact');
       throw error;
     }
   }
@@ -44,7 +44,7 @@ export class EmergencyService {
 
       return result.rows;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get emergency contacts');
+      logger.error({ userId, error }, 'Failed to get emergency contacts');
       throw error;
     }
   }
@@ -64,7 +64,7 @@ export class EmergencyService {
 
       return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
-      logger.error({ userId, contactId, error  }, 'Failed to get emergency contact');
+      logger.error({ userId, contactId, error }, 'Failed to get emergency contact');
       throw error;
     }
   }
@@ -127,13 +127,13 @@ export class EmergencyService {
       const result = await db.query<EmergencyContact>(query, values);
 
       if (result.rows.length > 0) {
-        logger.info({ userId, contactId  }, 'Emergency contact updated');
+        logger.info({ userId, contactId }, 'Emergency contact updated');
         return result.rows[0];
       }
 
       return null;
     } catch (error) {
-      logger.error({ userId, contactId, error  }, 'Failed to update emergency contact');
+      logger.error({ userId, contactId, error }, 'Failed to update emergency contact');
       throw error;
     }
   }
@@ -154,12 +154,12 @@ export class EmergencyService {
       const deleted = (result.rowCount ?? 0) > 0;
 
       if (deleted) {
-        logger.info({ userId, contactId  }, 'Emergency contact deleted');
+        logger.info({ userId, contactId }, 'Emergency contact deleted');
       }
 
       return deleted;
     } catch (error) {
-      logger.error({ userId, contactId, error  }, 'Failed to delete emergency contact');
+      logger.error({ userId, contactId, error }, 'Failed to delete emergency contact');
       throw error;
     }
   }
@@ -181,7 +181,7 @@ export class EmergencyService {
       const contacts = await this.getEmergencyContacts(userId);
 
       if (contacts.length === 0) {
-        logger.warn({ userId  }, 'No emergency contacts found for user');
+        logger.warn({ userId }, 'No emergency contacts found for user');
         return [];
       }
 
@@ -201,12 +201,15 @@ export class EmergencyService {
 
         // TODO: Send actual SMS/Email notification
         // For now, just log
-        logger.info({
-          userId,
-          contactId: contact.id,
-          alertId: alert.id,
-          triggerReason,
-        }, 'Emergency alert created');
+        logger.info(
+          {
+            userId,
+            contactId: contact.id,
+            alertId: alert.id,
+            triggerReason,
+          },
+          'Emergency alert created'
+        );
 
         // Simulate notification sending
         await this.sendEmergencyNotification(contact, locationSnapshot, triggerReason);
@@ -214,7 +217,7 @@ export class EmergencyService {
 
       return alerts;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to trigger emergency alert');
+      logger.error({ userId, error }, 'Failed to trigger emergency alert');
       throw error;
     }
   }
@@ -228,13 +231,16 @@ export class EmergencyService {
     reason: EmergencyTriggerReason
   ): Promise<void> {
     // TODO: Integrate with SMS/Email service (Twilio, SendGrid, etc.)
-    logger.info({
-      contactId: contact.id,
-      phoneNumber: contact.phone_number,
-      email: contact.email,
-      location,
-      reason,
-    }, 'Emergency notification sent (stub)');
+    logger.info(
+      {
+        contactId: contact.id,
+        phoneNumber: contact.phone_number,
+        email: contact.email,
+        location,
+        reason,
+      },
+      'Emergency notification sent (stub)'
+    );
 
     // Simulate async delivery
     setTimeout(async () => {
@@ -248,7 +254,10 @@ export class EmergencyService {
           [contact.id]
         );
       } catch (error) {
-        logger.error({ contactId: contact.id, error  }, 'Failed to update delivery status');
+        logger.error(
+          { contactId: contact.id, error },
+          'Failed to update delivery status'
+        );
       }
     }, 1000);
   }
@@ -283,7 +292,7 @@ export class EmergencyService {
         total,
       };
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get emergency alert history');
+      logger.error({ userId, error }, 'Failed to get emergency alert history');
       throw error;
     }
   }
@@ -305,13 +314,13 @@ export class EmergencyService {
       );
 
       if (result.rows.length > 0) {
-        logger.info({ userId, alertId  }, 'Emergency alert acknowledged');
+        logger.info({ userId, alertId }, 'Emergency alert acknowledged');
         return result.rows[0];
       }
 
       return null;
     } catch (error) {
-      logger.error({ userId, alertId, error  }, 'Failed to acknowledge alert');
+      logger.error({ userId, alertId, error }, 'Failed to acknowledge alert');
       throw error;
     }
   }

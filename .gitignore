@@ -32,6 +32,7 @@ yarn-error.*
 # local env files
 .env*.local
 
+/backend/supabase-ca.pem
 # typescript
 *.tsbuildinfo
 .vercel
@@ -94,3 +95,11 @@ yarn-error.*
 coverage/
 # @end expo-cli
 .env.local
+
+# Local env files (do not commit secrets)
+/.env
+/backend/.env
+/backend/.env.local
+
+# Backend build output
+/backend/dist

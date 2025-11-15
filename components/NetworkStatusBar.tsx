@@ -1,8 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import globalStyles from '../styles'; // Use globalStyles for shared styles
-
-// TODO: Move any shared/reusable styles to styles.ts and use globalStyles
 import Colors from '@/constants/colors';
 import { WifiOff, Wifi, RefreshCw } from 'lucide-react-native';
 import { useNetworkStatus } from '@/hooks/useNetworkStatus';

@@ -3,7 +3,12 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import FloatingMenu from '@/components/FloatingMenu';
 
-export default function MapOverlay({ mapImplementation, onRecenter, onHelp, onToggleAccessibility }) {
+export default function MapOverlay({
+  mapImplementation,
+  onRecenter,
+  onHelp,
+  onToggleAccessibility,
+}) {
   const router = useRouter();
 
   return (

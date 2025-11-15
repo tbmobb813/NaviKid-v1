@@ -41,8 +41,6 @@ Next Steps (optional)
 - Group long-form “implementation summaries” under a single canonical summary and archive older variants in `docs/archive/`.
 - Add a short “Docs Map” section in `docs/INDEX.md` to highlight canonical guides for: Getting Started, Builds, Performance, Offline/Monitoring, MapLibre, Routing.
 
-
-
 ## 2025-10-07 – Repository-Wide Markdown Standardization Pass
 
 **Goal:** Establish a clean markdown lint baseline (excluding third-party content) so CI
