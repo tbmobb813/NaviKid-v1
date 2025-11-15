@@ -8,7 +8,7 @@ import {
   refreshTokenSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, UserRole } from '../types';
+import { ApiResponse, UserRole, JWTPayload } from '../types';
 import logger from '../utils/logger';
 
 export async function authRoutes(fastify: FastifyInstance) {
@@ -48,7 +48,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Registration error');
+        logger.error({ error }, 'Registration error');
         reply.status(400).send({
           success: false,
           error: {
@@ -97,7 +97,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Login error');
+        logger.error({ error }, 'Login error');
         reply.status(401).send({
           success: false,
           error: {
@@ -134,7 +134,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Token refresh error');
+        logger.error({ error }, 'Token refresh error');
         reply.status(401).send({
           success: false,
           error: {
@@ -157,7 +157,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const refreshToken = request.body as any;
 
         await authService.logout(userId, refreshToken.refreshToken);
@@ -172,7 +172,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Logout error');
+        logger.error({ error }, 'Logout error');
         reply.status(500).send({
           success: false,
           error: {
@@ -195,7 +195,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { oldPassword, newPassword } = request.body as {
           oldPassword: string;
           newPassword: string;
@@ -213,7 +213,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Password change error');
+        logger.error({ error }, 'Password change error');
         reply.status(400).send({
           success: false,
           error: {

@@ -17,7 +17,6 @@ MapLibre (via @maplibre/maplibre-react-native)       # Native maps (MapLibre)
 expo-speech@~13.1.7            # Already installed, now integrated
 ```
 
-
 ## 📦 1. MMKV Storage
 
 ### Features
@@ -57,7 +56,6 @@ const count = mainStorage.getNumber('count', 0);
 const enabled = mainStorage.getBoolean('enabled', false);
 ```
 
-
 #### Cache with Expiration
 
 ```typescript
@@ -74,7 +72,6 @@ const cleared = StorageUtils.clearExpired();
 console.log(`Cleared ${cleared} expired entries`);
 ```
 
-
 #### Batch Operations
 
 ```typescript
@@ -89,7 +86,6 @@ mainStorage.setBatch({
 const values = mainStorage.getBatch([StorageKeys.THEME, StorageKeys.LANGUAGE]);
 ```
 
-
 #### Migration from AsyncStorage
 
 ```typescript
@@ -98,7 +94,6 @@ import { migrateFromAsyncStorage } from '../utils/storage';
 // Call once on app startup
 await migrateFromAsyncStorage();
 ```
-
 
 ### Available Storage Keys
 
@@ -116,7 +111,6 @@ StorageKeys.ACHIEVEMENTS; // Achievements
 StorageKeys.TRANSIT_DATA; // Transit cache
 // ... and more (see utils/storage.ts)
 ```
-
 
 ## 🎤 2. Voice/TTS with Expo Speech
 
@@ -149,7 +143,6 @@ await voiceManager.speak('Turn left ahead', {
 });
 ```
 
-
 #### Navigation Guidance
 
 ```typescript
@@ -161,7 +154,6 @@ await speakNavigation('Turn left', 150); // "Soon, turn left"
 await speakNavigation('Turn left', 500); // "Up ahead, turn left"
 ```
 
-
 #### Safety Reminders
 
 ```typescript
@@ -172,7 +164,6 @@ await speakSafety(KidFriendlyPhrases.safety.holdHand);
 await speakSafety(KidFriendlyPhrases.safety.stayClose);
 ```
 
-
 #### Achievement Announcements
 
 ```typescript
@@ -181,7 +172,6 @@ import { speakAchievement, KidFriendlyPhrases } from '../utils/voice';
 await speakAchievement(KidFriendlyPhrases.achievements.newBadge);
 await speakAchievement(KidFriendlyPhrases.achievements.firstJourney);
 ```
-
 
 #### Voice Settings
 
@@ -213,7 +203,6 @@ voiceManager.clearQueue();
 voiceManager.stop();
 ```
 
-
 #### Kid-Friendly Phrases
 
 ```typescript
@@ -242,7 +231,6 @@ KidFriendlyPhrases.encouragement.keepGoing;
 KidFriendlyPhrases.encouragement.wellDone;
 ```
 
-
 ### Voice Settings Component
 
 ```typescript
@@ -251,7 +239,6 @@ import VoiceSettings from '../components/VoiceSettings';
 // Use in your app
 <VoiceSettings />
 ```
-
 
 ## 🗺️ 3. React Native Maps
 
@@ -276,7 +263,6 @@ import KidFriendlyMap from '../components/KidFriendlyMap';
   showUserLocation={true}
 />
 ```
-
 
 #### With Safe Zones
 
@@ -310,7 +296,6 @@ const safeZones = [
 />
 ```
 
-
 #### With Route
 
 ```typescript
@@ -338,7 +323,6 @@ const route = [
 />
 ```
 
-
 #### Location Tracking
 
 ```typescript
@@ -354,7 +338,6 @@ const route = [
   }}
 />
 ```
-
 
 ### Map Features
 
@@ -423,7 +406,6 @@ export default function JourneyScreen() {
 }
 ```
 
-
 ## 🧪 Testing
 
 ### Demo Component
@@ -436,7 +418,6 @@ import EnhancedFeaturesDemo from '../components/EnhancedFeaturesDemo';
 // Shows all features with interactive demos
 <EnhancedFeaturesDemo />
 ```
-
 
 ### Test Commands
 
@@ -453,7 +434,6 @@ npx expo start --android
 # For web (limited features)
 npx expo start --web
 ```
-
 
 ## 📝 Configuration
 
@@ -525,7 +505,6 @@ components/
 ├── EnhancedFeaturesDemo.tsx  # Demo component
 └── ...
 ```
-
 
 ## 🐛 Troubleshooting
 

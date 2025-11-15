@@ -24,11 +24,11 @@ export class LocationService {
 
       const location = result.rows[0];
 
-      logger.debug({ userId, locationId: location.id  }, 'Location stored');
+      logger.debug({ userId, locationId: location.id }, 'Location stored');
 
       return location;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to store location');
+      logger.error({ userId, error }, 'Failed to store location');
       throw error;
     }
   }
@@ -71,18 +71,21 @@ export class LocationService {
 
       const result = await db.query<Location>(query, params);
 
-      logger.debug({
-        userId,
-        count: result.rows.length,
-        total,
-      }, 'Location history retrieved');
+      logger.debug(
+        {
+          userId,
+          count: result.rows.length,
+          total,
+        },
+        'Location history retrieved'
+      );
 
       return {
         locations: result.rows,
         total,
       };
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get location history');
+      logger.error({ userId, error }, 'Failed to get location history');
       throw error;
     }
   }
@@ -102,7 +105,7 @@ export class LocationService {
 
       return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get current location');
+      logger.error({ userId, error }, 'Failed to get current location');
       throw error;
     }
   }
@@ -110,10 +113,7 @@ export class LocationService {
   /**
    * Delete specific location
    */
-  public async deleteLocation(
-    userId: string,
-    locationId: string
-  ): Promise<boolean> {
+  public async deleteLocation(userId: string, locationId: string): Promise<boolean> {
     try {
       const result = await db.query(
         'DELETE FROM locations WHERE id = $1 AND user_id = $2',
@@ -123,12 +123,12 @@ export class LocationService {
       const deleted = (result.rowCount ?? 0) > 0;
 
       if (deleted) {
-        logger.info({ userId, locationId  }, 'Location deleted');
+        logger.info({ userId, locationId }, 'Location deleted');
       }
 
       return deleted;
     } catch (error) {
-      logger.error({ userId, locationId, error  }, 'Failed to delete location');
+      logger.error({ userId, locationId, error }, 'Failed to delete location');
       throw error;
     }
   }
@@ -141,18 +141,17 @@ export class LocationService {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
 
-      const result = await db.query(
-        'DELETE FROM locations WHERE created_at < $1',
-        [cutoffDate]
-      );
+      const result = await db.query('DELETE FROM locations WHERE created_at < $1', [
+        cutoffDate,
+      ]);
 
       const deletedCount = result.rowCount ?? 0;
 
-      logger.info({ deletedCount, cutoffDate  }, 'Old locations deleted');
+      logger.info({ deletedCount, cutoffDate }, 'Old locations deleted');
 
       return deletedCount;
     } catch (error) {
-      logger.error({ error  }, 'Failed to delete old locations');
+      logger.error({ error }, 'Failed to delete old locations');
       throw error;
     }
   }
@@ -176,7 +175,7 @@ export class LocationService {
 
       return result.rows;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get locations by time range');
+      logger.error({ userId, error }, 'Failed to get locations by time range');
       throw error;
     }
   }
@@ -217,14 +216,17 @@ export class LocationService {
         }
       });
 
-      logger.info({
-        userId,
-        count: storedLocations.length,
-      }, 'Batch locations stored');
+      logger.info(
+        {
+          userId,
+          count: storedLocations.length,
+        },
+        'Batch locations stored'
+      );
 
       return storedLocations;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to batch store locations');
+      logger.error({ userId, error }, 'Failed to batch store locations');
       throw error;
     }
   }

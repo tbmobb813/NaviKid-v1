@@ -7,7 +7,7 @@ import {
   triggerEmergencyAlertSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, EmergencyTriggerReason } from '../types';
+import { ApiResponse, EmergencyTriggerReason, JWTPayload } from '../types';
 import logger from '../utils/logger';
 
 export async function emergencyRoutes(fastify: FastifyInstance) {
@@ -22,7 +22,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
 
         const contacts = await emergencyService.getEmergencyContacts(userId);
 
@@ -36,7 +36,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get emergency contacts error');
+        logger.error({ error }, 'Get emergency contacts error');
         reply.status(500).send({
           success: false,
           error: {
@@ -59,7 +59,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { name, phoneNumber, email, relationship } = request.body as any;
 
         const contact = await emergencyService.addEmergencyContact(
@@ -80,7 +80,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Add emergency contact error');
+        logger.error({ error }, 'Add emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
@@ -103,7 +103,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
         const updates = request.body as any;
 
@@ -133,7 +133,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Update emergency contact error');
+        logger.error({ error }, 'Update emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
@@ -156,7 +156,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
 
         const deleted = await emergencyService.deleteEmergencyContact(userId, id);
@@ -181,7 +181,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Delete emergency contact error');
+        logger.error({ error }, 'Delete emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
@@ -204,7 +204,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { triggerReason, locationSnapshot } = request.body as any;
 
         const alerts = await emergencyService.triggerEmergencyAlert(
@@ -231,7 +231,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(201).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Trigger emergency alert error');
+        logger.error({ error }, 'Trigger emergency alert error');
         reply.status(500).send({
           success: false,
           error: {
@@ -254,7 +254,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const query = request.query as any;
 
         const limit = query.limit ? parseInt(query.limit) : 50;
@@ -284,7 +284,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get alert history error');
+        logger.error({ error }, 'Get alert history error');
         reply.status(500).send({
           success: false,
           error: {
@@ -307,7 +307,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
 
         const alert = await emergencyService.acknowledgeAlert(userId, id);
@@ -332,7 +332,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Acknowledge alert error');
+        logger.error({ error }, 'Acknowledge alert error');
         reply.status(500).send({
           success: false,
           error: {

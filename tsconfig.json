@@ -16,7 +16,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-  "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
   "exclude": ["templates/**", "node_modules/**"],

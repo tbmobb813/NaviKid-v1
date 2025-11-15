@@ -119,7 +119,11 @@ export interface OfflineAction {
 
 class NaviKidApiClient {
   // Generic HTTP methods for external use
-  async post<T = any>(endpoint: string, body?: any, options?: RequestInit): Promise<ApiResponse<T>> {
+  async post<T = any>(
+    endpoint: string,
+    body?: any,
+    options?: RequestInit,
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: body ? JSON.stringify(body) : undefined,
@@ -334,7 +338,9 @@ class NaviKidApiClient {
         // Wait before retry (exponential backoff)
         if (attempt < this.config.retryAttempts - 1) {
           const delay = this.config.retryDelay * Math.pow(2, attempt);
-          log.debug(`Retrying request in ${delay}ms (attempt ${attempt + 1}/${this.config.retryAttempts})`);
+          log.debug(
+            `Retrying request in ${delay}ms (attempt ${attempt + 1}/${this.config.retryAttempts})`,
+          );
           await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
@@ -348,7 +354,11 @@ class NaviKidApiClient {
   // ==========================================================================
 
   auth = {
-    register: async (email: string, password: string, role: 'parent' | 'guardian' = 'parent'): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
+    register: async (
+      email: string,
+      password: string,
+      role: 'parent' | 'guardian' = 'parent',
+    ): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
       const response = await this.request<{ user: User; tokens: AuthTokens }>(
         '/auth/register',
         {
@@ -365,7 +375,10 @@ class NaviKidApiClient {
       return response;
     },
 
-    login: async (email: string, password: string): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
+    login: async (
+      email: string,
+      password: string,
+    ): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
       const response = await this.request<{ user: User; tokens: AuthTokens }>(
         '/auth/login',
         {
@@ -417,7 +430,10 @@ class NaviKidApiClient {
       return this.request<{ user: User }>('/auth/me');
     },
 
-    changePassword: async (oldPassword: string, newPassword: string): Promise<ApiResponse<void>> => {
+    changePassword: async (
+      oldPassword: string,
+      newPassword: string,
+    ): Promise<ApiResponse<void>> => {
       return this.request<void>('/auth/change-password', {
         method: 'POST',
         body: JSON.stringify({ oldPassword, newPassword }),
@@ -513,7 +529,10 @@ class NaviKidApiClient {
       });
     },
 
-    checkGeofence: async (latitude: number, longitude: number): Promise<ApiResponse<{ insideSafeZone: boolean; safeZone?: SafeZone }>> => {
+    checkGeofence: async (
+      latitude: number,
+      longitude: number,
+    ): Promise<ApiResponse<{ insideSafeZone: boolean; safeZone?: SafeZone }>> => {
       return this.request<{ insideSafeZone: boolean; safeZone?: SafeZone }>(
         `/safe-zones/check?latitude=${latitude}&longitude=${longitude}`,
       );
@@ -546,7 +565,10 @@ class NaviKidApiClient {
       });
     },
 
-    updateContact: async (id: string, updates: Partial<EmergencyContact>): Promise<ApiResponse<EmergencyContact>> => {
+    updateContact: async (
+      id: string,
+      updates: Partial<EmergencyContact>,
+    ): Promise<ApiResponse<EmergencyContact>> => {
       return this.request<EmergencyContact>(`/emergency-contacts/${id}`, {
         method: 'PUT',
         body: JSON.stringify(updates),
@@ -571,7 +593,9 @@ class NaviKidApiClient {
   // ==========================================================================
 
   offline = {
-    syncActions: async (actions: OfflineAction[]): Promise<ApiResponse<{ syncedCount: number }>> => {
+    syncActions: async (
+      actions: OfflineAction[],
+    ): Promise<ApiResponse<{ syncedCount: number }>> => {
       return this.request<{ syncedCount: number }>('/offline-actions/sync', {
         method: 'POST',
         body: JSON.stringify({ actions }),

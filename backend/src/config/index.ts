@@ -55,6 +55,9 @@ const envSchema = z.object({
   // CORS
   CORS_ORIGIN: z.string().default('http://localhost:8081,exp://localhost:8081'),
 
+  // Local CA path for DB TLS (optional) - do NOT commit cert files to repo
+  DB_CA_PATH: z.string().optional(),
+
   // Logging
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   LOG_PRETTY: z
@@ -76,8 +79,12 @@ const getDatabaseUrl = (): string => {
   return `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 };
 
-// Build Redis URL if not provided
-const getRedisUrl = (): string => {
+// Build Redis URL if not provided. Honor REDIS_ENABLED env var to disable Redis in dev/test.
+const getRedisUrl = (): string | undefined => {
+  if (process.env.REDIS_ENABLED === 'false') {
+    return undefined;
+  }
+
   if (env.REDIS_URL) {
     return env.REDIS_URL;
   }
@@ -105,6 +112,7 @@ export const config = {
     ssl: env.DB_SSL,
     poolMin: env.DB_POOL_MIN,
     poolMax: env.DB_POOL_MAX,
+    caPath: env.DB_CA_PATH || undefined,
     // Backwards-compatible fields used across the codebase
     host: env.DB_HOST,
     port: env.DB_PORT,

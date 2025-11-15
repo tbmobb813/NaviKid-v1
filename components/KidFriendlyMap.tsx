@@ -314,8 +314,8 @@ export default function KidFriendlyMap({
           currentRegion
             ? [currentRegion.longitude, currentRegion.latitude]
             : initialLocation
-            ? [initialLocation.longitude, initialLocation.latitude]
-            : undefined
+              ? [initialLocation.longitude, initialLocation.latitude]
+              : undefined
         }
         zoomLevel={12}
       >

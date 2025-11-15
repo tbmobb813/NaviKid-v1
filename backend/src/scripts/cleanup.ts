@@ -26,10 +26,9 @@ async function runCleanup() {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 90);
 
-    const auditResult = await db.query(
-      'DELETE FROM audit_logs WHERE timestamp < $1',
-      [cutoffDate]
-    );
+    const auditResult = await db.query('DELETE FROM audit_logs WHERE timestamp < $1', [
+      cutoffDate,
+    ]);
     const deletedAuditLogs = auditResult.rowCount ?? 0;
     logger.info(`Deleted ${deletedAuditLogs} old audit logs`);
 
@@ -41,7 +40,7 @@ async function runCleanup() {
       process.exit(0);
     }
   } catch (error) {
-    logger.error({ error  }, 'Data retention cleanup failed');
+    logger.error({ error }, 'Data retention cleanup failed');
 
     if (require.main === module) {
       process.exit(1);

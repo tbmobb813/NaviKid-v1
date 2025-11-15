@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/node';
 import { config } from './config';
 import { logger } from './utils/logger';
 import { checkConnection, closePool } from './db/connection';
-import { checkRedisConnection, closeRedis } from './db/redis';
+import { checkRedisConnection, closeRedis, getRedis } from './db/redis';
 
 // Import routes
 import { authRoutes } from './routes/auth';
@@ -27,9 +27,7 @@ export async function buildServer() {
       dsn: config.sentry.dsn,
       environment: config.sentry.environment,
       tracesSampleRate: config.sentry.tracesSampleRate,
-      integrations: [
-        new Sentry.Integrations.Http({ tracing: true }),
-      ],
+      integrations: [new Sentry.Integrations.Http({ tracing: true })],
     });
     logger.info('Sentry initialized');
   }
@@ -63,7 +61,10 @@ export async function buildServer() {
   await server.register(rateLimit, {
     max: config.security.rateLimit.max,
     timeWindow: config.security.rateLimit.window,
-    redis: config.redis.url ? require('ioredis').createClient(config.redis.url) : undefined,
+    // Use the shared Redis client (getRedis) when Redis is configured so it
+    // can be closed centrally during shutdown. Avoid creating an untracked
+    // redis client here which would otherwise keep the process alive.
+    redis: config.redis.url ? getRedis() : undefined,
   });
 
   // JWT authentication
@@ -79,7 +80,9 @@ export async function buildServer() {
     try {
       await request.jwtVerify();
     } catch (err) {
-      reply.code(401).send({ error: 'Unauthorized', message: 'Invalid or expired token' });
+      reply
+        .code(401)
+        .send({ error: 'Unauthorized', message: 'Invalid or expired token' });
     }
   });
 
@@ -165,6 +168,31 @@ export async function buildServer() {
       error: 'Not Found',
       message: `Route ${request.method} ${request.url} not found`,
     });
+  });
+
+  // Ensure that when the server is closed (e.g., in tests) we also close
+  // global resources like the DB pool and Redis client to avoid open handles
+  // that keep the Node process alive.
+  server.addHook('onClose', async () => {
+    try {
+      await closePool();
+    } catch (e) {
+      logger.warn({ e }, 'Error closing DB pool during server shutdown');
+    }
+
+    try {
+      await closeRedis();
+    } catch (e) {
+      logger.warn({ e }, 'Error closing Redis during server shutdown');
+    }
+
+    if (config.sentry.enabled) {
+      try {
+        await Sentry.close(2000);
+      } catch (e) {
+        logger.warn({ e }, 'Error closing Sentry during server shutdown');
+      }
+    }
   });
 
   return server;

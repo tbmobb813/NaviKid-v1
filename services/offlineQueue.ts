@@ -94,7 +94,9 @@ class OfflineQueueService {
   // Queue Management
   // ==========================================================================
 
-  async addAction(action: Omit<OfflineAction, 'id' | 'createdAt'> & { actionType: OfflineAction['actionType'] }): Promise<void> {
+  async addAction(
+    action: Omit<OfflineAction, 'id' | 'createdAt'> & { actionType: OfflineAction['actionType'] },
+  ): Promise<void> {
     try {
       // Check queue size limit
       if (this.queue.length >= this.maxQueueSize) {
@@ -190,7 +192,7 @@ class OfflineQueueService {
 
       // Get actions to sync (exclude those that have failed too many times)
       const actionsToSync = this.queue.filter(
-        (action) => (action.retryCount || 0) < this.maxRetries
+        (action) => (action.retryCount || 0) < this.maxRetries,
       );
 
       if (actionsToSync.length === 0) {
@@ -289,7 +291,7 @@ class OfflineQueueService {
 
   getStatus(): SyncStatus {
     const failedCount = this.queue.filter(
-      (action) => (action.retryCount || 0) >= this.maxRetries
+      (action) => (action.retryCount || 0) >= this.maxRetries,
     ).length;
 
     return {

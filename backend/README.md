@@ -44,26 +44,31 @@ Production-ready backend API for the NaviKid child safety application.
 ### Option 1: Docker Compose (Recommended for Development)
 
 1. **Clone and navigate to backend directory:**
+
 ```bash
 cd backend
 ```
 
 2. **Start all services:**
+
 ```bash
 docker-compose up -d
 ```
 
 This will start:
+
 - PostgreSQL on port 5432
 - Redis on port 6379
 - Backend API on port 3000
 
 3. **View logs:**
+
 ```bash
 docker-compose logs -f backend
 ```
 
 4. **Stop services:**
+
 ```bash
 docker-compose down
 ```
@@ -71,17 +76,20 @@ docker-compose down
 ### Option 2: Local Development
 
 1. **Install dependencies:**
+
 ```bash
 npm install
 ```
 
 2. **Set up environment variables:**
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 3. **Start PostgreSQL and Redis:**
+
 ```bash
 # Using Docker:
 docker-compose up -d postgres redis
@@ -90,11 +98,13 @@ docker-compose up -d postgres redis
 ```
 
 4. **Run database migrations:**
+
 ```bash
 npm run migrate
 ```
 
 5. **Start development server:**
+
 ```bash
 npm run dev
 ```
@@ -301,6 +311,7 @@ The API includes comprehensive health checks:
 ### Logging
 
 All logs are structured JSON (via Pino) and include:
+
 - Request ID
 - User ID (if authenticated)
 - IP address
@@ -310,6 +321,7 @@ All logs are structured JSON (via Pino) and include:
 ### Metrics
 
 Consider integrating:
+
 - **Prometheus** for metrics collection
 - **Grafana** for dashboards
 - **Sentry** for error tracking
@@ -350,6 +362,20 @@ docker-compose ps redis
 # Test connection
 redis-cli ping
 ```
+
+### Running without Redis (local tests/dev)
+
+If you want to run the backend locally without a Redis server (for CI or quick local tests), set the environment variable `REDIS_ENABLED=false`. When disabled the app uses a Postgres-backed session store and cache fallbacks so Redis is not required.
+
+Example run commands from the project root:
+
+```bash
+DB_CA_PATH=backend/supabase-ca.pem REDIS_ENABLED=false npm --prefix backend run dev
+
+DB_CA_PATH=backend/supabase-ca.pem REDIS_ENABLED=false npm --prefix backend test
+```
+
+Ensure `DB_CA_PATH` points to a valid PEM file if your Postgres/Supabase requires a custom CA.
 
 ### Migration Errors
 

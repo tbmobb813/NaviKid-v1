@@ -19,7 +19,6 @@ ls -la stores/
 ls -la types/
 ```
 
-
 ## 🎯 **Phase 1: Backend Setup (Week 1)**
 
 ### **Step 1.1: Set Up Local PostgreSQL + PostGIS**
@@ -63,7 +62,6 @@ volumes:
   postgis_data:
 ```
 
-
 1. Start the database:
 
 ```bash
@@ -76,7 +74,6 @@ docker-compose -f docker-compose.spatial.yml up -d
 # Verify it's running
 docker ps
 ```
-
 
 #### **Option B: Local Installation**
 
@@ -92,7 +89,6 @@ sudo apt-get install postgresql postgresql-contrib postgis
 brew services start postgresql  # macOS
 sudo systemctl start postgresql # Linux
 ```
-
 
 ### **Step 1.2: Initialize Database Schema**
 
@@ -119,7 +115,6 @@ GRANT CONNECT ON DATABASE kidfriendlymap TO kidmap_app;
 GRANT USAGE ON SCHEMA public TO kidmap_app;
 GRANT CREATE ON SCHEMA public TO kidmap_app;
 ```
-
 
 1. Create core tables:
 
@@ -206,7 +201,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO kidmap_ap
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO kidmap_app;
 ```
 
-
 Apply the schema:
 
 ```bash
@@ -219,7 +213,6 @@ psql -h localhost -U postgres -d kidfriendlymap -f database/init/01_init_postgis
 psql -h localhost -U postgres -d kidfriendlymap -f database/init/02_create_tables.sql
 ```
 
-
 ### **Step 1.3: Set Up Backend API**
 
 1. Create backend directory structure:
@@ -228,7 +221,6 @@ psql -h localhost -U postgres -d kidfriendlymap -f database/init/02_create_table
 mkdir -p backend/src/{config,controllers,services,types,middleware}
 cd backend
 ```
-
 
 Initialize Node.js backend:
 
@@ -246,7 +238,6 @@ npm install turf @types/geojson
 # Install development dependencies
 npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint prettier
 ```
-
 
 Create `backend/package.json`:
 
@@ -287,7 +278,6 @@ Create `backend/package.json`:
 }
 ```
 
-
 Create TypeScript configuration:
 
 ```json
@@ -313,7 +303,6 @@ Create TypeScript configuration:
 }
 ```
 
-
 Create environment configuration:
 
 ```bash
@@ -324,7 +313,6 @@ PORT=3000
 JWT_SECRET=your_jwt_secret_here
 CORS_ORIGIN=http://localhost:8081,exp://192.168.1.100:8081
 ```
-
 
 Create database configuration:
 
@@ -380,7 +368,6 @@ export async function testConnection(): Promise<boolean> {
 }
 ```
 
-
 ## 🔧 **Phase 2: Enhance Your Frontend (Week 2)**
 
 ### **Step 2.1: Update Environment Configuration**
@@ -396,7 +383,6 @@ EXPO_PUBLIC_SPATIAL_WS_URL=ws://localhost:3000/spatial
 EXPO_PUBLIC_ENABLE_REALTIME_GEOFENCE=true
 EXPO_PUBLIC_SPATIAL_CACHE_TTL=300000
 ```
-
 
 ### **Step 2.2: Create Enhanced Types**
 
@@ -487,7 +473,6 @@ export interface SpatialError {
   fallbackAvailable: boolean;
 }
 ```
-
 
 ### **Step 2.3: Create Spatial API Client**
 
@@ -692,7 +677,6 @@ class SpatialApiClient {
 export const spatialApi = new SpatialApiClient();
 ```
 
-
 ### **Step 2.4: Enhance Your Existing Stores**
 
 Update your parental store to integrate with spatial features:
@@ -815,7 +799,6 @@ return {
 };
 ```
 
-
 ## 🧪 **Phase 3: Testing Your Integration (Week 3)**
 
 ### **Step 3.1: Create Spatial Tests**
@@ -889,7 +872,6 @@ describe('PostGIS Safe Zone Integration', () => {
 });
 ```
 
-
 ### **Step 3.2: Integration Testing Script**
 
 Create a script to test your integration end-to-end:
@@ -957,7 +939,6 @@ runIntegrationTests().catch((error) => {
 });
 ```
 
-
 ## 🚀 **Phase 4: Running Your Enhanced App**
 
 ### **Step 4.1: Start Your Services**
@@ -972,7 +953,6 @@ docker-compose -f docker-compose.spatial.yml up -d
 docker ps
 ```
 
-
 Start your backend API:
 
 ```bash
@@ -986,7 +966,6 @@ npm run dev
 # 🚀 Server running on port 3000
 ```
 
-
 Start your Expo app:
 
 ```bash
@@ -997,7 +976,6 @@ npx expo start
 npx expo start --web
 ```
 
-
 ### **Step 4.2: Test the Integration**
 
 1. Run the integration test:
@@ -1007,7 +985,6 @@ npx expo start --web
 npx ts-node scripts/testSpatialIntegration.ts
 ```
 
-
 Test in your app:
 
 ```bash
@@ -1015,7 +992,6 @@ Test in your app:
 # Check the database to verify it was created with spatial data
 docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELECT name, ST_AsText(center_point), ST_AsText(boundary) FROM safe_zones;"
 ```
-
 
 ## 📊 **Monitoring Your Integration**
 
@@ -1047,7 +1023,6 @@ export const spatialMetrics = (req: any, res: any, next: any) => {
 };
 ```
 
-
 ## 🎯 **Next Steps**
 
 After completing this basic integration:
@@ -1071,7 +1046,6 @@ After completing this basic integration:
    docker logs kidfriendlymap-db
    ```
 
-
 1. **PostGIS Extension Missing**
 
    ```sql
@@ -1079,14 +1053,12 @@ After completing this basic integration:
    CREATE EXTENSION IF NOT EXISTS postgis;
    ```
 
-
 1. **Spatial Queries Fail**
 
    ```bash
    # Verify PostGIS is working
    docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELECT PostGIS_Version();"
    ```
-
 
 1. **API Connection Issues**
    - Check your .env file has correct EXPO_PUBLIC_SPATIAL_API_URL

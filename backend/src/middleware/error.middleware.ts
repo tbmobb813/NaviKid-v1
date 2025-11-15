@@ -11,13 +11,16 @@ export function errorHandler(
   reply: FastifyReply
 ): void {
   // Log error
-  logger.error({
-    error: error.message,
-    stack: error.stack,
-    method: request.method,
-    url: request.url,
-    statusCode: error.statusCode,
-  }, 'Request error');
+  logger.error(
+    {
+      error: error.message,
+      stack: error.stack,
+      method: request.method,
+      url: request.url,
+      statusCode: error.statusCode,
+    },
+    'Request error'
+  );
 
   // Determine status code
   const statusCode = error.statusCode || 500;
@@ -43,10 +46,7 @@ export function errorHandler(
 /**
  * Not found handler
  */
-export function notFoundHandler(
-  request: FastifyRequest,
-  reply: FastifyReply
-): void {
+export function notFoundHandler(request: FastifyRequest, reply: FastifyReply): void {
   const response: ApiResponse = {
     success: false,
     error: {
@@ -70,12 +70,15 @@ export function validationErrorHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ): void {
-  logger.warn({
-    error: error.message,
-    validation: error.validation,
-    method: request.method,
-    url: request.url,
-  }, 'Validation error');
+  logger.warn(
+    {
+      error: error.message,
+      validation: error.validation,
+      method: request.method,
+      url: request.url,
+    },
+    'Validation error'
+  );
 
   const response: ApiResponse = {
     success: false,

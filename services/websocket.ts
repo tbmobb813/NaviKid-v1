@@ -193,7 +193,9 @@ class NaviKidWebSocketClient {
 
     // Exponential backoff
     const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts);
-    log.info(`Scheduling reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+    log.info(
+      `Scheduling reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`,
+    );
 
     this.reconnectTimer = setTimeout(() => {
       this.reconnectAttempts++;

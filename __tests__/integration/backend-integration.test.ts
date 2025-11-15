@@ -55,7 +55,7 @@ describe('Backend Integration Tests', () => {
       const response = await apiClient.auth.register(
         testUser.email,
         testUser.password,
-        testUser.role
+        testUser.role,
       );
 
       expect(response.success).toBe(true);
@@ -126,7 +126,7 @@ describe('Backend Integration Tests', () => {
         testLocation.latitude,
         testLocation.longitude,
         testLocation.accuracy,
-        testLocation.context
+        testLocation.context,
       );
 
       expect(response.success).toBe(true);
@@ -192,7 +192,7 @@ describe('Backend Integration Tests', () => {
         testSafeZone.latitude,
         testSafeZone.longitude,
         testSafeZone.radius,
-        testSafeZone.type
+        testSafeZone.type,
       );
 
       expect(response.success).toBe(true);
@@ -223,7 +223,7 @@ describe('Backend Integration Tests', () => {
       // Use same coordinates as safe zone center
       const response = await apiClient.safeZones.checkGeofence(
         testSafeZone.latitude,
-        testSafeZone.longitude
+        testSafeZone.longitude,
       );
 
       expect(response.success).toBe(true);
@@ -281,7 +281,7 @@ describe('Backend Integration Tests', () => {
         testContact.name,
         testContact.phone,
         testContact.email,
-        testContact.relationship
+        testContact.relationship,
       );
 
       expect(response.success).toBe(true);

@@ -33,32 +33,32 @@ Configure the following secrets in your GitHub repository settings at:
 
 ### Essential Secrets
 
-| Secret Name | Description | Required For | Example/Notes |
-|-------------|-------------|--------------|---------------|
-| `EXPO_TOKEN` | Expo authentication token for EAS builds | Frontend CI/CD | Get from: `npx expo login && npx expo whoami` |
-| `CODECOV_TOKEN` | Codecov token for coverage reporting | Both CI/CD pipelines | Get from: codecov.io |
-| `SENTRY_DSN` | Sentry error tracking DSN | Production deployments | Get from Sentry project settings |
+| Secret Name     | Description                              | Required For           | Example/Notes                                 |
+| --------------- | ---------------------------------------- | ---------------------- | --------------------------------------------- |
+| `EXPO_TOKEN`    | Expo authentication token for EAS builds | Frontend CI/CD         | Get from: `npx expo login && npx expo whoami` |
+| `CODECOV_TOKEN` | Codecov token for coverage reporting     | Both CI/CD pipelines   | Get from: codecov.io                          |
+| `SENTRY_DSN`    | Sentry error tracking DSN                | Production deployments | Get from Sentry project settings              |
 
 ### Backend Secrets
 
-| Secret Name | Description | Required For | Example/Notes |
-|-------------|-------------|--------------|---------------|
-| `STAGING_DATABASE_URL` | PostgreSQL connection string for staging | Backend deployment | `postgresql://user:pass@host:5432/db` |
+| Secret Name               | Description                                 | Required For       | Example/Notes                         |
+| ------------------------- | ------------------------------------------- | ------------------ | ------------------------------------- |
+| `STAGING_DATABASE_URL`    | PostgreSQL connection string for staging    | Backend deployment | `postgresql://user:pass@host:5432/db` |
 | `PRODUCTION_DATABASE_URL` | PostgreSQL connection string for production | Backend deployment | `postgresql://user:pass@host:5432/db` |
-| `STAGING_REDIS_URL` | Redis connection string for staging | Backend deployment | `redis://host:6379` |
-| `PRODUCTION_REDIS_URL` | Redis connection string for production | Backend deployment | `redis://host:6379` |
-| `STAGING_DEPLOY_KEY` | SSH key or deployment token for staging | Backend deployment | SSH private key or API token |
-| `PRODUCTION_DEPLOY_KEY` | SSH key or deployment token for production | Backend deployment | SSH private key or API token |
-| `JWT_SECRET` | JWT signing secret | Backend | Random 32+ character string |
+| `STAGING_REDIS_URL`       | Redis connection string for staging         | Backend deployment | `redis://host:6379`                   |
+| `PRODUCTION_REDIS_URL`    | Redis connection string for production      | Backend deployment | `redis://host:6379`                   |
+| `STAGING_DEPLOY_KEY`      | SSH key or deployment token for staging     | Backend deployment | SSH private key or API token          |
+| `PRODUCTION_DEPLOY_KEY`   | SSH key or deployment token for production  | Backend deployment | SSH private key or API token          |
+| `JWT_SECRET`              | JWT signing secret                          | Backend            | Random 32+ character string           |
 
 ### Optional Secrets
 
-| Secret Name | Description | Example |
-|-------------|-------------|---------|
-| `SLACK_WEBHOOK_URL` | Slack webhook for deployment notifications | `https://hooks.slack.com/...` |
-| `DISCORD_WEBHOOK_URL` | Discord webhook for notifications | `https://discord.com/api/webhooks/...` |
-| `AWS_ACCESS_KEY_ID` | AWS credentials (if using AWS) | IAM access key |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key | IAM secret key |
+| Secret Name             | Description                                | Example                                |
+| ----------------------- | ------------------------------------------ | -------------------------------------- |
+| `SLACK_WEBHOOK_URL`     | Slack webhook for deployment notifications | `https://hooks.slack.com/...`          |
+| `DISCORD_WEBHOOK_URL`   | Discord webhook for notifications          | `https://discord.com/api/webhooks/...` |
+| `AWS_ACCESS_KEY_ID`     | AWS credentials (if using AWS)             | IAM access key                         |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key                             | IAM secret key                         |
 
 ---
 
@@ -70,6 +70,7 @@ Configure branch protection for `main` branch at:
 ### Recommended Configuration
 
 #### Branch name pattern
+
 ```
 main
 ```
@@ -77,11 +78,13 @@ main
 #### Protection settings
 
 **Require a pull request before merging**
+
 - ✅ Require approvals: **2**
 - ✅ Dismiss stale pull request approvals when new commits are pushed
 - ✅ Require review from Code Owners (if using CODEOWNERS file)
 
 **Require status checks to pass before merging**
+
 - ✅ Require branches to be up to date before merging
 - Required status checks:
   - `Lint & Code Quality` (frontend-ci)
@@ -93,24 +96,31 @@ main
   - `Security Audit` (security)
 
 **Require conversation resolution before merging**
+
 - ✅ Require all conversations on code to be resolved before merging
 
 **Require signed commits**
+
 - ⚪ Optional but recommended for security
 
 **Require linear history**
+
 - ⚪ Optional - prevents merge commits
 
 **Include administrators**
+
 - ✅ Enforce all configured restrictions for administrators
 
 **Restrict who can push to matching branches**
+
 - ⚪ Optional - Configure if you want to restrict push access
 
 **Allow force pushes**
+
 - ❌ Disable force pushes to protected branches
 
 **Allow deletions**
+
 - ❌ Disable branch deletion
 
 ---
@@ -126,24 +136,28 @@ Go to: **Settings → Environments → New environment**
 Create the following environments:
 
 #### 1. `staging-backend`
+
 - **Deployment branches:** Selected branches → `main`
 - **Required reviewers:** None (auto-deploy)
 - **Wait timer:** 0 minutes
 - **Environment URL:** `https://staging-api.navikid.app`
 
 #### 2. `staging-frontend`
+
 - **Deployment branches:** Selected branches → `main`
 - **Required reviewers:** None (auto-deploy)
 - **Wait timer:** 0 minutes
 - **Environment URL:** `https://staging-app.navikid.app`
 
 #### 3. `production-backend`
+
 - **Deployment branches:** Selected branches → `main`
 - **Required reviewers:** 2 reviewers (select team members)
 - **Wait timer:** 5 minutes (cooling period)
 - **Environment URL:** `https://api.navikid.app`
 
 #### 4. `production-frontend`
+
 - **Deployment branches:** Selected branches → `main`
 - **Required reviewers:** 2 reviewers (select team members)
 - **Wait timer:** 5 minutes (cooling period)
@@ -156,10 +170,12 @@ Create the following environments:
 ### Backend CI/CD (`backend-ci.yml`)
 
 **Triggers:**
+
 - Push to `main` branch (only when backend files change)
 - Pull requests to `main` (only when backend files change)
 
 **Jobs:**
+
 1. **Lint & Code Quality** - ESLint and formatting checks
 2. **TypeScript Type Check** - Type validation
 3. **Security Audit** - npm audit for vulnerabilities
@@ -176,10 +192,12 @@ Create the following environments:
 ### Frontend CI/CD (`frontend-ci.yml`)
 
 **Triggers:**
+
 - Push to `main` branch (excluding backend changes)
 - Pull requests to `main` (excluding backend changes)
 
 **Jobs:**
+
 1. **Lint & Code Quality** - ESLint checks
 2. **TypeScript Type Check** - Type validation
 3. **Security Audit** - Dependency scanning
@@ -196,12 +214,14 @@ Create the following environments:
 ### Security Scanning (`security.yml`)
 
 **Triggers:**
+
 - Push to `main` or `develop` branches
 - Pull requests to `main`
 - Weekly schedule (Monday 2 AM UTC)
 - Manual trigger
 
 **Jobs:**
+
 1. **Scan Frontend Dependencies** - npm audit
 2. **Scan Backend Dependencies** - npm audit
 3. **Trivy Filesystem Scan** - Scan for vulnerabilities
@@ -218,6 +238,7 @@ Create the following environments:
 **Trigger:** Manual workflow dispatch only
 
 **Inputs:**
+
 - **Environment:** `staging` or `production`
 - **Service:** `frontend`, `backend`, or `both`
 - **Run Migrations:** `true` or `false`
@@ -225,6 +246,7 @@ Create the following environments:
 - **Deployment Message:** Custom message
 
 **Jobs:**
+
 1. **Pre-Deployment Validation** - Check configuration
 2. **Deploy Backend** - Deploy backend service
 3. **Deploy Frontend** - Deploy frontend app
@@ -276,6 +298,7 @@ Staging deployments happen automatically when code is merged to `main`:
 6. Frontend CI/CD will publish OTA update
 
 **Staging URLs:**
+
 - Backend: `https://staging-api.navikid.app`
 - Frontend: Expo channel `staging`
 
@@ -302,6 +325,7 @@ Production requires manual approval:
 8. Verify production functionality
 
 **Production URLs:**
+
 - Backend: `https://api.navikid.app`
 - Frontend: App stores + Expo channel `production`
 
@@ -336,6 +360,7 @@ For critical production issues:
 **Problem:** `eas build` fails with authentication error
 
 **Solution:**
+
 ```bash
 # Regenerate Expo token
 npx expo login
@@ -350,6 +375,7 @@ eas whoami
 **Problem:** Migration fails during deployment
 
 **Solution:**
+
 - Check database connectivity
 - Verify `DATABASE_URL` secret is correct
 - Run migration manually:
@@ -363,11 +389,12 @@ eas whoami
 **Problem:** Tests pass but coverage is below threshold
 
 **Solution:**
+
 - Add more test cases
 - Or temporarily adjust threshold in workflow files:
   ```yaml
   env:
-    COVERAGE_THRESHOLD: 60  # Adjust as needed
+    COVERAGE_THRESHOLD: 60 # Adjust as needed
   ```
 
 #### 4. Security Vulnerabilities Found
@@ -375,6 +402,7 @@ eas whoami
 **Problem:** Security workflow fails with vulnerabilities
 
 **Solution:**
+
 - Review vulnerability details in workflow logs
 - Update dependencies:
   ```bash
@@ -388,6 +416,7 @@ eas whoami
 **Problem:** Workflow can't upload SARIF or create artifacts
 
 **Solution:**
+
 - Go to **Settings → Actions → General**
 - Under "Workflow permissions", select:
   - ✅ Read and write permissions
@@ -427,27 +456,32 @@ Add these badges to your README.md:
 ## Best Practices
 
 ### 1. Code Review
+
 - Require 2 approvals for all PRs
 - Review test coverage in PR
 - Check security scan results before merging
 
 ### 2. Testing
+
 - Write tests before pushing code
 - Aim for >70% backend coverage, >60% frontend coverage
 - Run tests locally: `npm test`
 
 ### 3. Commits
+
 - Use conventional commits: `feat:`, `fix:`, `chore:`
 - Reference issues: `fixes #123`
 - Keep commits atomic and focused
 
 ### 4. Deployments
+
 - Always test in staging first
 - Deploy during low-traffic hours
 - Have rollback plan ready
 - Monitor logs after deployment
 
 ### 5. Security
+
 - Never commit secrets or API keys
 - Use `.env` files locally (gitignored)
 - Rotate secrets periodically

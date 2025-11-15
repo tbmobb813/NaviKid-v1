@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "postbuild": "cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true",
     "start": "node dist/server.js",
     "start:prod": "NODE_ENV=production node dist/server.js",
-    "migrate": "node dist/db/migrate.js",
+    "migrate": "node dist/scripts/migrate.js",
     "migrate:create": "node scripts/create-migration.js",
     "seed": "node dist/db/seed.js",
     "test": "jest --runInBand",

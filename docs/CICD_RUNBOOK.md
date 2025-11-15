@@ -45,12 +45,12 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 
 ### Workflows
 
-| Workflow | Trigger | Duration | Purpose |
-|----------|---------|----------|---------|
-| **Backend CI** | PR, Push to main/develop | ~5-8 min | Lint, test, build backend |
-| **Frontend CI** | PR, Push to main/develop | ~4-6 min | Lint, test, build frontend |
-| **Security Scan** | PR, Push, Weekly | ~10-15 min | Security vulnerability scanning |
-| **Manual Deploy** | Manual trigger | ~10-20 min | Deploy to staging/production |
+| Workflow          | Trigger                  | Duration   | Purpose                         |
+| ----------------- | ------------------------ | ---------- | ------------------------------- |
+| **Backend CI**    | PR, Push to main/develop | ~5-8 min   | Lint, test, build backend       |
+| **Frontend CI**   | PR, Push to main/develop | ~4-6 min   | Lint, test, build frontend      |
+| **Security Scan** | PR, Push, Weekly         | ~10-15 min | Security vulnerability scanning |
+| **Manual Deploy** | Manual trigger           | ~10-20 min | Deploy to staging/production    |
 
 ---
 
@@ -61,11 +61,13 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 **Purpose**: Validate and deploy backend changes
 
 **Triggers**:
+
 - Push to `main` or `develop` branches (paths: `backend/**`)
 - Pull requests to `main` (paths: `backend/**`)
 - Manual trigger (`workflow_dispatch`)
 
 **Jobs**:
+
 1. **lint-and-typecheck**: ESLint, TypeScript, Prettier
 2. **security**: npm audit
 3. **build**: TypeScript compilation
@@ -75,10 +77,12 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 7. **deploy-staging**: Deploy to staging (main only)
 
 **Services**:
+
 - PostgreSQL 15 (port 5432)
 - Redis 7 (port 6379)
 
 **Artifacts**:
+
 - Build output (`backend/dist`)
 - Docker image (7 day retention)
 - Coverage reports (uploaded to Codecov)
@@ -90,11 +94,13 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 **Purpose**: Validate and deploy frontend changes
 
 **Triggers**:
+
 - Push to `main` or `develop` branches
 - Pull requests to `main`
 - Manual trigger (`workflow_dispatch`)
 
 **Jobs**:
+
 1. **lint-and-typecheck**: ESLint, TypeScript, Prettier
 2. **security**: npm audit
 3. **test**: Unit tests with coverage
@@ -106,6 +112,7 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 9. **deploy-eas-update**: Publish OTA updates
 
 **Artifacts**:
+
 - Test results (7 day retention)
 - Coverage reports (uploaded to Codecov)
 
@@ -116,12 +123,14 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 **Purpose**: Detect security vulnerabilities
 
 **Triggers**:
+
 - Push to `main` or `develop` branches
 - Pull requests to `main`
 - Weekly schedule (Sundays at midnight UTC)
 - Manual trigger (`workflow_dispatch`)
 
 **Jobs**:
+
 1. **dependency-review**: Review dependency changes in PRs
 2. **trivy-scan**: Filesystem vulnerability scanning
 3. **npm-audit-frontend**: Frontend dependency audit
@@ -132,6 +141,7 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 8. **docker-security-scan**: Docker image scanning
 
 **Security Levels**:
+
 - **CRITICAL**: Immediate action required
 - **HIGH**: Action required within 7 days
 - **MEDIUM**: Action required within 30 days
@@ -144,17 +154,20 @@ This runbook provides operational guidance for the NaviKid CI/CD pipeline.
 **Purpose**: Manually trigger deployments with approval
 
 **Inputs**:
+
 - `environment`: staging | production
 - `component`: backend | frontend | all
 - `skip_tests`: boolean (not allowed for production)
 - `version_tag`: optional version identifier
 
 **Safety Guards**:
+
 - Production deployments must be from `main` branch
 - Cannot skip tests for production
 - Requires environment approval (configured in GitHub)
 
 **Jobs**:
+
 1. **validate**: Validate inputs and branch
 2. **test-backend**: Run backend tests (if not skipped)
 3. **test-frontend**: Run frontend tests (if not skipped)
@@ -173,40 +186,45 @@ Configure these in **Settings → Secrets and variables → Actions**:
 
 #### Essential Secrets
 
-| Secret Name | Description | Required For |
-|-------------|-------------|--------------|
-| `EXPO_TOKEN` | Expo/EAS authentication token | Frontend builds/deploys |
-| `CODECOV_TOKEN` | Codecov upload token | Coverage reports |
+| Secret Name     | Description                   | Required For            |
+| --------------- | ----------------------------- | ----------------------- |
+| `EXPO_TOKEN`    | Expo/EAS authentication token | Frontend builds/deploys |
+| `CODECOV_TOKEN` | Codecov upload token          | Coverage reports        |
 
 #### Backend Deployment Secrets
 
-| Secret Name | Description | Usage |
-|-------------|-------------|-------|
-| `STAGING_DATABASE_URL` | PostgreSQL connection string | Staging backend |
+| Secret Name               | Description                  | Usage              |
+| ------------------------- | ---------------------------- | ------------------ |
+| `STAGING_DATABASE_URL`    | PostgreSQL connection string | Staging backend    |
 | `PRODUCTION_DATABASE_URL` | PostgreSQL connection string | Production backend |
-| `STAGING_DEPLOY_KEY` | Deployment credentials | Staging deploy |
-| `DEPLOY_KEY` | Deployment credentials | Production deploy |
+| `STAGING_DEPLOY_KEY`      | Deployment credentials       | Staging deploy     |
+| `DEPLOY_KEY`              | Deployment credentials       | Production deploy  |
 
 #### Optional Secrets (based on deployment method)
 
 **AWS Deployment**:
+
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_ACCOUNT_ID`
 
 **Digital Ocean**:
+
 - `DO_APP_ID`
 - `DIGITALOCEAN_ACCESS_TOKEN`
 
 **Heroku**:
+
 - `HEROKU_API_KEY`
 
 **Custom VPS**:
+
 - `VPS_HOST`
 - `VPS_USER`
 - `VPS_SSH_KEY`
 
 **Notifications**:
+
 - `SLACK_WEBHOOK` (optional)
 - `SENTRY_DSN` (optional)
 
@@ -238,6 +256,7 @@ npx eas whoami
 Configure in **Settings → Branches → Branch protection rules**:
 
 **Required**:
+
 - ✅ Require status checks to pass before merging
 - ✅ Require branches to be up to date before merging
 - ✅ Require conversation resolution before merging
@@ -245,6 +264,7 @@ Configure in **Settings → Branches → Branch protection rules**:
 - ✅ Require deployments to succeed before merging (production environment)
 
 **Status Checks** (mark as required):
+
 - `lint-and-typecheck` (Frontend CI)
 - `lint-and-typecheck` (Backend CI)
 - `test` (Frontend CI)
@@ -255,28 +275,33 @@ Configure in **Settings → Branches → Branch protection rules**:
 - `build` (Backend CI)
 
 **Code Review**:
+
 - ✅ Require pull request reviews before merging
 - Required approvals: **2**
 - ✅ Dismiss stale reviews when new commits are pushed
 - ✅ Require review from Code Owners
 
 **Optional** (recommended):
+
 - ✅ Restrict pushes that create matching branches
 - ✅ Require signed commits
 
 ### Develop Branch (`develop`)
 
 **Required**:
+
 - ✅ Require status checks to pass before merging
 - ✅ Require conversation resolution before merging
 
 **Status Checks** (mark as required):
+
 - `lint-and-typecheck` (Frontend CI)
 - `lint-and-typecheck` (Backend CI)
 - `test` (Frontend CI)
 - `test` (Backend CI)
 
 **Code Review**:
+
 - Required approvals: **1**
 
 ---
@@ -286,6 +311,7 @@ Configure in **Settings → Branches → Branch protection rules**:
 ### Task 1: Deploy Backend to Staging
 
 **Option A: Automatic (via push)**
+
 ```bash
 git checkout develop
 git pull origin develop
@@ -297,6 +323,7 @@ git push origin develop
 ```
 
 **Option B: Manual**
+
 1. Go to **Actions** tab in GitHub
 2. Select **Manual Deployment** workflow
 3. Click **Run workflow**
@@ -308,6 +335,7 @@ git push origin develop
 6. Monitor progress
 
 **Option C: Command line**
+
 ```bash
 ./scripts/deploy-backend.sh staging
 ```
@@ -317,11 +345,13 @@ git push origin develop
 ### Task 2: Deploy Frontend to Production
 
 **Prerequisites**:
+
 - All tests passing on `main` branch
 - Code reviewed and approved
 - QA sign-off
 
 **Steps**:
+
 1. Merge PR to `main`
 2. Go to **Actions** → **Manual Deployment**
 3. Run workflow:
@@ -333,6 +363,7 @@ git push origin develop
 6. Verify in production
 
 **Or via command line**:
+
 ```bash
 ./scripts/deploy-frontend.sh production all v1.0.0
 ```
@@ -352,6 +383,7 @@ git push origin develop
 ```
 
 **Or via GitHub Actions**:
+
 1. **Actions** → **Frontend CI/CD**
 2. The `deploy-eas-update` job publishes OTA on push to main/develop
 
@@ -366,6 +398,7 @@ git push origin develop
 ```
 
 Or locally:
+
 ```bash
 # Trivy scan
 docker run --rm -v $(pwd):/workspace aquasecurity/trivy fs /workspace
@@ -380,11 +413,13 @@ cd backend && npm audit
 ### Task 5: Check CI/CD Status
 
 **GitHub UI**:
+
 - Go to **Actions** tab
 - View workflow runs
 - Click on run for details
 
 **Command Line**:
+
 ```bash
 # Install GitHub CLI
 gh run list --limit 10
@@ -401,6 +436,7 @@ gh run watch
 ### Task 6: Rollback Deployment
 
 **Backend Rollback** (if using Docker):
+
 ```bash
 # List recent versions
 docker images navikid-backend
@@ -410,6 +446,7 @@ docker images navikid-backend
 ```
 
 **Frontend Rollback**:
+
 ```bash
 # Republish previous OTA update
 eas update:republish --channel production --group <previous-group-id>
@@ -419,6 +456,7 @@ eas branch:publish production --input-dir ./dist
 ```
 
 **Database Rollback** (if migrations break):
+
 ```bash
 # SSH to server
 ssh user@server
@@ -433,6 +471,7 @@ npm run db:rollback
 ### Task 7: Add New Environment Variable
 
 **Backend**:
+
 1. Update `.env.example` in `/backend`
 2. Add to GitHub Secrets:
    - `STAGING_<VAR_NAME>`
@@ -441,6 +480,7 @@ npm run db:rollback
 4. Redeploy
 
 **Frontend**:
+
 1. Update `.env.example` in project root
 2. Add to `eas.json` under appropriate profile
 3. Build new version (OTA updates can't change env vars)
@@ -450,6 +490,7 @@ npm run db:rollback
 ### Task 8: Update Dependencies
 
 **Monthly Dependency Update**:
+
 ```bash
 # Frontend
 npm outdated
@@ -480,6 +521,7 @@ git push
 **Symptoms**: `typecheck` job fails
 
 **Solution**:
+
 ```bash
 # Run locally
 npm run typecheck
@@ -495,11 +537,13 @@ npm run typecheck
 ### Issue 2: Tests Failing in CI but Passing Locally
 
 **Common Causes**:
+
 - Environment differences
 - Race conditions
 - Missing environment variables
 
 **Solution**:
+
 ```bash
 # Check CI environment
 # Review workflow logs for exact Node version, environment
@@ -519,6 +563,7 @@ NODE_ENV=test npm run test
 **Symptoms**: `docker-build` job fails
 
 **Debugging**:
+
 ```bash
 # Test Docker build locally
 cd backend
@@ -538,6 +583,7 @@ docker build -t navikid-backend:test .
 **Symptoms**: `eas-build` job fails
 
 **Solution**:
+
 ```bash
 # Test build locally
 eas build --platform android --profile staging --local
@@ -556,6 +602,7 @@ eas build --platform android --profile staging --local
 **Symptoms**: Deployment succeeds but health check fails
 
 **Debugging**:
+
 ```bash
 # Check service logs
 # For AWS ECS:
@@ -581,6 +628,7 @@ heroku logs --tail --app navikid-backend-staging
 **Symptoms**: Warning about low coverage
 
 **Solution**:
+
 ```bash
 # Generate coverage report
 npm run test:coverage
@@ -600,6 +648,7 @@ open coverage/lcov-report/index.html
 **Symptoms**: Security scan finds vulnerabilities
 
 **Triage**:
+
 ```bash
 # Review vulnerabilities
 npm audit
@@ -626,10 +675,12 @@ npm audit --production
 ### Emergency 1: Production Outage
 
 **Immediate Actions**:
+
 1. **Confirm outage**: Check monitoring, health endpoints
 2. **Notify team**: Post in incident channel
 3. **Check recent changes**: Review recent deployments
 4. **Quick rollback** (if caused by deployment):
+
    ```bash
    # Backend
    ./scripts/deploy-backend.sh production <last-known-good-sha>
@@ -637,6 +688,7 @@ npm audit --production
    # Frontend
    eas update:rollback --channel production
    ```
+
 5. **Verify recovery**: Check health endpoints, monitoring
 6. **Post-mortem**: Document what happened, root cause, prevention
 
@@ -645,6 +697,7 @@ npm audit --production
 ### Emergency 2: Secrets Leaked
 
 **Immediate Actions**:
+
 1. **Rotate secrets immediately**:
    - Database passwords
    - API keys
@@ -663,6 +716,7 @@ npm audit --production
 **Symptoms**: Cannot merge PRs, CI failing on main
 
 **Fix**:
+
 1. **Identify breaking commit**:
    ```bash
    git log --oneline main
@@ -687,6 +741,7 @@ npm audit --production
 **Symptoms**: Builds failing with quota errors
 
 **Solutions**:
+
 - **GitHub Actions minutes**: Upgrade plan or optimize workflows
 - **Expo builds**: Check EAS subscription limits
 - **npm registry**: Wait for rate limit reset or use different token
@@ -699,18 +754,21 @@ npm audit --production
 ### Metrics to Track
 
 **CI/CD Performance**:
+
 - Build success rate
 - Average build duration
 - Time to deploy
 - Deployment frequency
 
 **Quality**:
+
 - Test coverage %
 - Number of vulnerabilities
 - Code review time
 - Time to fix failures
 
 **Dashboards**:
+
 - GitHub Actions Insights
 - Codecov dashboard
 - Sentry (errors/performance)
@@ -738,10 +796,12 @@ npm audit --production
 ## Contacts
 
 **On-Call**:
+
 - Primary: [Your on-call schedule]
 - Secondary: [Backup contact]
 
 **Escalation**:
+
 - DevOps Lead: [Contact]
 - Security Team: [Contact]
 - Infrastructure: [Contact]

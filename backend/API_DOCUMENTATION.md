@@ -17,10 +17,13 @@ Authorization: Bearer <access_token>
 All responses follow this structure:
 
 ### Success Response
+
 ```json
 {
   "success": true,
-  "data": { /* response data */ },
+  "data": {
+    /* response data */
+  },
   "meta": {
     "timestamp": "2025-11-04T00:00:00Z"
   }
@@ -28,13 +31,16 @@ All responses follow this structure:
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
   "error": {
     "message": "Error description",
     "code": "ERROR_CODE",
-    "details": { /* optional error details */ }
+    "details": {
+      /* optional error details */
+    }
   },
   "meta": {
     "timestamp": "2025-11-04T00:00:00Z",
@@ -48,20 +54,23 @@ All responses follow this structure:
 ### Authentication
 
 #### Register User
+
 ```
 POST /auth/register
 ```
 
 **Request Body:**
+
 ```json
 {
   "email": "parent@example.com",
   "password": "SecurePass123",
-  "role": "parent"  // optional: "parent" or "guardian"
+  "role": "parent" // optional: "parent" or "guardian"
 }
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -77,11 +86,13 @@ POST /auth/register
 ```
 
 #### Login
+
 ```
 POST /auth/login
 ```
 
 **Request Body:**
+
 ```json
 {
   "email": "parent@example.com",
@@ -90,6 +101,7 @@ POST /auth/login
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -108,11 +120,13 @@ POST /auth/login
 ```
 
 #### Refresh Token
+
 ```
 POST /auth/refresh
 ```
 
 **Request Body:**
+
 ```json
 {
   "refreshToken": "eyJhbGc..."
@@ -120,6 +134,7 @@ POST /auth/refresh
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -133,12 +148,15 @@ POST /auth/refresh
 ```
 
 #### Logout
+
 ```
 POST /auth/logout
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "refreshToken": "eyJhbGc..."
@@ -148,12 +166,15 @@ POST /auth/logout
 **Response:** `200 OK`
 
 #### Change Password
+
 ```
 POST /auth/change-password
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "oldPassword": "OldPass123",
@@ -164,12 +185,15 @@ POST /auth/change-password
 **Response:** `200 OK`
 
 #### Get Current User
+
 ```
 GET /auth/me
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -188,12 +212,15 @@ GET /auth/me
 ### Location Tracking
 
 #### Store Location
+
 ```
 POST /locations
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "latitude": 37.7749,
@@ -211,6 +238,7 @@ POST /locations
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "success": true,
@@ -222,7 +250,9 @@ POST /locations
       "longitude": -122.4194,
       "accuracy": 10.5,
       "timestamp": "2025-11-04T12:00:00Z",
-      "context": { /* context object */ },
+      "context": {
+        /* context object */
+      },
       "created_at": "2025-11-04T12:00:05Z"
     }
   }
@@ -230,23 +260,29 @@ POST /locations
 ```
 
 #### Get Location History
+
 ```
 GET /locations?startDate=<ISO8601>&endDate=<ISO8601>&limit=100&offset=0
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Query Parameters:**
+
 - `startDate` (optional): ISO 8601 date string
 - `endDate` (optional): ISO 8601 date string
 - `limit` (optional): Number of results (default: 100, max: 1000)
 - `offset` (optional): Pagination offset (default: 0)
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
   "data": {
-    "locations": [ /* array of location objects */ ],
+    "locations": [
+      /* array of location objects */
+    ],
     "pagination": {
       "total": 250,
       "limit": 100,
@@ -258,36 +294,46 @@ GET /locations?startDate=<ISO8601>&endDate=<ISO8601>&limit=100&offset=0
 ```
 
 #### Get Current Location
+
 ```
 GET /locations/current
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
   "data": {
-    "location": { /* latest location object */ }
+    "location": {
+      /* latest location object */
+    }
   }
 }
 ```
 
 #### Delete Location
+
 ```
 DELETE /locations/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Batch Store Locations (Offline Sync)
+
 ```
 POST /locations/batch
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "locations": [
@@ -296,8 +342,10 @@ POST /locations/batch
       "longitude": -122.4194,
       "accuracy": 10.5,
       "timestamp": "2025-11-04T12:00:00Z",
-      "context": { /* optional context */ }
-    },
+      "context": {
+        /* optional context */
+      }
+    }
     // ... more locations (max 100)
   ]
 }
@@ -310,12 +358,15 @@ POST /locations/batch
 ### Safe Zones (Geofencing)
 
 #### List Safe Zones
+
 ```
 GET /safe-zones
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -338,39 +389,47 @@ GET /safe-zones
 ```
 
 #### Get Safe Zone by ID
+
 ```
 GET /safe-zones/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Create Safe Zone
+
 ```
 POST /safe-zones
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "name": "School",
   "centerLatitude": 37.7749,
   "centerLongitude": -122.4194,
   "radius": 200,
-  "type": "school"  // optional: "home", "school", "friend", "custom"
+  "type": "school" // optional: "home", "school", "friend", "custom"
 }
 ```
 
 **Response:** `201 Created`
 
 #### Update Safe Zone
+
 ```
 PUT /safe-zones/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "name": "Updated Name",
@@ -382,20 +441,25 @@ PUT /safe-zones/:id
 **Response:** `200 OK`
 
 #### Delete Safe Zone
+
 ```
 DELETE /safe-zones/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Check Location in Safe Zones
+
 ```
 POST /safe-zones/check
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "latitude": 37.7749,
@@ -404,12 +468,15 @@ POST /safe-zones/check
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
   "data": {
     "isInSafeZone": true,
-    "safeZones": [ /* array of matching safe zones */ ]
+    "safeZones": [
+      /* array of matching safe zones */
+    ]
   }
 }
 ```
@@ -419,20 +486,25 @@ POST /safe-zones/check
 ### Emergency Contacts & Alerts
 
 #### List Emergency Contacts
+
 ```
 GET /emergency-contacts
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Add Emergency Contact
+
 ```
 POST /emergency-contacts
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -445,12 +517,15 @@ POST /emergency-contacts
 **Response:** `201 Created`
 
 #### Update Emergency Contact
+
 ```
 PUT /emergency-contacts/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "name": "Jane Doe",
@@ -461,23 +536,28 @@ PUT /emergency-contacts/:id
 **Response:** `200 OK`
 
 #### Delete Emergency Contact
+
 ```
 DELETE /emergency-contacts/:id
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Trigger Emergency Alert
+
 ```
 POST /emergency/alert
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
-  "triggerReason": "emergency_button",  // "emergency_button", "geofence_violation", "manual"
+  "triggerReason": "emergency_button", // "emergency_button", "geofence_violation", "manual"
   "locationSnapshot": {
     "latitude": 37.7749,
     "longitude": -122.4194,
@@ -487,11 +567,14 @@ POST /emergency/alert
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "success": true,
   "data": {
-    "alerts": [ /* array of alert objects */ ],
+    "alerts": [
+      /* array of alert objects */
+    ],
     "count": 3,
     "message": "Emergency alert sent to 3 contact(s)"
   }
@@ -499,17 +582,21 @@ POST /emergency/alert
 ```
 
 #### Get Alert History
+
 ```
 GET /emergency/alerts?limit=50&offset=0
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
 
 #### Acknowledge Alert
+
 ```
 POST /emergency/alerts/:id/acknowledge
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
@@ -519,17 +606,20 @@ POST /emergency/alerts/:id/acknowledge
 ### Offline Sync
 
 #### Sync Offline Actions
+
 ```
 POST /offline-actions/sync
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Request Body:**
+
 ```json
 {
   "actions": [
     {
-      "actionType": "location_update",  // "location_update", "safe_zone_check", "emergency_alert"
+      "actionType": "location_update", // "location_update", "safe_zone_check", "emergency_alert"
       "data": {
         "latitude": 37.7749,
         "longitude": -122.4194,
@@ -544,6 +634,7 @@ POST /offline-actions/sync
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "success": true,
@@ -556,9 +647,11 @@ POST /offline-actions/sync
 ```
 
 #### Get Pending Actions
+
 ```
 GET /offline-actions/pending
 ```
+
 **Headers:** `Authorization: Bearer <access_token>`
 
 **Response:** `200 OK`
@@ -568,11 +661,13 @@ GET /offline-actions/pending
 ### Health & Monitoring
 
 #### Health Check
+
 ```
 GET /health
 ```
 
 **Response:** `200 OK` (healthy) or `503 Service Unavailable` (unhealthy)
+
 ```json
 {
   "status": "healthy",
@@ -585,17 +680,21 @@ GET /health
 ```
 
 #### API Info
+
 ```
 GET /
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "name": "NaviKid API",
   "version": "1.0.0",
   "description": "Privacy-first family location tracking backend",
-  "endpoints": { /* endpoint groups */ }
+  "endpoints": {
+    /* endpoint groups */
+  }
 }
 ```
 
@@ -604,6 +703,7 @@ GET /
 ### WebSocket
 
 #### Real-time Location Updates
+
 ```
 WS /ws/locations
 ```
@@ -611,6 +711,7 @@ WS /ws/locations
 Connect to WebSocket and send location updates:
 
 **Client → Server:**
+
 ```json
 {
   "type": "location_update",
@@ -623,6 +724,7 @@ Connect to WebSocket and send location updates:
 ```
 
 **Server → Client:**
+
 ```json
 {
   "type": "ack",
@@ -635,16 +737,16 @@ Connect to WebSocket and send location updates:
 
 ## Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `UNAUTHORIZED` | 401 | Missing or invalid authentication token |
-| `FORBIDDEN` | 403 | Insufficient permissions |
-| `NOT_FOUND` | 404 | Resource not found |
-| `VALIDATION_ERROR` | 400 | Request validation failed |
-| `REGISTRATION_ERROR` | 400 | User registration failed |
-| `LOGIN_ERROR` | 401 | Invalid credentials |
-| `TOKEN_REFRESH_ERROR` | 401 | Invalid refresh token |
-| `INTERNAL_ERROR` | 500 | Internal server error |
+| Code                  | HTTP Status | Description                             |
+| --------------------- | ----------- | --------------------------------------- |
+| `UNAUTHORIZED`        | 401         | Missing or invalid authentication token |
+| `FORBIDDEN`           | 403         | Insufficient permissions                |
+| `NOT_FOUND`           | 404         | Resource not found                      |
+| `VALIDATION_ERROR`    | 400         | Request validation failed               |
+| `REGISTRATION_ERROR`  | 400         | User registration failed                |
+| `LOGIN_ERROR`         | 401         | Invalid credentials                     |
+| `TOKEN_REFRESH_ERROR` | 401         | Invalid refresh token                   |
+| `INTERNAL_ERROR`      | 500         | Internal server error                   |
 
 ## Rate Limiting
 

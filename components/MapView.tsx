@@ -4,16 +4,19 @@ import MapViewWrapper from '@/components/MapViewWrapper';
 import { useRouteORS } from '@/hooks/useRouteORS';
 import Config from '@/utils/config';
 
-export default function MapView({ origin, destination, selectedUnifiedRoute, onStationPress, mapLibreCameraRef }) {
+export default function MapView({
+  origin,
+  destination,
+  selectedUnifiedRoute,
+  onStationPress,
+  mapLibreCameraRef,
+}) {
   const originCoord = origin
     ? ([origin.coordinates.longitude, origin.coordinates.latitude] as [number, number])
     : undefined;
 
   const destinationCoord = destination
-    ? ([destination.coordinates.longitude, destination.coordinates.latitude] as [
-        number,
-        number,
-      ])
+    ? ([destination.coordinates.longitude, destination.coordinates.latitude] as [number, number])
     : undefined;
 
   const { geojson: orsRouteGeoJSON } = useRouteORS(originCoord, destinationCoord, {

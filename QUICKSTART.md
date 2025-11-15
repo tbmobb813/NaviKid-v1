@@ -100,21 +100,17 @@ npm run test:integration
 ```typescript
 import apiClient from '@/services/api';
 
-const result = await apiClient.auth.register(
-  'user@example.com',
-  'Password123!',
-  'parent'
-);
+const result = await apiClient.auth.register('user@example.com', 'Password123!', 'parent');
 ```
 
 ### Send Location
 
 ```typescript
 const result = await apiClient.locations.sendLocation(
-  40.7128,   // latitude
-  -74.006,   // longitude
-  10,        // accuracy
-  { batteryLevel: 85, isMoving: true }
+  40.7128, // latitude
+  -74.006, // longitude
+  10, // accuracy
+  { batteryLevel: 85, isMoving: true },
 );
 ```
 
@@ -125,8 +121,8 @@ const result = await apiClient.safeZones.create(
   'Home',
   40.7128,
   -74.006,
-  200,  // radius in meters
-  'home'
+  200, // radius in meters
+  'home',
 );
 ```
 
@@ -141,16 +137,19 @@ const result = await apiClient.emergency.triggerAlert();
 ### "Network request failed"
 
 **For iOS Simulator:**
+
 ```env
 EXPO_PUBLIC_API_URL=http://localhost:3000
 ```
 
 **For Android Emulator:**
+
 ```env
 EXPO_PUBLIC_API_URL=http://10.0.2.2:3000
 ```
 
 **For Physical Device:**
+
 ```env
 EXPO_PUBLIC_API_URL=http://YOUR_COMPUTER_IP:3000
 ```

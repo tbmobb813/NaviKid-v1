@@ -69,10 +69,9 @@ export async function authRoutes(server: FastifyInstance) {
     }
 
     // Check if user already exists
-    const existingUser = await query(
-      'SELECT id FROM users WHERE email = $1',
-      [body.email]
-    );
+    const existingUser = await query('SELECT id FROM users WHERE email = $1', [
+      body.email,
+    ]);
 
     if ((existingUser.rowCount ?? 0) > 0) {
       return reply.conflict('User with this email already exists');
@@ -118,7 +117,13 @@ export async function authRoutes(server: FastifyInstance) {
     await query(
       `INSERT INTO refresh_tokens (user_id, token, expires_at, ip_address, user_agent)
        VALUES ($1, $2, $3, $4, $5)`,
-      [user.id, refreshToken, refreshExpiresAt, getClientIP(request), getUserAgent(request)]
+      [
+        user.id,
+        refreshToken,
+        refreshExpiresAt,
+        getClientIP(request),
+        getUserAgent(request),
+      ]
     );
 
     reply.code(201).send({
@@ -159,7 +164,7 @@ export async function authRoutes(server: FastifyInstance) {
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const body = loginSchema.parse(request.body);        
+      const body = loginSchema.parse(request.body);
       // Find user
       const result = await query(
         `SELECT id, email, password_hash, role, first_name, last_name, is_active
@@ -205,7 +210,13 @@ export async function authRoutes(server: FastifyInstance) {
       await query(
         `INSERT INTO refresh_tokens (user_id, token, expires_at, ip_address, user_agent)
        VALUES ($1, $2, $3, $4, $5)`,
-        [user.id, refreshToken, refreshExpiresAt, getClientIP(request), getUserAgent(request)]
+        [
+          user.id,
+          refreshToken,
+          refreshExpiresAt,
+          getClientIP(request),
+          getUserAgent(request),
+        ]
       );
 
       reply.send({
@@ -283,60 +294,69 @@ export async function authRoutes(server: FastifyInstance) {
    * POST /api/auth/logout
    * Logout user (revoke refresh token)
    */
-  server.post('/logout', {
-    preHandler: [server.authenticate as any],
-  }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const body = refreshTokenSchema.parse(request.body);
+  server.post(
+    '/logout',
+    {
+      preHandler: [server.authenticate as any],
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const body = refreshTokenSchema.parse(request.body);
 
-    // Revoke refresh token
-    await query(
-      `UPDATE refresh_tokens
+      // Revoke refresh token
+      await query(
+        `UPDATE refresh_tokens
        SET revoked = TRUE, revoked_at = NOW()
        WHERE token = $1`,
-      [body.refreshToken]
-    );
+        [body.refreshToken]
+      );
 
-    reply.send({ message: 'Logged out successfully' });
-  });
+      reply.send({ message: 'Logged out successfully' });
+    }
+  );
 
   /**
    * POST /api/auth/request-password-reset
    * Request password reset
    */
-  server.post('/request-password-reset', async (request: FastifyRequest, reply: FastifyReply) => {
-    const body = resetPasswordRequestSchema.parse(request.body);
+  server.post(
+    '/request-password-reset',
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const body = resetPasswordRequestSchema.parse(request.body);
 
-    // Find user
-    const result = await query(
-      'SELECT id, email FROM users WHERE email = $1 AND is_active = TRUE',
-      [body.email]
-    );
+      // Find user
+      const result = await query(
+        'SELECT id, email FROM users WHERE email = $1 AND is_active = TRUE',
+        [body.email]
+      );
 
-    // Always return success to prevent email enumeration
-    if (result.rowCount === 0) {
-      return reply.send({
-        message: 'If an account exists with this email, a password reset link has been sent',
+      // Always return success to prevent email enumeration
+      if (result.rowCount === 0) {
+        return reply.send({
+          message:
+            'If an account exists with this email, a password reset link has been sent',
+        });
+      }
+
+      const user = result.rows[0];
+
+      // Generate reset token
+      const resetToken = generateToken();
+      const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+      await query(
+        `INSERT INTO password_reset_tokens (user_id, token, expires_at)
+       VALUES ($1, $2, $3)`,
+        [user.id, resetToken, expiresAt]
+      );
+
+      // TODO: Send password reset email
+
+      reply.send({
+        message:
+          'If an account exists with this email, a password reset link has been sent',
       });
     }
-
-    const user = result.rows[0];
-
-    // Generate reset token
-    const resetToken = generateToken();
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
-    await query(
-      `INSERT INTO password_reset_tokens (user_id, token, expires_at)
-       VALUES ($1, $2, $3)`,
-      [user.id, resetToken, expiresAt]
-    );
-
-    // TODO: Send password reset email
-
-    reply.send({
-      message: 'If an account exists with this email, a password reset link has been sent',
-    });
-  });
+  );
 
   /**
    * POST /api/auth/reset-password
@@ -405,86 +425,95 @@ export async function authRoutes(server: FastifyInstance) {
    * GET /api/auth/verify-email/:token
    * Verify email address
    */
-  server.get('/verify-email/:token', async (request: FastifyRequest<{
-    Params: { token: string }
-  }>, reply: FastifyReply) => {
-    const { token } = request.params;
+  server.get(
+    '/verify-email/:token',
+    async (
+      request: FastifyRequest<{
+        Params: { token: string };
+      }>,
+      reply: FastifyReply
+    ) => {
+      const { token } = request.params;
 
-    // Verify token
-    const result = await query(
-      `SELECT id, user_id, expires_at, verified
+      // Verify token
+      const result = await query(
+        `SELECT id, user_id, expires_at, verified
        FROM email_verification_tokens
        WHERE token = $1`,
-      [token]
-    );
-
-    if (result.rowCount === 0) {
-      return reply.badRequest('Invalid verification token');
-    }
-
-    const tokenData = result.rows[0];
-
-    // Check if already verified
-    if (tokenData.verified) {
-      return reply.send({ message: 'Email already verified' });
-    }
-
-    // Check if expired
-    if (new Date(tokenData.expires_at) < new Date()) {
-      return reply.badRequest('Verification token has expired');
-    }
-
-    await transaction(async (client) => {
-      // Mark email as verified
-      await client.query(
-        'UPDATE users SET email_verified = TRUE WHERE id = $1',
-        [tokenData.user_id]
+        [token]
       );
 
-      // Mark token as verified
-      await client.query(
-        'UPDATE email_verification_tokens SET verified = TRUE, verified_at = NOW() WHERE id = $1',
-        [tokenData.id]
-      );
-    });
+      if (result.rowCount === 0) {
+        return reply.badRequest('Invalid verification token');
+      }
 
-    reply.send({ message: 'Email verified successfully' });
-  });
+      const tokenData = result.rows[0];
+
+      // Check if already verified
+      if (tokenData.verified) {
+        return reply.send({ message: 'Email already verified' });
+      }
+
+      // Check if expired
+      if (new Date(tokenData.expires_at) < new Date()) {
+        return reply.badRequest('Verification token has expired');
+      }
+
+      await transaction(async (client) => {
+        // Mark email as verified
+        await client.query('UPDATE users SET email_verified = TRUE WHERE id = $1', [
+          tokenData.user_id,
+        ]);
+
+        // Mark token as verified
+        await client.query(
+          'UPDATE email_verification_tokens SET verified = TRUE, verified_at = NOW() WHERE id = $1',
+          [tokenData.id]
+        );
+      });
+
+      reply.send({ message: 'Email verified successfully' });
+    }
+  );
 
   /**
    * GET /api/auth/me
    * Get current user info
    */
-  server.get('/me', {
-    preHandler: [server.authenticate as any],
-  }, async (request: FastifyRequest, reply: FastifyReply) => {
-    const user = (request as any).user as JWTPayload;
+  server.get(
+    '/me',
+    {
+      preHandler: [server.authenticate as any],
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const user = (request as any).user as JWTPayload;
 
-    // Get full user details
-    const result = await query(
-      `SELECT id, email, role, first_name, last_name, phone_number,
+      // Get full user details
+      const result = await query(
+        `SELECT id, email, role, first_name, last_name, phone_number,
               email_verified, created_at, last_login_at
        FROM users
        WHERE id = $1`,
-      [user.userId]
-    );
+        [user.userId]
+      );
 
-    if (result.rowCount === 0) {
-      return reply.notFound('User not found');
+      if (result.rowCount === 0) {
+        return reply.notFound('User not found');
+      }
+
+      const userData = result.rows[0];
+
+      reply.send({
+        id: userData.id,
+        email: userData.email,
+        role: userData.role,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        phoneNumber: userData.phone_number,
+        emailVerified: userData.email_verified,
+        createdAt: userData.created_at,
+        lastLoginAt: userData.last_login_at,
+      });
     }
-
-    const userData = result.rows[0];
-
-    reply.send({
-      id: userData.id,
-      email: userData.email,
-      role: userData.role,
-      firstName: userData.first_name,
-      lastName: userData.last_name,
-      phoneNumber: userData.phone_number,
-      emailVerified: userData.email_verified,
-      createdAt: userData.created_at,
-      lastLoginAt: userData.last_login_at,
-    });
-  });
+  );
 }

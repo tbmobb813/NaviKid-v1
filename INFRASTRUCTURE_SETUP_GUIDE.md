@@ -438,8 +438,8 @@ node -e "console.log(require('bcrypt').genSaltSync(12))"
 
 **Required Domains:**
 
-Main App:        navikid.app (or your domain)
-API:             api.navikid.app
+Main App: navikid.app (or your domain)
+API: api.navikid.app
 Transit Adapter: transit.navikid.app
 Admin Dashboard: admin.navikid.app (future)
 
@@ -451,10 +451,10 @@ Admin Dashboard: admin.navikid.app (future)
 
 **DNS Configuration:**
 
-A     navikid.app          → Your CDN/hosting IP
-A     api.navikid.app      → Backend server IP
-A     transit.navikid.app  → Transit adapter IP
-CNAME www.navikid.app      → navikid.app
+A navikid.app → Your CDN/hosting IP
+A api.navikid.app → Backend server IP
+A transit.navikid.app → Transit adapter IP
+CNAME www.navikid.app → navikid.app
 
 **Estimated Work:** 2-3 hours (domain purchase + DNS setup + SSL)
 
@@ -837,6 +837,7 @@ cat /proc/sys/fs/inotify/max_user_watches
 ```
 
 If you can't run `sudo` on the host, alternatives are:
+
 - exclude large directories (e.g. node_modules) from Metro's watcher
 - run Metro with reduced watchers or polling mode (slower)
 - close other watcher-heavy apps/IDEs

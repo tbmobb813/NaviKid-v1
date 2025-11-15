@@ -105,9 +105,8 @@ export function PrivacyConsentModal({ visible, onDismiss }: PrivacyConsentModalP
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>📋 Learn More</Text>
             <Text style={styles.sectionText}>
-              For more details, please review our{' '}
-              <Text style={styles.link}>Privacy Policy</Text> and{' '}
-              <Text style={styles.link}>Terms of Service</Text>.
+              For more details, please review our <Text style={styles.link}>Privacy Policy</Text>{' '}
+              and <Text style={styles.link}>Terms of Service</Text>.
             </Text>
           </View>
 

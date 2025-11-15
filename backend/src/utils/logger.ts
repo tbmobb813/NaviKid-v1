@@ -3,16 +3,19 @@ import { config } from '../config';
 
 export const logger = pino({
   level: config.logging.level,
-  transport: config.logging.pretty
-    ? {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'SYS:standard',
-          ignore: 'pid,hostname',
-        },
-      }
-    : undefined,
+  // Avoid creating the pino-pretty worker transport in test runs — it leaves
+  // a background worker thread open which prevents Jest from exiting cleanly.
+  transport:
+    config.logging.pretty && !config.isTest
+      ? {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+            ignore: 'pid,hostname',
+          },
+        }
+      : undefined,
   base: {
     env: config.env,
   },

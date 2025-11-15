@@ -273,7 +273,7 @@ class AuthManager {
       const response = await apiClient.auth.register(
         data.email,
         data.password,
-        data.role === 'parent' ? 'parent' : 'guardian'
+        data.role === 'parent' ? 'parent' : 'guardian',
       );
 
       if (response.success && response.data) {
@@ -483,7 +483,7 @@ class AuthManager {
 
     try {
       const response = await apiClient.post<{ valid: boolean }>('/auth/verify-pin', { pin });
-  return !!(response.success && response.data && response.data.valid);
+      return !!(response.success && response.data && response.data.valid);
     } catch (error) {
       log.error('PIN verification error', error as Error);
       return false;

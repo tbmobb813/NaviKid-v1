@@ -149,10 +149,7 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               const zoneName = isInZone ? currentZoneStatus.inside[0].name : undefined;
               return (
                 <View
-                  style={[
-                    styles.statusCard,
-                    { backgroundColor: isInZone ? '#E3F2FD' : '#F3E5F5' },
-                  ]}
+                  style={[styles.statusCard, { backgroundColor: isInZone ? '#E3F2FD' : '#F3E5F5' }]}
                 >
                   <View
                     style={[
@@ -161,9 +158,7 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
                     ]}
                   />
                   <Text style={styles.statusText}>
-                    {isInZone
-                      ? `🎯 You're exploring ${zoneName}!`
-                      : '🗺️ New area to discover!'}
+                    {isInZone ? `🎯 You're exploring ${zoneName}!` : '🗺️ New area to discover!'}
                   </Text>
                 </View>
               );

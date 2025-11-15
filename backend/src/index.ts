@@ -60,24 +60,30 @@ async function buildServer() {
 
   // Request logging
   fastify.addHook('onRequest', async (request) => {
-    logger.info({
-      method: request.method,
-      url: request.url,
-      ip: request.ip,
-      userAgent: request.headers['user-agent'],
-      requestId: request.id,
-    }, 'Incoming request');
+    logger.info(
+      {
+        method: request.method,
+        url: request.url,
+        ip: request.ip,
+        userAgent: request.headers['user-agent'],
+        requestId: request.id,
+      },
+      'Incoming request'
+    );
   });
 
   // Response logging
   fastify.addHook('onResponse', async (request, reply) => {
-    logger.info({
-      method: request.method,
-      url: request.url,
-      statusCode: reply.statusCode,
-      responseTime: reply.getResponseTime(),
-      requestId: request.id,
-    }, 'Request completed');
+    logger.info(
+      {
+        method: request.method,
+        url: request.url,
+        statusCode: reply.statusCode,
+        responseTime: reply.getResponseTime(),
+        requestId: request.id,
+      },
+      'Request completed'
+    );
   });
 
   // Health check endpoint
@@ -124,10 +130,13 @@ async function buildServer() {
   // WebSocket route for real-time location updates
   // @ts-ignore
   fastify.get('/ws/locations', { websocket: true }, (connection, req) => {
-    logger.info({
-      ip: (req as any).socket?.remoteAddress,
-      headers: req.headers,
-    }, 'WebSocket connection established');
+    logger.info(
+      {
+        ip: (req as any).socket?.remoteAddress,
+        headers: req.headers,
+      },
+      'WebSocket connection established'
+    );
 
     (connection as any).socket.on('message', (message: any) => {
       try {
@@ -143,7 +152,7 @@ async function buildServer() {
           })
         );
       } catch (error) {
-        logger.error({ error  }, 'WebSocket message error');
+        logger.error({ error }, 'WebSocket message error');
       }
     });
 
@@ -152,7 +161,7 @@ async function buildServer() {
     });
 
     (connection as any).socket.on('error', (error: any) => {
-      logger.error({ error  }, 'WebSocket error');
+      logger.error({ error }, 'WebSocket error');
     });
   });
 
@@ -188,12 +197,15 @@ async function start() {
       host: config.server.host,
     });
 
-    logger.info({
-      host: config.server.host,
-      port: config.server.port,
-      env: config.server.nodeEnv,
-      url: `http://${config.server.host}:${config.server.port}`,
-    }, 'Server started successfully');
+    logger.info(
+      {
+        host: config.server.host,
+        port: config.server.port,
+        env: config.server.nodeEnv,
+        url: `http://${config.server.host}:${config.server.port}`,
+      },
+      'Server started successfully'
+    );
 
     // Graceful shutdown
     const signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM'];
@@ -208,25 +220,25 @@ async function start() {
           logger.info('Server shut down successfully');
           process.exit(0);
         } catch (error) {
-          logger.error({ error  }, 'Error during shutdown');
+          logger.error({ error }, 'Error during shutdown');
           process.exit(1);
         }
       });
     });
   } catch (error) {
-    logger.error({ error  }, 'Failed to start server');
+    logger.error({ error }, 'Failed to start server');
     process.exit(1);
   }
 }
 
 // Handle uncaught errors
 process.on('uncaughtException', (error) => {
-  logger.error({ error  }, 'Uncaught exception');
+  logger.error({ error }, 'Uncaught exception');
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error({ reason, promise  }, 'Unhandled rejection');
+  logger.error({ reason, promise }, 'Unhandled rejection');
   process.exit(1);
 });
 

@@ -36,11 +36,13 @@ Before setting up CI/CD, ensure you have:
 3. Create three environments:
 
 **Staging Environment**:
+
 - Name: `staging`
 - No required reviewers
 - No deployment branches restrictions
 
 **Production Environment**:
+
 - Name: `production`
 - Required reviewers: Add 2 team members
 - Deployment branches: Only `main` branch
@@ -100,6 +102,7 @@ AWS_ACCOUNT_ID
 ```
 
 Generate AWS credentials:
+
 ```bash
 # Create IAM user with programmatic access
 # Attach policies: AmazonECS_FullAccess, AmazonEC2ContainerRegistryFullAccess
@@ -114,6 +117,7 @@ DIGITALOCEAN_ACCESS_TOKEN
 ```
 
 Generate DO token:
+
 ```bash
 # Visit: https://cloud.digitalocean.com/account/api/tokens
 # Create new token with read/write scope
@@ -126,6 +130,7 @@ HEROKU_API_KEY
 ```
 
 Get Heroku API key:
+
 ```bash
 heroku auth:token
 ```
@@ -139,6 +144,7 @@ VPS_SSH_KEY=[paste private key]
 ```
 
 Generate SSH key:
+
 ```bash
 ssh-keygen -t ed25519 -C "github-actions@navikid"
 # Add public key to VPS: ~/.ssh/authorized_keys
@@ -150,6 +156,7 @@ ssh-keygen -t ed25519 -C "github-actions@navikid"
 Create separate secrets for staging and production:
 
 **Staging Secrets**:
+
 ```
 STAGING_DATABASE_URL=postgresql://user:pass@host:5432/navikid_staging
 STAGING_REDIS_URL=redis://host:6379
@@ -158,6 +165,7 @@ STAGING_DEPLOY_KEY=[staging deployment key]
 ```
 
 **Production Secrets**:
+
 ```
 PRODUCTION_DATABASE_URL=postgresql://user:pass@host:5432/navikid_production
 PRODUCTION_REDIS_URL=redis://host:6379
@@ -184,6 +192,7 @@ SENTRY_DSN=[your Sentry DSN]
 4. Configure:
 
 **Required Settings**:
+
 - ✅ Require a pull request before merging
   - Required approvals: `2`
   - ✅ Dismiss stale pull request approvals when new commits are pushed
@@ -201,6 +210,7 @@ SENTRY_DSN=[your Sentry DSN]
 - ✅ Require linear history
 
 **Optional (Recommended)**:
+
 - ✅ Require signed commits
 - ✅ Include administrators
 - ✅ Restrict pushes that create matching branches
@@ -213,6 +223,7 @@ SENTRY_DSN=[your Sentry DSN]
 
 1. Add another rule for `develop`
 2. Configure (lighter requirements):
+
 - ✅ Require a pull request before merging
   - Required approvals: `1`
 - ✅ Require status checks to pass before merging
@@ -228,12 +239,14 @@ SENTRY_DSN=[your Sentry DSN]
 **PostgreSQL** (choose one):
 
 **Option A: Managed Service (Recommended)**
+
 - AWS RDS: https://aws.amazon.com/rds/postgresql/
 - Digital Ocean Managed Databases: https://www.digitalocean.com/products/managed-databases
 - Supabase: https://supabase.com/
 - Neon: https://neon.tech/
 
 **Option B: Self-Hosted**
+
 ```bash
 # On your VPS
 sudo apt install postgresql postgresql-contrib
@@ -242,6 +255,7 @@ sudo -u postgres createdb navikid_production
 ```
 
 **Create database user**:
+
 ```sql
 CREATE USER navikid WITH ENCRYPTED PASSWORD 'strong-password';
 GRANT ALL PRIVILEGES ON DATABASE navikid_staging TO navikid;
@@ -251,11 +265,13 @@ GRANT ALL PRIVILEGES ON DATABASE navikid_production TO navikid;
 ### 4.2 Redis Setup
 
 **Option A: Managed Service**
+
 - Redis Cloud: https://redis.com/try-free/
 - AWS ElastiCache: https://aws.amazon.com/elasticache/
 - Upstash: https://upstash.com/
 
 **Option B: Self-Hosted**
+
 ```bash
 sudo apt install redis-server
 sudo systemctl enable redis-server
@@ -295,6 +311,7 @@ CMD ["npm", "start"]
 Choose your deployment method and configure:
 
 **AWS ECS/Fargate**:
+
 1. Create ECS cluster
 2. Create task definition
 3. Create service
@@ -302,12 +319,14 @@ Choose your deployment method and configure:
 5. Set environment variables in task definition
 
 **Digital Ocean App Platform**:
+
 1. Connect repository
 2. Configure build/run commands
 3. Set environment variables
 4. Configure health checks
 
 **Heroku**:
+
 ```bash
 # Create apps
 heroku create navikid-backend-staging
@@ -390,12 +409,14 @@ Ensure your `eas.json` has proper profiles:
 ### 5.4 Configure App Credentials
 
 **iOS**:
+
 ```bash
 eas credentials:configure -p ios
 # Follow prompts to set up Apple certificates
 ```
 
 **Android**:
+
 ```bash
 eas credentials:configure -p android
 # Follow prompts to set up keystore
@@ -509,6 +530,7 @@ git push origin ci/test-pipeline
 **Error**: `Expo authentication failed`
 
 **Fix**:
+
 ```bash
 # Generate new token
 npx eas whoami
@@ -526,6 +548,7 @@ npx eas whoami
 **Error**: Various test failures
 
 **Fix**:
+
 ```bash
 # Run tests locally with same environment
 NODE_ENV=test npm run test
@@ -569,12 +592,14 @@ npm install @sentry/react-native
 ### 10.1 Share Documentation
 
 Ensure team has access to:
+
 - `/home/nixstation-remote/tbmobb813/NaviKid-v1/docs/CICD_RUNBOOK.md`
 - `/home/nixstation-remote/tbmobb813/NaviKid-v1/docs/CICD_SETUP_GUIDE.md` (this file)
 
 ### 10.2 Deployment Training
 
 Walk team through:
+
 1. How to read CI/CD logs
 2. How to trigger manual deployments
 3. How to rollback deployments
@@ -593,6 +618,7 @@ Walk team through:
 Use this checklist to verify your setup:
 
 ### GitHub Actions
+
 - [ ] Backend CI runs on PRs
 - [ ] Frontend CI runs on PRs
 - [ ] Security scan runs weekly
@@ -600,6 +626,7 @@ Use this checklist to verify your setup:
 - [ ] Status checks block merging when failing
 
 ### Secrets
+
 - [ ] EXPO_TOKEN configured and valid
 - [ ] CODECOV_TOKEN configured (optional)
 - [ ] Database URLs configured for staging/production
@@ -607,12 +634,14 @@ Use this checklist to verify your setup:
 - [ ] All secrets tested (check workflow runs)
 
 ### Branch Protection
+
 - [ ] Main branch protected with 2 required approvals
 - [ ] Required status checks configured
 - [ ] Force push disabled
 - [ ] Linear history enforced
 
 ### Deployments
+
 - [ ] Staging environment configured
 - [ ] Production environment configured with approval
 - [ ] Backend deploys to staging on main push
@@ -620,12 +649,14 @@ Use this checklist to verify your setup:
 - [ ] Health checks pass after deployment
 
 ### Infrastructure
+
 - [ ] PostgreSQL database accessible
 - [ ] Redis accessible
 - [ ] Backend can connect to database
 - [ ] Environment variables set correctly
 
 ### Documentation
+
 - [ ] Team has access to runbooks
 - [ ] Deployment procedures documented
 - [ ] Emergency contacts listed

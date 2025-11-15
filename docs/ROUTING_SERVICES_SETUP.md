@@ -27,7 +27,6 @@ ORS_CUSTOM_ENDPOINT=https://your-custom-ors-instance.com
 OTP2_CUSTOM_ENDPOINT=https://your-custom-otp2-instance.com
 ```
 
-
 ### 2. Get OpenRouteService API Key
 
 1. Visit [OpenRouteService](https://openrouteservice.org/)
@@ -71,7 +70,6 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --build --save .
 # Start server
 java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 ```
-
 
 ## Service Capabilities
 
@@ -169,7 +167,6 @@ java -Xmx4G -jar otp-2.4.0-shaded.jar --load .
 }
 ```
 
-
 ## API Usage Examples
 
 ### Basic Walking Route
@@ -191,7 +188,6 @@ console.log(`Duration: ${route.routes[0].summary.duration}s`);
 console.log(`Distance: ${route.routes[0].summary.distance}m`);
 ```
 
-
 ### Kid-Friendly Route
 
 ```typescript
@@ -208,7 +204,6 @@ const kidRoute = await orsService.getKidFriendlyRoute(
 // Route optimized for 8-year-old safety
 ```
 
-
 ### Transit Planning
 
 ```typescript
@@ -223,7 +218,6 @@ const trip = await otp2Service.planTrip({
 
 console.log(`Transfers: ${trip.plan.itineraries[0].transfers}`);
 ```
-
 
 ### Unified Routing
 
@@ -247,7 +241,6 @@ routes.forEach((route) => {
 });
 ```
 
-
 ## Testing Configuration
 
 ### Integration Tests
@@ -260,7 +253,6 @@ npm test -- __tests__/routing-integration.test.ts
 npm test -- __tests__/routing-integration.test.ts --env=production
 ```
 
-
 ### Demo Component
 
 ```bash
@@ -269,7 +261,6 @@ expo start
 
 # Navigate to RoutingDemo component to test live routing
 ```
-
 
 ## Monitoring and Analytics
 
@@ -282,7 +273,6 @@ import { monitoring } from './utils/monitoring';
 // Configure Sentry for production error tracking
 ```
 
-
 ### Performance Monitoring
 
 ```typescript
@@ -291,7 +281,6 @@ const timer = monitoring.trackPerformance('ors_route_request');
 const route = await orsService.getRoute(params);
 timer.end();
 ```
-
 
 ### Usage Analytics
 
@@ -303,7 +292,6 @@ monitoring.trackUserAction({
   metadata: { mode: 'walking', distance: 1200 },
 });
 ```
-
 
 ## Production Deployment
 
@@ -321,7 +309,6 @@ SENTRY_DSN=your_sentry_dsn
 ENABLE_ANALYTICS=true
 ```
 
-
 ### Rate Limiting
 
 ```typescript
@@ -332,7 +319,6 @@ const config = {
   retryDelay: 1000,
 };
 ```
-
 
 ### Caching Strategy
 
@@ -345,7 +331,6 @@ const cacheConfig = {
 };
 ```
 
-
 ## Troubleshooting
 
 ### Common Issues
@@ -356,7 +341,6 @@ const cacheConfig = {
 Error: ORS API error: 403 Forbidden
 ```
 
-
 **Solution**: Check API key validity and rate limits
 
 #### OTP2 Connection Issues
@@ -365,7 +349,6 @@ Error: ORS API error: 403 Forbidden
 Error: OTP2 server unavailable
 ```
 
-
 **Solution**: Verify OTP2_BASE_URL and server status
 
 #### No Routes Found
@@ -373,7 +356,6 @@ Error: OTP2 server unavailable
 ```bash
 No routes available between locations
 ```
-
 
 **Solution**: Check coordinate format and routing distance limits
 
@@ -385,7 +367,6 @@ process.env.DEBUG_ROUTING = 'true';
 
 // Logs will show API requests and responses
 ```
-
 
 ### Health Checks
 
@@ -399,7 +380,6 @@ const otp2Health = await otp2Service.healthCheck();
 console.log('ORS Status:', orsHealth);
 console.log('OTP2 Status:', otp2Health);
 ```
-
 
 ## API Reference
 
@@ -461,4 +441,3 @@ const attribution = {
   osm: '© OpenStreetMap contributors',
 };
 ```
-

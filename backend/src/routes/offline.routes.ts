@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import offlineService from '../services/offline.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { syncOfflineActionsSchema, validate } from '../utils/validation';
-import { ApiResponse } from '../types';
+import { ApiResponse, JWTPayload } from '../types';
 import logger from '../utils/logger';
 
 export async function offlineRoutes(fastify: FastifyInstance) {
@@ -17,7 +17,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
         const { actions } = request.body as any;
 
         const processedActions = actions.map((action: any) => ({
@@ -25,10 +25,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
           timestamp: new Date(action.timestamp),
         }));
 
-        const result = await offlineService.syncOfflineActions(
-          userId,
-          processedActions
-        );
+        const result = await offlineService.syncOfflineActions(userId, processedActions);
 
         const response: ApiResponse = {
           success: result.success,
@@ -44,7 +41,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Offline sync error');
+        logger.error({ error }, 'Offline sync error');
         reply.status(500).send({
           success: false,
           error: {
@@ -67,7 +64,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const userId = (request.user as JWTPayload).userId;
 
         const pendingActions = await offlineService.getPendingOfflineActions(userId);
 
@@ -84,7 +81,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
 
         reply.status(200).send(response);
       } catch (error: any) {
-        logger.error({ error  }, 'Get pending actions error');
+        logger.error({ error }, 'Get pending actions error');
         reply.status(500).send({
           success: false,
           error: {

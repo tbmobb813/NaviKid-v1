@@ -9,7 +9,11 @@
   "@types/bcrypt": { "current": "5.0.2", "wanted": "5.0.2", "latest": "6.0.0" },
   "@types/jest": { "current": "29.5.14", "wanted": "29.5.14", "latest": "30.0.0" },
   "@types/node": { "current": "20.19.24", "wanted": "20.19.25", "latest": "24.10.1" },
-  "@typescript-eslint/eslint-plugin": { "current": "7.18.0", "wanted": "7.18.0", "latest": "8.46.4" },
+  "@typescript-eslint/eslint-plugin": {
+    "current": "7.18.0",
+    "wanted": "7.18.0",
+    "latest": "8.46.4"
+  },
   "@typescript-eslint/parser": { "current": "7.18.0", "wanted": "7.18.0", "latest": "8.46.4" },
   "bcrypt": { "current": "5.1.1", "wanted": "5.1.1", "latest": "6.0.0" },
   "dotenv": { "current": "16.6.1", "wanted": "16.6.1", "latest": "17.2.3" },

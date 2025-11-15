@@ -1,4 +1,3 @@
-
 # Tests — Canonical test utilities
 
 This project provides a single canonical test helper located at `tests/test-utils.js` to avoid fragile relative imports from `__tests__` folders and to ensure hoisted jest mocks are available.
