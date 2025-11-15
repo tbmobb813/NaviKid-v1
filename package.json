@@ -168,12 +168,10 @@
   "prepare": "husky install",
   "lint-staged": {
     "*.(ts|tsx)": [
-      "npm run lint:frontend:fast --",
-      "git add"
+      "npm run lint:frontend:fast --"
     ],
     "backend/**/*.(ts|tsx)": [
-      "npm --prefix backend run lint --",
-      "git add"
+      "npm --prefix backend run lint --"
     ]
   },
   "private": true,
