@@ -25,7 +25,7 @@ module.exports = [
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: require.resolve('@typescript-eslint/parser'),
+      parser: require('@typescript-eslint/parser'),
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
@@ -55,7 +55,7 @@ module.exports = [
     languageOptions: {
       // reuse the same parser, but enable the project option so type-aware
       // rules work for backend files.
-      parser: require.resolve('@typescript-eslint/parser'),
+      parser: require('@typescript-eslint/parser'),
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
