@@ -16,7 +16,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src --ext .ts",
-  "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --config .eslintrc.fast.cjs --cache --cache-location .cache/eslint/backend-fast",
+  "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location .cache/eslint/backend-fast",
     "lint:ci": "eslint src --ext .ts --max-warnings=0",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
