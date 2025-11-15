@@ -171,7 +171,7 @@
       "cross-env LINT_TIMEOUT_MS=180000 npm run lint:frontend:fast --"
     ],
     "backend/**/*.(ts|tsx)": [
-      "cross-env LINT_TIMEOUT_MS=180000 npm --prefix backend run lint --"
+      "cross-env LINT_TIMEOUT_MS=180000 npm --prefix backend run lint:fast --"
     ]
   },
   "private": true,
