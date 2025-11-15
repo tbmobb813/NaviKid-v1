@@ -16,7 +16,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src --ext .ts",
-    "lint:fast": "eslint src --ext .ts --config .eslintrc.fast.json",
+  "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --config .eslintrc.fast.cjs --cache --cache-location .cache/eslint/backend-fast",
     "lint:ci": "eslint src --ext .ts --max-warnings=0",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
@@ -55,14 +55,14 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
     "@types/pg": "^8.11.5",
-    "@typescript-eslint/eslint-plugin": "^7.7.0",
-    "@typescript-eslint/parser": "^7.7.0",
-    "eslint": "^8.57.0",
+  "@typescript-eslint/eslint-plugin": "^8.46.4",
+  "@typescript-eslint/parser": "^8.46.4",
+  "eslint": "^9.39.1",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "tsx": "^4.7.2",
-    "typescript": "^5.4.5"
+  "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0",
