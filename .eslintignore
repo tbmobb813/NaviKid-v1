@@ -1,0 +1,11 @@
+.cache/
+dist/
+/backend/dist/
+docs/
+templates/
+server/data/
+coverage/
+node_modules/
+backend/node_modules/
+.mcp.json
+*.lock

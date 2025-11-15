@@ -29,7 +29,11 @@
     "test:full": "npm run test:logic && jest __tests__",
     "test:concurrent": "bash ./scripts/run-tests-concurrent.sh",
     "lint": "node ./scripts/lint-with-timeout.cjs",
-    "lint:timed": "node ./scripts/lint-with-timeout.cjs",
+  "lint:frontend": "node ./scripts/lint-with-timeout.cjs app components hooks utils services src --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0",
+  "lint:frontend:fast": "node ./scripts/lint-with-timeout.cjs app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0",
+  "lint:backend": "npm --prefix backend run lint",
+  "lint:timed": "node ./scripts/lint-with-timeout.cjs",
+  "lint:all": "npm run lint:frontend:fast && npm run lint:backend",
     "lint:fast": "LINT_TIMEOUT_MS=60000 node ./scripts/lint-with-timeout.cjs --rule 'prettier/prettier:0' --rule 'react/jsx-filename-extension:0'",
     "lint:full": "LINT_TIMEOUT_MS=180000 node ./scripts/lint-with-timeout.cjs",
     "format:check": "npx prettier --check \"**/*.{ts,tsx,json,md}\"",
@@ -157,7 +161,20 @@
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.5",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+  "husky": "^8.0.3",
+  "lint-staged": "^14.0.0"
+  },
+  "prepare": "husky install",
+  "lint-staged": {
+    "*.(ts|tsx)": [
+      "npm run lint:frontend:fast --",
+      "git add"
+    ],
+    "backend/**/*.(ts|tsx)": [
+      "npm --prefix backend run lint --",
+      "git add"
+    ]
   },
   "private": true,
   "overrides": {}
