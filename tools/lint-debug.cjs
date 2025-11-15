@@ -33,7 +33,8 @@ async function main() {
     }
   }
 
-  const eslint = new ESLint({ cwd: process.cwd(), useEslintrc: true });
+  // Do not pass unknown options. Let ESLint pick up the repository config.
+  const eslint = new ESLint({ cwd: process.cwd() });
 
   const out = [];
   out.push('--- isPathIgnored ---');
