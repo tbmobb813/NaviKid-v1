@@ -60,20 +60,25 @@ async function main() {
     out.push('calculateConfigForFile failed: ' + String(e));
   }
 
+  const skipRun = process.argv.includes('--quick') || process.argv.includes('--no-run');
   out.push('\n--- lint results (first 20 messages) ---');
-  try {
-    const results = await eslint.lintFiles([abs]);
-    if (!results || results.length === 0) {
-      out.push('No lint results');
-    } else {
-      const r = results[0];
-      out.push(`file: ${r.filePath}`);
-      out.push(`errorCount: ${r.errorCount}, warningCount: ${r.warningCount}`);
-      const msgs = (r.messages || []).slice(0, 20).map(m => `${m.line}:${m.column} ${m.ruleId || '<parse>'} ${m.message}`);
-      out.push(...msgs);
+  if (skipRun) {
+    out.push('Skipping full lint run because --quick/--no-run was specified.');
+  } else {
+    try {
+      const results = await eslint.lintFiles([abs]);
+      if (!results || results.length === 0) {
+        out.push('No lint results');
+      } else {
+        const r = results[0];
+        out.push(`file: ${r.filePath}`);
+        out.push(`errorCount: ${r.errorCount}, warningCount: ${r.warningCount}`);
+        const msgs = (r.messages || []).slice(0, 20).map(m => `${m.line}:${m.column} ${m.ruleId || '<parse>'} ${m.message}`);
+        out.push(...msgs);
+      }
+    } catch (e) {
+      out.push('lintFiles failed: ' + String(e));
     }
-  } catch (e) {
-    out.push('lintFiles failed: ' + String(e));
   }
 
   const report = out.join('\n');
