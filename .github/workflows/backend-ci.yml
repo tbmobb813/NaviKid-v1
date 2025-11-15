@@ -82,7 +82,7 @@ jobs:
           if [ "${{ matrix.target }}" = "frontend" ]; then
             npm run lint:frontend --if-present;
           else
-            npm --prefix backend run lint --if-present;
+            npm --prefix backend run lint:ci --if-present;
           fi
 
 
