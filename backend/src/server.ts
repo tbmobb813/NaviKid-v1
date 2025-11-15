@@ -147,6 +147,13 @@ export async function buildServer() {
 
   // Register routes
   await server.register(healthRoutes, { prefix: '/api/health' });
+  // Register rate limiting middleware BEFORE routes
+  await server.register(rateLimit, {
+    max: 100, // maximum number of requests per windowMs
+    timeWindow: 15 * 60 * 1000, // 15 minutes
+    // keyGenerator, allowList, ban, etc. can be customized as needed
+  });
+
   await server.register(authRoutes, { prefix: '/api/auth' });
   await server.register(userRoutes, { prefix: '/api/users' });
   await server.register(locationRoutes, { prefix: '/api/locations' });
