@@ -53,15 +53,17 @@ module.exports = [
   {
     files: ['backend/**/*.ts', 'backend/**/*.tsx'],
     languageOptions: {
-      // reuse the same parser, but enable the project option so type-aware
-      // rules work for backend files.
+      // reuse the same parser. Enable type-aware linting for backend files
+      // only when ESLINT_TYPECHECK=true (so `lint:fast` stays fast).
       parser: require('@typescript-eslint/parser'),
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: { jsx: false },
-        project: './backend/tsconfig.json',
-      },
+      parserOptions: Object.assign(
+        {
+          ecmaVersion: 2022,
+          sourceType: 'module',
+          ecmaFeatures: { jsx: false },
+        },
+        process.env.ESLINT_TYPECHECK === 'true' ? { project: './backend/tsconfig.json' } : {}
+      ),
     },
     plugins: {
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
