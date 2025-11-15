@@ -36,6 +36,7 @@
   "lint:all": "npm run lint:frontend:fast && npm run lint:backend",
     "lint:fast": "LINT_TIMEOUT_MS=60000 node ./scripts/lint-with-timeout.cjs --rule 'prettier/prettier:0' --rule 'react/jsx-filename-extension:0'",
     "lint:full": "LINT_TIMEOUT_MS=180000 node ./scripts/lint-with-timeout.cjs",
+  "lint:debug": "node tools/lint-debug.js",
     "format:check": "npx prettier --check \"**/*.{ts,tsx,json,md}\"",
     "format:check:ci": "npx prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "perf-check": "node ./tools/perfCheck.cjs",
