@@ -62,7 +62,11 @@ module.exports = [
           sourceType: 'module',
           ecmaFeatures: { jsx: false },
         },
-        process.env.ESLINT_TYPECHECK === 'true' ? { project: './backend/tsconfig.json' } : {}
+        // Use an absolute path to the backend tsconfig so ESLint works
+        // even when invoked from the `backend` working directory (npm --prefix).
+        process.env.ESLINT_TYPECHECK === 'true'
+          ? { project: require('path').join(__dirname, 'backend', 'tsconfig.json') }
+          : {}
       ),
     },
     plugins: {
