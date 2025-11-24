@@ -4,7 +4,7 @@ import * as Notifications from 'expo-notifications';
 import SmartNotification, { NotificationData } from './SmartNotification';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addInAppBannerListener } from '@/utils/notifications';
-import logger from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 type InAppNotificationHostProps = {
   testId?: string;
@@ -115,7 +115,11 @@ const InAppNotificationHost: React.FC<InAppNotificationHostProps> = ({ testId })
 
   const handleAction = useCallback(
     (notification: NotificationData) => {
-      logger.info('Notification action:', notification);
+      logger.debug('Notification action triggered', {
+        type: notification.type,
+        id: notification.id,
+        title: notification.title
+      });
       // Handle different notification actions here
       switch (notification.type) {
         case 'weather':

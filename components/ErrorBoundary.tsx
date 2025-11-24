@@ -25,9 +25,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Convert Error and errorInfo into a safe record for typed logger
-    const errRecord = error instanceof Error ? { message: error.message, stack: error.stack } : { error: String(error) };
-    logger.error('Error caught by boundary:', { ...errRecord, errorInfo: { componentStack: (errorInfo && (errorInfo as any).componentStack) || undefined } });
+    logger.error('Error caught by boundary', error, { errorInfo });
   }
 
   retry = () => {
