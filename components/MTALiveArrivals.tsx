@@ -20,6 +20,7 @@ import {
 } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { subwayLineColors } from '@/config/transit-data/mta-subway-lines';
+import { logger } from '@sentry/react-native';
 
 type MTALiveArrivalsProps = {
   stationId?: string;
@@ -185,7 +186,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
       setAlerts(mockAlerts);
       setLastUpdated(new Date());
     } catch (error) {
-      console.error('Failed to load arrivals:', error);
+      logger.error('Failed to load arrivals:', error);
     } finally {
       setLoading(false);
       setRefreshing(false);

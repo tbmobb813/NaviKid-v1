@@ -5,6 +5,7 @@ import Colors from '@/constants/colors';
 import { useParentalStore } from '@/stores/parentalStore';
 import useLocation from '@/hooks/useLocation';
 import { DevicePingRequest } from '@/types/parental';
+import { logger } from '@sentry/react-native';
 
 type DevicePingHandlerProps = {
   testId?: string;
@@ -28,7 +29,7 @@ const DevicePingHandler: React.FC<DevicePingHandlerProps> = ({ testId }) => {
   }, [devicePings, activePing]);
 
   const handlePingReceived = (ping: DevicePingRequest) => {
-    console.log('Device ping received:', ping.type, ping.message);
+    logger.log('Device ping received:', ping.type, ping.message);
 
     switch (ping.type) {
       case 'ring':
@@ -133,7 +134,7 @@ const DevicePingHandler: React.FC<DevicePingHandlerProps> = ({ testId }) => {
           : 'Response sent to your parent',
       );
     } catch (error) {
-      console.error('Failed to acknowledge ping:', error);
+      logger.error('Failed to acknowledge ping:', error);
       Alert.alert('Error', 'Failed to respond to ping. Please try again.');
     }
   };

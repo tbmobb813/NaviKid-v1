@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import Colors from '@/constants/colors';
 import { AlertTriangle, RefreshCw } from 'lucide-react-native';
+import { logger } from '@sentry/react-native';
 
 type ErrorBoundaryState = {
   hasError: boolean;
@@ -24,7 +25,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    logger.error('Error caught by boundary:', error, errorInfo);
   }
 
   retry = () => {

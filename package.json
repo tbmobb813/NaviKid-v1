@@ -168,11 +168,11 @@
   },
   "prepare": "husky install",
   "lint-staged": {
-    "*.(ts|tsx)": [
-      "cross-env LINT_TIMEOUT_MS=180000 npm run lint:frontend:fast --"
+    "*.{ts,tsx}": [
+      "eslint --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs"
     ],
-    "backend/**/*.(ts|tsx)": [
-      "cross-env LINT_TIMEOUT_MS=180000 npm --prefix backend run lint:fast --"
+    "backend/**/*.{ts,tsx}": [
+      "eslint --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config eslint.config.backend.cjs"
     ]
   },
   "private": true,

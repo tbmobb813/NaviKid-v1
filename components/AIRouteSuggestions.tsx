@@ -8,6 +8,7 @@ import { View, Text, ScrollView, Pressable, ActivityIndicator } from 'react-nati
 import { aiRouteEngine, SmartRoute, RoutePreferences } from '../utils/aiRouteEngine';
 import { voiceManager, speakMessage } from '../utils/voice';
 import * as Location from 'expo-location';
+import { logger } from '@sentry/react-native';
 
 interface AIRouteSuggestionsProps {
   origin?: Location.LocationObject;
@@ -46,7 +47,7 @@ export default function AIRouteSuggestions({
         );
       }
     } catch (error) {
-      console.error('Failed to generate routes:', error);
+      logger.error('Failed to generate routes:', error);
     } finally {
       setLoading(false);
     }

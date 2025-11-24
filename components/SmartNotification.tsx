@@ -4,6 +4,7 @@ import Colors from '@/constants/colors';
 import { Clock, X, MapPin, Bell, Shield, Trophy } from 'lucide-react-native';
 import * as Notifications from 'expo-notifications';
 import { useToast } from '@/hooks/useToast';
+import { logger } from '@sentry/react-native';
 
 export type NotificationData = {
   id: string;
@@ -118,9 +119,9 @@ const SmartNotification: React.FC<SmartNotificationProps> = ({
       });
 
       showToast('Notification scheduled successfully', 'success');
-      console.log('Scheduled notification:', notificationId);
+      logger.info('Scheduled notification:', notificationId);
     } catch (error) {
-      console.error('Failed to schedule notification:', error);
+      logger.error('Failed to schedule notification:', error);
       showToast('Failed to schedule notification', 'error');
     } finally {
       setIsScheduling(false);

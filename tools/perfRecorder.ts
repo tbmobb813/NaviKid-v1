@@ -1,3 +1,4 @@
+import { logger } from '@sentry/react-native';
 import fs from 'fs';
 import path from 'path';
 
@@ -30,6 +31,6 @@ export function recordTiming(testName: string, ms: number) {
     // Do not fail tests if recording fails
 
     const e: any = err;
-    console.warn('perfRecorder: failed to record timing', e && e.message ? e.message : e);
+    logger.warn('perfRecorder: failed to record timing', e && e.message ? e.message : e);
   }
 }
