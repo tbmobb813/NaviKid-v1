@@ -123,7 +123,7 @@ const SmartNotification: React.FC<SmartNotificationProps> = ({
     } catch (error) {
       logger.error('Failed to schedule notification', error as Error, {
         title: notification.title,
-        type: notification.type,
+        type: notification.type
       });
       showToast('Failed to schedule notification', 'error');
     } finally {

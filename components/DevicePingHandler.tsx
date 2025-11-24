@@ -32,7 +32,7 @@ const DevicePingHandler: React.FC<DevicePingHandlerProps> = ({ testId }) => {
     logger.info('Device ping received', {
       type: ping.type,
       message: ping.message,
-      pingId: ping.id,
+      pingId: ping.id
     });
 
     switch (ping.type) {
@@ -139,7 +139,7 @@ const DevicePingHandler: React.FC<DevicePingHandlerProps> = ({ testId }) => {
       );
     } catch (error) {
       logger.error('Failed to acknowledge ping', error as Error, {
-        pingId: activePing?.id,
+        pingId: activePing?.id
       });
       Alert.alert('Error', 'Failed to respond to ping. Please try again.');
     }

@@ -49,7 +49,7 @@ export default function AIRouteSuggestions({
     } catch (error) {
       logger.error('Failed to generate AI routes', error as Error, {
         hasOrigin: !!origin,
-        hasDestination: !!destination,
+        hasDestination: !!destination
       });
     } finally {
       setLoading(false);

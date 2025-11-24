@@ -9,11 +9,8 @@ import {
 } from 'react-native';
 import { MapPin } from 'lucide-react-native';
 import Colors from '@/constants/colors';
+import { subwayLineColors } from '@/config/transit-data/mta-subway-lines';
 import { logger } from '@/utils/logger';
-import ArrivalCard, { type ArrivalInfo } from './MTALiveArrivals/ArrivalCard';
-import AlertCard, { type StationAlert } from './MTALiveArrivals/AlertCard';
-import StationHeader from './MTALiveArrivals/StationHeader';
-import KidTipsSection from './MTALiveArrivals/KidTipsSection';
 
 type MTALiveArrivalsProps = {
   stationId?: string;
@@ -160,7 +157,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
     } catch (error) {
       logger.error('Failed to load arrivals', error as Error, {
         stationId,
-        stationName,
+        stationName
       });
     } finally {
       setLoading(false);
