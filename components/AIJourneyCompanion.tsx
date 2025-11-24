@@ -5,6 +5,7 @@ import { Bot, Volume2, VolumeX, Sparkles, MapPin, Shield } from 'lucide-react-na
 import { Place } from '@/types/navigation';
 import { SmartRoute } from '../utils/aiRouteEngine';
 import { speakMessage } from '../utils/voice';
+import { logger } from '@/utils/logger';
 
 type AIJourneyCompanionProps = {
   currentLocation: { latitude: number; longitude: number };
@@ -116,7 +117,9 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
         await speakMessage(data.completion);
       }
     } catch (error) {
-      console.log('AI companion error:', error);
+      logger.error('AI companion error', error as Error, {
+        destination: destination.name
+      });
       // Fallback to route-aware message if available
       let fallbackText = `Great choice going to ${destination.name}! I bet you'll discover something amazing there. Stay safe and enjoy your adventure! 🌟`;
 
@@ -177,7 +180,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
         await speakMessage(`Quiz Time! ${data.completion}`);
       }
     } catch (error) {
-      console.log('Quiz generation error:', error);
+      logger.error('Quiz generation error', error as Error);
     }
   };
 
@@ -228,7 +231,9 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
         await speakMessage(data.completion);
       }
     } catch (error) {
-      console.log('Route insight error:', error);
+      logger.error('Route insight error', error as Error, {
+        routeName: selectedRoute.name
+      });
       // Fallback route insight
       const fallbackInsight: CompanionMessage = {
         id: Date.now().toString(),

@@ -18,6 +18,7 @@ import { orsService } from '../utils/orsService';
 import { otp2Service } from '../utils/otp2Service';
 import { unifiedRoutingService, UnifiedRoute } from '../utils/unifiedRoutingService';
 import { monitoring } from '../utils/monitoring';
+import { logger } from '@/utils/logger';
 
 interface Location {
   lat: number;
@@ -117,7 +118,7 @@ export default function RoutingDemo() {
         Alert.alert('No Routes', 'No routes found for the selected criteria');
       }
     } catch (error) {
-      console.error('Route finding error:', error);
+      logger.error('Route finding error', error as Error);
       Alert.alert('Error', 'Failed to find routes. Please try again.');
 
       monitoring.captureError({
@@ -166,7 +167,7 @@ export default function RoutingDemo() {
         );
       }
     } catch (error) {
-      console.error('ORS test error:', error);
+      logger.error('ORS test error', error as Error);
       Alert.alert('ORS Error', 'Failed to test ORS. Check configuration and API key.');
     } finally {
       setLoading(false);
@@ -216,7 +217,7 @@ export default function RoutingDemo() {
         }
       }
     } catch (error) {
-      console.error('OTP2 test error:', error);
+      logger.error('OTP2 test error', error as Error);
       Alert.alert('OTP2 Error', 'Failed to test OTP2. Check server configuration.');
     } finally {
       setLoading(false);
