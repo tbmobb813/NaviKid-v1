@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logger } from '@/utils/logger';
-import { timeoutSignal } from '@/utils/abortSignal';
 
 const API_BASE_URL = __DEV__ ? 'http://localhost:3000/api' : 'https://your-production-api.com/api';
 
@@ -195,9 +194,7 @@ export const offlineStorage = {
       } catch (e) {
         // ignore
       }
-      logger.warn('Failed to cache response (AsyncStorage), falling back to memory cache', {
-        error,
-      });
+      logger.warn('Failed to cache response (AsyncStorage), falling back to memory cache', { error });
     }
   },
 
@@ -226,7 +223,7 @@ export const offlineStorage = {
       } catch (e) {
         logger.warn('Failed to get cached response (AsyncStorage+memory)', {
           asyncStorageError: error,
-          memoryError: e,
+          memoryError: e
         });
         return null;
       }
@@ -436,7 +433,7 @@ export const createNetworkAwareApi = <T extends unknown[], R>(
       logger.warn('Network request failed, trying cache', {
         cacheKey,
         errorMessage: errorInfo.message,
-        errorCode: errorInfo.code,
+        errorCode: errorInfo.code
       });
 
       // Try cache fallback for network errors
