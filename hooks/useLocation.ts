@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import { Platform, Alert } from 'react-native';
+import { logger } from '@/utils/logger';
 
 type LocationData = {
   latitude: number;
@@ -92,7 +93,7 @@ export default function useLocation() {
 
         const currentLocation = await Location.getCurrentPositionAsync(locationOptions);
 
-        console.log('✅ Location acquired:', {
+        logger.info('Location acquired', {
           latitude: currentLocation.coords.latitude,
           longitude: currentLocation.coords.longitude,
           accuracy: currentLocation.coords.accuracy,
@@ -104,7 +105,7 @@ export default function useLocation() {
           error: null,
         });
       } catch (error) {
-        console.log('Location error:', error);
+        logger.error('Location acquisition error', error as Error);
         setLocation((prev) => ({
           ...prev,
           error: 'Could not get your location',
