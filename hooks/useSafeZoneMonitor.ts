@@ -6,6 +6,7 @@ import { SafeZone } from '@/types/parental';
 import { showNotification, requestNotificationPermission } from '@/utils/notifications';
 import { startGeofencing } from '@/geofence';
 import Config from '@/utils/config';
+import { logger } from '@/utils/logger';
 
 type SafeZoneEvent = {
   safeZone: SafeZone;
@@ -180,7 +181,9 @@ export const useSafeZoneMonitor = () => {
         // Request background permissions for better monitoring
         const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
         if (backgroundStatus !== 'granted') {
-          console.log('Background location permission not granted, monitoring will be limited');
+          logger.warn('Background location permission not granted, monitoring will be limited', {
+            status: backgroundStatus
+          });
         }
 
         // Request notification permissions
@@ -234,10 +237,14 @@ export const useSafeZoneMonitor = () => {
           if (regions.length > 0) {
             await startGeofencing(regions);
             geofencingStarted.current = true;
-            console.log('Geofencing initialized for safe zones');
+            logger.info('Geofencing initialized for safe zones', {
+              regionCount: regions.length
+            });
           }
         } catch (geofenceError) {
-          console.error('Failed to start geofencing:', geofenceError);
+          logger.error('Failed to start geofencing', geofenceError as Error, {
+            regionCount: regions.length
+          });
         }
       }
 
@@ -271,7 +278,7 @@ export const useSafeZoneMonitor = () => {
             setCurrentLocation(newLocation);
             checkSafeZones(newLocation);
           },
-          (error) => console.error('Location watch error:', error),
+          (error) => logger.error('Location watch error', error as Error),
           {
             enableHighAccuracy: false,
             timeout: 30000,
@@ -285,9 +292,12 @@ export const useSafeZoneMonitor = () => {
       }
 
       setIsMonitoring(true);
-      console.log('Safe zone monitoring started');
+      logger.info('Safe zone monitoring started', {
+        activeZonesCount: safeZones.filter(z => z.isActive).length,
+        platform: Platform.OS
+      });
     } catch (error) {
-      console.error('Failed to start safe zone monitoring:', error);
+      logger.error('Failed to start safe zone monitoring', error as Error);
       Alert.alert('Error', 'Failed to start safe zone monitoring');
     }
   };
@@ -300,7 +310,7 @@ export const useSafeZoneMonitor = () => {
     }
     setIsMonitoring(false);
     geofencingStarted.current = false;
-    console.log('Safe zone monitoring stopped');
+    logger.info('Safe zone monitoring stopped');
   };
 
   // Get current safe zone status
