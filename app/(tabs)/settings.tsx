@@ -109,18 +109,18 @@ export default function SettingsScreen() {
 
       if (successCount === totalCount) {
         logger.info('Successfully updated transit data for all regions', {
-          totalCount,
+          totalCount
         });
       } else {
         logger.warn('Partial transit data update success', {
           successCount,
-          totalCount,
+          totalCount
         });
         results
           .filter((r) => !r.success)
           .forEach((result) => {
             logger.error('Failed to update region transit data', new Error(result.message), {
-              regionId: result.regionId,
+              regionId: result.regionId
             });
           });
       }
