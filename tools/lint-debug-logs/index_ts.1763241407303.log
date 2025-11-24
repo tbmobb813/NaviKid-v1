@@ -1,0 +1,12 @@
+--- isPathIgnored ---
+backend/src/index.ts ignored? false
+
+--- calculated config (trimmed) ---
+parser: [object Object]
+parserOptions keys: ecmaVersion, sourceType, ecmaFeatures, project
+parserOptions.project: ./backend/tsconfig.json
+plugins: @, @typescript-eslint, react, react-hooks, prettier
+rules count: 4
+
+--- lint results (first 20 messages) ---
+Skipping full lint run because --quick/--no-run was specified.
