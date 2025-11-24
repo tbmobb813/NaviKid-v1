@@ -104,7 +104,7 @@ export default function MapScreen() {
     if (location && (!origin || origin.id === 'current-location')) {
       logger.info('Updating origin to current location', {
         latitude: location.latitude,
-        longitude: location.longitude,
+        longitude: location.longitude
       });
       setOrigin({
         id: 'current-location',
@@ -196,7 +196,7 @@ export default function MapScreen() {
     if (!mapLibreSupported) {
       logger.warn('MapLibre not detected, using fallback OpenStreetMap', {
         recommendation: 'Run a development build with MapLibre for better performance',
-        platform: Platform.OS,
+        platform: Platform.OS
       });
     }
   }, [mapLibreSupported]);
