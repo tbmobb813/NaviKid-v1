@@ -8,6 +8,7 @@
 import * as Application from 'expo-application';
 import * as Updates from 'expo-updates';
 import { Platform } from 'react-native';
+import { logger } from '@/utils/logger';
 
 export interface SentryConfig {
   dsn: string;
@@ -35,7 +36,9 @@ export function initSentry(config: SentryConfig) {
   // No-op when DSN is not provided
   if (!config.dsn || config.dsn.trim() === '') {
     if (config.environment === 'development') {
-      console.log('[Sentry] Disabled: DSN not configured');
+      logger.info('Sentry disabled: DSN not configured', {
+        environment: config.environment
+      });
     }
     return createFallbackSentry();
   }
@@ -132,7 +135,7 @@ export function initSentry(config: SentryConfig) {
 
     // Only log Sentry initialization in development
     if (config.environment === 'development') {
-      console.log('[Sentry] Initialized successfully', {
+      logger.info('Sentry initialized successfully', {
         environment: config.environment,
         release: releaseName,
         platform: Platform.OS,
@@ -158,7 +161,10 @@ export function initSentry(config: SentryConfig) {
     return Sentry;
   } catch (err) {
     if (config.environment === 'development') {
-      console.warn('[Sentry] Failed to initialize', err);
+      logger.warn('Sentry failed to initialize', {
+        error: err,
+        environment: config.environment
+      });
     }
     return createFallbackSentry();
   }
@@ -170,15 +176,22 @@ export function initSentry(config: SentryConfig) {
 function createFallbackSentry() {
   return {
     captureException: (error: any, context?: any) => {
-      console.error('[Sentry Fallback] Exception:', error, context);
+      logger.error('Sentry fallback captured exception', error as Error, { context });
       return 'fallback-event-id';
     },
     captureMessage: (message: string, level?: string) => {
-      console.log(`[Sentry Fallback] ${level?.toUpperCase() || 'INFO'}: ${message}`);
+      const logLevel = level?.toLowerCase() || 'info';
+      if (logLevel === 'error') {
+        logger.error('Sentry fallback message', new Error(message));
+      } else if (logLevel === 'warning') {
+        logger.warn('Sentry fallback message', { message });
+      } else {
+        logger.info('Sentry fallback message', { message, level: logLevel });
+      }
       return 'fallback-event-id';
     },
     captureEvent: (event: any) => {
-      console.log('[Sentry Fallback] Event:', event);
+      logger.debug('Sentry fallback captured event', { event });
       return 'fallback-event-id';
     },
     addBreadcrumb: (breadcrumb: any) => {
