@@ -67,6 +67,7 @@ import MapView from '@/components/MapView';
 import { isMapLibreAvailable } from '@/components/MapLibreMap';
 import { useRouteORS } from '@/hooks/useRouteORS';
 import Config from '@/utils/config';
+import { logger } from '@/utils/logger';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -101,7 +102,10 @@ export default function MapScreen() {
   useEffect(() => {
     // Update origin when location changes, especially when moving from default to real location
     if (location && (!origin || origin.id === 'current-location')) {
-      console.log('📍 Updating origin to current location:', location);
+      logger.info('Updating origin to current location', {
+        latitude: location.latitude,
+        longitude: location.longitude
+      });
       setOrigin({
         id: 'current-location',
         name: 'Current Location',
@@ -190,9 +194,10 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (!mapLibreSupported) {
-      console.warn(
-        'MapLibre not detected. Using fallback OpenStreetMap. For better performance, run a development build with MapLibre.',
-      );
+      logger.warn('MapLibre not detected, using fallback OpenStreetMap', {
+        recommendation: 'Run a development build with MapLibre for better performance',
+        platform: Platform.OS
+      });
     }
   }, [mapLibreSupported]);
 
@@ -232,7 +237,7 @@ export default function MapScreen() {
                 } catch (e) {
                   // Defensive: some test harnesses or fallback map implementations
                   // may not expose setCamera; ignore failures silently.
-                  console.warn('Recenter failed:', e);
+                  logger.debug('Map recenter failed', { error: e });
                 }
               }
             }}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logger } from '@/utils/logger';
 
 type UseAsyncStorageReturn<T> = {
   data: T | null;
@@ -27,7 +28,7 @@ export function useAsyncStorage<T>(key: string, defaultValue?: T): UseAsyncStora
         setDataState(defaultValue);
       }
     } catch (err) {
-      console.error(`Error loading ${key}:`, err);
+      logger.error('AsyncStorage load error', err as Error, { key });
       setError(`Failed to load ${key}`);
       if (defaultValue) {
         setDataState(defaultValue);
@@ -44,7 +45,7 @@ export function useAsyncStorage<T>(key: string, defaultValue?: T): UseAsyncStora
         await AsyncStorage.setItem(key, JSON.stringify(value));
         setDataState(value);
       } catch (err) {
-        console.error(`Error saving ${key}:`, err);
+        logger.error('AsyncStorage save error', err as Error, { key });
         setError(`Failed to save ${key}`);
         throw err;
       }
@@ -58,7 +59,7 @@ export function useAsyncStorage<T>(key: string, defaultValue?: T): UseAsyncStora
       await AsyncStorage.removeItem(key);
       setDataState(null);
     } catch (err) {
-      console.error(`Error removing ${key}:`, err);
+      logger.error('AsyncStorage remove error', err as Error, { key });
       setError(`Failed to remove ${key}`);
       throw err;
     }
