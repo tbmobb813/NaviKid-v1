@@ -26,7 +26,7 @@ export function usePlausible() {
 
     if (isEnabled) {
       logger.info('Plausible analytics enabled', {
-        analyticsConsent: settings.analyticsEnabled,
+        analyticsConsent: settings.analyticsEnabled
       });
     }
   }, [settings.analyticsEnabled]);
