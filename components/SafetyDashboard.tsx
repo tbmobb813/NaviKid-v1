@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
+import { logger } from '@/utils/logger';
 import {
   Shield,
   Camera,
@@ -52,15 +53,25 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
   const handleEmergencyCall = () => {
     Alert.alert('Emergency Help', "Choose how you'd like to get help:", [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Call 911', style: 'destructive', onPress: () => console.log('Emergency call') },
-      { text: 'Call Parent', onPress: () => console.log('Parent call') },
+      {
+        text: 'Call 911',
+        style: 'destructive',
+        onPress: () => logger.info('Emergency call initiated', { type: '911' })
+      },
+      {
+        text: 'Call Parent',
+        onPress: () => logger.info('Emergency call initiated', { type: 'parent' })
+      },
     ]);
   };
 
   const handleQuickCheckIn = () => {
     Alert.alert('Quick Check-in', "Let your family know you're okay?", [
       { text: 'Not now', style: 'cancel' },
-      { text: 'I&apos;m OK!', onPress: () => console.log('Quick check-in sent') },
+      {
+        text: 'I&apos;m OK!',
+        onPress: () => logger.info('Quick check-in sent', { timestamp: Date.now() })
+      },
     ]);
   };
 
@@ -196,14 +207,18 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
               <QuickActionButton
                 icon={<MapPin />}
                 title="Share Location"
-                onPress={() => console.log('Share location')}
+                onPress={() => logger.info('Share location action triggered', {
+                  location: currentLocation
+                })}
                 color={Colors.primary}
               />
 
               <QuickActionButton
                 icon={<Camera />}
                 title="Photo Check-in"
-                onPress={() => console.log('Photo check-in')}
+                onPress={() => logger.info('Photo check-in action triggered', {
+                  place: currentPlace?.name
+                })}
                 color={Colors.secondary}
               />
             </View>
@@ -228,7 +243,9 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
               title="Safe Zones"
               value={activeSafeZones}
               subtitle="Active zones"
-              onPress={() => console.log('Navigate to safe zones')}
+              onPress={() => logger.info('Navigate to safe zones requested', {
+                activeZones: activeSafeZones
+              })}
             />
 
             <SafetyStatCard
@@ -237,7 +254,9 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
               value={recentCheckIns.length}
               subtitle="Recent"
               color={Colors.secondary}
-              onPress={() => console.log('Navigate to check-in history')}
+              onPress={() => logger.info('Navigate to check-in history requested', {
+                recentCount: recentCheckIns.length
+              })}
             />
           </View>
 
@@ -256,7 +275,9 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
               value={emergencyContacts}
               subtitle="Emergency"
               color="#9C27B0"
-              onPress={() => console.log('Navigate to emergency contacts')}
+              onPress={() => logger.info('Navigate to emergency contacts requested', {
+                contactsCount: emergencyContacts
+              })}
             />
           </View>
         </View>
