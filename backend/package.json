@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+  "build": "tsc -p tsconfig.build.json",
     "postbuild": "cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true",
     "start": "node dist/server.js",
     "start:prod": "NODE_ENV=production node dist/server.js",
@@ -15,9 +15,9 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src --ext .ts",
-  "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location .cache/eslint/backend-fast",
-    "lint:ci": "eslint src --ext .ts --max-warnings=0",
+    "lint": "eslint src --ext .ts --config ../eslint.config.backend.cjs",
+    "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location .cache/eslint/backend-fast --config ../eslint.config.backend.cjs",
+  "lint:ci": "ESLINT_TYPECHECK=true eslint src --ext .ts --max-warnings=0 --config ../eslint.config.backend.cjs",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit"
