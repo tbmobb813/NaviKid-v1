@@ -418,9 +418,8 @@ export class TransitDataUpdater {
             severity: this.mapGtfsAlertSeverity(alert.severityLevel),
             headerText: alert.headerText?.translation?.[0]?.text || 'Service Alert',
             descriptionText: alert.descriptionText?.translation?.[0]?.text || '',
-            affectedRoutes: alert.informedEntity
-              ?.map((e: any) => e.routeId)
-              .filter((r: string) => r) || [],
+            affectedRoutes:
+              alert.informedEntity?.map((e: any) => e.routeId).filter((r: string) => r) || [],
             activePeriod: alert.activePeriod?.[0]
               ? {
                   start: alert.activePeriod[0].start,

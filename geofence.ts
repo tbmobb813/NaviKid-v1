@@ -75,15 +75,13 @@ async function handleGeofenceEvent(
       timestamp: Date.now(),
     });
 
-    // Update parental dashboard with real-time activity
-    // Note: Direct store updates from non-React contexts need to be handled via events
-    // For now, we'll rely on the analytics tracking above
-    // TODO: Implement event-based dashboard updates for non-React contexts
+    // Emit event for React components (e.g., parental dashboard)
     try {
-      // Log for debugging - dashboard updates will be handled by React components
-      console.log('Geofence event logged for dashboard:', {
-        zoneId: region.identifier,
-        eventType: isEntry ? 'entry' : 'exit',
+      const { geofenceEvents } = await import('@/utils/geofenceEvents');
+      geofenceEvents.emit({
+        type: isEntry ? 'entry' : 'exit',
+        regionId: region.identifier,
+        region,
         timestamp: Date.now(),
       });
 
@@ -97,8 +95,8 @@ async function handleGeofenceEvent(
         regionId: region.identifier,
         guardianDevices: 'backend-service-would-handle-this',
       });
-    } catch (dashboardError) {
-      console.error('Failed to log dashboard event:', dashboardError);
+    } catch (eventError) {
+      console.error('Failed to emit geofence event:', eventError);
     }
   } catch (notificationError) {
     console.error('Failed to send geofence notification:', notificationError);

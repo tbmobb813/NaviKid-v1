@@ -25,7 +25,6 @@ adb start-server
 adb devices
 ```
 
-
 ### 3. Check USB Connection
 
 - **Unplug and replug** your USB cable
@@ -50,7 +49,6 @@ adb start-server
 # Then unplug and replug your device
 ```
 
-
 ---
 
 ## Verification Steps
@@ -61,14 +59,12 @@ adb start-server
 adb devices
 ```
 
-
 **Expected output:**
 
 ```
 List of devices attached
 ABC123456789    device
 ```
-
 
 **If you see "unauthorized":**
 
@@ -83,13 +79,11 @@ sudo adb start-server
 adb devices
 ```
 
-
 ### Step 2: Once device shows as "device", try building
 
 ```bash
 npx expo run:android
 ```
-
 
 ---
 
@@ -102,7 +96,6 @@ npx expo run:android
    ```bash
    # Download from: https://developer.android.com/studio
    ```
-
 
 1. **Create an emulator:**
    - Open Android Studio
@@ -121,7 +114,6 @@ npx expo run:android
    # Start an emulator
    emulator -avd Pixel_5_API_33 &
    ```
-
 
 ### Option B: Use Expo Dev Client (Easiest for Testing)
 
@@ -145,7 +137,6 @@ Once device is connected, you can build:
 npx expo run:android
 ```
 
-
 This creates a dev build with native modules that you can test immediately.
 
 ### Production Build via EAS (requires setup)
@@ -164,7 +155,6 @@ eas build:configure
 eas build --profile development --platform android
 ```
 
-
 ---
 
 ## Common Issues & Solutions
@@ -178,7 +168,6 @@ echo 'export PATH=$PATH:$HOME/Android/Sdk/platform-tools' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-
 ### Issue: Device shows as "unauthorized"
 
 **Solution:**
@@ -186,8 +175,8 @@ source ~/.bashrc
 1. Revoke USB debugging authorizations on phone:
    - Settings → Developer options → Revoke USB debugging authorizations
 1. Unplug device
-2. Replug device
-3. Authorize popup should appear
+1. Replug device
+1. Authorize popup should appear
 
 ### Issue: "No Android connected device found"
 
@@ -211,7 +200,6 @@ rm -rf android/app/build
 npx expo run:android
 ```
 
-
 ---
 
 ## Why Native Build is Important
@@ -232,7 +220,6 @@ Your Metro bundler is running on port 8082. Once you get your device connected o
 ```
 Server: http://192.168.1.19:8082
 ```
-
 
 ---
 
@@ -274,7 +261,6 @@ echo $ANDROID_SDK_ROOT
 # Test ADB connection
 adb shell echo "Connection successful!"
 ```
-
 
 **Status:** ⚠️ Waiting for device connection
 

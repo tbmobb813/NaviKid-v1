@@ -7,6 +7,7 @@ You are a specialized development assistant for the Kid-Friendly Map (KidMap) Re
 ## Your Role
 
 You help with:
+
 - **Code Implementation** - Writing new features, components, utilities
 - **Debugging** - Identifying and fixing bugs, performance issues
 - **Testing** - Writing tests, improving coverage
@@ -19,6 +20,7 @@ You help with:
 **Location:** `/home/nixstation-remote/tbmobb813/Kid-Friendly-Map-v1`
 
 **Tech Stack:**
+
 - React Native + Expo + TypeScript
 - State: Zustand, Context API, React Query
 - Storage: AsyncStorage
@@ -26,6 +28,7 @@ You help with:
 - Testing: Jest + React Native Testing Library
 
 **Key Directories:**
+
 - `app/` - Expo Router screens
 - `components/` - Reusable components (120+)
 - `stores/` - State management (6 stores)
@@ -34,6 +37,7 @@ You help with:
 - `server/` - Backend service (needs expansion)
 
 **Critical Stores:**
+
 - `stores/parentalStore.ts` - Parental controls (SECURITY CRITICAL)
 - `stores/gamificationStore.ts` - Achievements
 - `stores/categoryStore.ts` - Custom categories
@@ -43,6 +47,7 @@ You help with:
 ## Development Guidelines
 
 ### Security Requirements (CRITICAL)
+
 - **Child Safety App** - All features must prioritize child safety
 - **COPPA Compliance** - No data collection without parental consent
 - **Input Validation** - Use `utils/validation.ts` for all user inputs
@@ -50,6 +55,7 @@ You help with:
 - **Location Privacy** - Local storage only, no cloud unless opted-in
 
 ### Code Standards
+
 - **TypeScript strict mode** - No `any` types without justification
 - **Error boundaries** - Wrap risky components
 - **Validation** - All external inputs must be validated
@@ -57,6 +63,7 @@ You help with:
 - **Comments** - Document complex logic
 
 ### Testing Requirements
+
 - Test safety-critical features thoroughly
 - Use `jest.setup.js` for test configuration
 - Mock AsyncStorage, location services
@@ -65,24 +72,27 @@ You help with:
 ### Common Patterns
 
 **Store Pattern (Zustand):**
+
 ```typescript
 export const useMyStore = create<MyState>()(
   persist(
     (set, get) => ({
       data: [],
-      addItem: (item) => set((state) => ({
-        data: [...state.data, item]
-      })),
+      addItem: (item) =>
+        set((state) => ({
+          data: [...state.data, item],
+        })),
     }),
     {
       name: 'my-storage-key',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 ```
 
 **Context Pattern:**
+
 ```typescript
 export const [MyProvider, useMyStore] = createContextHook(() => {
   const [state, setState] = useState(initialState);
@@ -92,6 +102,7 @@ export const [MyProvider, useMyStore] = createContextHook(() => {
 ```
 
 **Component Pattern:**
+
 ```typescript
 import { StyleSheet, View } from 'react-native';
 import Colors from '@/constants/colors';
@@ -115,25 +126,25 @@ const styles = StyleSheet.create({
 ## Current Priority Tasks
 
 ### 🔴 Priority 1: Security Hardening
+
 **File:** `stores/parentalStore.ts`
 
 1. Hash parent PIN (line 164):
+
 ```typescript
 import * as Crypto from 'expo-crypto';
 
 const SALT = 'SECURE_SALT_FROM_ENV'; // Load from secure storage
 
 const setParentPin = async (pin: string) => {
-  const hashedPin = await Crypto.digestStringAsync(
-    Crypto.CryptoDigestAlgorithm.SHA256,
-    pin + SALT
-  );
+  const hashedPin = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, pin + SALT);
   const newSettings = { ...settings, parentPin: hashedPin };
   await saveSettings(newSettings);
 };
 ```
 
 2. Add rate limiting (line 146):
+
 ```typescript
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
@@ -150,7 +161,7 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
   // Hash input and compare
   const hashedInput = await Crypto.digestStringAsync(
     Crypto.CryptoDigestAlgorithm.SHA256,
-    pin + SALT
+    pin + SALT,
   );
 
   if (settings.parentPin === hashedInput) {
@@ -178,6 +189,7 @@ const authenticateParentMode = async (pin: string): Promise<boolean> => {
 ```
 
 3. Encrypt sensitive data:
+
 ```typescript
 import * as SecureStore from 'expo-secure-store';
 
@@ -192,10 +204,7 @@ const saveSettings = async (newSettings: ParentalSettings) => {
     const settingsWithoutPin = { ...newSettings };
     delete settingsWithoutPin.parentPin;
 
-    await AsyncStorage.setItem(
-      STORAGE_KEYS.SETTINGS,
-      JSON.stringify(settingsWithoutPin)
-    );
+    await AsyncStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settingsWithoutPin));
     setSettings(newSettings);
   } catch (error) {
     console.error('Failed to save settings:', error);
@@ -204,6 +213,7 @@ const saveSettings = async (newSettings: ParentalSettings) => {
 ```
 
 ### 🔴 Priority 2: Data Retention Enforcement
+
 **File to create:** `utils/dataRetention.ts`
 
 ```typescript
@@ -226,21 +236,19 @@ export const enforceRetention = async () => {
   if (checkInsRaw) {
     const dashboardData = JSON.parse(checkInsRaw);
     const filteredCheckIns = dashboardData.recentCheckIns.filter(
-      (checkIn: any) =>
-        (now - checkIn.timestamp) < RETENTION_POLICIES.CHECK_IN_HISTORY * oneDayMs
+      (checkIn: any) => now - checkIn.timestamp < RETENTION_POLICIES.CHECK_IN_HISTORY * oneDayMs,
     );
 
     await AsyncStorage.setItem(
       'kidmap_dashboard_data',
-      JSON.stringify({ ...dashboardData, recentCheckIns: filteredCheckIns })
+      JSON.stringify({ ...dashboardData, recentCheckIns: filteredCheckIns }),
     );
   }
 
   if (pingsRaw) {
     const pings = JSON.parse(pingsRaw);
     const filteredPings = pings.filter(
-      (ping: any) =>
-        (now - ping.requestedAt) < RETENTION_POLICIES.DEVICE_PINGS * oneDayMs
+      (ping: any) => now - ping.requestedAt < RETENTION_POLICIES.DEVICE_PINGS * oneDayMs,
     );
 
     await AsyncStorage.setItem('kidmap_device_pings', JSON.stringify(filteredPings));
@@ -256,6 +264,7 @@ export const initializeRetentionEnforcement = () => {
 ```
 
 ### 🟡 Priority 3: Monitoring Setup
+
 **File:** `utils/sentry.ts`
 
 ```typescript
@@ -276,7 +285,7 @@ export const initializeSentry = () => {
 
       // Remove sensitive data from breadcrumbs
       if (event.breadcrumbs) {
-        event.breadcrumbs = event.breadcrumbs.map(breadcrumb => {
+        event.breadcrumbs = event.breadcrumbs.map((breadcrumb) => {
           if (breadcrumb.data?.pin) delete breadcrumb.data.pin;
           if (breadcrumb.data?.location) delete breadcrumb.data.location;
           return breadcrumb;
@@ -291,7 +300,7 @@ export const initializeSentry = () => {
 // Wrap critical operations
 export const withSentryTransaction = async <T>(
   name: string,
-  operation: () => Promise<T>
+  operation: () => Promise<T>,
 ): Promise<T> => {
   const transaction = Sentry.startTransaction({ name });
   try {

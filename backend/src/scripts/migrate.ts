@@ -16,8 +16,28 @@ async function runMigrations() {
       );
     `);
 
-    // Get list of migration files
-    const migrationsDir = path.join(__dirname, '../database/migrations');
+    // Get list of migration files. Prefer compiled `dist` location when running
+    // from the built distribution, but fall back to the source `src/...` path
+    // which is present during development and Docker builds that copy source.
+    const candidates = [
+      path.join(__dirname, '../database/migrations'),
+      path.join(process.cwd(), 'src', 'database', 'migrations'),
+    ];
+
+    let migrationsDir: string | null = null;
+    for (const c of candidates) {
+      if (fs.existsSync(c)) {
+        migrationsDir = c;
+        break;
+      }
+    }
+
+    if (!migrationsDir) {
+      throw new Error(
+        `Migrations directory not found. Checked: ${candidates.join(', ')}`
+      );
+    }
+
     const files = fs
       .readdirSync(migrationsDir)
       .filter((file) => file.endsWith('.sql'))
@@ -25,10 +45,9 @@ async function runMigrations() {
 
     for (const file of files) {
       // Check if migration already executed
-      const { rows } = await db.query(
-        'SELECT id FROM migrations WHERE name = $1',
-        [file]
-      );
+      const { rows } = await db.query('SELECT id FROM migrations WHERE name = $1', [
+        file,
+      ]);
 
       if (rows.length > 0) {
         logger.info(`Migration ${file} already executed, skipping...`);
@@ -51,7 +70,7 @@ async function runMigrations() {
     logger.info('All migrations completed successfully');
     process.exit(0);
   } catch (error) {
-    logger.error({ error  }, 'Migration failed');
+    logger.error({ error }, 'Migration failed');
     process.exit(1);
   }
 }

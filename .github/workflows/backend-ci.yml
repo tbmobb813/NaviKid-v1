@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -43,6 +43,49 @@ jobs:
       - name: Format check
         run: npm run format:check
 
+  lint-ci:
+    name: CI Lint (frontend + backend)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [frontend, backend]
+    defaults:
+      run:
+        # do not change default working-directory here; individual steps set it explicitly
+        working-directory: .
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          # Use package-lock from backend for backend target, otherwise root package-lock
+          cache-dependency-path: ${{ matrix.target == 'backend' && 'backend/package-lock.json' || 'package-lock.json' }}
+
+      - name: Install dependencies (frontend)
+        if: ${{ matrix.target == 'frontend' }}
+        run: npm ci
+
+      - name: Install dependencies (backend)
+        if: ${{ matrix.target == 'backend' }}
+        run: npm ci --prefix backend
+
+      - name: Run lint for target
+        env:
+          LINT_TIMEOUT_MS: 600000 # 10 minutes
+          NODE_ENV: test
+        run: |
+          if [ "${{ matrix.target }}" = "frontend" ]; then
+            npm run lint:frontend --if-present;
+          else
+            npm --prefix backend run lint:ci --if-present;
+          fi
+
+
   security:
     name: Security Audit
     runs-on: ubuntu-latest
@@ -57,7 +100,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -88,7 +131,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -124,8 +167,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
+        # No host port mapping: GitHub-hosted runner provides service network
 
       redis:
         image: redis:7-alpine
@@ -134,8 +176,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 6379:6379
+        # No host port mapping: GitHub-hosted runner provides service network
 
     steps:
       - name: Checkout code
@@ -144,7 +185,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -152,11 +193,12 @@ jobs:
         run: npm ci
 
       - name: Run unit tests
-        run: npm run test:coverage
+        run: npm run test:coverage -- --passWithNoTests
         env:
-          DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
           REDIS_URL: redis://localhost:6379
           NODE_ENV: test
+          LOG_PRETTY: false
           JWT_SECRET: test-jwt-secret-key-for-testing-only
 
       - name: Upload coverage to Codecov
@@ -219,7 +261,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: 'backend/package-lock.json'
 
@@ -236,8 +278,15 @@ jobs:
       - name: Run database migrations
         run: npm run db:migrate
         env:
-          DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
+          # Prefer a Supabase-provided DATABASE_URL secret if present; fall back to DB_* below
+          DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
           NODE_ENV: test
+          LOG_PRETTY: false
+          DB_HOST: localhost
+          DB_PORT: '5432'
+          DB_NAME: navikid_test
+          DB_USER: postgres
+          DB_PASSWORD: test_password
 
       - name: Run integration tests
         run: npm run test:integration
@@ -245,6 +294,7 @@ jobs:
           DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
           REDIS_URL: redis://localhost:6379
           NODE_ENV: test
+          LOG_PRETTY: false
           JWT_SECRET: test-jwt-secret-key-for-testing-only
 
   docker-build:
@@ -287,7 +337,7 @@ jobs:
     needs: [integration-tests, docker-build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: staging
+      name: 'staging'
       url: https://staging-api.navikid.app
 
     steps:

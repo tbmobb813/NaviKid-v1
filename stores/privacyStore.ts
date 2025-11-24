@@ -77,6 +77,6 @@ export const usePrivacyStore = create<PrivacyStore>()(
     {
       name: 'privacy-store',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

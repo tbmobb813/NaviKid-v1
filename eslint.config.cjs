@@ -1,32 +1,36 @@
+// ESLint Flat Config for the repository. Consolidated into a single export.
+// This config:
+// - defines global ignore patterns
+// - applies the TypeScript parser for .ts/.tsx files
+// - enables a backend override that enables type-aware linting using the
+//   backend tsconfig (project: './backend/tsconfig.json').
+
 module.exports = [
+  // Global ignores to avoid scanning large generated folders
   {
     ignores: [
-      'node_modules/**',
-      'android/**',
-      'ios/**',
-      '.expo/**',
-      '.build/**',
       'dist/**',
-  'templates/**',
+      'backend/dist/**',
+      'docs/**',
+      'templates/**',
+      'server/data/**',
+      'coverage/**',
+      'node_modules/**',
+      'backend/node_modules/**',
+      '*.lock',
     ],
   },
+
+  // Base configuration for TypeScript/TSX files (frontend and general rules)
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: require.resolve('@typescript-eslint/parser'),
-      // Avoid enabling the TypeScript "project" option by default because
-      // creating a TypeScript Program for the entire repo can be very slow
-      // and cause ESLint to appear to hang on large workspaces. Enable
-      // type-aware linting only when the environment variable
-      // ESLINT_TYPECHECK=true is set (for CI or explicit runs).
-      parserOptions: Object.assign(
-        {
-          ecmaVersion: 2020,
-          sourceType: 'module',
-          ecmaFeatures: { jsx: true },
-        },
-        process.env.ESLINT_TYPECHECK === 'true' ? { project: './tsconfig.json' } : {}
-      ),
+      parser: require('@typescript-eslint/parser'),
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
     },
     plugins: {
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
@@ -38,9 +42,38 @@ module.exports = [
       'prettier/prettier': 'error',
       'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
       '@typescript-eslint/explicit-function-return-type': 'off',
+      'import/prefer-default-export': 'off',
     },
     settings: {
       react: { version: 'detect' },
+    },
+  },
+
+  // Backend-specific override: enable type-aware rules by pointing at backend tsconfig
+  {
+    files: ['backend/**/*.ts', 'backend/**/*.tsx'],
+    languageOptions: {
+      // reuse the same parser. Enable type-aware linting for backend files
+      // only when ESLINT_TYPECHECK=true (so `lint:fast` stays fast).
+      parser: require('@typescript-eslint/parser'),
+      parserOptions: Object.assign(
+        {
+          ecmaVersion: 2022,
+          sourceType: 'module',
+          ecmaFeatures: { jsx: false },
+        },
+        // Use an absolute path to the backend tsconfig so ESLint works
+        // even when invoked from the `backend` working directory (npm --prefix).
+        process.env.ESLINT_TYPECHECK === 'true'
+          ? { project: require('path').join(__dirname, 'backend', 'tsconfig.json') }
+          : {}
+      ),
+    },
+    plugins: {
+      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
+    },
+    rules: {
+      // backend-specific rule overrides can be added here
     },
   },
 ];

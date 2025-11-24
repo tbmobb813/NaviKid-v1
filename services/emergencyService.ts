@@ -59,7 +59,7 @@ class EmergencyService {
     name: string,
     phone: string,
     email: string,
-    relationship: string
+    relationship: string,
   ): Promise<EmergencyContact | null> {
     try {
       log.info('Adding emergency contact', { name, relationship });
@@ -80,7 +80,10 @@ class EmergencyService {
     }
   }
 
-  async updateContact(id: string, updates: Partial<EmergencyContact>): Promise<EmergencyContact | null> {
+  async updateContact(
+    id: string,
+    updates: Partial<EmergencyContact>,
+  ): Promise<EmergencyContact | null> {
     try {
       log.info('Updating emergency contact', { id });
 
@@ -132,7 +135,8 @@ class EmergencyService {
       log.warn('EMERGENCY ALERT TRIGGERED');
 
       // Get current location
-      const location = locationService.getLastLocation() || await locationService.getCurrentLocation();
+      const location =
+        locationService.getLastLocation() || (await locationService.getCurrentLocation());
 
       if (!location) {
         log.error('Cannot trigger alert: no location available');

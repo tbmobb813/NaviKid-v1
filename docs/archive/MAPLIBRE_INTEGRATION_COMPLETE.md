@@ -57,7 +57,6 @@ Successfully completed comprehensive MapLibre GL Native integration with the Kid
 />
 ```
 
-
 ### OpenRouteService Integration
 
 - **Base URL**: `https://api.openrouteservice.org`
@@ -95,7 +94,6 @@ EXPO_PUBLIC_MAP_DEFAULT_ZOOM=13
 EXPO_PUBLIC_ENABLE_GEOFENCING=true
 ```
 
-
 ### Runtime Configuration
 
 ```typescript
@@ -107,7 +105,6 @@ Config.ROUTING = {
   INCLUDE_ETA: true,
 };
 ```
-
 
 ## 🧪 Testing Status
 
@@ -208,7 +205,6 @@ TaskManager.defineTask(GEOFENCE_TASK_NAME, async ({ data, error }: TaskManagerTa
   }
 });
 ```
-
 
 ### Guardian Notifications
 

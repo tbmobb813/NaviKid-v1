@@ -147,7 +147,7 @@ export function initSentry(config: SentryConfig) {
         // Only log updates info if running under EAS Updates
         Sentry.captureMessage(
           `App launched with expo-updates in ${Updates.isEmbeddedLaunch ? 'embedded' : 'dynamic'} mode`,
-          'info'
+          'info',
         );
       } catch (error) {
         // Silently ignore OTA update errors

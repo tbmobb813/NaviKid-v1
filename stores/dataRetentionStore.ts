@@ -80,8 +80,8 @@ export const useDataRetentionStore = create<RetentionStore>()(
     {
       name: 'data-retention-store',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
 
 /**
@@ -97,7 +97,7 @@ export async function initializeDataRetention() {
     const timeSince = store.getTimeSinceLastCleanup();
     const hoursLeft = Math.round((CLEANUP_INTERVAL - timeSince) / (60 * 60 * 1000));
     console.log(
-      `[DataRetention] Last cleanup ${Math.round(timeSince / (60 * 60 * 1000))}h ago, next cleanup in ~${hoursLeft}h`
+      `[DataRetention] Last cleanup ${Math.round(timeSince / (60 * 60 * 1000))}h ago, next cleanup in ~${hoursLeft}h`,
     );
   }
 }

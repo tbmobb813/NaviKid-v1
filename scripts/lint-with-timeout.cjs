@@ -41,6 +41,23 @@ async function main() {
   const args = userArgs.length ? userArgs : defaultArgs;
 
   let child;
+
+  // Spinner / heartbeat so long-running lint runs show activity
+  const spinner = ['|', '/', '-', '\\'];
+  let idx = 0;
+  let heartbeat = 0;
+  const spinInterval = setInterval(() => {
+    try {
+      process.stdout.write(`\r[lint] ${spinner[idx++ % spinner.length]} Working...`);
+      heartbeat += 1;
+      if (heartbeat % 10 === 0) {
+        const now = new Date().toISOString();
+        process.stdout.write(`  ${now}`);
+      }
+    } catch (e) {
+      // ignore write errors
+    }
+  }, 100);
   if (useNpx) {
     // Spawn `npx eslint ...`
     child = spawn('npx', ['eslint', ...args], {
@@ -72,6 +89,8 @@ async function main() {
 
   child.on('exit', (code, signal) => {
     clearTimeout(timer);
+    clearInterval(spinInterval);
+    try { process.stdout.clearLine(); process.stdout.cursorTo(0); } catch (e) {}
     if (timedOut) {
       console.error('ESLint timed out');
       process.exit(124);
@@ -85,6 +104,7 @@ async function main() {
 
   child.on('error', (err) => {
     clearTimeout(timer);
+    clearInterval(spinInterval);
     console.error('Failed to start ESLint:', err && err.message ? err.message : err);
     process.exit(2);
   });

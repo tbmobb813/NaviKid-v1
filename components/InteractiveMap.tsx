@@ -92,8 +92,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     );
   }, [showTransitStations]);
 
-  
-
   const handleMessage = (event: any) => {
     try {
       const data =

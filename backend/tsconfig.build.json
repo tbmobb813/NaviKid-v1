@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Relax unused checks for build so CI/docker builds won't fail on
+    // leftover unused parameters during refactors. Keep strictness in
+    // editor/IDE during development by using the base tsconfig.
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  }
+}

@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS shapes (
 CREATE INDEX IF NOT EXISTS idx_shapes_id ON shapes(shape_id);
 ```
 
-
 Importer extension IMPLEMENTED (basic incremental insert):
 `import-to-postgres.js` now loads `shape_points_by_shape.json` rows into `shapes` with
 `ON CONFLICT DO NOTHING`.
@@ -123,7 +122,6 @@ Change management:
   }
   ```
 
-
 - Run with increasing VUs (virtual users) and monitor latency, error rate, and cache hit ratio.
 
 ### SLO Instrumentation
@@ -152,7 +150,6 @@ Change management:
      annotations:
         summary: "Transit adapter error rate >1%"
   ```
-
 
 - Review SLOs after load tests and adjust thresholds for production traffic.
 
@@ -215,7 +212,6 @@ Securely store and rotate all API keys and sensitive config using a secret manag
   ./server/scripts/rotate-secrets.sh MTA_API_KEY new-key-value
   ```
 
-
 - Restart affected pods to pick up new secrets.
 
 ### Cloud Secret Managers
@@ -257,7 +253,6 @@ Regular backups are essential for production reliability and compliance. Use the
   DATABASE_URL="postgres://postgres:postgres@localhost:5432/transit" ./server/scripts/backup-postgres.sh /path/to/backup_dir
   ```
 
-
 - The script creates a timestamped, gzipped SQL dump in the specified directory.
 
 ### Restore Procedure
@@ -269,14 +264,12 @@ Regular backups are essential for production reliability and compliance. Use the
    gunzip -c /path/to/backup_dir/transit_backup_YYYY-MM-DD_HH-MM-SS.sql.gz | psql "$DATABASE_URL"
    ```
 
-
-1. (Optional) Re-import static GTFS if needed:
+3. (Optional) Re-import static GTFS if needed:
 
    ```bash
    node server/tools/import-static-gtfs.js path/to/gtfs.zip
    DATABASE_URL="$DATABASE_URL" node server/tools/import-to-postgres.js
    ```
-
 
 ### Automation
 
@@ -285,7 +278,6 @@ Regular backups are essential for production reliability and compliance. Use the
   ```cron
   0 3 * * * DATABASE_URL=... /path/to/backup-postgres.sh /path/to/backup_dir
   ```
-
 
 - Store backups in a secure, offsite location with retention policy (e.g., 7-30 days).
 
@@ -305,7 +297,6 @@ Regular backups are essential for production reliability and compliance. Use the
      annotations:
         summary: "No successful Postgres backup in last 24h"
   ```
-
 
 # Implementation highlights & design decisions
 
@@ -357,7 +348,6 @@ Response shape:
    "lastModified": "..."
 }
 ```
-
 
 ### Implementation details & design decisions
 
@@ -438,7 +428,6 @@ To keep static GTFS data fresh for enrichment, automate nightly imports using ei
   DATABASE_URL="$DATABASE_URL" node server/tools/import-to-postgres-copy.js || echo "COPY import skipped"
   ```
 
-
 ### Notes
 
 - Always use the staging + swap pattern for zero-downtime updates.
@@ -478,7 +467,6 @@ groups:
                summary: "Transit adapter returning no enriched routes"
 ```
 
-
 ### Operational Guidance
 
 - Tune alert thresholds to match user experience goals and backend capacity.
@@ -514,13 +502,11 @@ groups:
 docker compose -f server/docker-compose.yml up -d
 ```
 
-
 1. Apply schema
 
 ```bash
 docker exec -i $(docker ps --filter name=server-db-1 --format '{{.ID}}') psql -U postgres -d transit -f - < server/db/schema.sql
 ```
-
 
 1. Prepare & import static GTFS to JSON
 
@@ -529,13 +515,11 @@ node server/tools/prepare-sample-gtfs.js
 node server/tools/import-static-gtfs.js server/static-gtfs
 ```
 
-
 1. Import JSON -> Postgres
 
 ```bash
 DATABASE_URL="postgres://postgres:postgres@localhost:5432/transit" node server/tools/import-to-postgres.js
 ```
-
 
 1. Start adapter
 
@@ -543,13 +527,11 @@ DATABASE_URL="postgres://postgres:postgres@localhost:5432/transit" node server/t
 DATABASE_URL="postgres://postgres:postgres@localhost:5432/transit" node server/index.js
 ```
 
-
 1. Test mock endpoint
 
 ```bash
 curl 'http://localhost:3001/feeds/nyc/mta-subway.json?mock=1' | jq '.'
 ```
-
 
 ## Contacts
 
