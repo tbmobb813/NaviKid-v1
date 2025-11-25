@@ -259,9 +259,9 @@ class OfflineQueueService {
       // Transform client actions to API format
       const apiActions: ApiOfflineAction[] = actionsToSync.map((action) => ({
         id: action.id,
-        actionType: action.actionType,
+        actionType: action.type,
         data: action.data,
-        createdAt: action.createdAt,
+        createdAt: action.timestamp,
       }));
 
       // Call backend sync endpoint
