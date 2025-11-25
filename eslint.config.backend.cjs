@@ -8,7 +8,9 @@ module.exports = [
     ],
   },
   {
-    files: ['src/**/*.{ts,tsx}'],
+  // Lint backend TypeScript files under the `backend/src` directory when
+  // this config is loaded from the repository root.
+  files: ['backend/src/**/*.{ts,tsx}'],
     languageOptions: (function () {
       // Helper that attempts to require modules relative to repo root
       // and falls back to Node resolution. This makes the flat config
