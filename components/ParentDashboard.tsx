@@ -85,12 +85,12 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Send',
-          onPress: (message) => {
-            if (message && message.trim()) {
-              sendDevicePing('message', message.trim());
-              Alert.alert('Message Sent', 'Your message has been sent to your child');
-            }
-          },
+          onPress: (message?: string) => {
+              if (message && message.trim()) {
+                sendDevicePing('message', message.trim());
+                Alert.alert('Message Sent', 'Your message has been sent to your child');
+              }
+            },
         },
       ],
       'plain-text',

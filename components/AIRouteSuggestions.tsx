@@ -47,7 +47,7 @@ export default function AIRouteSuggestions({
         );
       }
     } catch (error) {
-      logger.error('Failed to generate routes:', error);
+      logger.error('Failed to generate routes:', { error: String(error) });
     } finally {
       setLoading(false);
     }

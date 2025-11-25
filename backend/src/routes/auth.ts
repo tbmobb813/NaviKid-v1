@@ -156,7 +156,7 @@ export async function authRoutes(server: FastifyInstance) {
         rateLimit: {
           max: 5, // max 5 requests per time window per IP
           timeWindow: 60 * 1000, // 1 minute
-          errorResponseBuilder: function(req, context) {
+          errorResponseBuilder: function(_req, _context) {
             // Custom error message
             return { error: 'Too many login attempts. Please try again later.' };
           },
