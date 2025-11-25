@@ -114,7 +114,7 @@ describe('Data Retention Store', () => {
 
       // Mock a slow cleanup
       (runDataRetentionCleanup as jest.Mock).mockImplementationOnce(
-        () => new Promise((resolve) => setTimeout(() => resolve(5), 100)),
+        () => new Promise((resolve) => setTimeout(() => resolve(5), 100))
       );
 
       const cleanup1 = performCleanup();
@@ -187,21 +187,11 @@ describe('Data Retention Store', () => {
     it('should handle edge case at exactly 24 hours', () => {
       const { setLastCleanupTime, shouldRunCleanup } = useDataRetentionStore.getState();
 
-      // Use a fixed baseline time to avoid timing issues
-      const baseTime = 1000000000000; // Fixed baseline
-      const now = baseTime + 24 * 60 * 60 * 1000; // Exactly 24 hours later
-
-      // Mock Date.now() during the test
-      const realNow = Date.now;
-      Date.now = jest.fn(() => now);
-
-      setLastCleanupTime(baseTime);
+      // Set cleanup time to exactly 24 hours ago
+      setLastCleanupTime(Date.now() - 24 * 60 * 60 * 1000);
 
       // At exactly 24 hours, should not run (needs to be > 24 hours)
       expect(shouldRunCleanup()).toBe(false);
-
-      // Restore Date.now
-      Date.now = realNow;
     });
   });
 
@@ -251,7 +241,7 @@ describe('Data Retention Store', () => {
         expect.objectContaining({
           hoursSinceLastCleanup: expect.any(Number),
           hoursUntilNextCleanup: expect.any(Number),
-        }),
+        })
       );
     });
 
