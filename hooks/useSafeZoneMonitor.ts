@@ -278,7 +278,7 @@ export const useSafeZoneMonitor = () => {
             setCurrentLocation(newLocation);
             checkSafeZones(newLocation);
           },
-          (error) => logger.error('Location watch error', error as Error),
+          (error) => logger.error('Location watch error', error as unknown as Error),
           {
             enableHighAccuracy: false,
             timeout: 30000,
