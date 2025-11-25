@@ -3,7 +3,7 @@ import authService from '../services/auth.service';
 import config from '../config';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
-import { JWTPayload } from '../types';
+import { getAuthUser } from '../utils/auth';
 
 // Extend FastifyRequest to include user
 
@@ -32,7 +32,7 @@ export async function authMiddleware(
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Verify token
-    const payload = authService.verifyJWT(token, config.jwt.accessSecret) as JWTPayload;
+  const payload = authService.verifyJWT(token, config.jwt.accessSecret);
 
     // Attach user to request (typed via Fastify declaration merge)
     request.user = payload;
@@ -62,7 +62,7 @@ export async function optionalAuthMiddleware(
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
-      const payload = authService.verifyJWT(token, config.jwt.accessSecret) as JWTPayload;
+  const payload = authService.verifyJWT(token, config.jwt.accessSecret);
       request.user = payload;
     }
   } catch (error) {
@@ -86,7 +86,7 @@ export function requireRole(...roles: string[]) {
       });
     }
 
-    const user = request.user as JWTPayload;
+    const user = getAuthUser(request);
     if (!roles.includes(user.role)) {
       return reply.status(403).send({
         success: false,

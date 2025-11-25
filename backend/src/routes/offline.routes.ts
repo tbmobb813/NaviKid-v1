@@ -3,6 +3,7 @@ import offlineService from '../services/offline.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { syncOfflineActionsSchema, validate } from '../utils/validation';
 import { ApiResponse, JWTPayload } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 
@@ -18,7 +19,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { actions } = request.body as {
           actions: Array<{ actionType: string; data: Record<string, unknown>; timestamp: string }>;
         };
@@ -69,7 +70,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
 
         const pendingActions = await offlineService.getPendingOfflineActions(userId);
 

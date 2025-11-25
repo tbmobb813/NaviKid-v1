@@ -7,6 +7,7 @@ import {
   validate,
 } from '../utils/validation';
 import { ApiResponse, JWTPayload } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 
@@ -22,7 +23,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { latitude, longitude, accuracy, timestamp, context } =
           request.body as {
             latitude: number;
@@ -75,7 +76,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
   const query = request.query as Record<string, string | undefined>;
 
   const startDate = query.startDate ? new Date(query.startDate) : undefined;
@@ -133,7 +134,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
 
         const location = await locationService.getCurrentLocation(userId);
 
@@ -181,7 +182,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await locationService.deleteLocation(userId, id);
@@ -230,7 +231,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { locations } = request.body as {
           locations: Array<{
             latitude: number;

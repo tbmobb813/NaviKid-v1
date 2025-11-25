@@ -10,6 +10,7 @@ import {
 import { ApiResponse, SafeZoneType, JWTPayload } from '../types';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
+import { getAuthUser } from '../utils/auth';
 
 export async function safeZoneRoutes(fastify: FastifyInstance) {
   /**
@@ -23,7 +24,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
 
         const safeZones = await safeZoneService.getSafeZones(userId);
 
@@ -69,11 +70,11 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { latitude, longitude } = request.body as { latitude: number; longitude: number };
 
         const result = await safeZoneService.checkLocationInSafeZones(
-          userId,
+          getAuthUser(request).userId,
           latitude,
           longitude
         );
@@ -112,7 +113,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const safeZone = await safeZoneService.getSafeZoneById(userId, id);
@@ -161,7 +162,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { name, centerLatitude, centerLongitude, radius, type } =
           request.body as {
             name: string;
@@ -172,7 +173,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
           };
 
         const safeZone = await safeZoneService.createSafeZone(
-          userId,
+          getAuthUser(request).userId,
           name,
           centerLatitude,
           centerLongitude,
@@ -214,7 +215,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
         const updates = request.body as Partial<{
           name: string;
@@ -270,7 +271,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await safeZoneService.deleteSafeZone(userId, id);

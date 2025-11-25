@@ -9,6 +9,7 @@ import {
   validate,
 } from '../utils/validation';
 import { ApiResponse, UserRole, JWTPayload } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 
@@ -161,7 +162,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
   const refreshToken = request.body as { refreshToken: string };
 
   await authService.logout(userId, refreshToken.refreshToken);
@@ -200,7 +201,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = (request.user as JWTPayload).userId;
+  const { userId } = getAuthUser(request);
         const { oldPassword, newPassword } = request.body as {
           oldPassword: string;
           newPassword: string;
@@ -243,7 +244,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       const response: ApiResponse = {
         success: true,
-        data: { user: request.user },
+        data: { user: getAuthUser(request) },
         meta: {
           timestamp: new Date(),
         },
