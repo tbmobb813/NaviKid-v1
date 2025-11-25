@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Simple mock implementation that renders a div with props for testing
-const MapLibreRouteView = (props) => {
+const MapLibreRouteView = (props: any) => {
   return (
     <div data-testid={props.testID || 'mock-maplibre-route-view'}>
       {props.origin && (

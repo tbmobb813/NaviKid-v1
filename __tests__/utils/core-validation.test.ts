@@ -97,7 +97,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
   describe('sanitizeInput', () => {
     test('should clean HTML and trim whitespace', () => {
       const sanitize = (input: unknown): string => {
-        return input.toString().trim().replace(/[<>]/g, '');
+        return String(input).trim().replace(/[<>]/g, '');
       };
 
       expect(sanitize('  hello world  ')).toBe('hello world');
@@ -108,7 +108,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
     test('should handle special characters', () => {
       const sanitize = (input: unknown, maxLength = 100): string => {
-        return input.toString().trim().replace(/[<>]/g, '').substring(0, maxLength);
+        return String(input).trim().replace(/[<>]/g, '').substring(0, maxLength);
       };
 
       expect(sanitize('text with émojis 🎉')).toBe('text with émojis 🎉');
