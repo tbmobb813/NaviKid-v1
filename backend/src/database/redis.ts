@@ -1,5 +1,6 @@
 import config from '../config';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 // Allow disabling Redis in development/tests. When disabled we provide a
 // Postgres-backed session store fallback implemented in services/sessionStore.
@@ -7,15 +8,47 @@ const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
 
 // Lazy require to avoid circular deps during module loading
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const sessionStore = require('../services/sessionStore');
+type SessionStoreLike = {
+  setSession: (userId: string, token: string, expiresIn: number, data?: unknown) => Promise<void>;
+  getSession: (userId: string, token: string) => Promise<unknown | null>;
+  deleteSession: (userId: string, token: string) => Promise<void>;
+  deleteAllUserSessions: (userId: string) => Promise<void>;
+  get: (key: string) => Promise<unknown | null>;
+  set: (key: string, value: unknown, expiresIn?: number) => Promise<void>;
+  delete: (key: string) => Promise<void>;
+  exists: (key: string) => Promise<boolean>;
+  healthCheck: () => Promise<boolean>;
+  close: () => Promise<void>;
+};
+const sessionStore = require('../services/sessionStore') as SessionStoreLike;
+
+type RedisLike = {
+  on: (event: string, cb: (...args: unknown[]) => void) => void;
+  get: (key: string) => Promise<string | null>;
+  setex: (key: string, expires: number, value: string) => Promise<void>;
+  set: (key: string, value: string) => Promise<void>;
+  del: (...keys: string[]) => Promise<void>;
+  keys: (pattern: string) => Promise<string[]>;
+  exists: (key: string) => Promise<number>;
+  ping: () => Promise<string>;
+  quit: () => Promise<void>;
+  // Optional methods provided by some redis clients
+  incr?: (key: string) => Promise<number>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+};
 
 class DummyRedisClient {
   public getClient() {
     return null;
   }
 
-  public async setSession(userId: string, token: string, expiresIn: number, data?: any) {
-    return sessionStore.setSession(userId, token, expiresIn, data);
+  public async setSession(userId: string, token: string, expiresIn: number, data?: unknown) {
+    return sessionStore.setSession(userId, token, expiresIn, data as any);
   }
 
   public async getSession(userId: string, token: string) {
@@ -35,8 +68,8 @@ class DummyRedisClient {
     return sessionStore.get(key);
   }
 
-  public async set(key: string, value: any, expiresIn?: number) {
-    return sessionStore.set(key, value, expiresIn);
+  public async set(key: string, value: unknown, expiresIn?: number) {
+    return sessionStore.set(key, value as any, expiresIn);
   }
 
   public async delete(key: string) {
@@ -57,17 +90,23 @@ class DummyRedisClient {
 }
 
 class RedisClient {
-  private client: any;
+  private client: RedisLike;
   private static instance: RedisClient;
 
   private constructor() {
     // Lazy-load ioredis only when Redis is enabled to prevent the module
     // from being evaluated in environments where Redis is disabled.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const IORedis: any = require('ioredis');
-    const RedisCtor = IORedis?.default ?? IORedis;
+    const IORedis: unknown = require('ioredis');
+      // Use unknown for the import then cast when constructing to avoid leaking `any`.
+      const RedisCtor = (
+        (IORedis as unknown as { default?: new (...args: unknown[]) => unknown }).default ??
+        (IORedis as unknown as new (...args: unknown[]) => unknown)
+      );
 
-    this.client = new RedisCtor({
+    // Initialize client and keep a typed wrapper exposing only the methods
+    // we actually use in the codebase.
+    const raw = new RedisCtor({
       host: config.redis.host,
       port: config.redis.port,
       password: config.redis.password || undefined,
@@ -78,13 +117,30 @@ class RedisClient {
       },
       maxRetriesPerRequest: 3,
     });
+    // Cast the raw constructed client to our conservative RedisLike shape.
+    const rawClient = raw as unknown as RedisLike;
+    this.client = {
+      on: (event: string, cb: (...args: unknown[]) => void) => rawClient.on(event, cb),
+      get: (key: string) => rawClient.get(key),
+      setex: (key: string, expires: number, value: string) => rawClient.setex(key, expires, value),
+      set: (key: string, value: string) => rawClient.set(key, value),
+      del: (...keys: string[]) => rawClient.del(...keys),
+      keys: (pattern: string) => rawClient.keys(pattern),
+      exists: (key: string) => rawClient.exists(key),
+      ping: () => rawClient.ping(),
+      quit: () => rawClient.quit(),
+      incr: rawClient.incr ? (key: string) => rawClient.incr!(key) : undefined,
+      expire: rawClient.expire ? (key: string, ttl: number) => rawClient.expire!(key, ttl) : undefined,
+      pipeline: rawClient.pipeline ? () => rawClient.pipeline!() : undefined,
+    };
 
     this.client.on('connect', () => {
       logger.info('Redis client connected');
     });
 
-    this.client.on('error', (err: any) => {
-      logger.error({ error: err }, 'Redis client error');
+    this.client.on('error', (err: unknown) => {
+      const { errorObj } = formatError(err);
+      logger.error({ error: errorObj }, 'Redis client error');
     });
 
     this.client.on('ready', () => {
@@ -107,7 +163,7 @@ class RedisClient {
     return RedisClient.instance;
   }
 
-  public getClient(): any {
+  public getClient(): unknown {
     return this.client;
   }
 
@@ -121,7 +177,7 @@ class RedisClient {
     await this.client.setex(key, expiresIn, JSON.stringify({ userId, token }));
   }
 
-  public async getSession(userId: string, token: string): Promise<any | null> {
+  public async getSession(userId: string, token: string): Promise<unknown | null> {
     const key = `session:${userId}:${token}`;
     const data = await this.client.get(key);
     return data ? JSON.parse(data) : null;
@@ -141,13 +197,13 @@ class RedisClient {
   }
 
   // Cache management
-  public async get<T = any>(key: string): Promise<T | null> {
+  public async get<T = unknown>(key: string): Promise<T | null> {
     const data = await this.client.get(key);
     return data ? JSON.parse(data) : null;
   }
 
-  public async set(key: string, value: any, expiresIn?: number): Promise<void> {
-    const serialized = JSON.stringify(value);
+  public async set(key: string, value: unknown, expiresIn?: number): Promise<void> {
+    const serialized = JSON.stringify(value as unknown);
     if (expiresIn) {
       await this.client.setex(key, expiresIn, serialized);
     } else {
@@ -168,8 +224,9 @@ class RedisClient {
     try {
       await this.client.ping();
       return true;
-    } catch (error: any) {
-      logger.error({ error }, 'Redis health check failed');
+    } catch (error: unknown) {
+      const { errorObj } = formatError(error);
+      logger.error({ error: errorObj }, 'Redis health check failed');
       return false;
     }
   }
@@ -180,7 +237,7 @@ class RedisClient {
   }
 }
 
-const exportedInstance: any = REDIS_ENABLED
+const exportedInstance: RedisClient | DummyRedisClient = REDIS_ENABLED
   ? RedisClient.getInstance()
   : new DummyRedisClient();
 

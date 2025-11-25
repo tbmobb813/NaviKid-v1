@@ -4,6 +4,7 @@ import { authMiddleware } from '../middleware/auth.middleware';
 import { syncOfflineActionsSchema, validate } from '../utils/validation';
 import { ApiResponse, JWTPayload } from '../types';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function offlineRoutes(fastify: FastifyInstance) {
   /**
@@ -18,10 +19,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const { actions } = request.body as any;
+        const { actions } = request.body as {
+          actions: Array<{ actionType: string; data: Record<string, unknown>; timestamp: string }>;
+        };
 
-        const processedActions = actions.map((action: any) => ({
+        const processedActions = actions.map((action) => ({
           ...action,
+          actionType: action.actionType as import('../types').OfflineActionType,
           timestamp: new Date(action.timestamp),
         }));
 
@@ -40,12 +44,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Offline sync error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Offline sync error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to sync offline actions',
+            message: message || 'Failed to sync offline actions',
             code: 'OFFLINE_SYNC_ERROR',
           },
         });
@@ -80,12 +85,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Get pending actions error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get pending actions error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get pending actions',
+            message: message || 'Failed to get pending actions',
             code: 'PENDING_ACTIONS_ERROR',
           },
         });

@@ -9,7 +9,7 @@ export async function setSession(
   userId: string,
   token: string,
   expiresIn: number,
-  data: any = {}
+  data: unknown = {}
 ): Promise<void> {
   try {
     const expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString();
@@ -26,7 +26,7 @@ export async function setSession(
   }
 }
 
-export async function getSession(userId: string, token: string): Promise<any | null> {
+export async function getSession(userId: string, token: string): Promise<unknown | null> {
   try {
     const sql = `SELECT data, expires_at FROM sessions WHERE user_id=$1 AND token=$2 LIMIT 1`;
     const res = await db.query(sql, [userId, token]);
@@ -39,7 +39,7 @@ export async function getSession(userId: string, token: string): Promise<any | n
       ]);
       return null;
     }
-    return row.data;
+    return row.data as unknown;
   } catch (error) {
     logger.error({ error }, 'sessionStore.getSession error');
     return null;
@@ -63,11 +63,11 @@ export async function deleteAllUserSessions(userId: string): Promise<void> {
 }
 
 // Minimal cache-like fallbacks (no-op or simple DB-backed implementations could be added)
-export async function get(_key: string): Promise<any | null> {
+export async function get(_key: string): Promise<unknown | null> {
   return null;
 }
 
-export async function set(_key: string, _value: any, _expiresIn?: number): Promise<void> {
+export async function set(_key: string, _value: unknown, _expiresIn?: number): Promise<void> {
   // no-op
 }
 

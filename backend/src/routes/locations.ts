@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify';
 import { z } from 'zod';
 import { query } from '../db/connection';
 import { getAuthUser } from '../utils/auth';
@@ -24,15 +24,14 @@ const getLocationsQuerySchema = z.object({
 });
 
 export async function locationRoutes(server: FastifyInstance) {
+  const authOpts: RouteShorthandOptions = { preHandler: [server.authenticate] } as RouteShorthandOptions;
   /**
    * POST /api/locations
    * Store a location update
    */
   server.post(
     '/',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = createLocationSchema.parse(request.body);
@@ -75,15 +74,8 @@ export async function locationRoutes(server: FastifyInstance) {
    */
   server.get(
     '/',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Querystring: z.infer<typeof getLocationsQuerySchema>;
-      }>,
-      reply: FastifyReply
-    ) => {
+    authOpts,
+    async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const query_params = getLocationsQuerySchema.parse(request.query);
 
@@ -110,8 +102,8 @@ export async function locationRoutes(server: FastifyInstance) {
       }
 
       // Build query
-      const conditions: string[] = ['user_id = $1'];
-      const values: any[] = [targetUserId];
+  const conditions: string[] = ['user_id = $1'];
+  const values: unknown[] = [targetUserId];
       let paramCount = 2;
 
       if (query_params.startDate) {
@@ -173,19 +165,13 @@ export async function locationRoutes(server: FastifyInstance) {
    */
   server.get(
     '/latest/:userId?',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { userId?: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+    authOpts,
+    async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       let targetUserId = user.userId;
 
-      if (request.params.userId) {
+  const params = request.params as { userId?: string };
+  if (params.userId) {
         if (user.role !== 'parent') {
           return reply.forbidden("Only parents can access other users' locations");
         }
@@ -193,14 +179,14 @@ export async function locationRoutes(server: FastifyInstance) {
         // Verify parent-child relationship
         const relationshipCheck = await query(
           "SELECT id FROM user_relationships WHERE parent_id = $1 AND child_id = $2 AND status = 'active'",
-          [user.userId, request.params.userId]
+          [user.userId, params.userId]
         );
 
         if (relationshipCheck.rowCount === 0) {
           return reply.forbidden("You do not have access to this user's location");
         }
 
-        targetUserId = request.params.userId;
+  targetUserId = params.userId as string;
       }
 
       const result = await query(
@@ -240,17 +226,10 @@ export async function locationRoutes(server: FastifyInstance) {
    */
   server.delete(
     '/:id',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { id: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+    authOpts,
+    async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { id } = request.params;
+  const { id } = request.params as { id: string };
 
       const result = await query(
         'DELETE FROM location_history WHERE id = $1 AND user_id = $2 RETURNING id',
@@ -273,9 +252,7 @@ export async function locationRoutes(server: FastifyInstance) {
    */
   server.delete(
     '/',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 

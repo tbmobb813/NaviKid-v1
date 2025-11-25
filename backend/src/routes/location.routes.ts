@@ -8,6 +8,7 @@ import {
 } from '../utils/validation';
 import { ApiResponse, JWTPayload } from '../types';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function locationRoutes(fastify: FastifyInstance) {
   /**
@@ -22,7 +23,14 @@ export async function locationRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const { latitude, longitude, accuracy, timestamp, context } = request.body as any;
+        const { latitude, longitude, accuracy, timestamp, context } =
+          request.body as {
+            latitude: number;
+            longitude: number;
+            accuracy?: number;
+            timestamp: string;
+            context?: Record<string, unknown>;
+          };
 
         const location = await locationService.storeLocation(
           userId,
@@ -42,12 +50,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Store location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Store location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to store location',
+            message: message || 'Failed to store location',
             code: 'LOCATION_STORE_ERROR',
           },
         });
@@ -67,12 +76,12 @@ export async function locationRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const query = request.query as any;
+  const query = request.query as Record<string, string | undefined>;
 
-        const startDate = query.startDate ? new Date(query.startDate) : undefined;
-        const endDate = query.endDate ? new Date(query.endDate) : undefined;
-        const limit = query.limit ? parseInt(query.limit) : 100;
-        const offset = query.offset ? parseInt(query.offset) : 0;
+  const startDate = query.startDate ? new Date(query.startDate) : undefined;
+  const endDate = query.endDate ? new Date(query.endDate) : undefined;
+  const limit = query.limit ? parseInt(query.limit) : 100;
+  const offset = query.offset ? parseInt(query.offset) : 0;
 
         const { locations, total } = await locationService.getLocationHistory(
           userId,
@@ -99,12 +108,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Get location history error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get location history error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get location history',
+            message: message || 'Failed to get location history',
             code: 'LOCATION_HISTORY_ERROR',
           },
         });
@@ -146,12 +156,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Get current location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get current location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get current location',
+            message: message || 'Failed to get current location',
             code: 'CURRENT_LOCATION_ERROR',
           },
         });
@@ -194,12 +205,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Delete location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Delete location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to delete location',
+            message: message || 'Failed to delete location',
             code: 'LOCATION_DELETE_ERROR',
           },
         });
@@ -219,9 +231,17 @@ export async function locationRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const { locations } = request.body as any;
+        const { locations } = request.body as {
+          locations: Array<{
+            latitude: number;
+            longitude: number;
+            accuracy?: number;
+            timestamp: string;
+            context?: Record<string, unknown>;
+          }>;
+        };
 
-        const processedLocations = locations.map((loc: any) => ({
+        const processedLocations = locations.map((loc) => ({
           ...loc,
           timestamp: new Date(loc.timestamp),
         }));
@@ -243,12 +263,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Batch store locations error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Batch store locations error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to batch store locations',
+            message: message || 'Failed to batch store locations',
             code: 'BATCH_LOCATION_ERROR',
           },
         });

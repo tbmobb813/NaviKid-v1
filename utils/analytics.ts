@@ -3,11 +3,11 @@ import { log } from './logger';
 
 type AnalyticsEvent = {
   name: string;
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
   timestamp: number;
 };
 
-const sanitizeValue = (value: any): any => {
+const sanitizeValue = (value: unknown): unknown => {
   if (value === null || value === undefined) {
     return undefined;
   }
@@ -27,7 +27,7 @@ const sanitizeValue = (value: any): any => {
   }
 
   if (valueType === 'object') {
-    const result: Record<string, any> = {};
+  const result: Record<string, unknown> = {};
     Object.entries(value).forEach(([key, val]) => {
       const sanitized = sanitizeValue(val);
       if (sanitized !== undefined) {
@@ -56,7 +56,7 @@ class Analytics {
     );
   }
 
-  track(name: string, properties?: Record<string, any>) {
+  track(name: string, properties?: Record<string, unknown>) {
     if (!this.isEnabled) {
       return;
     }
@@ -77,14 +77,14 @@ class Analytics {
     }
   }
 
-  screen(screenName: string, properties?: Record<string, any>) {
+  screen(screenName: string, properties?: Record<string, unknown>) {
     this.track('screen_view', {
       screen_name: screenName,
       ...properties,
     });
   }
 
-  userAction(action: string, properties?: Record<string, any>) {
+  userAction(action: string, properties?: Record<string, unknown>) {
     this.track('user_action', {
       action,
       ...properties,
@@ -205,7 +205,7 @@ export const trackScreenView = (screenName: string) => {
   analytics.screen(screenName);
 };
 
-export const trackUserAction = (action: string, properties?: Record<string, any>) => {
+export const trackUserAction = (action: string, properties?: Record<string, unknown>) => {
   analytics.userAction(action, properties);
 };
 

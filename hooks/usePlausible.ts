@@ -33,21 +33,21 @@ export function usePlausible() {
     isEnabled: settings.analyticsEnabled,
 
     // Track page/screen view
-    trackPageView: (screenName: string, properties?: Record<string, any>) => {
+    trackPageView: (screenName: string, properties?: Record<string, unknown>) => {
       if (settings.analyticsEnabled) {
         analytics.screen(screenName, properties);
       }
     },
 
     // Track user action
-    trackUserAction: (action: string, properties?: Record<string, any>) => {
+    trackUserAction: (action: string, properties?: Record<string, unknown>) => {
       if (settings.analyticsEnabled) {
         analytics.userAction(action, properties);
       }
     },
 
     // Track feature usage
-    trackFeature: (feature: string, properties?: Record<string, any>) => {
+    trackFeature: (feature: string, properties?: Record<string, unknown>) => {
       if (settings.analyticsEnabled) {
         analytics.track('feature_used', {
           feature,
@@ -57,7 +57,7 @@ export function usePlausible() {
     },
 
     // Track custom event
-    trackEvent: (eventName: string, properties?: Record<string, any>) => {
+    trackEvent: (eventName: string, properties?: Record<string, unknown>) => {
       if (settings.analyticsEnabled) {
         analytics.track(eventName, properties);
       }

@@ -1,4 +1,6 @@
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
+import { FastifyRequest, FastifyReply } from 'fastify';
+import { formatError } from './formatError';
 
 // Auth validation schemas
 export const registerSchema = z.object({
@@ -149,16 +151,23 @@ export const updateProfileSchema = z.object({
  * Validation middleware factory
  */
 export function validate(schema: z.ZodSchema) {
-  return async (request: any, reply: any) => {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       request.validatedBody = await schema.parseAsync(request.body);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // Prefer Zod error details when available
+      let details: unknown = undefined;
+      if (error instanceof ZodError) {
+        details = error.errors;
+      }
+
+      const { message } = formatError(error);
       reply.status(400).send({
         success: false,
         error: {
-          message: 'Validation failed',
+          message: message || 'Validation failed',
           code: 'VALIDATION_ERROR',
-          details: error.errors,
+          details,
         },
       });
     }

@@ -24,7 +24,7 @@ export const logger = pino({
 /**
  * Create a child logger with additional context
  */
-export function createLogger(context: Record<string, any>) {
+export function createLogger(context: Record<string, unknown>) {
   return logger.child(context);
 }
 

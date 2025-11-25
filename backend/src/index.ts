@@ -128,39 +128,48 @@ async function buildServer() {
   await fastify.register(offlineRoutes);
 
   // WebSocket route for real-time location updates
-  // @ts-ignore
+  // @ts-ignore - websocket typing is provided by plugin, narrow common usage here
   fastify.get('/ws/locations', { websocket: true }, (connection, req) => {
+    type SocketLike = {
+      remoteAddress?: string;
+      send: (data: string) => void;
+      on: (event: string, cb: (...args: unknown[]) => void) => void;
+      close?: () => void;
+    };
+
+    const sock = (connection as unknown as { socket: SocketLike }).socket;
     logger.info(
       {
-        ip: (req as any).socket?.remoteAddress,
+        ip: sock?.remoteAddress,
         headers: req.headers,
       },
       'WebSocket connection established'
     );
 
-    (connection as any).socket.on('message', (message: any) => {
+    sock.on('message', (message: unknown) => {
       try {
-        const data = JSON.parse(message.toString());
+        const msgStr = typeof message === 'string' ? message : message?.toString?.() ?? '';
+        const data = JSON.parse(msgStr);
         logger.debug({ data }, 'WebSocket message received');
 
         // Echo back for now (implement real-time logic later)
-        (connection as any).socket.send(
+        sock.send(
           JSON.stringify({
             type: 'ack',
             timestamp: new Date(),
             message: 'Location update received',
           })
         );
-      } catch (error) {
+      } catch (error: unknown) {
         logger.error({ error }, 'WebSocket message error');
       }
     });
 
-    (connection as any).socket.on('close', () => {
+    sock.on('close', () => {
       logger.info('WebSocket connection closed');
     });
 
-    (connection as any).socket.on('error', (error: any) => {
+    sock.on('error', (error: unknown) => {
       logger.error({ error }, 'WebSocket error');
     });
   });

@@ -11,7 +11,7 @@
 // legacy `expo-av`, so the bridge adapts the surface used by the app.
 import * as ExpoAudio from 'expo-audio';
 
-type AnyObject = Record<string, any>;
+type AnyObject = Record<string, unknown>;
 
 const Recording =
   (ExpoAudio as any).Recording ||

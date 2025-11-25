@@ -1,5 +1,6 @@
 import db from '../database';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 import { OfflineAction, OfflineActionType } from '../types';
 import locationService from './location.service';
 
@@ -10,7 +11,7 @@ export class OfflineService {
   public async storeOfflineAction(
     userId: string,
     actionType: OfflineActionType,
-    data: any
+    data: unknown
   ): Promise<OfflineAction> {
     try {
       const result = await db.query<OfflineAction>(
@@ -25,8 +26,9 @@ export class OfflineService {
       logger.debug({ userId, actionId: action.id }, 'Offline action stored');
 
       return action;
-    } catch (error) {
-      logger.error({ userId, error }, 'Failed to store offline action');
+    } catch (error: unknown) {
+      const { errorObj } = formatError(error);
+      logger.error({ userId, error: errorObj }, 'Failed to store offline action');
       throw error;
     }
   }
@@ -38,7 +40,7 @@ export class OfflineService {
     userId: string,
     actions: Array<{
       actionType: OfflineActionType;
-      data: any;
+      data: unknown;
       timestamp: Date;
     }>
   ): Promise<{
@@ -60,17 +62,18 @@ export class OfflineService {
         try {
           await this.processOfflineAction(userId, action);
           processed++;
-        } catch (error: any) {
+        } catch (error: unknown) {
           failed++;
+          const { message, errorObj } = formatError(error);
           errors.push({
             index: i,
-            error: error.message || 'Unknown error',
+            error: message || 'Unknown error',
           });
           logger.error(
             {
               userId,
               index: i,
-              error,
+              error: errorObj,
             },
             'Failed to process offline action'
           );
@@ -85,8 +88,9 @@ export class OfflineService {
         failed,
         errors,
       };
-    } catch (error) {
-      logger.error({ userId, error }, 'Offline sync failed');
+    } catch (error: unknown) {
+      const { errorObj } = formatError(error);
+      logger.error({ userId, error: errorObj }, 'Offline sync failed');
       throw error;
     }
   }
@@ -98,7 +102,7 @@ export class OfflineService {
     userId: string,
     action: {
       actionType: OfflineActionType;
-      data: any;
+      data: unknown;
       timestamp: Date;
     }
   ): Promise<void> {
@@ -136,10 +140,15 @@ export class OfflineService {
    */
   private async processLocationUpdate(
     userId: string,
-    data: any,
+    data: unknown,
     timestamp: Date
   ): Promise<void> {
-    const { latitude, longitude, accuracy, context } = data;
+    const { latitude, longitude, accuracy, context } = data as {
+      latitude?: number;
+      longitude?: number;
+      accuracy?: number;
+      context?: Record<string, unknown>;
+    };
 
     // Validate data
     if (!latitude || !longitude || !accuracy) {
@@ -162,7 +171,7 @@ export class OfflineService {
   /**
    * Process safe zone check from offline action
    */
-  private async processSafeZoneCheck(userId: string, data: any): Promise<void> {
+  private async processSafeZoneCheck(userId: string, data: unknown): Promise<void> {
     // This would typically check if the location was in a safe zone
     // For now, just log it
     logger.debug({ userId, data }, 'Safe zone check processed from offline action');
@@ -171,7 +180,7 @@ export class OfflineService {
   /**
    * Process emergency alert from offline action
    */
-  private async processEmergencyAlert(userId: string, data: any): Promise<void> {
+  private async processEmergencyAlert(userId: string, data: unknown): Promise<void> {
     // This would typically trigger an emergency alert
     // For now, just log it
     logger.warn({ userId, data }, 'Emergency alert processed from offline action');

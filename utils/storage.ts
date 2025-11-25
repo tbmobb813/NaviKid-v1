@@ -277,7 +277,7 @@ export class StorageManager {
   /**
    * Batch set multiple values
    */
-  setBatch(entries: Record<string, any>): boolean {
+  setBatch(entries: Record<string, unknown>): boolean {
     try {
       Object.entries(entries).forEach(([key, value]) => {
         this.set(key, value);

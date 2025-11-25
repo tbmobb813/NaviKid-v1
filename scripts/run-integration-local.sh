@@ -46,7 +46,22 @@ source "$ENV_FILE"
 set +o allexport
 
 echo "Starting backend dev server (in background)..."
-npm --prefix "$ROOT_DIR/backend" run dev &
+# Prefer the richer `src/index.ts` server if it exists (it exposes WebSocket and
+# route shapes used by the integration tests). Fall back to the default `npm
+# run dev` which uses `src/server.ts` when `index.ts` is not present.
+# Kill any existing backend dev watchers to avoid port conflicts
+EXISTING_PIDS=$(pgrep -f "tsx watch src/" || true)
+if [ -n "$EXISTING_PIDS" ]; then
+  echo "Killing existing backend dev processes: $EXISTING_PIDS"
+  kill $EXISTING_PIDS || true
+  sleep 1
+fi
+
+if [ -f "$ROOT_DIR/backend/src/index.ts" ]; then
+  (cd "$ROOT_DIR/backend" && npx tsx watch src/index.ts) &
+else
+  npm --prefix "$ROOT_DIR/backend" run dev &
+fi
 BACKEND_PID=$!
 
 echo "Waiting for backend health to respond (http://localhost:3000/api/health)..."

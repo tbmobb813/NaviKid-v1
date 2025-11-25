@@ -1,6 +1,30 @@
-// Minimal manual mock for @sentry/react-native to avoid importing ESM distribution in Jest
-// Exports the small surface the codebase uses in tests: logger and capture helpers.
+// Minimal Jest manual mock for @sentry/react-native
+// Provides a CommonJS-compatible surface so Jest doesn't try to parse the ESM bundle.
+
 const noop = () => {};
+
+class DummyTracing {
+  constructor() {}
+}
+
+class DummyInstrumentation {
+  constructor() {}
+}
+
+function withScope(cb) {
+  try {
+    const scope = {
+      setLevel: noop,
+      setContext: noop,
+      setUser: noop,
+      addBreadcrumb: noop,
+      setExtras: noop,
+    };
+    return cb(scope);
+  } catch (e) {
+    // swallow in mock
+  }
+}
 
 const logger = {
   debug: noop,
@@ -13,10 +37,14 @@ const logger = {
 module.exports = {
   logger,
   init: noop,
+  withScope,
   captureException: noop,
   captureMessage: noop,
   addBreadcrumb: noop,
   setExtra: noop,
   setTag: noop,
   setUser: noop,
+  flush: async () => Promise.resolve(),
+  ReactNativeTracing: DummyTracing,
+  ReactNavigationInstrumentation: DummyInstrumentation,
 };

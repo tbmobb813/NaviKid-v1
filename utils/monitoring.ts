@@ -68,13 +68,13 @@ if (
     type: 'wifi',
     isWifiEnabled: true,
   };
-  const queuedActions: Array<{ type: string; payload: any }> = [];
+  const queuedActions: Array<{ type: string; payload: unknown }> = [];
   offlineManager = {
     getNetworkState: () => fallbackNetworkState,
     getNetworkQuality: () => 'online',
     getPendingActionsCount: () => queuedActions.length,
     isOffline: () => false,
-    queueAction: (type: string, payload: any) => {
+    queueAction: (type: string, payload: unknown) => {
       queuedActions.push({ type, payload });
     },
   };
@@ -122,7 +122,7 @@ export interface PerformanceMetric {
   name: string;
   duration: number;
   timestamp: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ErrorReport {
@@ -130,14 +130,14 @@ export interface ErrorReport {
   context: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   userId?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface UserAction {
   action: string;
   screen: string;
   timestamp: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface SystemHealth {
@@ -253,7 +253,7 @@ class ApplicationMonitoring {
       // Lazy import to avoid crashes if not installed
       const Sentry = require('@sentry/react-native');
 
-      const integrations: any[] = [];
+  const integrations: unknown[] = [];
 
       if (Sentry.ReactNativeTracing) {
         try {
@@ -535,10 +535,10 @@ class ApplicationMonitoring {
   /**
    * Start performance timer
    */
-  startPerformanceTimer(name: string): (metadata?: Record<string, any>) => void {
+  startPerformanceTimer(name: string): (metadata?: Record<string, unknown>) => void {
     const startTime = Date.now();
 
-    return (metadata?: Record<string, any>) => {
+    return (metadata?: Record<string, unknown>) => {
       const duration = Date.now() - startTime;
       this.trackPerformance({ name, duration, metadata });
     };
@@ -651,7 +651,7 @@ class ApplicationMonitoring {
   /**
    * Set user context for error tracking
    */
-  setUser(userId: string, metadata?: Record<string, any>): void {
+  setUser(userId: string, metadata?: Record<string, unknown>): void {
     if (this.sentry) {
       this.sentry.setUser({
         id: userId,
@@ -676,7 +676,7 @@ class ApplicationMonitoring {
   /**
    * Add custom breadcrumb
    */
-  addBreadcrumb(message: string, category: string, data?: Record<string, any>): void {
+  addBreadcrumb(message: string, category: string, data?: Record<string, unknown>): void {
     if (this.sentry) {
       this.sentry.addBreadcrumb({
         message,

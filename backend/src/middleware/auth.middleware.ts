@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import authService from '../services/auth.service';
 import config from '../config';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 import { JWTPayload } from '../types';
 
 // Extend FastifyRequest to include user
@@ -35,8 +36,9 @@ export async function authMiddleware(
 
     // Attach user to request (typed via Fastify declaration merge)
     request.user = payload;
-  } catch (error: any) {
-    logger.warn({ error: error.message }, 'Authentication failed');
+  } catch (error: unknown) {
+    const { errorObj } = formatError(error);
+    logger.warn({ error: errorObj }, 'Authentication failed');
     return reply.status(401).send({
       success: false,
       error: {

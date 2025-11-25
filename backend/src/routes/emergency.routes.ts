@@ -9,6 +9,7 @@ import {
 } from '../utils/validation';
 import { ApiResponse, EmergencyTriggerReason, JWTPayload } from '../types';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function emergencyRoutes(fastify: FastifyInstance) {
   /**
@@ -35,12 +36,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Get emergency contacts error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get emergency contacts error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get emergency contacts',
+            message: message || 'Failed to get emergency contacts',
             code: 'EMERGENCY_CONTACT_GET_ERROR',
           },
         });
@@ -60,7 +62,12 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const { name, phoneNumber, email, relationship } = request.body as any;
+        const { name, phoneNumber, email, relationship } = request.body as {
+          name: string;
+          phoneNumber: string;
+          email: string;
+          relationship: string;
+        };
 
         const contact = await emergencyService.addEmergencyContact(
           userId,
@@ -79,12 +86,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Add emergency contact error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Add emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to add emergency contact',
+            message: message || 'Failed to add emergency contact',
             code: 'EMERGENCY_CONTACT_ADD_ERROR',
           },
         });
@@ -105,7 +113,12 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
       try {
         const userId = (request.user as JWTPayload).userId;
         const { id } = request.params as { id: string };
-        const updates = request.body as any;
+        const updates = request.body as Partial<{
+          name: string;
+          phoneNumber: string;
+          email: string;
+          relationship: string;
+        }>;
 
         const contact = await emergencyService.updateEmergencyContact(
           userId,
@@ -132,12 +145,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Update emergency contact error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Update emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to update emergency contact',
+            message: message || 'Failed to update emergency contact',
             code: 'EMERGENCY_CONTACT_UPDATE_ERROR',
           },
         });
@@ -180,12 +194,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Delete emergency contact error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Delete emergency contact error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to delete emergency contact',
+            message: message || 'Failed to delete emergency contact',
             code: 'EMERGENCY_CONTACT_DELETE_ERROR',
           },
         });
@@ -205,7 +220,10 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const { triggerReason, locationSnapshot } = request.body as any;
+        const { triggerReason, locationSnapshot } = request.body as {
+          triggerReason: EmergencyTriggerReason;
+          locationSnapshot: { latitude: number; longitude: number; timestamp: string };
+        };
 
         const alerts = await emergencyService.triggerEmergencyAlert(
           userId,
@@ -230,12 +248,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Trigger emergency alert error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Trigger emergency alert error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to trigger emergency alert',
+            message: message || 'Failed to trigger emergency alert',
             code: 'EMERGENCY_ALERT_TRIGGER_ERROR',
           },
         });
@@ -255,10 +274,10 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       try {
         const userId = (request.user as JWTPayload).userId;
-        const query = request.query as any;
+  const query = request.query as { limit?: string; offset?: string };
 
-        const limit = query.limit ? parseInt(query.limit) : 50;
-        const offset = query.offset ? parseInt(query.offset) : 0;
+  const limit = query.limit ? parseInt(query.limit, 10) : 50;
+  const offset = query.offset ? parseInt(query.offset, 10) : 0;
 
         const { alerts, total } = await emergencyService.getEmergencyAlertHistory(
           userId,
@@ -283,12 +302,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Get alert history error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get alert history error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get alert history',
+            message: message || 'Failed to get alert history',
             code: 'ALERT_HISTORY_ERROR',
           },
         });
@@ -331,12 +351,13 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error }, 'Acknowledge alert error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Acknowledge alert error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to acknowledge alert',
+            message: message || 'Failed to acknowledge alert',
             code: 'ALERT_ACKNOWLEDGE_ERROR',
           },
         });

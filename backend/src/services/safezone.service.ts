@@ -110,7 +110,7 @@ export class SafeZoneService {
   ): Promise<SafeZone | null> {
     try {
       const fields: string[] = [];
-      const values: any[] = [];
+  const values: unknown[] = [];
       let paramIndex = 1;
 
       if (updates.name !== undefined) {

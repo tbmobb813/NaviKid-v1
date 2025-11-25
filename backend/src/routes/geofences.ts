@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify';
 import { z } from 'zod';
 import { query } from '../db/connection';
 import { getAuthUser } from '../utils/auth';
@@ -36,16 +36,13 @@ const createGeofenceEventSchema = z.object({
 });
 
 export async function geofenceRoutes(server: FastifyInstance) {
+  // central auth options to satisfy Fastify overloads and avoid repeating casts
+  const authOpts: RouteShorthandOptions = { preHandler: [server.authenticate] } as RouteShorthandOptions;
   /**
    * POST /api/safe-zones
    * Create a new safe zone (geofence)
    */
-  server.post(
-    '/',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (request: FastifyRequest, reply: FastifyReply) => {
+  server.post('/', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = createSafeZoneSchema.parse(request.body);
 
@@ -107,12 +104,7 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * GET /api/safe-zones
    * Get all safe zones for current user
    */
-  server.get(
-    '/',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (request: FastifyRequest, reply: FastifyReply) => {
+  server.get('/', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 
       let result;
@@ -180,19 +172,9 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * GET /api/safe-zones/:id
    * Get a specific safe zone
    */
-  server.get(
-    '/:id',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { id: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+  server.get('/:id', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { id } = request.params;
+  const { id } = request.params as { id: string };
 
       const result = await query(
         `SELECT sz.*,
@@ -243,19 +225,9 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * PATCH /api/safe-zones/:id
    * Update a safe zone
    */
-  server.patch(
-    '/:id',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { id: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+  server.patch('/:id', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { id } = request.params;
+  const { id } = request.params as { id: string };
       const body = updateSafeZoneSchema.parse(request.body);
 
       if (user.role !== 'parent') {
@@ -264,7 +236,7 @@ export async function geofenceRoutes(server: FastifyInstance) {
 
       // Build update query
       const updates: string[] = [];
-      const values: any[] = [];
+  const values: unknown[] = [];
       let paramCount = 1;
 
       if (body.name !== undefined) {
@@ -351,19 +323,9 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * DELETE /api/safe-zones/:id
    * Delete a safe zone
    */
-  server.delete(
-    '/:id',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { id: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+  server.delete('/:id', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { id } = request.params;
+  const { id } = request.params as { id: string };
 
       if (user.role !== 'parent') {
         return reply.forbidden('Only parents can delete safe zones');
@@ -388,12 +350,7 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * POST /api/safe-zones/events
    * Record a geofence event (entry/exit)
    */
-  server.post(
-    '/events',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (request: FastifyRequest, reply: FastifyReply) => {
+  server.post('/events', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = createGeofenceEventSchema.parse(request.body);
 
@@ -452,22 +409,12 @@ export async function geofenceRoutes(server: FastifyInstance) {
    * GET /api/safe-zones/:id/events
    * Get events for a specific safe zone
    */
-  server.get(
-    '/:id/events',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { id: string };
-        Querystring: { limit?: string; offset?: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+  server.get('/:id/events', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { id } = request.params;
-      const limit = parseInt(request.query.limit || '50');
-      const offset = parseInt(request.query.offset || '0');
+  const { id } = request.params as { id: string };
+  const q = request.query as { limit?: string; offset?: string };
+  const limit = parseInt(q.limit || '50');
+  const offset = parseInt(q.offset || '0');
 
       // Verify safe zone access
       const safeZoneCheck = await query(

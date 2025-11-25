@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify';
 import { z } from 'zod';
 import { query, transaction } from '../db/connection';
 import { getAuthUser, hashPassword, validatePassword } from '../utils/auth';
@@ -20,15 +20,14 @@ const linkChildSchema = z.object({
 });
 
 export async function userRoutes(server: FastifyInstance) {
+  const authOpts: RouteShorthandOptions = { preHandler: [server.authenticate] } as RouteShorthandOptions;
   /**
    * GET /api/users/me
    * Get current user profile
    */
   server.get(
     '/me',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 
@@ -68,15 +67,13 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.patch(
     '/me',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = updateProfileSchema.parse(request.body);
 
       const updates: string[] = [];
-      const values: any[] = [];
+  const values: unknown[] = [];
       let paramCount = 1;
 
       if (body.firstName !== undefined) {
@@ -131,9 +128,7 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.post(
     '/change-password',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = changePasswordSchema.parse(request.body);
@@ -191,9 +186,7 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.delete(
     '/me',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 
@@ -212,9 +205,7 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.get(
     '/children',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 
@@ -252,9 +243,7 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.get(
     '/parents',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
 
@@ -292,9 +281,7 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.post(
     '/link-child',
-    {
-      preHandler: [server.authenticate as any],
-    },
+    authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
       const body = linkChildSchema.parse(request.body);
@@ -358,17 +345,10 @@ export async function userRoutes(server: FastifyInstance) {
    */
   server.delete(
     '/unlink-child/:childId',
-    {
-      preHandler: [server.authenticate as any],
-    },
-    async (
-      request: FastifyRequest<{
-        Params: { childId: string };
-      }>,
-      reply: FastifyReply
-    ) => {
+    authOpts,
+    async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-      const { childId } = request.params;
+  const { childId } = request.params as { childId: string };
 
       if (user.role !== 'parent') {
         return reply.forbidden('Only parents can unlink children');

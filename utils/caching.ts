@@ -370,7 +370,7 @@ class EnhancedCacheManager {
 
   private async updateCacheMetadata(key: string, metadata: any): Promise<void> {
     try {
-      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, any>>(
+      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, unknown>>(
         this.metadataKey,
         {},
         { strategy: 'fallback', fallbackValue: {} },
@@ -379,7 +379,7 @@ class EnhancedCacheManager {
       const updatedMetadata = {
         ...existingMetadata,
         [key]: {
-          ...existingMetadata?.[key],
+          ...(existingMetadata?.[key] as Record<string, any>),
           ...metadata,
         },
       };
@@ -392,7 +392,7 @@ class EnhancedCacheManager {
 
   private async removeCacheMetadata(key: string): Promise<void> {
     try {
-      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, any>>(
+      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, unknown>>(
         this.metadataKey,
         {},
         { strategy: 'fallback', fallbackValue: {} },

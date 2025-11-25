@@ -6,6 +6,22 @@ import path from 'path';
 import child_process from 'child_process';
 import { URL } from 'url';
 
+type SafeSSL = {
+  ca?: string;
+  rejectUnauthorized?: boolean;
+  servername?: string;
+};
+
+type PoolOptionsLike = Record<string, unknown> & {
+  ssl?: SafeSSL | boolean;
+  host?: string;
+  port?: number;
+  user?: string;
+  password?: string;
+  database?: string;
+  connectionString?: string;
+};
+
 let pool: Pool | null = null;
 
 /**
@@ -13,7 +29,7 @@ let pool: Pool | null = null;
  */
 export function getPool(): Pool {
   if (!pool) {
-    const poolOptions: any = {
+    const poolOptions: PoolOptionsLike = {
       connectionString: config.database.url,
       min: config.database.poolMin,
       max: config.database.poolMax,
@@ -76,8 +92,9 @@ export function getPool(): Pool {
               : undefined;
 
             // Ensure ssl.servername is set so TLS verification uses the original hostname
-            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false };
-            poolOptions.ssl.servername = hostname;
+            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
+            const ssl = poolOptions.ssl as SafeSSL;
+            ssl.servername = hostname;
             // Remove connectionString so pg uses the explicit host instead
             delete poolOptions.connectionString;
             logger.info(
@@ -118,7 +135,7 @@ export function getPool(): Pool {
  */
 export async function query<T extends QueryResultRow = QueryResultRow>(
   text: string,
-  params?: any[]
+  params?: unknown[]
 ): Promise<QueryResult<T>> {
   const pool = getPool();
   const start = Date.now();

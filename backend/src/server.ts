@@ -7,6 +7,7 @@ import jwt from '@fastify/jwt';
 import * as Sentry from '@sentry/node';
 import { config } from './config';
 import { logger } from './utils/logger';
+import type { FastifyRequest, FastifyReply } from 'fastify';
 import { checkConnection, closePool } from './db/connection';
 import { checkRedisConnection, closeRedis, getRedis } from './db/redis';
 
@@ -76,10 +77,10 @@ export async function buildServer() {
   });
 
   // Add JWT verification decorator
-  server.decorate('authenticate', async function (request: any, reply: any) {
+  server.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
     try {
       await request.jwtVerify();
-    } catch (err) {
+    } catch (err: unknown) {
       reply
         .code(401)
         .send({ error: 'Unauthorized', message: 'Invalid or expired token' });
@@ -158,6 +159,17 @@ export async function buildServer() {
   await server.register(userRoutes, { prefix: '/api/users' });
   await server.register(locationRoutes, { prefix: '/api/locations' });
   await server.register(geofenceRoutes, { prefix: '/api/safe-zones' });
+
+  // During tests we allow routing without the /api prefix to support older
+  // integration tests that call endpoints directly (e.g. /auth/register).
+  // Register the same route handlers at the non-prefixed paths only in test
+  // mode so production behavior is unchanged.
+  if (config.isTest) {
+    await server.register(authRoutes, { prefix: '/auth' });
+    await server.register(userRoutes, { prefix: '/users' });
+    await server.register(locationRoutes, { prefix: '/locations' });
+    await server.register(geofenceRoutes, { prefix: '/safe-zones' });
+  }
 
   // Root endpoint
   server.get('/', async () => {

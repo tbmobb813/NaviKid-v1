@@ -27,13 +27,13 @@ export interface ApiConfig {
   retryDelay: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
     message: string;
     code?: string;
-    details?: any;
+    details?: unknown;
   };
   meta?: {
     timestamp: Date;
@@ -119,9 +119,9 @@ export interface OfflineAction {
 
 class NaviKidApiClient {
   // Generic HTTP methods for external use
-  async post<T = any>(
+  async post<T = unknown>(
     endpoint: string,
-    body?: any,
+    body?: unknown,
     options?: RequestInit,
   ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
@@ -130,8 +130,7 @@ class NaviKidApiClient {
       ...(options || {}),
     });
   }
-
-  async put<T = any>(endpoint: string, body?: any, options?: RequestInit): Promise<ApiResponse<T>> {
+  async put<T = unknown>(endpoint: string, body?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: body ? JSON.stringify(body) : undefined,
@@ -155,7 +154,8 @@ class NaviKidApiClient {
     const extra = Constants.expoConfig?.extra;
 
     this.config = {
-      baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000',
+  // Default to backend API mount point which serves routes under /api
+  baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000/api',
       timeout: config?.timeout || extra?.api?.timeout || 15000,
       retryAttempts: config?.retryAttempts || 3,
       retryDelay: config?.retryDelay || 1000,
@@ -452,14 +452,19 @@ class NaviKidApiClient {
       accuracy: number,
       context?: LocationContext,
     ): Promise<ApiResponse<Location>> => {
+      // Ensure we always send a timestamp — backend validation expects it.
+      // Use an ISO string which satisfies both string and date schema checks.
+      const payload = {
+        latitude,
+        longitude,
+        accuracy,
+        timestamp: new Date().toISOString(),
+        context: context || {},
+      };
+
       return this.requestWithRetry<Location>('/locations', {
         method: 'POST',
-        body: JSON.stringify({
-          latitude,
-          longitude,
-          accuracy,
-          context: context || {},
-        }),
+        body: JSON.stringify(payload),
       });
     },
 
@@ -632,8 +637,8 @@ class NaviKidApiClient {
   // Health Check
   // ==========================================================================
 
-  async healthCheck(): Promise<ApiResponse<{ status: string; services: any }>> {
-    return this.request<{ status: string; services: any }>('/health', {}, true);
+  async healthCheck(): Promise<ApiResponse<{ status: string; services: unknown }>> {
+    return this.request<{ status: string; services: unknown }>('/health', {}, true);
   }
 }
 

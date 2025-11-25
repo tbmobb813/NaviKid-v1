@@ -7,12 +7,32 @@ const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const sessionStore = require('../services/sessionStore');
 
-let redis: any | null = null;
+let redis: RuntimeRedis | null = null;
+
+// Lightweight runtime Redis adapter shape used to avoid `as any` in call sites
+type RuntimeRedis = {
+  on?: (event: string, cb: (...args: unknown[]) => void) => void;
+  get?: (key: string) => Promise<string | null>;
+  setex?: (key: string, ttl: number, val: string) => Promise<void>;
+  set?: (key: string, val: string) => Promise<void>;
+  del?: (...keys: string[]) => Promise<void>;
+  keys?: (pattern: string) => Promise<string[]>;
+  exists?: (key: string) => Promise<number>;
+  ping?: () => Promise<string>;
+  quit?: () => Promise<void>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  incr?: (key: string) => Promise<number>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+};
 
 /**
  * Get or create Redis client (no-op when REDIS_ENABLED=false)
  */
-export function getRedis(): any | null {
+export function getRedis(): RuntimeRedis | null {
   if (!REDIS_ENABLED) {
     return null;
   }
@@ -20,37 +40,41 @@ export function getRedis(): any | null {
   if (!redis) {
     // Lazy-load ioredis only when Redis is enabled to avoid loading the
     // module (and any native deps) in environments where Redis is disabled.
-    // Use a permissive `any` type here to keep the top-level file-free of
-    // the import side-effect while preserving runtime behavior.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const IORedis: any = require('ioredis');
+    const IORedis: unknown = require('ioredis');
 
-    // Support both CJS and ESM default shapes
-    const RedisCtor = IORedis?.default ?? IORedis;
+    // Support both CJS and ESM default shapes and cast the constructed
+    // client to our lightweight RuntimeRedis adapter to minimize loose casts.
+    const RedisCtor = (
+      (IORedis as unknown as { default?: new (...args: unknown[]) => unknown }).default ??
+      (IORedis as unknown as new (...args: unknown[]) => unknown)
+    );
 
-    redis = new RedisCtor(config.redis.url, {
+    const constructed = new RedisCtor(config.redis.url, {
       maxRetriesPerRequest: 3,
       enableReadyCheck: true,
       lazyConnect: false,
     });
+    redis = constructed as unknown as RuntimeRedis;
 
-    redis.on('connect', () => {
+    redis.on?.('connect', () => {
       logger.info('Redis connected');
     });
 
-    redis.on('ready', () => {
+    redis.on?.('ready', () => {
       logger.info('Redis ready to accept commands');
     });
 
-    redis.on('error', (err: any) => {
-      logger.error({ err }, 'Redis error');
+    redis.on?.('error', (err: unknown) => {
+      const errMsg = String(err);
+      logger.error({ err: errMsg }, 'Redis error');
     });
 
-    redis.on('close', () => {
+    redis.on?.('close', () => {
       logger.warn('Redis connection closed');
     });
 
-    redis.on('reconnecting', () => {
+    redis.on?.('reconnecting', () => {
       logger.info('Redis reconnecting');
     });
   }
@@ -70,11 +94,11 @@ export async function closeRedis(): Promise<void> {
     return;
   }
 
-  if (redis) {
-    await redis.quit();
-    redis = null;
-    logger.info('Redis connection closed');
-  }
+    if (redis) {
+      await (redis as RuntimeRedis).quit?.();
+      redis = null;
+      logger.info('Redis connection closed');
+    }
 }
 
 /**
@@ -94,12 +118,12 @@ export async function checkRedisConnection(): Promise<boolean> {
   }
 
   try {
-    const r = getRedis()!;
-    const pong = await r.ping();
+    const r = getRedis() as RuntimeRedis;
+    const pong = await r.ping?.();
     logger.info({ pong }, 'Redis connection verified');
     return pong === 'PONG';
   } catch (error) {
-    logger.error({ error }, 'Redis connection check failed');
+    logger.error({ error: String(error) }, 'Redis connection check failed');
     return false;
   }
 }
@@ -108,16 +132,16 @@ export async function checkRedisConnection(): Promise<boolean> {
  * Cache helpers (delegate to sessionStore when Redis disabled)
  */
 export const cache = {
-  async set(key: string, value: any, ttl?: number): Promise<void> {
+  async set(key: string, value: unknown, ttl?: number): Promise<void> {
     if (!REDIS_ENABLED) {
       return sessionStore.set(key, value, ttl);
     }
-    const r = getRedis()!;
+    const r = getRedis() as RuntimeRedis;
     const serialized = JSON.stringify(value);
     if (ttl) {
-      await r.setex(key, ttl, serialized);
+      await r.setex?.(key, ttl, serialized);
     } else {
-      await r.set(key, serialized);
+      await r.set?.(key, serialized);
     }
   },
 
@@ -125,8 +149,8 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.get(key);
     }
-    const r = getRedis()!;
-    const value = await r.get(key);
+    const r = getRedis() as RuntimeRedis;
+    const value = await r.get?.(key);
     if (!value) return null;
     try {
       return JSON.parse(value) as T;
@@ -139,16 +163,16 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.delete(key);
     }
-    const r = getRedis()!;
-    await r.del(key);
+    const r = getRedis() as RuntimeRedis;
+    await r.del?.(key);
   },
 
   async exists(key: string): Promise<boolean> {
     if (!REDIS_ENABLED) {
       return sessionStore.exists(key);
     }
-    const r = getRedis()!;
-    const result = await r.exists(key);
+    const r = getRedis() as RuntimeRedis;
+    const result = await r.exists?.(key);
     return result === 1;
   },
 
@@ -157,8 +181,8 @@ export const cache = {
       // sessionStore doesn't support expire - noop
       return;
     }
-    const r = getRedis()!;
-    await r.expire(key, ttl);
+    const r = getRedis() as RuntimeRedis;
+    await r.expire?.(key, ttl as number);
   },
 
   async incr(key: string): Promise<number> {
@@ -166,19 +190,19 @@ export const cache = {
       // sessionStore can't atomic increment; fallback to 1
       return 1;
     }
-    const r = getRedis()!;
-    return r.incr(key);
+    const r = getRedis() as RuntimeRedis;
+    return (await r.incr?.(key)) as number;
   },
 
   async incrWithTTL(key: string, ttl: number): Promise<number> {
     if (!REDIS_ENABLED) {
       return 1;
     }
-    const r = getRedis()!;
-    const pipeline = r.pipeline();
-    pipeline.incr(key);
-    pipeline.expire(key, ttl);
-    const results = await pipeline.exec();
-    return results?.[0]?.[1] as number;
+    const r = getRedis() as RuntimeRedis;
+    const pipeline = r.pipeline?.();
+    pipeline?.incr(key);
+    pipeline?.expire(key, ttl);
+    const results = await pipeline?.exec();
+    return (results?.[0]?.[1] as number) ?? 1;
   },
 };

@@ -1,19 +1,36 @@
 import { Pool, PoolClient, QueryResult, QueryResultRow } from 'pg';
 import config from '../config';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 import fs from 'fs';
 import path from 'path';
 import child_process from 'child_process';
 import { URL } from 'url';
 
+type SafeSSL = {
+  ca?: string;
+  rejectUnauthorized?: boolean;
+  servername?: string;
+};
+
+type PoolOptionsLike = Record<string, unknown> & {
+  ssl?: SafeSSL | boolean;
+  host?: string;
+  port?: number;
+  user?: string;
+  password?: string;
+  database?: string;
+  connectionString?: string;
+};
+
 class Database {
   private pool: Pool;
-  private poolOptions: any;
+  private poolOptions: PoolOptionsLike;
   private static instance: Database;
 
   private constructor() {
     // Prefer a full DATABASE_URL when available; fall back to individual fields for backwards compatibility
-    const poolOptions: any = {
+    const poolOptions: PoolOptionsLike = {
       max: 20,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 2000,
@@ -68,8 +85,9 @@ class Database {
             poolOptions.database = parsed.pathname
               ? parsed.pathname.replace(/\//, '')
               : undefined;
-            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false };
-            poolOptions.ssl.servername = hostname;
+            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
+            const ssl = poolOptions.ssl as SafeSSL;
+            ssl.servername = hostname;
             delete poolOptions.connectionString;
             logger.info(
               { host: ipv4 },
@@ -130,9 +148,9 @@ class Database {
     return Database.instance;
   }
 
-  public async query<T extends QueryResultRow = any>(
+  public async query<T extends QueryResultRow = QueryResultRow>(
     text: string,
-    params?: any[]
+    params?: unknown[]
   ): Promise<QueryResult<T>> {
     const start = Date.now();
     try {
@@ -141,8 +159,8 @@ class Database {
       logger.debug({ text, duration, rows: result.rowCount }, 'Query executed');
       return result;
     } catch (error) {
-      // If the server reports it does not support SSL, retry once with SSL disabled.
-      const msg = (error as any)?.message || String(error);
+    // If the server reports it does not support SSL, retry once with SSL disabled.
+  const msg = formatError(error).message || String(error);
       if (typeof msg === 'string' && msg.includes('does not support SSL')) {
         logger.info(
           { text },

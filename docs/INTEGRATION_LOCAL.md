@@ -49,4 +49,5 @@ Notes & troubleshooting
 npm --prefix backend run dev
 ```
 
-Want the backend to run inside Docker as well? I can extend the Compose file to build and run the backend in-container, but the current approach runs the backend on the host and connects to containerized DB/Redis for faster dev iteration.
+Want the backend to run inside Docker as well? I can extend the Compose file to build and run the backend in-container, but the current approach runs the backend on the host and connects to
+containerized DB/Redis for faster dev iteration.

@@ -10,7 +10,7 @@ export class LocationService {
     userId: string,
     latitude: number,
     longitude: number,
-    accuracy: number,
+    accuracy: number | undefined,
     timestamp: Date,
     context: LocationContext = {}
   ): Promise<Location> {
@@ -19,7 +19,7 @@ export class LocationService {
         `INSERT INTO locations (user_id, latitude, longitude, accuracy, timestamp, context)
          VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-        [userId, latitude, longitude, accuracy, timestamp, JSON.stringify(context)]
+        [userId, latitude, longitude, accuracy ?? null, timestamp, JSON.stringify(context)]
       );
 
       const location = result.rows[0];
@@ -45,7 +45,7 @@ export class LocationService {
   ): Promise<{ locations: Location[]; total: number }> {
     try {
       let query = 'SELECT * FROM locations WHERE user_id = $1';
-      const params: any[] = [userId];
+  const params: unknown[] = [userId];
       let paramIndex = 2;
 
       if (startDate) {
@@ -188,7 +188,7 @@ export class LocationService {
     locations: Array<{
       latitude: number;
       longitude: number;
-      accuracy: number;
+      accuracy?: number;
       timestamp: Date;
       context?: LocationContext;
     }>

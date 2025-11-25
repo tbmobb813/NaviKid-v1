@@ -101,7 +101,7 @@ export interface OfflineAction {
   id: string;
   user_id: string;
   action_type: OfflineActionType;
-  data: any;
+  data: unknown;
   created_at: Date;
   synced_at?: Date;
 }
@@ -110,7 +110,7 @@ export interface AuditLog {
   id: string;
   user_id: string;
   action: string;
-  details: any;
+  details: unknown;
   ip_address: string;
   timestamp: Date;
 }
@@ -126,13 +126,13 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
     message: string;
     code?: string;
-    details?: any;
+    details?: unknown;
   };
   meta?: {
     timestamp: Date;

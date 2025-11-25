@@ -85,7 +85,7 @@ export class AuthService {
     email: string,
     password: string,
     ipAddress?: string
-  ): Promise<{ user: User; tokens: AuthTokens }> {
+  ): Promise<{ user: Omit<User, 'password_hash' | 'salt'>; tokens: AuthTokens }> {
     try {
       // Find user
       const result = await db.query<User>('SELECT * FROM users WHERE email = $1', [
@@ -114,11 +114,13 @@ export class AuthService {
 
       logger.info({ userId: user.id, email }, 'User logged in successfully');
 
-      // Remove sensitive data
-      delete (user as any).password_hash;
-      delete (user as any).salt;
+      // Remove sensitive data without mutating the original DB row
+      const { password_hash, salt, ...userWithoutSensitive } = user as unknown as Record<string, unknown>;
 
-      return { user, tokens };
+      return {
+        user: userWithoutSensitive as Omit<User, 'password_hash' | 'salt'>,
+        tokens,
+      };
     } catch (error) {
       logger.error({ email, error }, 'Login failed');
       throw error;
@@ -376,7 +378,7 @@ export class AuthService {
   private async logAudit(
     userId: string,
     action: string,
-    details: any,
+    details: unknown,
     ipAddress?: string
   ): Promise<void> {
     try {

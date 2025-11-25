@@ -37,7 +37,8 @@ export interface JWTPayload {
  * Extract user from authenticated request
  */
 export function getAuthUser(request: FastifyRequest): JWTPayload {
-  const user = (request as any).user as JWTPayload;
+  const req = request as FastifyRequest & { user?: JWTPayload };
+  const user = req.user;
 
   if (!user) {
     throw new Error('User not authenticated');
@@ -50,7 +51,8 @@ export function getAuthUser(request: FastifyRequest): JWTPayload {
  * Extract optional user from request (doesn't throw if not authenticated)
  */
 export function getOptionalAuthUser(request: FastifyRequest): JWTPayload | null {
-  return (request as any).user || null;
+  const req = request as FastifyRequest & { user?: JWTPayload };
+  return req.user || null;
 }
 
 /**

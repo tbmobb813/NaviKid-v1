@@ -2,18 +2,19 @@ import React from 'react';
 import { View } from 'react-native';
 import MapViewWrapper from '@/components/MapViewWrapper';
 import { useRouteORS } from '@/hooks/useRouteORS';
+import { Geometry } from 'geojson';
 import Config from '@/utils/config';
 
 type LatLngContainer = { coordinates: { longitude: number; latitude: number } };
 
-type UnifiedRoute = { id?: string | number; geometry?: any };
+type UnifiedRoute = { id?: string | number; geometry?: Geometry | undefined };
 
 type MapViewProps = {
   origin?: LatLngContainer | null;
   destination?: LatLngContainer | null;
   selectedUnifiedRoute?: UnifiedRoute | null;
   onStationPress?: (id: string) => void;
-  mapLibreCameraRef?: React.RefObject<any>;
+  mapLibreCameraRef?: React.RefObject<unknown>;
 };
 
 export default function MapView({

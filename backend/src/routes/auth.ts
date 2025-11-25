@@ -10,6 +10,7 @@ import {
   isValidEmail,
   getClientIP,
   getUserAgent,
+  getAuthUser,
   JWTPayload,
 } from '../utils/auth';
 import { config } from '../config';
@@ -297,7 +298,7 @@ export async function authRoutes(server: FastifyInstance) {
   server.post(
     '/logout',
     {
-      preHandler: [server.authenticate as any],
+  preHandler: [server.authenticate],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const body = refreshTokenSchema.parse(request.body);
@@ -483,10 +484,10 @@ export async function authRoutes(server: FastifyInstance) {
   server.get(
     '/me',
     {
-      preHandler: [server.authenticate as any],
+  preHandler: [server.authenticate],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = (request as any).user as JWTPayload;
+      const user = getAuthUser(request);
 
       // Get full user details
       const result = await query(
