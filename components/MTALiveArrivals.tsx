@@ -303,11 +303,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
   const renderAlert = (alert: StationAlert) => (
     <View
       key={alert.id}
-      style={[
-        styles.alertCard,
-        // computed style key - cast to any to satisfy TypeScript index typing
-        (styles as any)[`alert${alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1)}`],
-      ]}
+      style={[styles.alertCard, getAlertStyle(alert.severity)]}
     >
       <View style={styles.alertHeader}>
         <AlertTriangle size={16} color={alert.severity === 'high' ? '#F44336' : '#FF9800'} />
