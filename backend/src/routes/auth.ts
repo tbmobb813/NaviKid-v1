@@ -11,8 +11,8 @@ import {
   getClientIP,
   getUserAgent,
   getAuthUser,
-  JWTPayload,
 } from '../utils/auth';
+import { JWTPayload } from '../types';
 import { config } from '../config';
 
 // Request schemas
