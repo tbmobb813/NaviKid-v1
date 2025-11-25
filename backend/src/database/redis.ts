@@ -48,7 +48,7 @@ class DummyRedisClient {
   }
 
   public async setSession(userId: string, token: string, expiresIn: number, data?: unknown) {
-    return sessionStore.setSession(userId, token, expiresIn, data as any);
+    return sessionStore.setSession(userId, token, expiresIn, data);
   }
 
   public async getSession(userId: string, token: string) {
@@ -69,7 +69,7 @@ class DummyRedisClient {
   }
 
   public async set(key: string, value: unknown, expiresIn?: number) {
-    return sessionStore.set(key, value as any, expiresIn);
+    return sessionStore.set(key, value, expiresIn);
   }
 
   public async delete(key: string) {
