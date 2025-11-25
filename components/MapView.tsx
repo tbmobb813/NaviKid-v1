@@ -15,13 +15,7 @@ interface MapViewProps {
   mapLibreCameraRef: React.RefObject<any>;
 }
 
-export default function MapView({
-  origin,
-  destination,
-  selectedUnifiedRoute,
-  onStationPress,
-  mapLibreCameraRef,
-}: MapViewProps) {
+export default function MapView({ origin, destination, selectedUnifiedRoute, onStationPress, mapLibreCameraRef }: MapViewProps) {
   const originCoord = origin
     ? ([origin.coordinates.longitude, origin.coordinates.latitude] as [number, number])
     : undefined;
