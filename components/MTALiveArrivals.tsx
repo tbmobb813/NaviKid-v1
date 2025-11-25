@@ -176,6 +176,133 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
     );
   };
 
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'approaching':
+        return <Train size={16} color="#4CAF50" />;
+      case 'delayed':
+        return <AlertTriangle size={16} color="#FF9800" />;
+      default:
+        return <Clock size={16} color="#2196F3" />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'approaching':
+        return '#4CAF50';
+      case 'delayed':
+        return '#FF9800';
+      default:
+        return '#2196F3';
+    }
+  };
+
+  const getRouteColor = (route: string) => {
+    return subwayLineColors[route] || Colors.primary;
+  };
+
+  const formatArrivalTime = (minutes: number) => {
+    if (minutes <= 1) return 'Arriving';
+    if (minutes <= 2) return '2 min';
+    return `${minutes} min`;
+  };
+
+  const renderArrivalCard = (arrival: ArrivalInfo) => (
+    <View key={arrival.id} style={styles.arrivalCard}>
+      <View style={styles.arrivalHeader}>
+        <View style={styles.routeInfo}>
+          {stationType === 'subway' ? (
+            <View
+              style={[styles.routeIndicator, { backgroundColor: getRouteColor(arrival.route) }]}
+            >
+              <Text style={styles.routeText}>{arrival.route}</Text>
+            </View>
+          ) : (
+            <View style={styles.busRouteIndicator}>
+              <Bus size={16} color={Colors.primary} />
+              <Text style={styles.busRouteText}>{arrival.route}</Text>
+            </View>
+          )}
+
+          <View style={styles.destinationInfo}>
+            <Text style={styles.destinationText}>{arrival.destination}</Text>
+            <Text style={styles.directionText}>{arrival.direction}</Text>
+            {arrival.track && <Text style={styles.trackText}>Track {arrival.track}</Text>}
+          </View>
+        </View>
+
+        <View style={styles.arrivalInfo}>
+          <TouchableOpacity
+            style={styles.favoriteButton}
+            onPress={() => toggleFavoriteRoute(arrival.route)}
+          >
+            <Star
+              size={16}
+              color={favoriteRoutes.includes(arrival.route) ? '#FFD700' : '#CCCCCC'}
+              fill={favoriteRoutes.includes(arrival.route) ? '#FFD700' : 'none'}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.timeContainer}>
+            {getStatusIcon(arrival.status)}
+            <Text style={[styles.arrivalTime, { color: getStatusColor(arrival.status) }]}>
+              {formatArrivalTime(arrival.arrivalTime)}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {arrival.kidNote && (
+        <View style={styles.kidNoteContainer}>
+          <Info size={14} color="#4CAF50" />
+          <Text style={styles.kidNoteText}>{arrival.kidNote}</Text>
+        </View>
+      )}
+
+      {arrival.delayReason && (
+        <View style={styles.delayContainer}>
+          <AlertTriangle size={14} color="#FF9800" />
+          <Text style={styles.delayText}>{arrival.delayReason}</Text>
+        </View>
+      )}
+    </View>
+  );
+
+  const renderAlert = (alert: StationAlert) => (
+    <View
+      key={alert.id}
+      style={[styles.alertCard, getAlertStyle(alert.severity)]}
+    >
+      <View style={styles.alertHeader}>
+        <AlertTriangle size={16} color={alert.severity === 'high' ? '#F44336' : '#FF9800'} />
+        <Text style={styles.alertTitle}>
+          {alert.type === 'delay'
+            ? 'Service Delay'
+            : alert.type === 'service-change'
+              ? 'Service Change'
+              : 'Information'}
+        </Text>
+      </View>
+
+      <Text style={styles.alertMessage}>{alert.kidFriendlyMessage || alert.message}</Text>
+
+      {alert.affectedRoutes.length > 0 && alert.affectedRoutes[0] !== 'ALL' && (
+        <View style={styles.affectedRoutes}>
+          <Text style={styles.affectedRoutesLabel}>Affected lines: </Text>
+          {alert.affectedRoutes.map((route) => (
+            <View
+              key={route}
+              style={[styles.affectedRouteTag, { backgroundColor: getRouteColor(route) }]}
+            >
+              <Text style={styles.affectedRouteText}>{route}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+
   if (loading && !refreshing) {
     return (
       <View style={styles.loadingContainer}>
