@@ -236,9 +236,7 @@ describe('Category Store', () => {
       });
 
       await waitFor(() => {
-        const homeCategory = result.current.categories.find(
-          (cat: CustomCategory) => cat.id === 'home',
-        );
+        const homeCategory = result.current.categories.find((cat: CustomCategory) => cat.id === 'home');
         expect(homeCategory?.name).toBe('Updated Home');
       });
     });
@@ -252,18 +250,14 @@ describe('Category Store', () => {
 
       await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-      const schoolBefore = result.current.categories.find(
-        (cat: CustomCategory) => cat.id === 'school',
-      );
+      const schoolBefore = result.current.categories.find((cat: CustomCategory) => cat.id === 'school');
 
       await act(async () => {
         await result.current.updateCategory('home', { color: '#000000' });
       });
 
       await waitFor(() => {
-        const schoolAfter = result.current.categories.find(
-          (cat: CustomCategory) => cat.id === 'school',
-        );
+        const schoolAfter = result.current.categories.find((cat: CustomCategory) => cat.id === 'school');
         expect(schoolAfter).toEqual(schoolBefore);
       });
     });
@@ -301,9 +295,7 @@ describe('Category Store', () => {
 
       await waitFor(() => {
         expect(result.current.categories).toHaveLength(8);
-        expect(
-          result.current.categories.find((cat: CustomCategory) => cat.id === customCategory!.id),
-        ).toBeUndefined();
+        expect(result.current.categories.find((cat: CustomCategory) => cat.id === customCategory!.id)).toBeUndefined();
       });
     });
 
@@ -321,9 +313,7 @@ describe('Category Store', () => {
       });
 
       await waitFor(() => {
-        const homeCategory = result.current.categories.find(
-          (cat: CustomCategory) => cat.id === 'home',
-        );
+        const homeCategory = result.current.categories.find((cat: CustomCategory) => cat.id === 'home');
         expect(homeCategory).toBeDefined();
       });
     });
@@ -356,9 +346,7 @@ describe('Category Store', () => {
       });
 
       await waitFor(() => {
-        const category = result.current.categories.find(
-          (cat: CustomCategory) => cat.id === pendingCategory!.id,
-        );
+        const category = result.current.categories.find((cat: CustomCategory) => cat.id === pendingCategory!.id);
         expect(category?.isApproved).toBe(true);
       });
     });
@@ -453,9 +441,7 @@ describe('Category Store', () => {
 
       const pending = result.current.getPendingCategories();
       expect(pending).toHaveLength(2);
-      expect(
-        pending.every((cat: CustomCategory) => !cat.isApproved && cat.createdBy === 'child'),
-      ).toBe(true);
+      expect(pending.every((cat: CustomCategory) => !cat.isApproved && cat.createdBy === 'child')).toBe(true);
     });
 
     it('should not include approved categories in pending list', async () => {
@@ -731,4 +717,5 @@ describe('Category Store', () => {
       });
     });
   });
+
 });
