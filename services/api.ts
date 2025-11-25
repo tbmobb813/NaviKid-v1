@@ -356,6 +356,51 @@ class NaviKidApiClient {
   }
 
   // ==========================================================================
+  // Public HTTP Methods
+  // ==========================================================================
+
+  async get<T>(endpoint: string, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(endpoint, { method: 'GET' }, skipAuth);
+  }
+
+  async post<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'POST',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async put<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'PUT',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async patch<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'PATCH',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async delete<T>(endpoint: string, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(endpoint, { method: 'DELETE' }, skipAuth);
+  }
+
+  // ==========================================================================
   // Authentication API
   // ==========================================================================
 
