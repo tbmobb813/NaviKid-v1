@@ -53,9 +53,7 @@ module.exports = [
       'prettier/prettier': 'error',
       'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
       '@typescript-eslint/explicit-function-return-type': 'off',
-      // Phase 4.4: Prevent console statements - use logger utility instead
-      'no-console': 'error', // No console methods allowed - use logger from @/utils/logger
-      '@typescript-eslint/no-explicit-any': 'warn', // Warn on new any types
+      'no-console': ['error', { allow: [] }],
     },
     settings: {
       react: { version: 'detect' },
