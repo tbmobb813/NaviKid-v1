@@ -224,16 +224,16 @@ export const useSafeZoneMonitor = () => {
         safeZones.some((zone) => zone.isActive) &&
         !geofencingStarted.current
       ) {
-        try {
-          const regions = safeZones
-            .filter((zone) => zone.isActive)
-            .map((zone) => ({
-              identifier: zone.id,
-              latitude: zone.latitude,
-              longitude: zone.longitude,
-              radius: zone.radius,
-            }));
+        const regions = safeZones
+          .filter((zone) => zone.isActive)
+          .map((zone) => ({
+            identifier: zone.id,
+            latitude: zone.latitude,
+            longitude: zone.longitude,
+            radius: zone.radius,
+          }));
 
+        try {
           if (regions.length > 0) {
             await startGeofencing(regions);
             geofencingStarted.current = true;
@@ -278,7 +278,7 @@ export const useSafeZoneMonitor = () => {
             setCurrentLocation(newLocation);
             checkSafeZones(newLocation);
           },
-          (error) => logger.error('Location watch error', error as Error),
+          (error) => logger.error('Location watch error', error as unknown as Error),
           {
             enableHighAccuracy: false,
             timeout: 30000,
