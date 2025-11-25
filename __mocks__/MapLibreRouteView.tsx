@@ -2,8 +2,6 @@ import React from 'react';
 
 // Simple mock implementation that renders a div with props for testing
 const MapLibreRouteView = (props: any) => {
-  const { testID, origin, destination, showTransitStations, ...rest } = props;
-
   return (
     <div data-testid={(testID as string) || 'mock-maplibre-route-view'} {...rest}>
       {origin && <div data-testid="origin-marker" data-coords={JSON.stringify(origin)} />}
