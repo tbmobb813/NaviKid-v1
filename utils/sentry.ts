@@ -86,7 +86,7 @@ export function initSentry(config: SentryConfig) {
       appHangTimeoutIntervalMillis: 5000,
 
       // Before sending error events
-      beforeSend(event: unknown, hint: unknown) {
+      beforeSend(event: any, hint: any) {
         // Filter out specific errors if needed
         if ((event as any).exception) {
           const error = (hint as any)?.originalException;
@@ -101,7 +101,7 @@ export function initSentry(config: SentryConfig) {
       },
 
       // Breadcrumb filtering
-      beforeBreadcrumb(breadcrumb: unknown) {
+      beforeBreadcrumb(breadcrumb: any) {
         // Filter sensitive data from breadcrumbs
         const bc = breadcrumb as any;
         if (bc.category === 'http') {
