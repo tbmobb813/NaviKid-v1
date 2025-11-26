@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import Colors from '@/constants/colors';
 import { AlertTriangle, RefreshCw } from 'lucide-react-native';
 import { logger } from '@sentry/react-native';
-import safeToRecord from '@/utils/safeToRecord';
 
 type ErrorBoundaryState = {
   hasError: boolean;
