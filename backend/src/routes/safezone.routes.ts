@@ -74,7 +74,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
         const { latitude, longitude } = request.body as { latitude: number; longitude: number };
 
         const result = await safeZoneService.checkLocationInSafeZones(
-          getAuthUser(request).userId,
+          userId,
           latitude,
           longitude
         );
@@ -116,7 +116,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
   const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
-        const safeZone = await safeZoneService.getSafeZoneById(userId, id);
+  const safeZone = await safeZoneService.getSafeZoneById(userId, id);
 
         if (!safeZone) {
           return reply.status(404).send({
