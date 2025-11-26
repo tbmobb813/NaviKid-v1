@@ -1,7 +1,6 @@
 // Flat-config ESLint file for backend TypeScript linting. This uses the
 // "flat config" format so ESLint picks up the TypeScript parser correctly
 // when invoked from the backend package.
-const path = require('path');
 
 module.exports = [
   // Ignore build artifacts and coverage so linting only considers source files.
