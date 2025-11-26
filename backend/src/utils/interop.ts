@@ -12,3 +12,5 @@ export function getCtorFromModule<T = unknown>(mod: unknown): new (...args: unkn
   }
   return ctor as new (...args: unknown[]) => T;
 }
+
+

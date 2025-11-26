@@ -12,7 +12,7 @@ module.exports = [
     // When ESLint is invoked from the repo root the base path is the repo
     // root. Use a repo-relative pattern so the config matches files under
     // `backend/src/...` regardless of where the CLI is run from.
-    files: ['backend/src/**/*.{ts,tsx}'],
+  files: ['src/**/*.{ts,tsx}', 'backend/src/**/*.{ts,tsx}'],
     languageOptions: {
       parser: require('@typescript-eslint/parser'),
       parserOptions: {
