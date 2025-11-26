@@ -162,7 +162,6 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
         const { name, centerLatitude, centerLongitude, radius, type } =
           request.body as {
             name: string;
