@@ -174,7 +174,7 @@
       "eslint --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs"
     ],
     "backend/**/*.{ts,tsx}": [
-      "eslint --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config eslint.config.backend.cjs"
+      "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config eslint.config.backend.cjs"
     ]
   },
   "private": true,
