@@ -80,10 +80,9 @@ class RedisClient {
   private static instance: RedisClient;
 
   private constructor() {
-    // Lazy-load ioredis only when Redis is enabled to prevent the module
-    // from being evaluated in environments where Redis is disabled.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const IORedis: unknown = require('ioredis');
+  // Lazy-load ioredis only when Redis is enabled to prevent the module
+  // from being evaluated in environments where Redis is disabled.
+  const IORedis: unknown = require('ioredis');
     // Resolve constructor (CJS/ESM) using helper
     const RedisCtor = getCtorFromModule(IORedis);
 

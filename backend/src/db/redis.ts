@@ -19,10 +19,9 @@ export function getRedis(): RedisLike | null {
   }
 
   if (!redis) {
-    // Lazy-load ioredis only when Redis is enabled to avoid loading the
-    // module (and any native deps) in environments where Redis is disabled.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const IORedis: unknown = require('ioredis');
+  // Lazy-load ioredis only when Redis is enabled to avoid loading the
+  // module (and any native deps) in environments where Redis is disabled.
+  const IORedis: unknown = require('ioredis');
 
     // Resolve constructor in a single helper to support CJS/ESM shapes.
     const RedisCtor = getCtorFromModule(IORedis);

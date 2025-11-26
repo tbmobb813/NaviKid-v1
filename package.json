@@ -171,10 +171,10 @@
   "prepare": "husky install",
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint_d --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs"
+      "eslint_d --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --resolve-plugins-relative-to ."
     ],
-    "backend/**/*.{ts,tsx}": [
-      "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config eslint.config.backend.cjs"
+    "backend/src/**/*.{ts,tsx}": [
+      "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config backend/.eslintrc.cjs --resolve-plugins-relative-to ."
     ]
   },
   "private": true,
