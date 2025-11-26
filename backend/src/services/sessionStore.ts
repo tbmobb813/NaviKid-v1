@@ -39,7 +39,7 @@ export async function getSession(userId: string, token: string): Promise<unknown
       ]);
       return null;
     }
-    return row.data as unknown;
+  return row.data;
   } catch (error) {
     logger.error({ error }, 'sessionStore.getSession error');
     return null;

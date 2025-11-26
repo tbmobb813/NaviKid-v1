@@ -5,6 +5,7 @@ import websocket from '@fastify/websocket';
 import * as Sentry from '@sentry/node';
 import { config } from './config';
 import { logger } from './utils/logger';
+import { SocketLike } from './types';
 import db from './database';
 import redis from './database/redis';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
@@ -128,15 +129,7 @@ async function buildServer() {
   await fastify.register(offlineRoutes);
 
   // WebSocket route for real-time location updates
-  // @ts-ignore - websocket typing is provided by plugin, narrow common usage here
   fastify.get('/ws/locations', { websocket: true }, (connection, req) => {
-    type SocketLike = {
-      remoteAddress?: string;
-      send: (data: string) => void;
-      on: (event: string, cb: (...args: unknown[]) => void) => void;
-      close?: () => void;
-    };
-
     const sock = (connection as unknown as { socket: SocketLike }).socket;
     logger.info(
       {

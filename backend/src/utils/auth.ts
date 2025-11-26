@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { FastifyRequest } from 'fastify';
 import crypto from 'crypto';
 import { config } from '../config';
+import { JWTPayload } from '../types';
 
 /**
  * Hash a password using bcrypt
@@ -25,13 +26,7 @@ export function generateToken(bytes: number = 32): string {
 }
 
 /**
- * Generate JWT payload for a user
- */
-export interface JWTPayload {
-  userId: string;
-  email: string;
-  role: 'parent' | 'child';
-}
+/** Generate JWT payload for a user (uses canonical type from `../types`) */
 
 /**
  * Extract user from authenticated request

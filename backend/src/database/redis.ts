@@ -1,6 +1,8 @@
 import config from '../config';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
+import { getCtorFromModule } from '../utils/interop';
+import { RedisLike, InternalRedisClient } from '../types';
 
 // Allow disabling Redis in development/tests. When disabled we provide a
 // Postgres-backed session store fallback implemented in services/sessionStore.
@@ -22,25 +24,8 @@ type SessionStoreLike = {
 };
 const sessionStore = require('../services/sessionStore') as SessionStoreLike;
 
-type RedisLike = {
-  on: (event: string, cb: (...args: unknown[]) => void) => void;
-  get: (key: string) => Promise<string | null>;
-  setex: (key: string, expires: number, value: string) => Promise<void>;
-  set: (key: string, value: string) => Promise<void>;
-  del: (...keys: string[]) => Promise<void>;
-  keys: (pattern: string) => Promise<string[]>;
-  exists: (key: string) => Promise<number>;
-  ping: () => Promise<string>;
-  quit: () => Promise<void>;
-  // Optional methods provided by some redis clients
-  incr?: (key: string) => Promise<number>;
-  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
-  pipeline?: () => {
-    incr: (key: string) => void;
-    expire: (key: string, ttl: number) => void;
-    exec: () => Promise<Array<[unknown, unknown] | null>>;
-  };
-};
+// We reuse the canonical RedisLike runtime adapter from `types` for the
+// shape of the client we expose to the rest of the codebase.
 
 class DummyRedisClient {
   public getClient() {
@@ -89,8 +74,10 @@ class DummyRedisClient {
   }
 }
 
+// InternalRedisClient type is imported from `types` (stronger, non-optional methods)
+
 class RedisClient {
-  private client: RedisLike;
+  private client: InternalRedisClient;
   private static instance: RedisClient;
 
   private constructor() {
@@ -98,11 +85,8 @@ class RedisClient {
     // from being evaluated in environments where Redis is disabled.
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const IORedis: unknown = require('ioredis');
-      // Use unknown for the import then cast when constructing to avoid leaking `any`.
-      const RedisCtor = (
-        (IORedis as unknown as { default?: new (...args: unknown[]) => unknown }).default ??
-        (IORedis as unknown as new (...args: unknown[]) => unknown)
-      );
+    // Resolve constructor (CJS/ESM) using helper
+    const RedisCtor = getCtorFromModule(IORedis);
 
     // Initialize client and keep a typed wrapper exposing only the methods
     // we actually use in the codebase.
@@ -120,15 +104,15 @@ class RedisClient {
     // Cast the raw constructed client to our conservative RedisLike shape.
     const rawClient = raw as unknown as RedisLike;
     this.client = {
-      on: (event: string, cb: (...args: unknown[]) => void) => rawClient.on(event, cb),
-      get: (key: string) => rawClient.get(key),
-      setex: (key: string, expires: number, value: string) => rawClient.setex(key, expires, value),
-      set: (key: string, value: string) => rawClient.set(key, value),
-      del: (...keys: string[]) => rawClient.del(...keys),
-      keys: (pattern: string) => rawClient.keys(pattern),
-      exists: (key: string) => rawClient.exists(key),
-      ping: () => rawClient.ping(),
-      quit: () => rawClient.quit(),
+      on: (event: string, cb: (...args: unknown[]) => void) => rawClient.on!(event, cb),
+      get: (key: string) => rawClient.get!(key),
+      setex: (key: string, expires: number, value: string) => rawClient.setex!(key, expires, value),
+      set: (key: string, value: string) => rawClient.set!(key, value),
+      del: (...keys: string[]) => rawClient.del!(...keys),
+      keys: (pattern: string) => rawClient.keys!(pattern),
+      exists: (key: string) => rawClient.exists!(key),
+      ping: () => rawClient.ping!(),
+      quit: () => rawClient.quit!(),
       incr: rawClient.incr ? (key: string) => rawClient.incr!(key) : undefined,
       expire: rawClient.expire ? (key: string, ttl: number) => rawClient.expire!(key, ttl) : undefined,
       pipeline: rawClient.pipeline ? () => rawClient.pipeline!() : undefined,
@@ -174,7 +158,7 @@ class RedisClient {
     expiresIn: number
   ): Promise<void> {
     const key = `session:${userId}:${token}`;
-    await this.client.setex(key, expiresIn, JSON.stringify({ userId, token }));
+  await this.client.setex(key, expiresIn, JSON.stringify({ userId, token }));
   }
 
   public async getSession(userId: string, token: string): Promise<unknown | null> {
@@ -185,7 +169,7 @@ class RedisClient {
 
   public async deleteSession(userId: string, token: string): Promise<void> {
     const key = `session:${userId}:${token}`;
-    await this.client.del(key);
+  await this.client.del(key);
   }
 
   public async deleteAllUserSessions(userId: string): Promise<void> {
@@ -203,7 +187,7 @@ class RedisClient {
   }
 
   public async set(key: string, value: unknown, expiresIn?: number): Promise<void> {
-    const serialized = JSON.stringify(value as unknown);
+  const serialized = JSON.stringify(value);
     if (expiresIn) {
       await this.client.setex(key, expiresIn, serialized);
     } else {

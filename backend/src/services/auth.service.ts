@@ -115,7 +115,8 @@ export class AuthService {
       logger.info({ userId: user.id, email }, 'User logged in successfully');
 
       // Remove sensitive data without mutating the original DB row
-      const { password_hash, salt, ...userWithoutSensitive } = user as unknown as Record<string, unknown>;
+      const { password_hash, salt, ...userWithoutSensitive } = user;
+      // userWithoutSensitive is inferred as Omit<User, 'password_hash' | 'salt'>
 
       return {
         user: userWithoutSensitive as Omit<User, 'password_hash' | 'salt'>,

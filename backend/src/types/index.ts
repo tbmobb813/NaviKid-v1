@@ -122,6 +122,51 @@ export interface JWTPayload {
   role: UserRole;
 }
 
+export interface SocketLike {
+  remoteAddress?: string;
+  send: (data: string) => void;
+  on: (event: string, cb: (...args: unknown[]) => void) => void;
+  close?: () => void;
+}
+
+export interface RedisLike {
+  on?: (event: string, cb: (...args: unknown[]) => void) => void;
+  get?: (key: string) => Promise<string | null>;
+  setex?: (key: string, ttl: number, val: string) => Promise<void>;
+  set?: (key: string, val: string) => Promise<void>;
+  del?: (...keys: string[]) => Promise<void>;
+  keys?: (pattern: string) => Promise<string[]>;
+  exists?: (key: string) => Promise<number>;
+  ping?: () => Promise<string>;
+  quit?: () => Promise<void>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  incr?: (key: string) => Promise<number>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+}
+
+export interface InternalRedisClient {
+  on: (event: string, cb: (...args: unknown[]) => void) => void;
+  get: (key: string) => Promise<string | null>;
+  setex: (key: string, expires: number, val: string) => Promise<void>;
+  set: (key: string, val: string) => Promise<void>;
+  del: (...keys: string[]) => Promise<void>;
+  keys: (pattern: string) => Promise<string[]>;
+  exists: (key: string) => Promise<number>;
+  ping: () => Promise<string>;
+  quit: () => Promise<void>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  incr?: (key: string) => Promise<number>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
