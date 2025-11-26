@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const semver = require('semver');
-const fs = require('fs');
 const path = require('path');
 
 const pkg = (() => {
