@@ -6,7 +6,7 @@ import {
   batchStoreLocationsSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, JWTPayload } from '../types';
+import { ApiResponse } from '../types';
 import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
