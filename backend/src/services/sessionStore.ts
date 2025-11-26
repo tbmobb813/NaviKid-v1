@@ -39,7 +39,7 @@ export async function getSession(userId: string, token: string): Promise<unknown
       ]);
       return null;
     }
-  return row.data;
+    return row.data;
   } catch (error) {
     logger.error({ error }, 'sessionStore.getSession error');
     return null;
@@ -67,7 +67,11 @@ export async function get(_key: string): Promise<unknown | null> {
   return null;
 }
 
-export async function set(_key: string, _value: unknown, _expiresIn?: number): Promise<void> {
+export async function set(
+  _key: string,
+  _value: unknown,
+  _expiresIn?: number
+): Promise<void> {
   // no-op
 }
 

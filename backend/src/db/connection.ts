@@ -92,7 +92,8 @@ export function getPool(): Pool {
               : undefined;
 
             // Ensure ssl.servername is set so TLS verification uses the original hostname
-            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
+            if (!poolOptions.ssl)
+              poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
             const ssl = poolOptions.ssl as SafeSSL;
             ssl.servername = hostname;
             // Remove connectionString so pg uses the explicit host instead

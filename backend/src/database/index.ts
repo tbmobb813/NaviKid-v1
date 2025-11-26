@@ -85,7 +85,8 @@ class Database {
             poolOptions.database = parsed.pathname
               ? parsed.pathname.replace(/\//, '')
               : undefined;
-            if (!poolOptions.ssl) poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
+            if (!poolOptions.ssl)
+              poolOptions.ssl = { rejectUnauthorized: false } as SafeSSL;
             const ssl = poolOptions.ssl as SafeSSL;
             ssl.servername = hostname;
             delete poolOptions.connectionString;
@@ -159,8 +160,8 @@ class Database {
       logger.debug({ text, duration, rows: result.rowCount }, 'Query executed');
       return result;
     } catch (error) {
-    // If the server reports it does not support SSL, retry once with SSL disabled.
-  const msg = formatError(error).message || String(error);
+      // If the server reports it does not support SSL, retry once with SSL disabled.
+      const msg = formatError(error).message || String(error);
       if (typeof msg === 'string' && msg.includes('does not support SSL')) {
         logger.info(
           { text },

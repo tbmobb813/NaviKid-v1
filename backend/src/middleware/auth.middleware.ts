@@ -32,7 +32,7 @@ export async function authMiddleware(
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
     // Verify token
-  const payload = authService.verifyJWT(token, config.jwt.accessSecret);
+    const payload = authService.verifyJWT(token, config.jwt.accessSecret);
 
     // Attach user to request (typed via Fastify declaration merge)
     request.user = payload;
@@ -62,7 +62,7 @@ export async function optionalAuthMiddleware(
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
-  const payload = authService.verifyJWT(token, config.jwt.accessSecret);
+      const payload = authService.verifyJWT(token, config.jwt.accessSecret);
       request.user = payload;
     }
   } catch (error) {

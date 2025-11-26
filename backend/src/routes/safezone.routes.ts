@@ -24,7 +24,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
 
         const safeZones = await safeZoneService.getSafeZones(userId);
 
@@ -70,8 +70,11 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
-        const { latitude, longitude } = request.body as { latitude: number; longitude: number };
+        const { userId } = getAuthUser(request);
+        const { latitude, longitude } = request.body as {
+          latitude: number;
+          longitude: number;
+        };
 
         const result = await safeZoneService.checkLocationInSafeZones(
           userId,
@@ -113,10 +116,10 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
-  const safeZone = await safeZoneService.getSafeZoneById(userId, id);
+        const safeZone = await safeZoneService.getSafeZoneById(userId, id);
 
         if (!safeZone) {
           return reply.status(404).send({
@@ -162,14 +165,13 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const { name, centerLatitude, centerLongitude, radius, type } =
-          request.body as {
-            name: string;
-            centerLatitude: number;
-            centerLongitude: number;
-            radius: number;
-            type: SafeZoneType;
-          };
+        const { name, centerLatitude, centerLongitude, radius, type } = request.body as {
+          name: string;
+          centerLatitude: number;
+          centerLongitude: number;
+          radius: number;
+          type: SafeZoneType;
+        };
 
         const safeZone = await safeZoneService.createSafeZone(
           getAuthUser(request).userId,
@@ -214,7 +216,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
         const updates = request.body as Partial<{
           name: string;
@@ -270,7 +272,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await safeZoneService.deleteSafeZone(userId, id);
@@ -307,5 +309,4 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
       }
     }
   );
- 
 }

@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyRequest,
+  FastifyReply,
+  RouteShorthandOptions,
+} from 'fastify';
 import { z } from 'zod';
 import { query } from '../db/connection';
 import { getAuthUser } from '../utils/auth';
@@ -24,140 +29,134 @@ const getLocationsQuerySchema = z.object({
 });
 
 export async function locationRoutes(server: FastifyInstance) {
-  const authOpts: RouteShorthandOptions = { preHandler: [server.authenticate] } as RouteShorthandOptions;
+  const authOpts: RouteShorthandOptions = {
+    preHandler: [server.authenticate],
+  } as RouteShorthandOptions;
   /**
    * POST /api/locations
    * Store a location update
    */
-  server.post(
-    '/',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
-      const body = createLocationSchema.parse(request.body);
+  server.post('/', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
+    const body = createLocationSchema.parse(request.body);
 
-      const timestamp = body.timestamp ? new Date(body.timestamp) : new Date();
+    const timestamp = body.timestamp ? new Date(body.timestamp) : new Date();
 
-      const result = await query(
-        `INSERT INTO location_history
+    const result = await query(
+      `INSERT INTO location_history
        (user_id, latitude, longitude, accuracy, altitude, altitude_accuracy, heading, speed, timestamp)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING id, user_id, latitude, longitude, timestamp`,
-        [
-          user.userId,
-          body.latitude,
-          body.longitude,
-          body.accuracy || null,
-          body.altitude || null,
-          body.altitudeAccuracy || null,
-          body.heading || null,
-          body.speed || null,
-          timestamp,
-        ]
-      );
+      [
+        user.userId,
+        body.latitude,
+        body.longitude,
+        body.accuracy || null,
+        body.altitude || null,
+        body.altitudeAccuracy || null,
+        body.heading || null,
+        body.speed || null,
+        timestamp,
+      ]
+    );
 
-      const location = result.rows[0];
+    const location = result.rows[0];
 
-      reply.code(201).send({
-        id: location.id,
-        userId: location.user_id,
-        latitude: location.latitude,
-        longitude: location.longitude,
-        timestamp: location.timestamp,
-      });
-    }
-  );
+    reply.code(201).send({
+      id: location.id,
+      userId: location.user_id,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      timestamp: location.timestamp,
+    });
+  });
 
   /**
    * GET /api/locations
    * Get location history
    */
-  server.get(
-    '/',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
-      const query_params = getLocationsQuerySchema.parse(request.query);
+  server.get('/', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
+    const query_params = getLocationsQuerySchema.parse(request.query);
 
-      // Determine which user's locations to fetch
-      let targetUserId = user.userId;
+    // Determine which user's locations to fetch
+    let targetUserId = user.userId;
 
-      if (query_params.userId) {
-        // Parent trying to access child's location
-        if (user.role !== 'parent') {
-          return reply.forbidden("Only parents can access other users' locations");
-        }
-
-        // Verify parent-child relationship
-        const relationshipCheck = await query(
-          "SELECT id FROM user_relationships WHERE parent_id = $1 AND child_id = $2 AND status = 'active'",
-          [user.userId, query_params.userId]
-        );
-
-        if (relationshipCheck.rowCount === 0) {
-          return reply.forbidden("You do not have access to this user's locations");
-        }
-
-        targetUserId = query_params.userId;
+    if (query_params.userId) {
+      // Parent trying to access child's location
+      if (user.role !== 'parent') {
+        return reply.forbidden("Only parents can access other users' locations");
       }
 
-      // Build query
-  const conditions: string[] = ['user_id = $1'];
-  const values: unknown[] = [targetUserId];
-      let paramCount = 2;
+      // Verify parent-child relationship
+      const relationshipCheck = await query(
+        "SELECT id FROM user_relationships WHERE parent_id = $1 AND child_id = $2 AND status = 'active'",
+        [user.userId, query_params.userId]
+      );
 
-      if (query_params.startDate) {
-        conditions.push(`timestamp >= $${paramCount++}`);
-        values.push(new Date(query_params.startDate));
+      if (relationshipCheck.rowCount === 0) {
+        return reply.forbidden("You do not have access to this user's locations");
       }
 
-      if (query_params.endDate) {
-        conditions.push(`timestamp <= $${paramCount++}`);
-        values.push(new Date(query_params.endDate));
-      }
+      targetUserId = query_params.userId;
+    }
 
-      values.push(query_params.limit);
-      values.push(query_params.offset);
+    // Build query
+    const conditions: string[] = ['user_id = $1'];
+    const values: unknown[] = [targetUserId];
+    let paramCount = 2;
 
-      const result = await query(
-        `SELECT id, user_id, latitude, longitude, accuracy, altitude,
+    if (query_params.startDate) {
+      conditions.push(`timestamp >= $${paramCount++}`);
+      values.push(new Date(query_params.startDate));
+    }
+
+    if (query_params.endDate) {
+      conditions.push(`timestamp <= $${paramCount++}`);
+      values.push(new Date(query_params.endDate));
+    }
+
+    values.push(query_params.limit);
+    values.push(query_params.offset);
+
+    const result = await query(
+      `SELECT id, user_id, latitude, longitude, accuracy, altitude,
               altitude_accuracy, heading, speed, timestamp, created_at
        FROM location_history
        WHERE ${conditions.join(' AND ')}
        ORDER BY timestamp DESC
        LIMIT $${paramCount++} OFFSET $${paramCount}`,
-        values
-      );
+      values
+    );
 
-      // Get total count
-      const countResult = await query(
-        `SELECT COUNT(*) as total
+    // Get total count
+    const countResult = await query(
+      `SELECT COUNT(*) as total
        FROM location_history
        WHERE ${conditions.join(' AND ')}`,
-        values.slice(0, -2)
-      );
+      values.slice(0, -2)
+    );
 
-      reply.send({
-        locations: result.rows.map((row) => ({
-          id: row.id,
-          userId: row.user_id,
-          latitude: row.latitude,
-          longitude: row.longitude,
-          accuracy: row.accuracy,
-          altitude: row.altitude,
-          altitudeAccuracy: row.altitude_accuracy,
-          heading: row.heading,
-          speed: row.speed,
-          timestamp: row.timestamp,
-        })),
-        pagination: {
-          total: parseInt(countResult.rows[0].total),
-          limit: query_params.limit,
-          offset: query_params.offset,
-        },
-      });
-    }
-  );
+    reply.send({
+      locations: result.rows.map((row) => ({
+        id: row.id,
+        userId: row.user_id,
+        latitude: row.latitude,
+        longitude: row.longitude,
+        accuracy: row.accuracy,
+        altitude: row.altitude,
+        altitudeAccuracy: row.altitude_accuracy,
+        heading: row.heading,
+        speed: row.speed,
+        timestamp: row.timestamp,
+      })),
+      pagination: {
+        total: parseInt(countResult.rows[0].total),
+        limit: query_params.limit,
+        offset: query_params.offset,
+      },
+    });
+  });
 
   /**
    * GET /api/locations/latest/:userId?
@@ -170,8 +169,8 @@ export async function locationRoutes(server: FastifyInstance) {
       const user = getAuthUser(request);
       let targetUserId = user.userId;
 
-  const params = request.params as { userId?: string };
-  if (params.userId) {
+      const params = request.params as { userId?: string };
+      if (params.userId) {
         if (user.role !== 'parent') {
           return reply.forbidden("Only parents can access other users' locations");
         }
@@ -186,7 +185,7 @@ export async function locationRoutes(server: FastifyInstance) {
           return reply.forbidden("You do not have access to this user's location");
         }
 
-  targetUserId = params.userId as string;
+        targetUserId = params.userId as string;
       }
 
       const result = await query(
@@ -229,7 +228,7 @@ export async function locationRoutes(server: FastifyInstance) {
     authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-  const { id } = request.params as { id: string };
+      const { id } = request.params as { id: string };
 
       const result = await query(
         'DELETE FROM location_history WHERE id = $1 AND user_id = $2 RETURNING id',
@@ -250,20 +249,16 @@ export async function locationRoutes(server: FastifyInstance) {
    * DELETE /api/locations
    * Delete all location history for current user
    */
-  server.delete(
-    '/',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
+  server.delete('/', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
 
-      const result = await query('DELETE FROM location_history WHERE user_id = $1', [
-        user.userId,
-      ]);
+    const result = await query('DELETE FROM location_history WHERE user_id = $1', [
+      user.userId,
+    ]);
 
-      reply.send({
-        message: 'Location history deleted successfully',
-        count: result.rowCount,
-      });
-    }
-  );
+    reply.send({
+      message: 'Location history deleted successfully',
+      count: result.rowCount,
+    });
+  });
 }

@@ -162,10 +162,10 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
-  const refreshToken = request.body as { refreshToken: string };
+        const { userId } = getAuthUser(request);
+        const refreshToken = request.body as { refreshToken: string };
 
-  await authService.logout(userId, refreshToken.refreshToken);
+        await authService.logout(userId, refreshToken.refreshToken);
 
         const response: ApiResponse = {
           success: true,
@@ -201,7 +201,7 @@ export async function authRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { oldPassword, newPassword } = request.body as {
           oldPassword: string;
           newPassword: string;

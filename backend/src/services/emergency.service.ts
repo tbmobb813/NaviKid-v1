@@ -84,7 +84,7 @@ export class EmergencyService {
   ): Promise<EmergencyContact | null> {
     try {
       const fields: string[] = [];
-  const values: unknown[] = [];
+      const values: unknown[] = [];
       let paramIndex = 1;
 
       if (updates.name !== undefined) {

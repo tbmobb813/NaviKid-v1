@@ -23,15 +23,14 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
-        const { latitude, longitude, accuracy, timestamp, context } =
-          request.body as {
-            latitude: number;
-            longitude: number;
-            accuracy?: number;
-            timestamp: string;
-            context?: Record<string, unknown>;
-          };
+        const { userId } = getAuthUser(request);
+        const { latitude, longitude, accuracy, timestamp, context } = request.body as {
+          latitude: number;
+          longitude: number;
+          accuracy?: number;
+          timestamp: string;
+          context?: Record<string, unknown>;
+        };
 
         const location = await locationService.storeLocation(
           userId,
@@ -76,13 +75,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
-  const query = request.query as Record<string, string | undefined>;
+        const { userId } = getAuthUser(request);
+        const query = request.query as Record<string, string | undefined>;
 
-  const startDate = query.startDate ? new Date(query.startDate) : undefined;
-  const endDate = query.endDate ? new Date(query.endDate) : undefined;
-  const limit = query.limit ? parseInt(query.limit) : 100;
-  const offset = query.offset ? parseInt(query.offset) : 0;
+        const startDate = query.startDate ? new Date(query.startDate) : undefined;
+        const endDate = query.endDate ? new Date(query.endDate) : undefined;
+        const limit = query.limit ? parseInt(query.limit) : 100;
+        const offset = query.offset ? parseInt(query.offset) : 0;
 
         const { locations, total } = await locationService.getLocationHistory(
           userId,
@@ -134,7 +133,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
 
         const location = await locationService.getCurrentLocation(userId);
 
@@ -182,7 +181,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await locationService.deleteLocation(userId, id);
@@ -231,7 +230,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { locations } = request.body as {
           locations: Array<{
             latitude: number;

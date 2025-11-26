@@ -10,7 +10,12 @@ const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
 
 // Lazy require to avoid circular deps during module loading
 type SessionStoreLike = {
-  setSession: (userId: string, token: string, expiresIn: number, data?: unknown) => Promise<void>;
+  setSession: (
+    userId: string,
+    token: string,
+    expiresIn: number,
+    data?: unknown
+  ) => Promise<void>;
   getSession: (userId: string, token: string) => Promise<unknown | null>;
   deleteSession: (userId: string, token: string) => Promise<void>;
   deleteAllUserSessions: (userId: string) => Promise<void>;
@@ -31,7 +36,12 @@ class DummyRedisClient {
     return null;
   }
 
-  public async setSession(userId: string, token: string, expiresIn: number, data?: unknown) {
+  public async setSession(
+    userId: string,
+    token: string,
+    expiresIn: number,
+    data?: unknown
+  ) {
     return sessionStore.setSession(userId, token, expiresIn, data);
   }
 
@@ -80,9 +90,9 @@ class RedisClient {
   private static instance: RedisClient;
 
   private constructor() {
-  // Lazy-load ioredis only when Redis is enabled to prevent the module
-  // from being evaluated in environments where Redis is disabled.
-  const IORedis: unknown = require('ioredis');
+    // Lazy-load ioredis only when Redis is enabled to prevent the module
+    // from being evaluated in environments where Redis is disabled.
+    const IORedis: unknown = require('ioredis');
     // Resolve constructor (CJS/ESM) using helper
     const RedisCtor = getCtorFromModule(IORedis);
 
@@ -104,7 +114,8 @@ class RedisClient {
     this.client = {
       on: (event: string, cb: (...args: unknown[]) => void) => rawClient.on!(event, cb),
       get: (key: string) => rawClient.get!(key),
-      setex: (key: string, expires: number, value: string) => rawClient.setex!(key, expires, value),
+      setex: (key: string, expires: number, value: string) =>
+        rawClient.setex!(key, expires, value),
       set: (key: string, value: string) => rawClient.set!(key, value),
       del: (...keys: string[]) => rawClient.del!(...keys),
       keys: (pattern: string) => rawClient.keys!(pattern),
@@ -112,7 +123,9 @@ class RedisClient {
       ping: () => rawClient.ping!(),
       quit: () => rawClient.quit!(),
       incr: rawClient.incr ? (key: string) => rawClient.incr!(key) : undefined,
-      expire: rawClient.expire ? (key: string, ttl: number) => rawClient.expire!(key, ttl) : undefined,
+      expire: rawClient.expire
+        ? (key: string, ttl: number) => rawClient.expire!(key, ttl)
+        : undefined,
       pipeline: rawClient.pipeline ? () => rawClient.pipeline!() : undefined,
     };
 
@@ -156,7 +169,7 @@ class RedisClient {
     expiresIn: number
   ): Promise<void> {
     const key = `session:${userId}:${token}`;
-  await this.client.setex(key, expiresIn, JSON.stringify({ userId, token }));
+    await this.client.setex(key, expiresIn, JSON.stringify({ userId, token }));
   }
 
   public async getSession(userId: string, token: string): Promise<unknown | null> {
@@ -167,7 +180,7 @@ class RedisClient {
 
   public async deleteSession(userId: string, token: string): Promise<void> {
     const key = `session:${userId}:${token}`;
-  await this.client.del(key);
+    await this.client.del(key);
   }
 
   public async deleteAllUserSessions(userId: string): Promise<void> {
@@ -185,7 +198,7 @@ class RedisClient {
   }
 
   public async set(key: string, value: unknown, expiresIn?: number): Promise<void> {
-  const serialized = JSON.stringify(value);
+    const serialized = JSON.stringify(value);
     if (expiresIn) {
       await this.client.setex(key, expiresIn, serialized);
     } else {

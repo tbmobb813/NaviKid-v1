@@ -1,4 +1,3 @@
-
 describe('Redis ctor resolution (CJS/ESM shapes)', () => {
   const originalEnv = process.env.REDIS_ENABLED;
 
@@ -12,8 +11,8 @@ describe('Redis ctor resolution (CJS/ESM shapes)', () => {
   test('constructs when module exports default (ESM transpiled)', async () => {
     process.env.REDIS_ENABLED = 'true';
     // Provide minimal required env for config parsing
-  process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET ?? 'A'.repeat(32);
-  process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? 'B'.repeat(32);
+    process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET ?? 'A'.repeat(32);
+    process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? 'B'.repeat(32);
 
     // Mock ioredis to export a default class
     const FakeRedis = class {
@@ -59,8 +58,8 @@ describe('Redis ctor resolution (CJS/ESM shapes)', () => {
   test('constructs when module exports constructor directly (CJS)', async () => {
     process.env.REDIS_ENABLED = 'true';
     // Provide minimal required env for config parsing
-  process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET ?? 'A'.repeat(32);
-  process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? 'B'.repeat(32);
+    process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET ?? 'A'.repeat(32);
+    process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET ?? 'B'.repeat(32);
 
     const FakeRedis = class {
       public opts: any;

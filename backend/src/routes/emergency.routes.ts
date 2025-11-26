@@ -24,7 +24,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
 
         const contacts = await emergencyService.getEmergencyContacts(userId);
 
@@ -62,7 +62,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { name, phoneNumber, email, relationship } = request.body as {
           name: string;
           phoneNumber: string;
@@ -112,7 +112,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
         const updates = request.body as Partial<{
           name: string;
@@ -171,7 +171,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await emergencyService.deleteEmergencyContact(userId, id);
@@ -220,7 +220,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { triggerReason, locationSnapshot } = request.body as {
           triggerReason: EmergencyTriggerReason;
           locationSnapshot: { latitude: number; longitude: number; timestamp: string };
@@ -274,11 +274,11 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
-  const query = request.query as { limit?: string; offset?: string };
+        const { userId } = getAuthUser(request);
+        const query = request.query as { limit?: string; offset?: string };
 
-  const limit = query.limit ? parseInt(query.limit, 10) : 50;
-  const offset = query.offset ? parseInt(query.offset, 10) : 0;
+        const limit = query.limit ? parseInt(query.limit, 10) : 50;
+        const offset = query.offset ? parseInt(query.offset, 10) : 0;
 
         const { alerts, total } = await emergencyService.getEmergencyAlertHistory(
           userId,
@@ -328,7 +328,7 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const alert = await emergencyService.acknowledgeAlert(userId, id);

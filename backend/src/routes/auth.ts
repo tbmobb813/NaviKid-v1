@@ -157,7 +157,7 @@ export async function authRoutes(server: FastifyInstance) {
         rateLimit: {
           max: 5, // max 5 requests per time window per IP
           timeWindow: 60 * 1000, // 1 minute
-          errorResponseBuilder: function(_req, _context) {
+          errorResponseBuilder: function (_req, _context) {
             // Custom error message
             return { error: 'Too many login attempts. Please try again later.' };
           },
@@ -298,7 +298,7 @@ export async function authRoutes(server: FastifyInstance) {
   server.post(
     '/logout',
     {
-  preHandler: [server.authenticate],
+      preHandler: [server.authenticate],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const body = refreshTokenSchema.parse(request.body);
@@ -484,7 +484,7 @@ export async function authRoutes(server: FastifyInstance) {
   server.get(
     '/me',
     {
-  preHandler: [server.authenticate],
+      preHandler: [server.authenticate],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);

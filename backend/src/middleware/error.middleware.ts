@@ -75,14 +75,17 @@ export function validationErrorHandler(
   let details: unknown = undefined;
 
   if (typeof error === 'object' && error !== null) {
-  const errObj = error as { message?: string; validation?: unknown; errors?: unknown };
-  message = errObj.message || message;
-  details = errObj.validation ?? errObj.errors ?? undefined;
+    const errObj = error as { message?: string; validation?: unknown; errors?: unknown };
+    message = errObj.message || message;
+    details = errObj.validation ?? errObj.errors ?? undefined;
   } else if (typeof error === 'string') {
     message = error;
   }
 
-  logger.warn({ message, details, method: request.method, url: request.url }, 'Validation error');
+  logger.warn(
+    { message, details, method: request.method, url: request.url },
+    'Validation error'
+  );
 
   const response: ApiResponse = {
     success: false,

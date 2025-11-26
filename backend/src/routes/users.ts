@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyRequest, FastifyReply, RouteShorthandOptions } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyRequest,
+  FastifyReply,
+  RouteShorthandOptions,
+} from 'fastify';
 import { z } from 'zod';
 import { query, transaction } from '../db/connection';
 import { getAuthUser, hashPassword, validatePassword } from '../utils/auth';
@@ -20,107 +25,101 @@ const linkChildSchema = z.object({
 });
 
 export async function userRoutes(server: FastifyInstance) {
-  const authOpts: RouteShorthandOptions = { preHandler: [server.authenticate] } as RouteShorthandOptions;
+  const authOpts: RouteShorthandOptions = {
+    preHandler: [server.authenticate],
+  } as RouteShorthandOptions;
   /**
    * GET /api/users/me
    * Get current user profile
    */
-  server.get(
-    '/me',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
+  server.get('/me', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
 
-      const result = await query(
-        `SELECT id, email, role, first_name, last_name, phone_number,
+    const result = await query(
+      `SELECT id, email, role, first_name, last_name, phone_number,
               email_verified, is_active, created_at, updated_at, last_login_at
        FROM users
        WHERE id = $1`,
-        [user.userId]
-      );
+      [user.userId]
+    );
 
-      if (result.rowCount === 0) {
-        return reply.notFound('User not found');
-      }
+    if (result.rowCount === 0) {
+      return reply.notFound('User not found');
+    }
 
-      const userData = result.rows[0];
+    const userData = result.rows[0];
 
-      reply.send({
+    reply.send({
+      id: userData.id,
+      email: userData.email,
+      role: userData.role,
+      firstName: userData.first_name,
+      lastName: userData.last_name,
+      phoneNumber: userData.phone_number,
+      emailVerified: userData.email_verified,
+      isActive: userData.is_active,
+      createdAt: userData.created_at,
+      updatedAt: userData.updated_at,
+      lastLoginAt: userData.last_login_at,
+    });
+  });
+
+  /**
+   * PATCH /api/users/me
+   * Update current user profile
+   */
+  server.patch('/me', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
+    const body = updateProfileSchema.parse(request.body);
+
+    const updates: string[] = [];
+    const values: unknown[] = [];
+    let paramCount = 1;
+
+    if (body.firstName !== undefined) {
+      updates.push(`first_name = $${paramCount++}`);
+      values.push(body.firstName);
+    }
+
+    if (body.lastName !== undefined) {
+      updates.push(`last_name = $${paramCount++}`);
+      values.push(body.lastName);
+    }
+
+    if (body.phoneNumber !== undefined) {
+      updates.push(`phone_number = $${paramCount++}`);
+      values.push(body.phoneNumber);
+    }
+
+    if (updates.length === 0) {
+      return reply.badRequest('No fields to update');
+    }
+
+    values.push(user.userId);
+
+    const result = await query(
+      `UPDATE users
+       SET ${updates.join(', ')}, updated_at = NOW()
+       WHERE id = $${paramCount}
+       RETURNING id, email, role, first_name, last_name, phone_number, updated_at`,
+      values
+    );
+
+    const userData = result.rows[0];
+
+    reply.send({
+      message: 'Profile updated successfully',
+      user: {
         id: userData.id,
         email: userData.email,
         role: userData.role,
         firstName: userData.first_name,
         lastName: userData.last_name,
         phoneNumber: userData.phone_number,
-        emailVerified: userData.email_verified,
-        isActive: userData.is_active,
-        createdAt: userData.created_at,
         updatedAt: userData.updated_at,
-        lastLoginAt: userData.last_login_at,
-      });
-    }
-  );
-
-  /**
-   * PATCH /api/users/me
-   * Update current user profile
-   */
-  server.patch(
-    '/me',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
-      const body = updateProfileSchema.parse(request.body);
-
-      const updates: string[] = [];
-  const values: unknown[] = [];
-      let paramCount = 1;
-
-      if (body.firstName !== undefined) {
-        updates.push(`first_name = $${paramCount++}`);
-        values.push(body.firstName);
-      }
-
-      if (body.lastName !== undefined) {
-        updates.push(`last_name = $${paramCount++}`);
-        values.push(body.lastName);
-      }
-
-      if (body.phoneNumber !== undefined) {
-        updates.push(`phone_number = $${paramCount++}`);
-        values.push(body.phoneNumber);
-      }
-
-      if (updates.length === 0) {
-        return reply.badRequest('No fields to update');
-      }
-
-      values.push(user.userId);
-
-      const result = await query(
-        `UPDATE users
-       SET ${updates.join(', ')}, updated_at = NOW()
-       WHERE id = $${paramCount}
-       RETURNING id, email, role, first_name, last_name, phone_number, updated_at`,
-        values
-      );
-
-      const userData = result.rows[0];
-
-      reply.send({
-        message: 'Profile updated successfully',
-        user: {
-          id: userData.id,
-          email: userData.email,
-          role: userData.role,
-          firstName: userData.first_name,
-          lastName: userData.last_name,
-          phoneNumber: userData.phone_number,
-          updatedAt: userData.updated_at,
-        },
-      });
-    }
-  );
+      },
+    });
+  });
 
   /**
    * POST /api/users/change-password
@@ -184,20 +183,15 @@ export async function userRoutes(server: FastifyInstance) {
    * DELETE /api/users/me
    * Delete user account
    */
-  server.delete(
-    '/me',
-    authOpts,
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const user = getAuthUser(request);
+  server.delete('/me', authOpts, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = getAuthUser(request);
 
-      await query(
-        'UPDATE users SET is_active = FALSE, updated_at = NOW() WHERE id = $1',
-        [user.userId]
-      );
+    await query('UPDATE users SET is_active = FALSE, updated_at = NOW() WHERE id = $1', [
+      user.userId,
+    ]);
 
-      reply.send({ message: 'Account deactivated successfully' });
-    }
-  );
+    reply.send({ message: 'Account deactivated successfully' });
+  });
 
   /**
    * GET /api/users/children
@@ -348,7 +342,7 @@ export async function userRoutes(server: FastifyInstance) {
     authOpts,
     async (request: FastifyRequest, reply: FastifyReply) => {
       const user = getAuthUser(request);
-  const { childId } = request.params as { childId: string };
+      const { childId } = request.params as { childId: string };
 
       if (user.role !== 'parent') {
         return reply.forbidden('Only parents can unlink children');

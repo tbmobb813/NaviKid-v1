@@ -77,15 +77,18 @@ export async function buildServer() {
   });
 
   // Add JWT verification decorator
-  server.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
-    try {
-      await request.jwtVerify();
-    } catch (err: unknown) {
-      reply
-        .code(401)
-        .send({ error: 'Unauthorized', message: 'Invalid or expired token' });
+  server.decorate(
+    'authenticate',
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      try {
+        await request.jwtVerify();
+      } catch (err: unknown) {
+        reply
+          .code(401)
+          .send({ error: 'Unauthorized', message: 'Invalid or expired token' });
+      }
     }
-  });
+  );
 
   // Global error handler
   server.setErrorHandler((error, request, reply) => {

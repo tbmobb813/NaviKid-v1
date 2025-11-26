@@ -141,7 +141,8 @@ async function buildServer() {
 
     sock.on('message', (message: unknown) => {
       try {
-        const msgStr = typeof message === 'string' ? message : message?.toString?.() ?? '';
+        const msgStr =
+          typeof message === 'string' ? message : (message?.toString?.() ?? '');
         const data = JSON.parse(msgStr);
         logger.debug({ data }, 'WebSocket message received');
 

@@ -19,9 +19,9 @@ export function getRedis(): RedisLike | null {
   }
 
   if (!redis) {
-  // Lazy-load ioredis only when Redis is enabled to avoid loading the
-  // module (and any native deps) in environments where Redis is disabled.
-  const IORedis: unknown = require('ioredis');
+    // Lazy-load ioredis only when Redis is enabled to avoid loading the
+    // module (and any native deps) in environments where Redis is disabled.
+    const IORedis: unknown = require('ioredis');
 
     // Resolve constructor in a single helper to support CJS/ESM shapes.
     const RedisCtor = getCtorFromModule(IORedis);
@@ -70,11 +70,11 @@ export async function closeRedis(): Promise<void> {
     return;
   }
 
-    if (redis) {
-  await (redis as RedisLike).quit?.();
-      redis = null;
-      logger.info('Redis connection closed');
-    }
+  if (redis) {
+    await (redis as RedisLike).quit?.();
+    redis = null;
+    logger.info('Redis connection closed');
+  }
 }
 
 /**
@@ -94,7 +94,7 @@ export async function checkRedisConnection(): Promise<boolean> {
   }
 
   try {
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     const pong = await r.ping?.();
     logger.info({ pong }, 'Redis connection verified');
     return pong === 'PONG';
@@ -112,7 +112,7 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.set(key, value, ttl);
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     const serialized = JSON.stringify(value);
     if (ttl) {
       await r.setex?.(key, ttl, serialized);
@@ -125,7 +125,7 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.get(key);
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     const value = await r.get?.(key);
     if (!value) return null;
     try {
@@ -139,7 +139,7 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.delete(key);
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     await r.del?.(key);
   },
 
@@ -147,7 +147,7 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return sessionStore.exists(key);
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     const result = await r.exists?.(key);
     return result === 1;
   },
@@ -157,7 +157,7 @@ export const cache = {
       // sessionStore doesn't support expire - noop
       return;
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     await r.expire?.(key, ttl as number);
   },
 
@@ -166,7 +166,7 @@ export const cache = {
       // sessionStore can't atomic increment; fallback to 1
       return 1;
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     return (await r.incr?.(key)) as number;
   },
 
@@ -174,7 +174,7 @@ export const cache = {
     if (!REDIS_ENABLED) {
       return 1;
     }
-  const r = getRedis() as RedisLike;
+    const r = getRedis() as RedisLike;
     const pipeline = r.pipeline?.();
     pipeline?.incr(key);
     pipeline?.expire(key, ttl);

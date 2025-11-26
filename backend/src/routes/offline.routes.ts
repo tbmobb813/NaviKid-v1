@@ -19,9 +19,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
         const { actions } = request.body as {
-          actions: Array<{ actionType: string; data: Record<string, unknown>; timestamp: string }>;
+          actions: Array<{
+            actionType: string;
+            data: Record<string, unknown>;
+            timestamp: string;
+          }>;
         };
 
         const processedActions = actions.map((action) => ({
@@ -70,7 +74,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-  const { userId } = getAuthUser(request);
+        const { userId } = getAuthUser(request);
 
         const pendingActions = await offlineService.getPendingOfflineActions(userId);
 
