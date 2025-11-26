@@ -8,7 +8,7 @@ import {
   refreshTokenSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, UserRole, JWTPayload } from '../types';
+import { ApiResponse, UserRole } from '../types';
 import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
