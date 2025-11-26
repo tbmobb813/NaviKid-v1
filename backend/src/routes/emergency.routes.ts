@@ -7,7 +7,7 @@ import {
   triggerEmergencyAlertSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, EmergencyTriggerReason, JWTPayload } from '../types';
+import { ApiResponse, EmergencyTriggerReason } from '../types';
 import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
