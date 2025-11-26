@@ -5,9 +5,7 @@
  */
 export function getCtorFromModule<T = unknown>(mod: unknown): new (...args: unknown[]) => T {
   // keep the `any` escape in one small helper
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const maybeDefault = (mod as any)?.default;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ctor = maybeDefault ?? (mod as any);
   if (typeof ctor !== 'function') {
     throw new Error('Module does not export a constructor');

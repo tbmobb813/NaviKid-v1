@@ -6,7 +6,6 @@ import { RedisLike } from '../types';
 const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
 
 // Lazy require of sessionStore to avoid circular deps
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const sessionStore = require('../services/sessionStore');
 
 let redis: RedisLike | null = null;

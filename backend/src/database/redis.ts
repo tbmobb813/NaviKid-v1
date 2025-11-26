@@ -9,7 +9,6 @@ import { RedisLike, InternalRedisClient } from '../types';
 const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
 
 // Lazy require to avoid circular deps during module loading
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 type SessionStoreLike = {
   setSession: (userId: string, token: string, expiresIn: number, data?: unknown) => Promise<void>;
   getSession: (userId: string, token: string) => Promise<unknown | null>;
