@@ -38,10 +38,7 @@ export const TransportModeSelector: React.FC<TransportModeSelectorProps> = ({
         {modes.map((mode) => (
           <TouchableOpacity
             key={mode.id}
-            style={[
-              styles.modeButton,
-              selectedModes.includes(mode.id) && styles.modeButtonSelected,
-            ]}
+            style={[styles.modeButton, selectedModes.includes(mode.id) && styles.modeButtonSelected]}
             onPress={() => toggleMode(mode.id)}
           >
             <Text style={styles.modeIcon}>{mode.icon}</Text>

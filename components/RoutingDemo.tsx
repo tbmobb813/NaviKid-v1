@@ -18,6 +18,12 @@ import { otp2Service } from '../utils/otp2Service';
 import { unifiedRoutingService, UnifiedRoute } from '../utils/unifiedRoutingService';
 import { monitoring } from '../utils/monitoring';
 import { logger } from '@/utils/logger';
+import { QuickTestLocations } from './routing-demo/QuickTestLocations';
+import { LocationInputs } from './routing-demo/LocationInputs';
+import { TransportModeSelector } from './routing-demo/TransportModeSelector';
+import { RoutePreferences } from './routing-demo/RoutePreferences';
+import { RouteCard } from './routing-demo/RouteCard';
+import { ConfigurationInfo } from './routing-demo/ConfigurationInfo';
 
 interface Location {
   lat: number;
