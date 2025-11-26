@@ -174,7 +174,7 @@
       "eslint --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --max-warnings=0"
     ],
     "backend/src/**/*.{ts,tsx}": [
-      "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config backend/.eslintrc.cjs --resolve-plugins-relative-to ."
+      "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config backend/.eslintrc.cjs"
     ]
   },
   "private": true,
