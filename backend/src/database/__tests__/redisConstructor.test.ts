@@ -1,4 +1,3 @@
-import path from 'path';
 
 describe('Redis ctor resolution (CJS/ESM shapes)', () => {
   const originalEnv = process.env.REDIS_ENABLED;
