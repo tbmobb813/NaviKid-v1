@@ -7,7 +7,7 @@ import {
   checkLocationInSafeZoneSchema,
   validate,
 } from '../utils/validation';
-import { ApiResponse, SafeZoneType, JWTPayload } from '../types';
+import { ApiResponse, SafeZoneType } from '../types';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 import { getAuthUser } from '../utils/auth';
