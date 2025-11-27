@@ -9,7 +9,7 @@ buildscript {
   // Use a published, stable AGP version so plugin artifacts can be resolved.
   // 9.0.0 is not available in configured repositories; revert to 8.1.2 which is known to work in this project.
   classpath('com.android.tools.build:gradle:8.1.2')
-    classpath('com.facebook.react:react-native-gradle-plugin')
+  // react-native gradle plugin is provided by the included build in settings.gradle
     // Use Kotlin Gradle plugin 2.1.20 to match included gradle plugin builds
     classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20')
   }
@@ -65,42 +65,35 @@ gradle.projectsEvaluated {
 // modules (for example `:expo`) rely on the root project to provide the value
 // indirectly. Provide a small, defensive fallback here so we don't have to edit
 // files under node_modules.
-subprojects { sub ->
-  sub.afterEvaluate {
-    try {
-      def hasAndroidPlugin = sub.plugins.hasPlugin('com.android.library') || sub.plugins.hasPlugin('com.android.application')
-      if (!hasAndroidPlugin) return
-
-      def androidExt = sub.extensions.findByName('android')
-      if (androidExt == null) return
-
-      // Prefer rootProject.ext.compileSdkVersion, then rootProject.ext.compileSdk, then a sensible default.
+// Set compileSdk for subprojects as soon as they apply the Android plugin.
+// This avoids relying on afterEvaluate and ensures libraries like `:expo`
+// have the required property during AGP configuration.
+subprojects { project ->
+  project.plugins.withId('com.android.library') { plugin ->
+    def androidExt = project.extensions.findByName('android')
+    if (androidExt != null) {
       def compileSdkValue = null
       if (rootProject.hasProperty('ext')) {
-        if (rootProject.ext.has('compileSdkVersion')) {
-          compileSdkValue = rootProject.ext.compileSdkVersion
-        } else if (rootProject.ext.has('compileSdk')) {
-          compileSdkValue = rootProject.ext.compileSdk
-        }
+        if (rootProject.ext.has('compileSdkVersion')) compileSdkValue = rootProject.ext.compileSdkVersion
+        else if (rootProject.ext.has('compileSdk')) compileSdkValue = rootProject.ext.compileSdk
       }
       if (compileSdkValue == null) compileSdkValue = 36
+      try { androidExt.compileSdk = compileSdkValue } catch(Exception e) { try { androidExt.compileSdkVersion = compileSdkValue } catch(Exception ignored) {} }
+      println "Set compileSdk for library project ${project.name} -> ${compileSdkValue}"
+    }
+  }
 
-      // If neither compileSdk nor compileSdkVersion is present on the android extension,
-      // set compileSdk (newer AGP) or fall back to compileSdkVersion when necessary.
-      def hasCompileSdk = (androidExt.hasProperty('compileSdk') || androidExt.hasProperty('compileSdkVersion'))
-      if (!hasCompileSdk) {
-        try {
-          androidExt.compileSdk = compileSdkValue
-        } catch (Exception e) {
-          // Some AGP versions expect compileSdkVersion - try that as a fallback.
-          try {
-            androidExt.compileSdkVersion = compileSdkValue
-          } catch (Exception ignored) {
-          }
-        }
-        println "Set compileSdk for project ${sub.name} -> ${compileSdkValue}"
+  project.plugins.withId('com.android.application') { plugin ->
+    def androidExt = project.extensions.findByName('android')
+    if (androidExt != null) {
+      def compileSdkValue = null
+      if (rootProject.hasProperty('ext')) {
+        if (rootProject.ext.has('compileSdkVersion')) compileSdkValue = rootProject.ext.compileSdkVersion
+        else if (rootProject.ext.has('compileSdk')) compileSdkValue = rootProject.ext.compileSdk
       }
-    } catch (ignored) {
+      if (compileSdkValue == null) compileSdkValue = 36
+      try { androidExt.compileSdk = compileSdkValue } catch(Exception e) { try { androidExt.compileSdkVersion = compileSdkValue } catch(Exception ignored) {} }
+      println "Set compileSdk for application project ${project.name} -> ${compileSdkValue}"
     }
   }
 }
