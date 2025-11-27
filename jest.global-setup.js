@@ -1,7 +1,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 const tmp = require('tmp');
 
 const { name: PID_FILE } = tmp.fileSync({ prefix: 'navikid-backend-', postfix: '.pid', discardDescriptor: true });
