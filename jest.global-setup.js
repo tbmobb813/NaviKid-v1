@@ -2,9 +2,10 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const tmp = require('tmp');
 
-const PID_FILE = path.join(os.tmpdir(), 'navikid-backend.pid');
-const CONTAINER_FILE = path.join(os.tmpdir(), 'navikid-postgres-container');
+const { name: PID_FILE } = tmp.fileSync({ prefix: 'navikid-backend-', postfix: '.pid', discardDescriptor: true });
+const { name: CONTAINER_FILE } = tmp.fileSync({ prefix: 'navikid-postgres-container-', discardDescriptor: true });
 const HEALTH_URL = 'http://localhost:3000/health';
 
 function waitForHealth(timeoutMs = 30000, intervalMs = 500) {
