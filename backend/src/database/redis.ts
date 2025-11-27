@@ -110,9 +110,9 @@ class RedisClient {
       },
       maxRetriesPerRequest: 3,
     });
-  // Keep reference to the raw ioredis instance for integrations that expect
-  // the original client API (e.g., @fastify/rate-limit RedisStore).
-  this.rawClient = raw;
+    // Keep reference to the raw ioredis instance for integrations that expect
+    // the original client API (e.g., @fastify/rate-limit RedisStore).
+    this.rawClient = raw;
     // Cast the raw constructed client to our conservative RedisLike shape.
     const rawClient = raw as unknown as RedisLike;
     this.client = {

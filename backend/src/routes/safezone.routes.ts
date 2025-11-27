@@ -12,21 +12,21 @@ import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 import { getAuthUser } from '../utils/auth';
 
-  // Helper to map DB safe zone row to API-friendly shape
-  function mapSafeZone(row: any) {
-    return {
-      id: row.id,
-      userId: row.user_id ?? row.parent_id ?? row.parentId,
-      name: row.name,
-      centerLatitude: Number(row.center_latitude ?? row.latitude ?? row.centerLatitude),
-      centerLongitude: Number(row.center_longitude ?? row.longitude ?? row.centerLongitude),
-      radius: Number(row.radius),
-      type: row.type,
-      isActive: row.is_active ?? row.isActive,
-      createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
-      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
-    };
-  }
+// Helper to map DB safe zone row to API-friendly shape
+function mapSafeZone(row: any) {
+  return {
+    id: row.id,
+    userId: row.user_id ?? row.parent_id ?? row.parentId,
+    name: row.name,
+    centerLatitude: Number(row.center_latitude ?? row.latitude ?? row.centerLatitude),
+    centerLongitude: Number(row.center_longitude ?? row.longitude ?? row.centerLongitude),
+    radius: Number(row.radius),
+    type: row.type,
+    isActive: row.is_active ?? row.isActive,
+    createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
+    updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
+  };
+}
 
 export async function safeZoneRoutes(fastify: FastifyInstance) {
   /**

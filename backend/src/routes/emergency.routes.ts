@@ -12,55 +12,59 @@ import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 
-  // Helper to map DB emergency contact row to API-friendly shape
-  function mapEmergencyContact(row: any) {
-    return {
-      id: row.id,
-      userId: row.user_id ?? row.userId,
-      name: row.name,
-      phoneNumber: row.phone_number ?? row.phoneNumber,
-      email: row.email,
-      relationship: row.relationship,
-      createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
-      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
-    };
-  }
+// Helper to map DB emergency contact row to API-friendly shape
+function mapEmergencyContact(row: any) {
+  return {
+    id: row.id,
+    userId: row.user_id ?? row.userId,
+    name: row.name,
+    phoneNumber: row.phone_number ?? row.phoneNumber,
+    email: row.email,
+    relationship: row.relationship,
+    createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
+    updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
+  };
+}
 
-  // Helper to map DB emergency alert row to API-friendly shape
-  function mapEmergencyAlert(row: any) {
-    if (!row) return null;
+// Helper to map DB emergency alert row to API-friendly shape
+function mapEmergencyAlert(row: any) {
+  if (!row) return null;
 
-    // location_snapshot might be stored as JSON string or object
-    let locationSnapshot: any = row.location_snapshot ?? row.locationSnapshot;
-    if (typeof locationSnapshot === 'string') {
-      try {
-        locationSnapshot = JSON.parse(locationSnapshot);
-      } catch (e) {
-        // leave as-is
-      }
+  // location_snapshot might be stored as JSON string or object
+  let locationSnapshot: any = row.location_snapshot ?? row.locationSnapshot;
+  if (typeof locationSnapshot === 'string') {
+    try {
+      locationSnapshot = JSON.parse(locationSnapshot);
+    } catch (e) {
+      // leave as-is
     }
-
-    return {
-      id: row.id,
-      userId: row.user_id ?? row.userId,
-      contactId: row.contact_id ?? row.contactId,
-      triggerReason: row.trigger_reason ?? row.triggerReason,
-      locationSnapshot: locationSnapshot
-        ? {
-            latitude: Number(locationSnapshot.latitude),
-            longitude: Number(locationSnapshot.longitude),
-            timestamp: locationSnapshot.timestamp
-              ? new Date(locationSnapshot.timestamp).toISOString()
-              : undefined,
-          }
-        : undefined,
-      sentAt: row.sent_at ? new Date(row.sent_at).toISOString() : row.sentAt,
-      deliveredAt: row.delivered_at ? new Date(row.delivered_at).toISOString() : row.deliveredAt,
-      acknowledgedAt: row.acknowledged_at ? new Date(row.acknowledged_at).toISOString() : row.acknowledgedAt,
-      createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
-      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
-    };
   }
+
+  return {
+    id: row.id,
+    userId: row.user_id ?? row.userId,
+    contactId: row.contact_id ?? row.contactId,
+    triggerReason: row.trigger_reason ?? row.triggerReason,
+    locationSnapshot: locationSnapshot
+      ? {
+          latitude: Number(locationSnapshot.latitude),
+          longitude: Number(locationSnapshot.longitude),
+          timestamp: locationSnapshot.timestamp
+            ? new Date(locationSnapshot.timestamp).toISOString()
+            : undefined,
+        }
+      : undefined,
+    sentAt: row.sent_at ? new Date(row.sent_at).toISOString() : row.sentAt,
+    deliveredAt: row.delivered_at
+      ? new Date(row.delivered_at).toISOString()
+      : row.deliveredAt,
+    acknowledgedAt: row.acknowledged_at
+      ? new Date(row.acknowledged_at).toISOString()
+      : row.acknowledgedAt,
+    createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
+    updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
+  };
+}
 
 export async function emergencyRoutes(fastify: FastifyInstance) {
   /**
@@ -262,7 +266,9 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
    * Trigger emergency alert
    * POST /emergency/alert
    */
-  fastify.post('/emergency/alert', { preHandler: [authMiddleware] },
+  fastify.post(
+    '/emergency/alert',
+    { preHandler: [authMiddleware] },
     async (request, reply) => {
       try {
         const { userId } = getAuthUser(request);
@@ -277,14 +283,26 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
 
         if (!locationSnapshot) {
           // Fallback to current/latest location
-          logger.debug({ userId, body }, 'No locationSnapshot in request body, fetching current location');
+          logger.debug(
+            { userId, body },
+            'No locationSnapshot in request body, fetching current location'
+          );
           const current = await locationService.getCurrentLocation(userId);
-          logger.debug({ userId, current }, 'Fetched current location for emergency trigger');
+          logger.debug(
+            { userId, current },
+            'Fetched current location for emergency trigger'
+          );
           if (!current) {
-            logger.warn({ userId }, 'No current location available to trigger emergency alert');
+            logger.warn(
+              { userId },
+              'No current location available to trigger emergency alert'
+            );
             return reply.status(400).send({
               success: false,
-              error: { message: 'No location available to trigger alert', code: 'NO_LOCATION' },
+              error: {
+                message: 'No location available to trigger alert',
+                code: 'NO_LOCATION',
+              },
             });
           }
 
@@ -299,7 +317,10 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
           triggerReason = EmergencyTriggerReason.MANUAL;
         }
 
-        logger.debug({ userId, triggerReason, locationSnapshot }, 'Triggering emergency alerts');
+        logger.debug(
+          { userId, triggerReason, locationSnapshot },
+          'Triggering emergency alerts'
+        );
 
         const alerts = await emergencyService.triggerEmergencyAlert(
           userId,
@@ -311,8 +332,12 @@ export async function emergencyRoutes(fastify: FastifyInstance) {
           }
         );
 
-        const first = alerts && alerts.length > 0 ? mapEmergencyAlert(alerts[0]) : undefined;
-        logger.debug({ userId, alertCount: alerts.length, first }, 'Emergency alerts created');
+        const first =
+          alerts && alerts.length > 0 ? mapEmergencyAlert(alerts[0]) : undefined;
+        logger.debug(
+          { userId, alertCount: alerts.length, first },
+          'Emergency alerts created'
+        );
 
         const response: ApiResponse = {
           success: true,

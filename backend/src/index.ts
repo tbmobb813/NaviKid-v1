@@ -275,8 +275,8 @@ async function start() {
       });
     });
   } catch (error) {
-  // Log start error. Keep structured logger but also include raw error fields for local debugging
-  logger.error({ error }, 'Start error: Failed to start server');
+    // Log start error. Keep structured logger but also include raw error fields for local debugging
+    logger.error({ error }, 'Start error: Failed to start server');
     process.exit(1);
   }
 }

@@ -66,7 +66,7 @@ export const batchStoreLocationsSchema = z.object({
         latitude: z.number().min(-90).max(90),
         longitude: z.number().min(-180).max(180),
         accuracy: z.number().positive(),
-  timestamp: z.string().datetime().or(z.date()).or(z.number()),
+        timestamp: z.string().datetime().or(z.date()).or(z.number()),
         context: z.record(z.any()).optional(),
       })
     )
@@ -116,7 +116,7 @@ export const triggerEmergencyAlertSchema = z.object({
   locationSnapshot: z.object({
     latitude: z.number().min(-90).max(90),
     longitude: z.number().min(-180).max(180),
-  timestamp: z.string().datetime().or(z.date()).or(z.number()),
+    timestamp: z.string().datetime().or(z.date()).or(z.number()),
   }),
 });
 

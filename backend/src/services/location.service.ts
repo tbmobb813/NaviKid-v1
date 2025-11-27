@@ -201,7 +201,7 @@ export class LocationService {
     }>
   ): Promise<Location[]> {
     try {
-  const storedLocations: Location[] = [];
+      const storedLocations: Location[] = [];
 
       // Use transaction for batch insert
       await db.transaction(async (client) => {
@@ -247,10 +247,16 @@ export class LocationService {
       userId: row.user_id,
       latitude: Number(row.latitude),
       longitude: Number(row.longitude),
-  // DB accuracy may be null; backend type expects a number so coerce null to 0
-  accuracy: Number(row.accuracy ?? 0),
-      timestamp: row.timestamp instanceof Date ? row.timestamp.toISOString() : String(row.timestamp),
-      context: typeof row.context === 'string' ? JSON.parse(row.context || '{}') : row.context || {},
+      // DB accuracy may be null; backend type expects a number so coerce null to 0
+      accuracy: Number(row.accuracy ?? 0),
+      timestamp:
+        row.timestamp instanceof Date
+          ? row.timestamp.toISOString()
+          : String(row.timestamp),
+      context:
+        typeof row.context === 'string'
+          ? JSON.parse(row.context || '{}')
+          : row.context || {},
     };
   }
 }

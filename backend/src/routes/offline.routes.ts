@@ -30,7 +30,8 @@ export async function offlineRoutes(fastify: FastifyInstance) {
 
         const processedActions = actions.map((action) => {
           // Accept timestamp either at top-level or nested inside action.data.timestamp
-          const rawTs = action.timestamp ?? (action.data && (action.data as any).timestamp);
+          const rawTs =
+            action.timestamp ?? (action.data && (action.data as any).timestamp);
           return {
             ...action,
             actionType: action.actionType as import('../types').OfflineActionType,
