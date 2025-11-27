@@ -279,7 +279,7 @@ jobs:
           done
 
       - name: Run database migrations
-        run: npm run db:migrate
+        run: npm run migrate
         env:
           # Prefer a Supabase-provided DATABASE_URL secret if present; fall back to DB_* below
           DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
