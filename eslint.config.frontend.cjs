@@ -5,6 +5,7 @@ module.exports = [
       'dist/**',
       'docs/**',
       'templates/**',
+      'docker/postgres-data/**',
       'coverage/**',
       'node_modules/**',
       '*.lock',

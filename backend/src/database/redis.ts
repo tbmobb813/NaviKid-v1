@@ -87,6 +87,7 @@ class DummyRedisClient {
 
 class RedisClient {
   private client: InternalRedisClient;
+  private rawClient?: unknown;
   private static instance: RedisClient;
 
   private constructor() {
@@ -109,6 +110,9 @@ class RedisClient {
       },
       maxRetriesPerRequest: 3,
     });
+  // Keep reference to the raw ioredis instance for integrations that expect
+  // the original client API (e.g., @fastify/rate-limit RedisStore).
+  this.rawClient = raw;
     // Cast the raw constructed client to our conservative RedisLike shape.
     const rawClient = raw as unknown as RedisLike;
     this.client = {
@@ -160,6 +164,14 @@ class RedisClient {
 
   public getClient(): unknown {
     return this.client;
+  }
+
+  /**
+   * Expose the raw ioredis client instance for libraries that need the
+   * full API (defineCommand, etc.). Returns undefined when Redis is disabled.
+   */
+  public getRawClient(): unknown | undefined {
+    return this.rawClient;
   }
 
   // Session management

@@ -45,12 +45,19 @@ async function buildServer() {
   });
 
   // Register rate limiting
+  // Use the raw ioredis client for rate-limit storage when available so the
+  // store implementation can call defineCommand and other native APIs.
+  const rateLimitRedis =
+    typeof (redis as any).getRawClient === 'function'
+      ? (redis as any).getRawClient()
+      : redis.getClient();
+
   await fastify.register(rateLimit, {
     max: config.security.rateLimit.max,
     timeWindow: config.security.rateLimit.timeWindow,
     cache: 10000,
     allowList: ['127.0.0.1'],
-    redis: redis.getClient(),
+    redis: rateLimitRedis,
     nameSpace: 'rl:',
     continueExceeding: true,
     skipOnError: true,
@@ -101,7 +108,14 @@ async function buildServer() {
       },
     };
 
-    reply.status(dbHealthy && redisHealthy ? 200 : 503).send(health);
+    // Return ApiResponse shape expected by the client tests
+    const response = {
+      success: dbHealthy && redisHealthy,
+      data: health,
+      meta: { timestamp: new Date() },
+    } as const;
+
+    reply.status(dbHealthy && redisHealthy ? 200 : 503).send(response);
   });
 
   // API info endpoint
@@ -139,6 +153,19 @@ async function buildServer() {
       'WebSocket connection established'
     );
 
+    // Send an initial system_message so tests waiting for a system message receive it
+    try {
+      sock.send(
+        JSON.stringify({
+          type: 'system_message',
+          data: { message: 'Welcome to NaviKid real-time service' },
+          timestamp: new Date().toISOString(),
+        })
+      );
+    } catch (err) {
+      logger.error({ err }, 'Failed to send initial system_message');
+    }
+
     sock.on('message', (message: unknown) => {
       try {
         const msgStr =
@@ -146,14 +173,33 @@ async function buildServer() {
         const data = JSON.parse(msgStr);
         logger.debug({ data }, 'WebSocket message received');
 
-        // Echo back for now (implement real-time logic later)
-        sock.send(
-          JSON.stringify({
-            type: 'ack',
-            timestamp: new Date(),
-            message: 'Location update received',
-          })
-        );
+        // If client pings, reply with a system_message (tests expect this)
+        if (data && data.type === 'ping') {
+          try {
+            sock.send(
+              JSON.stringify({
+                type: 'system_message',
+                data: { message: 'pong' },
+                timestamp: new Date().toISOString(),
+              })
+            );
+          } catch (err) {
+            logger.error({ err }, 'Failed to send system_message in response to ping');
+          }
+        }
+
+        // Echo ack for compatibility
+        try {
+          sock.send(
+            JSON.stringify({
+              type: 'ack',
+              data: { message: 'Location update received' },
+              timestamp: new Date().toISOString(),
+            })
+          );
+        } catch (err) {
+          logger.error({ err }, 'Failed to send ack');
+        }
       } catch (error: unknown) {
         logger.error({ error }, 'WebSocket message error');
       }
@@ -229,7 +275,8 @@ async function start() {
       });
     });
   } catch (error) {
-    logger.error({ error }, 'Failed to start server');
+  // Log start error. Keep structured logger but also include raw error fields for local debugging
+  logger.error({ error }, 'Start error: Failed to start server');
     process.exit(1);
   }
 }

@@ -14,6 +14,7 @@ module.exports = [
       'docs/**',
       'templates/**',
       'server/data/**',
+      'docker/postgres-data/**',
       'coverage/**',
       'node_modules/**',
       'backend/node_modules/**',

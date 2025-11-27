@@ -31,8 +31,8 @@
     "test:integration:local": "bash ./scripts/run-integration-local.sh",
     "test:concurrent": "bash ./scripts/run-tests-concurrent.sh",
     "lint": "node ./scripts/lint-with-timeout.cjs",
-    "lint:frontend": "eslint app components hooks utils --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0 --config eslint.config.frontend.cjs",
-    "lint:frontend:fast": "eslint app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs",
+  "lint:frontend": "eslint_d app components hooks utils --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0 --config eslint.config.frontend.cjs",
+  "lint:frontend:fast": "eslint_d app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs",
     "lint:backend": "npm --prefix backend run lint",
     "lint:timed": "node ./scripts/lint-with-timeout.cjs",
     "lint:all": "npm run lint:frontend:fast && npm run lint:backend",
@@ -171,9 +171,9 @@
     "typescript": "^5.9.3"
   },
   "prepare": "husky install",
-  "lint-staged": {
+    "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --max-warnings=0"
+      "eslint_d --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --max-warnings=0"
     ],
     "backend/src/**/*.{ts,tsx}": [
       "eslint_d --cache --cache-location .cache/eslint/backend-fast --ext .ts,.tsx --config backend/.eslintrc.cjs"
