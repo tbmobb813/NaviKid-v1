@@ -31,12 +31,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prepare Node environment
-        uses: ./.github/actions/node-setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node_version: ${{ env.NODE_VERSION }}
-          cache_dependency_path: package-lock.json
-          working_directory: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies in project root"
+          npm ci
 
       - name: Run ESLint
         run: npm run lint
@@ -52,12 +59,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prepare Node environment
-        uses: ./.github/actions/node-setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node_version: ${{ env.NODE_VERSION }}
-          cache_dependency_path: package-lock.json
-          working_directory: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies in project root"
+          npm ci
 
       - name: Run npm audit
         run: npm audit --production --audit-level=high
@@ -74,12 +88,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Prepare Node environment
-        uses: ./.github/actions/node-setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node_version: ${{ env.NODE_VERSION }}
-          cache_dependency_path: package-lock.json
-          working_directory: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies in project root"
+          npm ci
 
       - name: Run tests with coverage
         run: npm run test -- --coverage --maxWorkers=2
@@ -122,12 +143,19 @@ jobs:
     needs: [lint-and-typecheck]
 
     steps:
-      - name: Prepare Node environment
-        uses: ./.github/actions/node-setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node_version: ${{ env.NODE_VERSION }}
-          cache_dependency_path: package-lock.json
-          working_directory: .
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies in project root"
+          npm ci
 
       - name: Verify Expo config
         run: npx expo config --type public
