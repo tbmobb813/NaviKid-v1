@@ -32,8 +32,10 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          echo "Installing backend dependencies"
-          npm ci || npm install
+          echo "Installing backend dependencies (include dev deps)"
+          npm ci || npm install --include=dev
+          # ensure devDependencies present for running tests and ts-jest
+          npm install --include=dev || true
 
       - name: Rebuild native modules (bcrypt)
         run: |
@@ -109,8 +111,9 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          echo "Installing backend dependencies"
-          npm ci || npm install
+          echo "Installing backend dependencies (include dev deps)"
+          npm ci || npm install --include=dev
+          npm install --include=dev || true
 
       - name: Rebuild native modules (bcrypt)
         run: |
@@ -146,8 +149,9 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          echo "Installing backend dependencies"
-          npm ci || npm install
+          echo "Installing backend dependencies (include dev deps)"
+          npm ci || npm install --include=dev
+          npm install --include=dev || true
 
       - name: Build TypeScript
         run: npm run build
@@ -201,8 +205,9 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          echo "Installing backend dependencies"
-          npm ci || npm install
+          echo "Installing backend dependencies (include dev deps)"
+          npm ci || npm install --include=dev
+          npm install --include=dev || true
 
       - name: Run unit tests
         run: npm run test:coverage -- --passWithNoTests

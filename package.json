@@ -32,7 +32,7 @@
     "test:concurrent": "bash ./scripts/run-tests-concurrent.sh",
     "lint": "node ./scripts/lint-with-timeout.cjs",
     "lint:frontend": "eslint_d app components hooks utils --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0 --config eslint.config.frontend.cjs",
-  "lint:frontend:fast": "eslint_d app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs",
+    "lint:frontend:fast": "eslint_d app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs",
     "lint:backend": "npm --prefix backend run lint",
     "lint:timed": "node ./scripts/lint-with-timeout.cjs",
     "lint:all": "npm run lint:frontend:fast && npm run lint:backend",
@@ -133,6 +133,7 @@
     "@expo/ngrok": "^4.1.0",
     "@react-native-community/cli": "^20.0.2",
     "@react-native/metro-config": "^0.82.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^13.3.3",
     "@types/geojson": "^7946.0.16",
     "@types/jest": "^30.0.0",
@@ -171,7 +172,7 @@
     "typescript": "^5.9.3"
   },
   "prepare": "husky install",
-    "lint-staged": {
+  "lint-staged": {
     "app/**/*.{ts,tsx},components/**/*.{ts,tsx},hooks/**/*.{ts,tsx},utils/**/*.{ts,tsx}": [
       "eslint_d --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --max-warnings=0"
     ],

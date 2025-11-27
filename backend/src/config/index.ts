@@ -11,29 +11,29 @@ dotenv.config({ path: path.join(__dirname, envFile) });
 const envSchema = z.object({
   // Server
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().transform(Number).default('3000'),
+  PORT: z.string().default('3000').transform(Number),
   HOST: z.string().default('0.0.0.0'),
 
   // Database
   DATABASE_URL: z.string().optional(),
   DB_HOST: z.string().default('localhost'),
-  DB_PORT: z.string().transform(Number).default('5432'),
+  DB_PORT: z.string().default('5432').transform(Number),
   DB_NAME: z.string().default('navikid_db'),
   DB_USER: z.string().default('postgres'),
   DB_PASSWORD: z.string().default('postgres'),
   DB_SSL: z
     .string()
-    .transform((val) => val === 'true')
-    .default('false'),
-  DB_POOL_MIN: z.string().transform(Number).default('2'),
-  DB_POOL_MAX: z.string().transform(Number).default('10'),
+    .default('false')
+    .transform((val) => val === 'true'),
+  DB_POOL_MIN: z.string().default('2').transform(Number),
+  DB_POOL_MAX: z.string().default('10').transform(Number),
 
   // Redis
   REDIS_URL: z.string().optional(),
   REDIS_HOST: z.string().default('localhost'),
-  REDIS_PORT: z.string().transform(Number).default('6379'),
+  REDIS_PORT: z.string().default('6379').transform(Number),
   REDIS_PASSWORD: z.string().optional(),
-  REDIS_DB: z.string().transform(Number).default('0'),
+  REDIS_DB: z.string().default('0').transform(Number),
 
   // JWT
   JWT_ACCESS_SECRET: z.string().min(32),
@@ -42,17 +42,17 @@ const envSchema = z.object({
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
   // Security
-  BCRYPT_SALT_ROUNDS: z.string().transform(Number).default('12'),
-  RATE_LIMIT_MAX: z.string().transform(Number).default('100'),
-  RATE_LIMIT_WINDOW: z.string().transform(Number).default('60000'),
+  BCRYPT_SALT_ROUNDS: z.string().default('12').transform(Number),
+  RATE_LIMIT_MAX: z.string().default('100').transform(Number),
+  RATE_LIMIT_WINDOW: z.string().default('60000').transform(Number),
 
   // Sentry (optional)
   SENTRY_DSN: z.string().optional(),
   SENTRY_ENVIRONMENT: z.string().default('development'),
-  SENTRY_TRACES_SAMPLE_RATE: z.string().transform(Number).default('0.1'),
+  SENTRY_TRACES_SAMPLE_RATE: z.string().default('0.1').transform(Number),
 
   // Data Retention
-  LOCATION_RETENTION_DAYS: z.string().transform(Number).default('30'),
+  LOCATION_RETENTION_DAYS: z.string().default('30').transform(Number),
 
   // CORS
   CORS_ORIGIN: z.string().default('http://localhost:8081,exp://localhost:8081'),
@@ -64,8 +64,8 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
   LOG_PRETTY: z
     .string()
-    .transform((val) => val === 'true')
-    .default('true'),
+    .default('true')
+    .transform((val) => val === 'true'),
 });
 
 // Parse and validate environment variables
