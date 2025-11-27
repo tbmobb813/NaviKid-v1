@@ -47,6 +47,15 @@ if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
   jest.setTimeout(60000);
 }
 
+// Polyfill `setImmediate` / `clearImmediate` for environments (jsdom/Jest)
+// that do not provide it (prevents ReferenceError during server response handling)
+if (typeof global.setImmediate === 'undefined') {
+  global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
+}
+if (typeof global.clearImmediate === 'undefined') {
+  global.clearImmediate = (id) => clearTimeout(id);
+}
+
 // Some older JS tests call error handling helpers without importing them.
 // Make the common error handling utilities available globally to avoid fragile test order dependencies.
 try {
