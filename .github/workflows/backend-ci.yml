@@ -359,9 +359,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [integration-tests, docker-build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: 'staging'
-      url: https://staging-api.navikid.app
+    environment: staging
+    env:
+      ENVIRONMENT_URL: https://staging-api.navikid.app
 
     steps:
       - name: Checkout code
