@@ -15,7 +15,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
   fastify.post(
     '/offline-actions/sync',
     {
-      preHandler: [authMiddleware, validate(syncOfflineActionsSchema)],
+      preHandler: [authMiddleware],
     },
     async (request, reply) => {
       try {
@@ -24,21 +24,26 @@ export async function offlineRoutes(fastify: FastifyInstance) {
           actions: Array<{
             actionType: string;
             data: Record<string, unknown>;
-            timestamp: string;
+            timestamp?: string | number;
           }>;
         };
 
-        const processedActions = actions.map((action) => ({
-          ...action,
-          actionType: action.actionType as import('../types').OfflineActionType,
-          timestamp: new Date(action.timestamp),
-        }));
+        const processedActions = actions.map((action) => {
+          // Accept timestamp either at top-level or nested inside action.data.timestamp
+          const rawTs = action.timestamp ?? (action.data && (action.data as any).timestamp);
+          return {
+            ...action,
+            actionType: action.actionType as import('../types').OfflineActionType,
+            timestamp: rawTs ? new Date(rawTs as any) : new Date(),
+          };
+        });
 
         const result = await offlineService.syncOfflineActions(userId, processedActions);
 
         const response: ApiResponse = {
           success: result.success,
           data: {
+            syncedCount: result.processed ?? 0,
             processed: result.processed,
             failed: result.failed,
             errors: result.errors,

@@ -40,7 +40,7 @@ export const storeLocationSchema = z.object({
   latitude: z.number().min(-90).max(90),
   longitude: z.number().min(-180).max(180),
   accuracy: z.number().positive(),
-  timestamp: z.string().datetime().or(z.date()),
+  timestamp: z.string().datetime().or(z.date()).or(z.number()),
   context: z
     .object({
       batteryLevel: z.number().min(0).max(100).optional(),
@@ -66,7 +66,7 @@ export const batchStoreLocationsSchema = z.object({
         latitude: z.number().min(-90).max(90),
         longitude: z.number().min(-180).max(180),
         accuracy: z.number().positive(),
-        timestamp: z.string().datetime().or(z.date()),
+  timestamp: z.string().datetime().or(z.date()).or(z.number()),
         context: z.record(z.any()).optional(),
       })
     )
@@ -116,7 +116,7 @@ export const triggerEmergencyAlertSchema = z.object({
   locationSnapshot: z.object({
     latitude: z.number().min(-90).max(90),
     longitude: z.number().min(-180).max(180),
-    timestamp: z.string().datetime().or(z.date()),
+  timestamp: z.string().datetime().or(z.date()).or(z.number()),
   }),
 });
 
@@ -127,7 +127,8 @@ export const syncOfflineActionsSchema = z.object({
       z.object({
         actionType: z.enum(['location_update', 'safe_zone_check', 'emergency_alert']),
         data: z.record(z.any()),
-        timestamp: z.string().datetime().or(z.date()),
+        // Accept timestamp either on the action root or inside data; make optional
+        timestamp: z.string().datetime().or(z.date()).or(z.number()).optional(),
       })
     )
     .min(1)

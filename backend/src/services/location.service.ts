@@ -33,7 +33,7 @@ export class LocationService {
 
       logger.debug({ userId, locationId: location.id }, 'Location stored');
 
-      return location;
+      return this.normalizeLocation(location);
     } catch (error) {
       logger.error({ userId, error }, 'Failed to store location');
       throw error;
@@ -88,7 +88,7 @@ export class LocationService {
       );
 
       return {
-        locations: result.rows,
+        locations: result.rows.map((r) => this.normalizeLocation(r)),
         total,
       };
     } catch (error) {
@@ -110,7 +110,7 @@ export class LocationService {
         [userId]
       );
 
-      return result.rows.length > 0 ? result.rows[0] : null;
+      return result.rows.length > 0 ? this.normalizeLocation(result.rows[0]) : null;
     } catch (error) {
       logger.error({ userId, error }, 'Failed to get current location');
       throw error;
@@ -201,7 +201,7 @@ export class LocationService {
     }>
   ): Promise<Location[]> {
     try {
-      const storedLocations: Location[] = [];
+  const storedLocations: Location[] = [];
 
       // Use transaction for batch insert
       await db.transaction(async (client) => {
@@ -219,7 +219,7 @@ export class LocationService {
               JSON.stringify(loc.context || {}),
             ]
           );
-          storedLocations.push(result.rows[0]);
+          storedLocations.push(this.normalizeLocation(result.rows[0]));
         }
       });
 
@@ -236,6 +236,22 @@ export class LocationService {
       logger.error({ userId, error }, 'Failed to batch store locations');
       throw error;
     }
+  }
+
+  /**
+   * Normalize DB location row to API-friendly types
+   */
+  private normalizeLocation(row: any): any {
+    return {
+      id: row.id,
+      userId: row.user_id,
+      latitude: Number(row.latitude),
+      longitude: Number(row.longitude),
+  // DB accuracy may be null; backend type expects a number so coerce null to 0
+  accuracy: Number(row.accuracy ?? 0),
+      timestamp: row.timestamp instanceof Date ? row.timestamp.toISOString() : String(row.timestamp),
+      context: typeof row.context === 'string' ? JSON.parse(row.context || '{}') : row.context || {},
+    };
   }
 }
 

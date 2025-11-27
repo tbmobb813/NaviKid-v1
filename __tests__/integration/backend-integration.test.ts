@@ -17,7 +17,9 @@ jest.mock('expo-constants', () => ({
   expoConfig: {
     extra: {
       api: {
-        baseUrl: 'http://localhost:3000',
+        // Allow overriding the base URL via EXPO_PUBLIC_API_URL when running
+        // tests locally on a different port (e.g. http://localhost:3001).
+        baseUrl: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000',
         timeout: 15000,
       },
     },

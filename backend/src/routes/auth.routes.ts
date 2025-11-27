@@ -31,7 +31,13 @@ export async function authRoutes(fastify: FastifyInstance) {
           role?: UserRole;
         };
 
-        const user = await authService.register(email, password, role);
+        // Create user
+        await authService.register(email, password, role);
+
+        // Generate tokens by performing a login so the client receives the
+        // same token shape as a normal login flow. This keeps the client-side
+        // behavior consistent for downstream tests and usage.
+        const { user, tokens } = await authService.login(email, password, request.ip);
 
         const response: ApiResponse = {
           success: true,
@@ -40,8 +46,9 @@ export async function authRoutes(fastify: FastifyInstance) {
               id: user.id,
               email: user.email,
               role: user.role,
-              createdAt: user.created_at,
+              createdAt: (user as any).created_at || new Date(),
             },
+            tokens,
           },
           meta: {
             timestamp: new Date(),

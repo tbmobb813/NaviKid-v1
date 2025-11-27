@@ -43,7 +43,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { location },
+          data: location,
           meta: {
             timestamp: new Date(),
           },
@@ -68,6 +68,54 @@ export async function locationRoutes(fastify: FastifyInstance) {
    * Get location history
    * GET /locations
    */
+  // Alias for client tests which call /locations/history
+  fastify.get(
+    '/locations/history',
+    {
+      preHandler: authMiddleware,
+    },
+    async (request, reply) => {
+      try {
+        const { userId } = getAuthUser(request);
+        const query = request.query as Record<string, string | undefined>;
+
+        const startDate = query.startDate ? new Date(query.startDate) : undefined;
+        const endDate = query.endDate ? new Date(query.endDate) : undefined;
+        const limit = query.limit ? parseInt(query.limit) : 100;
+        const offset = query.offset ? parseInt(query.offset) : 0;
+
+        const { locations, total } = await locationService.getLocationHistory(
+          userId,
+          startDate,
+          endDate,
+          limit,
+          offset
+        );
+
+        // Return plain array to match client expectations
+        const response: ApiResponse = {
+          success: true,
+          data: locations,
+          meta: {
+            timestamp: new Date(),
+          },
+        };
+
+        reply.status(200).send(response);
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get location history error');
+        reply.status(500).send({
+          success: false,
+          error: {
+            message: message || 'Failed to get location history',
+            code: 'LOCATION_HISTORY_ERROR',
+          },
+        });
+      }
+    }
+  );
+
   fastify.get(
     '/locations',
     {
@@ -91,17 +139,10 @@ export async function locationRoutes(fastify: FastifyInstance) {
           offset
         );
 
+        // Return plain array to match client expectations
         const response: ApiResponse = {
           success: true,
-          data: {
-            locations,
-            pagination: {
-              total,
-              limit,
-              offset,
-              hasMore: offset + locations.length < total,
-            },
-          },
+          data: locations,
           meta: {
             timestamp: new Date(),
           },
@@ -149,7 +190,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { location },
+          data: location,
           meta: {
             timestamp: new Date(),
           },

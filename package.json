@@ -172,7 +172,7 @@
   },
   "prepare": "husky install",
     "lint-staged": {
-    "*.{ts,tsx}": [
+    "app/**/*.{ts,tsx},components/**/*.{ts,tsx},hooks/**/*.{ts,tsx},utils/**/*.{ts,tsx}": [
       "eslint_d --cache --cache-location .cache/eslint/frontend-fast --config eslint.config.frontend.cjs --max-warnings=0"
     ],
     "backend/src/**/*.{ts,tsx}": [

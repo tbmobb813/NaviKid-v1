@@ -248,9 +248,15 @@ class NaviKidApiClient {
     const url = `${this.config.baseUrl}${endpoint}`;
 
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
     };
+
+    // Only set Content-Type when there's a body to send. Some callers POST without
+    // a body (e.g. triggerAlert) and sending an empty application/json header causes
+    // Fastify to attempt to parse an empty body and return 400. Avoid that.
+    if (options.body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     // Add auth token if available and not skipped
     if (!skipAuth && this.accessToken) {

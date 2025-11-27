@@ -99,11 +99,11 @@ describe('enhancedNavigationStore', () => {
     expect(result.current.favorites).toContainEqual(expect.objectContaining({ id: 'f1' }));
 
     act(() => result.current.addToFavorites(fav));
-    const count = result.current.favorites.filter((f) => f.id === 'f1').length;
+  const count = result.current.favorites.filter((f: any) => f.id === 'f1').length;
     expect(count).toBe(1);
 
     act(() => result.current.removeFromFavorites('f1'));
-    expect(result.current.favorites.some((f) => f.id === 'f1')).toBe(false);
+  expect(result.current.favorites.some((f: any) => f.id === 'f1')).toBe(false);
   });
 
   it('adds and limits recent searches', () => {

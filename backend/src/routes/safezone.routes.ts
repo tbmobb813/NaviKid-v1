@@ -12,6 +12,22 @@ import logger from '../utils/logger';
 import { formatError } from '../utils/formatError';
 import { getAuthUser } from '../utils/auth';
 
+  // Helper to map DB safe zone row to API-friendly shape
+  function mapSafeZone(row: any) {
+    return {
+      id: row.id,
+      userId: row.user_id ?? row.parent_id ?? row.parentId,
+      name: row.name,
+      centerLatitude: Number(row.center_latitude ?? row.latitude ?? row.centerLatitude),
+      centerLongitude: Number(row.center_longitude ?? row.longitude ?? row.centerLongitude),
+      radius: Number(row.radius),
+      type: row.type,
+      isActive: row.is_active ?? row.isActive,
+      createdAt: row.created_at ? new Date(row.created_at).toISOString() : row.createdAt,
+      updatedAt: row.updated_at ? new Date(row.updated_at).toISOString() : row.updatedAt,
+    };
+  }
+
 export async function safeZoneRoutes(fastify: FastifyInstance) {
   /**
    * Get all safe zones
@@ -30,7 +46,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { safeZones },
+          data: safeZones.map(mapSafeZone),
           meta: {
             timestamp: new Date(),
           },
@@ -63,6 +79,58 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
    * Check if location is in safe zones
    * POST /safe-zones/check
    */
+  // Support GET requests for geofence checks (client integration tests use
+  // query parameters). We validate query params manually to avoid reusing
+  // the body validator which expects a POST body.
+  fastify.get(
+    '/safe-zones/check',
+    {
+      preHandler: [authMiddleware],
+    },
+    async (request, reply) => {
+      try {
+        const { userId } = getAuthUser(request);
+        const q = request.query as Record<string, string | undefined>;
+        const lat = q.latitude ? parseFloat(q.latitude) : NaN;
+        const lon = q.longitude ? parseFloat(q.longitude) : NaN;
+
+        if (Number.isNaN(lat) || Number.isNaN(lon)) {
+          return reply.status(400).send({
+            success: false,
+            error: { message: 'Invalid latitude or longitude', code: 'VALIDATION_ERROR' },
+          });
+        }
+
+        const result = await safeZoneService.checkLocationInSafeZones(userId, lat, lon);
+
+        // Map service shape to client-friendly shape expected by frontend
+        const response: ApiResponse = {
+          success: true,
+          data: {
+            insideSafeZone: result.isInSafeZone,
+            safeZone:
+              result.safeZones && result.safeZones.length > 0
+                ? mapSafeZone(result.safeZones[0])
+                : undefined,
+          },
+          meta: { timestamp: new Date() },
+        };
+
+        reply.status(200).send(response);
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Check safe zone error (GET)');
+        reply.status(500).send({
+          success: false,
+          error: {
+            message: message || 'Failed to check safe zones',
+            code: 'SAFE_ZONE_CHECK_ERROR',
+          },
+        });
+      }
+    }
+  );
+
   fastify.post(
     '/safe-zones/check',
     {
@@ -84,7 +152,13 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: result,
+          data: {
+            insideSafeZone: result.isInSafeZone,
+            safeZone:
+              result.safeZones && result.safeZones.length > 0
+                ? mapSafeZone(result.safeZones[0])
+                : undefined,
+          },
           meta: {
             timestamp: new Date(),
           },
@@ -133,7 +207,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { safeZone },
+          data: mapSafeZone(safeZone),
           meta: {
             timestamp: new Date(),
           },
@@ -181,10 +255,9 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
           radius,
           type as SafeZoneType
         );
-
         const response: ApiResponse = {
           success: true,
-          data: { safeZone },
+          data: mapSafeZone(safeZone),
           meta: {
             timestamp: new Date(),
           },
@@ -240,7 +313,7 @@ export async function safeZoneRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { safeZone },
+          data: mapSafeZone(safeZone),
           meta: {
             timestamp: new Date(),
           },
