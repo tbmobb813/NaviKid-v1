@@ -9,7 +9,7 @@
     "postbuild": "cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true",
     "start": "node dist/server.js",
     "start:prod": "NODE_ENV=production node dist/server.js",
-    "migrate": "node dist/scripts/migrate.js",
+    "migrate": "node ./dist/scripts/migrate.js || tsx ./src/scripts/migrate.ts",
     "migrate:create": "node scripts/create-migration.js",
     "seed": "node dist/db/seed.js",
     "test": "jest --runInBand",
