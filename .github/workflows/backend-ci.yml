@@ -35,6 +35,11 @@ jobs:
           echo "Installing backend dependencies"
           npm ci || npm install
 
+      - name: Rebuild native modules (bcrypt)
+        run: |
+          echo "Rebuilding bcrypt native bindings"
+          npm rebuild bcrypt --build-from-source || true
+
       - name: Run ESLint
         run: npm run lint
 
@@ -106,6 +111,11 @@ jobs:
         run: |
           echo "Installing backend dependencies"
           npm ci || npm install
+
+      - name: Rebuild native modules (bcrypt)
+        run: |
+          echo "Rebuilding bcrypt native bindings"
+          npm rebuild bcrypt --build-from-source || true
 
       - name: Run npm audit
         run: npm audit --production --audit-level=high
