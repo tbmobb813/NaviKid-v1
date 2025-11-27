@@ -1,10 +1,11 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const tmp = require('tmp');
+const os = require('os');
 
-const { name: PID_FILE } = tmp.fileSync({ prefix: 'navikid-backend-', postfix: '.pid', discardDescriptor: true });
-const { name: CONTAINER_FILE } = tmp.fileSync({ prefix: 'navikid-postgres-container-', discardDescriptor: true });
+// Use deterministic temp file paths so teardown can find them reliably.
+const PID_FILE = path.join(os.tmpdir(), 'navikid-backend.pid');
+const CONTAINER_FILE = path.join(os.tmpdir(), 'navikid-postgres-container');
 const HEALTH_URL = 'http://localhost:3000/health';
 
 function waitForHealth(timeoutMs = 30000, intervalMs = 500) {
