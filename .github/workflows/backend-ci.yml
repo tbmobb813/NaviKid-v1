@@ -290,6 +290,9 @@ jobs:
           DB_NAME: navikid_test
           DB_USER: postgres
           DB_PASSWORD: test_password
+          # Provide test JWT secrets so Zod config validation passes when running TS source via tsx
+          JWT_ACCESS_SECRET: "ci-test-access-secret-abcdefghijklmnopqrstuvwxyz0123"
+          JWT_REFRESH_SECRET: "ci-test-refresh-secret-abcdefghijklmnopqrstuvwxyz0123"
 
       - name: Run integration tests
         run: npm run test:integration
