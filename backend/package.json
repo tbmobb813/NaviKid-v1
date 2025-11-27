@@ -16,6 +16,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
   "test:integration:local": "bash ../scripts/run-integration-local.sh",
+  "test:integration": "jest __tests__/integration --runInBand",
     "lint": "eslint src --ext .ts --config ./.eslintrc.cjs",
     "lint:fast": "eslint \"src/**/*.{ts,tsx}\" --cache --cache-location .cache/eslint/backend-fast --config ./.eslintrc.cjs",
   "lint:ci": "ESLINT_TYPECHECK=true eslint src --ext .ts --max-warnings=0 --config ./.eslintrc.cjs",
