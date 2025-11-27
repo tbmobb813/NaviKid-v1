@@ -130,7 +130,6 @@ module.exports = async function globalSetup() {
     fs.writeFileSync(CONTAINER_FILE, 'compose', 'utf8');
 
     // Wait for backend health endpoint used by script
-    const healthUrl = 'http://localhost:3000/api/health';
     try {
       await waitForHealth(30000, 500);
       console.log('Backend started and healthy');
