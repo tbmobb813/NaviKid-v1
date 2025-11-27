@@ -68,7 +68,7 @@ jobs:
       - name: Install dependencies (matrix)
         run: |
           if [ "${{ matrix.target }}" = "backend" ]; then
-            (cd backend && npm ci)
+            npm --prefix backend ci
           else
             npm ci
           fi
@@ -269,7 +269,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          (cd backend && npm ci)
+          npm --prefix backend ci
 
       - name: Wait for PostgreSQL
         run: |
