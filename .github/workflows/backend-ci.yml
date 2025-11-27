@@ -21,18 +21,12 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (backend)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
+          node_version: '22'
+          cache_dependency_path: backend/package-lock.json
+          working_directory: backend
 
       - name: Run ESLint
         run: npm run lint
@@ -55,24 +49,12 @@ jobs:
         working-directory: .
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (matrix)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          # Use package-lock from backend for backend target, otherwise root package-lock
-          cache-dependency-path: ${{ matrix.target == 'backend' && 'backend/package-lock.json' || 'package-lock.json' }}
-
-      - name: Install dependencies (frontend)
-        if: ${{ matrix.target == 'frontend' }}
-        run: npm ci
-
-      - name: Install dependencies (backend)
-        if: ${{ matrix.target == 'backend' }}
-        run: npm ci --prefix backend
+          node_version: '22'
+          cache_dependency_path: ${{ matrix.target == 'backend' && 'backend/package-lock.json' || 'package-lock.json' }}
+          working_directory: ${{ matrix.target == 'backend' && 'backend' || '.' }}
 
       - name: Run lint for target
         env:
@@ -94,18 +76,12 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (backend)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
+          node_version: '22'
+          cache_dependency_path: backend/package-lock.json
+          working_directory: backend
 
       - name: Run npm audit
         run: npm audit --production --audit-level=high
@@ -125,18 +101,12 @@ jobs:
         working-directory: backend
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (backend)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
+          node_version: '22'
+          cache_dependency_path: backend/package-lock.json
+          working_directory: backend
 
       - name: Build TypeScript
         run: npm run build
@@ -179,18 +149,12 @@ jobs:
         # No host port mapping: GitHub-hosted runner provides service network
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (backend)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
+          node_version: '22'
+          cache_dependency_path: backend/package-lock.json
+          working_directory: backend
 
       - name: Run unit tests
         run: npm run test:coverage -- --passWithNoTests
@@ -255,18 +219,12 @@ jobs:
           - 6379:6379
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Prepare Node environment (backend)
+        uses: ./.github/actions/node-setup
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'backend/package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
+          node_version: '22'
+          cache_dependency_path: backend/package-lock.json
+          working_directory: backend
 
       - name: Wait for PostgreSQL
         run: |

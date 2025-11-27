@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import offlineService from '../services/offline.service';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { syncOfflineActionsSchema, validate } from '../utils/validation';
 import { ApiResponse } from '../types';
 import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';

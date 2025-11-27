@@ -31,7 +31,7 @@
     "test:integration:local": "bash ./scripts/run-integration-local.sh",
     "test:concurrent": "bash ./scripts/run-tests-concurrent.sh",
     "lint": "node ./scripts/lint-with-timeout.cjs",
-  "lint:frontend": "eslint_d app components hooks utils --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0 --config eslint.config.frontend.cjs",
+    "lint:frontend": "eslint_d app components hooks utils --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend --max-warnings=0 --config eslint.config.frontend.cjs",
   "lint:frontend:fast": "eslint_d app components hooks --ext .ts,.tsx --cache --cache-location .cache/eslint/frontend-fast --max-warnings=0 --config eslint.config.frontend.cjs",
     "lint:backend": "npm --prefix backend run lint",
     "lint:timed": "node ./scripts/lint-with-timeout.cjs",
