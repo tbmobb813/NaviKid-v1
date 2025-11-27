@@ -15,11 +15,7 @@
     const wir = wirModule.default || wirModule;
 
     // Build arguments
-    const argv = {
-      _: [],
-      runInBand: true,
-      detectOpenHandles: true,
-    };
+
 
     const projectRoot = process.cwd();
 
