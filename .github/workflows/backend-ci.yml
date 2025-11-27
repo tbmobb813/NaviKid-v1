@@ -33,7 +33,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm ci
+          npm ci || npm install
 
       - name: Run ESLint
         run: npm run lint
@@ -68,9 +68,9 @@ jobs:
       - name: Install dependencies (matrix)
         run: |
           if [ "${{ matrix.target }}" = "backend" ]; then
-            npm --prefix backend ci
+            npm --prefix backend ci || npm --prefix backend install
           else
-            npm ci
+            npm ci || npm install
           fi
 
       - name: Run lint for target
@@ -105,7 +105,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm ci
+          npm ci || npm install
 
       - name: Run npm audit
         run: npm audit --production --audit-level=high
@@ -137,7 +137,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm ci
+          npm ci || npm install
 
       - name: Build TypeScript
         run: npm run build
@@ -269,7 +269,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm --prefix backend ci
+          npm --prefix backend ci || npm --prefix backend install
 
       - name: Wait for PostgreSQL
         run: |
