@@ -202,6 +202,8 @@ jobs:
           NODE_ENV: test
           LOG_PRETTY: false
           JWT_SECRET: test-jwt-secret-key-for-testing-only
+          JWT_ACCESS_SECRET: "ci-test-access-secret-abcdefghijklmnopqrstuvwxyz0123"
+          JWT_REFRESH_SECRET: "ci-test-refresh-secret-abcdefghijklmnopqrstuvwxyz0123"
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
