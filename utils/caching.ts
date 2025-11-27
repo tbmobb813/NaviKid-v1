@@ -73,6 +73,12 @@ class EnhancedCacheManager {
 
   private setupPeriodicCleanup() {
     // Clean up every 30 minutes
+    // Do not start background timers during Jest tests to avoid leaking handles
+    if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
+      log.debug('Skipping periodic cache cleanup in test environment');
+      return;
+    }
+
     setInterval(
       () => {
         this.cleanupExpiredEntries().catch((error) => {
