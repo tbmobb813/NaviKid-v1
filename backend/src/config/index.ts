@@ -2,8 +2,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { z } from 'zod';
 
-// Load environment variables from .env file
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+// Load environment variables from .env file. Use .env.test when running tests
+// so local test settings (docker-compose/test helpers) are applied.
+const envFile = process.env.NODE_ENV === 'test' ? '../../.env.test' : '../../.env';
+dotenv.config({ path: path.join(__dirname, envFile) });
 
 // Environment variable validation schema
 const envSchema = z.object({
