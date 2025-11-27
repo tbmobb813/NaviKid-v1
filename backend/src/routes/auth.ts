@@ -153,16 +153,20 @@ export async function authRoutes(server: FastifyInstance) {
   server.post(
     '/login',
     {
+      // Ensure per-route rate limiting is applied for this sensitive route.
+      // The plugin was registered with global: false above, so we configure it here.
       config: {
         rateLimit: {
           max: 5, // max 5 requests per time window per IP
           timeWindow: 60 * 1000, // 1 minute
           errorResponseBuilder: function (_req, _context) {
-            // Custom error message
             return { error: 'Too many login attempts. Please try again later.' };
           },
         },
       },
+      // As an extra safeguard, call the rateLimit decorator if available.
+      // This is a no-op when the plugin doesn't expose a decorator but harmless otherwise.
+      preHandler: (server as any).rateLimit ? [(server as any).rateLimit] : undefined,
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const body = loginSchema.parse(request.body);
@@ -190,8 +194,6 @@ export async function authRoutes(server: FastifyInstance) {
       if (!isValid) {
         return reply.unauthorized('Invalid email or password');
       }
-
-      // Successful login: Nothing needed, rate limiting handled by plugin.
 
       // Update last login
       await query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);

@@ -14,7 +14,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
   fastify.post(
     '/offline-actions/sync',
     {
-      preHandler: [authMiddleware],
+      preHandler: [authMiddleware, validate(syncOfflineActionsSchema)],
     },
     async (request, reply) => {
       try {

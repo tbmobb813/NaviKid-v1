@@ -5,7 +5,6 @@ import { authMiddleware } from '../middleware/auth.middleware';
 import {
   createEmergencyContactSchema,
   updateEmergencyContactSchema,
-  triggerEmergencyAlertSchema,
   validate,
 } from '../utils/validation';
 import { ApiResponse, EmergencyTriggerReason } from '../types';

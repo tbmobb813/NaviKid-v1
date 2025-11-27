@@ -183,5 +183,11 @@ export interface ApiResponse<T = unknown> {
   meta?: {
     timestamp: Date;
     requestId?: string;
+    pagination?: {
+      total: number;
+      limit: number;
+      offset: number;
+      hasMore: boolean;
+    };
   };
 }

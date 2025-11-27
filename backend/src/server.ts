@@ -217,6 +217,30 @@ export async function buildServer() {
     }
   });
 
+  // Apply stricter, scoped rate limits to endpoints that perform DB access.
+  // These registrations are scoped by prefix so they only affect the matching routes.
+  await server.register(rateLimit, {
+    max: 10, // e.g. protect auth endpoints more aggressively
+    timeWindow: 60 * 1000, // 1 minute
+    redis: config.redis.url ? getRedis() : undefined,
+    prefix: '/api/auth',
+  });
+
+  await server.register(rateLimit, {
+    max: 30, // users endpoints
+    timeWindow: 60 * 1000, // 1 minute
+    redis: config.redis.url ? getRedis() : undefined,
+    prefix: '/api/users',
+  });
+
+  // Optionally protect other DB-heavy endpoints (adjust limits as needed)
+  await server.register(rateLimit, {
+    max: 60,
+    timeWindow: 60 * 1000,
+    redis: config.redis.url ? getRedis() : undefined,
+    prefix: '/api/locations',
+  });
+
   return server;
 }
 

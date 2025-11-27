@@ -92,12 +92,18 @@ export async function locationRoutes(fastify: FastifyInstance) {
           offset
         );
 
-        // Return plain array to match client expectations
+        // Return plain array to match client expectations, include pagination metadata
         const response: ApiResponse = {
           success: true,
           data: locations,
           meta: {
             timestamp: new Date(),
+            pagination: {
+              total,
+              limit,
+              offset,
+              hasMore: offset + locations.length < total,
+            },
           },
         };
 
@@ -139,12 +145,18 @@ export async function locationRoutes(fastify: FastifyInstance) {
           offset
         );
 
-        // Return plain array to match client expectations
+        // Return plain array to match client expectations, include pagination metadata
         const response: ApiResponse = {
           success: true,
           data: locations,
           meta: {
             timestamp: new Date(),
+            pagination: {
+              total,
+              limit,
+              offset,
+              hasMore: offset + locations.length < total,
+            },
           },
         };
 
