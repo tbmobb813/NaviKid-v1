@@ -192,7 +192,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm ci
+          npm ci || npm install
 
       - name: Run unit tests
         run: npm run test:coverage -- --passWithNoTests
@@ -269,7 +269,7 @@ jobs:
       - name: Install backend dependencies
         run: |
           echo "Installing backend dependencies"
-          npm --prefix backend ci || npm --prefix backend install
+          npm ci || npm install
 
       - name: Wait for PostgreSQL
         run: |
