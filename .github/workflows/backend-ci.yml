@@ -257,12 +257,19 @@ jobs:
           - 6379:6379
 
     steps:
-      - name: Prepare Node environment (backend)
-        uses: ./.github/actions/node-setup
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (backend)
+        uses: actions/setup-node@v4
         with:
-          node_version: '22'
-          cache_dependency_path: backend/package-lock.json
-          working_directory: backend
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install backend dependencies
+        run: |
+          echo "Installing backend dependencies"
+          (cd backend && npm ci)
 
       - name: Wait for PostgreSQL
         run: |
