@@ -124,10 +124,28 @@ module.exports = async function globalSetup() {
     }
 
     const server = spawn(serverCmd, serverArgs, { cwd: backendDir, env: { ...process.env, NODE_ENV: 'test' }, stdio: ['ignore', 'inherit', 'inherit'] });
-    fs.writeFileSync(PID_FILE, String(server.pid), 'utf8');
+    // Securely create PID_FILE with restrictive permissions
+    try {
+      fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'wx', mode: 0o600 });
+    } catch (err) {
+      if (err.code === 'EEXIST') {
+        // If file exists, overwrite with safe permissions
+        fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'w', mode: 0o600 });
+      } else {
+        throw err;
+      }
+    }
 
     // Mark that we used docker-compose so teardown can bring it down
-    fs.writeFileSync(CONTAINER_FILE, 'compose', 'utf8');
+    try {
+      fs.writeFileSync(CONTAINER_FILE, 'compose', { encoding: 'utf8', flag: 'wx', mode: 0o600 });
+    } catch (err) {
+      if (err.code === 'EEXIST') {
+        fs.writeFileSync(CONTAINER_FILE, 'compose', { encoding: 'utf8', flag: 'w', mode: 0o600 });
+      } else {
+        throw err;
+      }
+    }
 
     // Wait for backend health endpoint used by script
     try {
