@@ -234,7 +234,7 @@ jobs:
           done
 
       - name: Run database migrations
-        run: npm run db:migrate
+        run: npm run migrate
         env:
           DATABASE_URL: postgresql://postgres:test_password@localhost:5432/navikid_test
           NODE_ENV: test
