@@ -1,7 +1,0 @@
-# Ignore Docker volumes and large external directories that ESLint shouldn't scan
-docker/postgres-data
-docker/postgres-data/*
-.expo
-node_modules
-dist
-coverage
