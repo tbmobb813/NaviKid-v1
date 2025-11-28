@@ -8,26 +8,20 @@ module.exports = function (api) {
   // plugin or its dependencies aren't resolvable in the environment.
   const plugins = [];
 
-  // Module resolver has compatibility issues with jest global-setup
-  // Keep it disabled for now. Re-enable with caution and proper testing.
-  if (process.env.BABEL_ENABLE_MODULE_RESOLVER === '1') {
+  // Prefer to include `module-resolver` when available unless explicitly disabled.
+  if (!process.env.BABEL_DISABLE_MODULE_RESOLVER) {
     try {
       // Only include if the package can be resolved to avoid throwing here.
       require.resolve('babel-plugin-module-resolver');
-      // Use absolute __dirname for root to avoid path resolution issues
-      const rootDir = __dirname;
-      const moduleResolverConfig = {
-        root: [rootDir],
-        alias: { '@': rootDir }
-      };
-      plugins.push(['module-resolver', moduleResolverConfig]);
-      // eslint-disable-next-line no-console
-      console.log('babel-plugin-module-resolver enabled');
+      plugins.push(['module-resolver', { root: ['./'], alias: { '@': './' } }]);
     } catch (err) {
       // Plugin not available in this environment; skip it to keep transforms safe.
       // eslint-disable-next-line no-console
-      console.warn('Failed to enable babel-plugin-module-resolver: ', err.message);
+      console.warn('Skipping babel-plugin-module-resolver: not resolvable in this environment');
     }
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin');
   }
 
   // Add other needed plugins
