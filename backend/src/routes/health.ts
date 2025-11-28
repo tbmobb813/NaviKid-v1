@@ -21,7 +21,21 @@ export async function healthRoutes(server: FastifyInstance) {
    * GET /api/health/detailed
    * Detailed health check with dependencies
    */
-  server.get('/detailed', async (_request, reply) => {
+  server.get(
+    '/detailed',
+    {
+      // Protect the detailed health endpoint from abuse — it performs DB/Redis checks
+      config: {
+        rateLimit: {
+          max: 30,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function () {
+            return { error: 'Too many requests for detailed health' };
+          },
+        },
+      },
+    },
+    async (_request, reply) => {
     const startTime = Date.now();
 
     // Check database
@@ -62,8 +76,19 @@ export async function healthRoutes(server: FastifyInstance) {
    * GET /api/health/ready
    * Kubernetes readiness probe
    */
-  server.get('/ready', async (_request, reply) => {
-    const dbReady = await checkConnection().catch(() => false);
+  server.get(
+    '/ready',
+    {
+      // Readiness can be hit frequently by orchestrators; add a gentle rate limit
+      config: {
+        rateLimit: {
+          max: 60,
+          timeWindow: 60 * 1000, // 1 minute
+        },
+      },
+    },
+    async (_request, reply) => {
+      const dbReady = await checkConnection().catch(() => false);
 
     if (dbReady) {
       reply.code(200).send({ ready: true });
