@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { simpleRender } from './test-utils';
+import { render } from '@testing-library/react-native';
 
 test('sanity view', () => {
   const { getByText } = render(
