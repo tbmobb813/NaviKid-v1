@@ -122,28 +122,65 @@ module.exports = async function globalSetup() {
     process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'x'.repeat(40);
     process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'y'.repeat(40);
 
-    // Start backend dev server similar to scripts/run-integration-local.sh
-    let serverCmd;
-    let serverArgs;
-    const indexTs = path.join(backendDir, 'src', 'index.ts');
-    if (fs.existsSync(indexTs)) {
-      serverCmd = 'npx';
-      serverArgs = ['tsx', 'watch', 'src/index.ts'];
-    } else {
-      serverCmd = 'npm';
-      serverArgs = ['run', 'dev'];
-    }
-
-    const server = spawn(serverCmd, serverArgs, { cwd: backendDir, env: { ...process.env, NODE_ENV: 'test' }, stdio: ['ignore', 'inherit', 'inherit'] });
-    // Securely create PID_FILE with restrictive permissions
+    // Run backend migrations so the test database has the required schema.
+    // This ensures integration tests don't fail with "relation \"users\" does not exist".
     try {
-      fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'wx', mode: 0o600 });
+      console.log('Running backend migrations (npm run migrate)...');
+      await new Promise((resolve, reject) => {
+        const mig = spawn('npm', ['run', 'migrate'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } });
+        mig.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend migrate failed'))));
+      });
+      // Optionally run seeds if available to populate initial data for tests
+      const seedScript = path.join(backendDir, 'dist', 'db', 'seed.js');
+      const seedSrc = path.join(backendDir, 'src', 'db', 'seed.ts');
+      if (fs.existsSync(seedScript) || fs.existsSync(seedSrc)) {
+        console.log('Running backend seeds (npm run seed)...');
+        await new Promise((resolve, reject) => {
+          const seed = spawn('npm', ['run', 'seed'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } });
+          seed.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend seed failed'))));
+        });
+      }
     } catch (err) {
-      if (err.code === 'EEXIST') {
-        // If file exists, overwrite with safe permissions
-        fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'w', mode: 0o600 });
+      console.error('Error running migrations/seeds:', err?.message ?? err);
+      throw err;
+    }
+    // Start backend dev server similar to scripts/run-integration-local.sh
+    const checkPort = (port, host = '127.0.0.1') =>
+      new Promise((resolve) => {
+        const sock = net.createConnection(port, host);
+        sock.on('connect', () => {
+          sock.end();
+          resolve(true);
+        });
+        sock.on('error', () => resolve(false));
+      });
+    let server;
+    const portInUse = await checkPort(3000);
+    if (portInUse) {
+      console.log('Port 3000 appears to be in use; assuming backend already running. Skipping spawn.');
+    } else {
+      let serverCmd;
+      let serverArgs;
+      const indexTs = path.join(backendDir, 'src', 'index.ts');
+      if (fs.existsSync(indexTs)) {
+        serverCmd = 'npx';
+        serverArgs = ['tsx', 'watch', 'src/index.ts'];
       } else {
-        throw err;
+        serverCmd = 'npm';
+        serverArgs = ['run', 'dev'];
+      }
+
+      const server = spawn(serverCmd, serverArgs, { cwd: backendDir, env: { ...process.env, NODE_ENV: 'test' }, stdio: ['ignore', 'inherit', 'inherit'] });
+      // Securely create PID_FILE with restrictive permissions
+      try {
+        fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'wx', mode: 0o600 });
+      } catch (err) {
+        if (err.code === 'EEXIST') {
+          // If file exists, overwrite with safe permissions
+          fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'w', mode: 0o600 });
+        } else {
+          throw err;
+        }
       }
     }
 
@@ -164,7 +201,7 @@ module.exports = async function globalSetup() {
       console.log('Backend started and healthy');
     } catch (e) {
       console.error('Backend failed to become healthy:', e);
-      try { process.kill(server.pid); } catch (err) {}
+      try { if (server && server.pid) process.kill(server.pid); } catch (err) {}
       throw e;
     }
   } catch (e) {
