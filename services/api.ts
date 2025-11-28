@@ -118,32 +118,7 @@ export interface OfflineAction {
 // ============================================================================
 
 class NaviKidApiClient {
-  // Generic HTTP methods for external use
-  async post<T = unknown>(
-    endpoint: string,
-    body?: unknown,
-    options?: RequestInit,
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'POST',
-      body: body ? JSON.stringify(body) : undefined,
-      ...(options || {}),
-    });
-  }
-  async put<T = unknown>(endpoint: string, body?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'PUT',
-      body: body ? JSON.stringify(body) : undefined,
-      ...(options || {}),
-    });
-  }
-
-  async get<T = any>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'GET',
-      ...(options || {}),
-    });
-  }
+  // (HTTP helper methods implemented later with retry and skipAuth options)
   private config: ApiConfig;
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
