@@ -201,7 +201,7 @@ module.exports = async function globalSetup() {
       console.log('Backend started and healthy');
     } catch (e) {
       console.error('Backend failed to become healthy:', e);
-      try { if (server) { process.kill(server.pid); } } catch (err) {}
+      try { process.kill(server.pid); } catch (err) {}
       throw e;
     }
   } catch (e) {
