@@ -11,9 +11,11 @@ The map rendering failure was caused by **static imports** of the `@maplibre/map
 ### Specific Issues Found
 
 1. **app/(tabs)/map.tsx** - Line 7 had a direct import:
+
    ```typescript
    import MapLibreGL from '@maplibre/maplibre-react-native';
    ```
+
    This import was followed by an unused `MapLibreMapView` component (lines 9-83) that used MapLibreGL but was never rendered.
 
 2. **useRouteORS.tsx** (at project root) - This misplaced file also had a direct MapLibreGL import and was a duplicate of the correct hook in `hooks/useRouteORS.ts`.
@@ -23,11 +25,13 @@ The map rendering failure was caused by **static imports** of the `@maplibre/map
 ### 1. Removed Problematic Imports
 
 **File: `app/(tabs)/map.tsx`**
+
 - ✅ Removed the static import of MapLibreGL
 - ✅ Deleted unused `MapLibreMapView` component (75 lines of dead code)
 - ✅ The component now relies entirely on `MapViewWrapper` which uses dynamic loading
 
 **File: `useRouteORS.tsx`** (project root)
+
 - ✅ Deleted this misplaced file
 - ✅ The correct hook exists at `hooks/useRouteORS.ts` and doesn't import MapLibreGL
 
@@ -47,6 +51,7 @@ function getMapLibreModule() {
 ```
 
 This pattern:
+
 1. Uses `require()` instead of `import` to defer module loading until runtime
 2. Wraps the require in try-catch to handle missing native modules gracefully
 3. Returns null if the module is unavailable, triggering fallback logic
@@ -54,6 +59,7 @@ This pattern:
 ### 3. Fallback Chain
 
 When MapLibre is unavailable, the app automatically falls back to:
+
 1. **MapViewWrapper** → attempts to load MapLibre dynamically
 2. **MapLibreMap** → if MapLibre fails, loads `InteractiveMap`
 3. **InteractiveMap** → renders an OpenStreetMap-based web map
@@ -63,15 +69,18 @@ This ensures the app can always render a map, regardless of the runtime environm
 ## Changes Made
 
 ### Modified Files
+
 1. `app/(tabs)/map.tsx`
    - Removed lines 7-84 (import and unused component)
    - No functional changes to the actual map rendering logic
 
 ### Deleted Files
+
 1. `useRouteORS.tsx` (project root)
    - Removed duplicate/misplaced component file
 
 ### Documentation Updates
+
 1. `MAPLIBRE.md`
    - Added troubleshooting section about import patterns
    - Documented the dynamic loading approach
@@ -80,15 +89,19 @@ This ensures the app can always render a map, regardless of the runtime environm
 ## Testing & Validation
 
 ### Test Results
+
 ✅ **TypeScript compilation**: Passes with no errors  
 ✅ **All unit tests**: 290 tests pass  
 ✅ **Map-specific tests**:
+
 - InteractiveMap tests: 6/6 pass
 - MapLibreRouteView tests: 11/11 pass
 - Map E2E tests: 1/1 pass
 
 ### Manual Validation Tests
+
 Created and ran custom validation script to verify:
+
 - ✅ MapLibreMap.tsx uses dynamic require()
 - ✅ MapLibreMap.tsx has getMapLibreModule function
 - ✅ MapLibreMap.tsx includes InteractiveMap fallback
@@ -97,6 +110,7 @@ Created and ran custom validation script to verify:
 - ✅ MapViewWrapper.tsx uses dynamic loading pattern
 
 ### Security Analysis
+
 ✅ **CodeQL scan**: No security issues detected
 
 ## How to Verify the Fix
@@ -104,23 +118,29 @@ Created and ran custom validation script to verify:
 ### Development Environment
 
 1. **Expo Go** (no native modules):
+
    ```bash
    npx expo start
    ```
+
    - Map should render using InteractiveMap fallback
    - No module resolution errors
 
 2. **Development Build** (with native modules):
+
    ```bash
    npx eas build --profile development --platform android
    ```
+
    - MapLibre native module should load successfully
    - Map renders with full native performance
 
 3. **Web Build**:
+
    ```bash
    npx expo start --web
    ```
+
    - Map should render using web-based fallback
    - No console errors about missing native modules
 
@@ -158,6 +178,7 @@ EXPO_PUBLIC_ORS_BASE_URL=https://api.openrouteservice.org
 ### Configuration Fallbacks
 
 The app has sensible defaults for all map configuration:
+
 - **Default center**: New York City (40.7128, -74.006)
 - **Default zoom**: 13
 - **Default style**: MapLibre demo tiles
@@ -166,12 +187,14 @@ The app has sensible defaults for all map configuration:
 ## Best Practices
 
 ### ✅ DO
+
 - Use `type import` for TypeScript types only
 - Use dynamic `require()` wrapped in try-catch for native modules
 - Implement fallback logic for all native dependencies
 - Test in multiple environments (Expo Go, dev builds, production)
 
 ### ❌ DON'T
+
 - Use static `import` for native modules that may not be available
 - Assume native modules are always present
 - Skip testing in Expo Go (it reveals fallback issues)
@@ -186,6 +209,7 @@ The app has sensible defaults for all map configuration:
 ## Summary
 
 This fix ensures the map component renders correctly in all environments:
+
 1. ✅ Expo Go (no native modules) → uses fallback
 2. ✅ Development builds → uses MapLibre when available
 3. ✅ Production builds → uses MapLibre

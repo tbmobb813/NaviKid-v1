@@ -4,6 +4,8 @@ import Colors from '@/constants/colors';
 import { Clock, X, MapPin, Bell, Shield, Trophy } from 'lucide-react-native';
 import * as Notifications from 'expo-notifications';
 import { useToast } from '@/hooks/useToast';
+import { logger } from '@sentry/react-native';
+import safeToRecord from '@/utils/safeToRecord';
 
 export type NotificationData = {
   id: string;
@@ -33,7 +35,7 @@ Notifications.setNotificationHandler({
       // Include web/modern fields required by NotificationBehavior
       shouldShowBanner: true,
       shouldShowList: true,
-    } as any),
+    }) as any,
 });
 
 const SmartNotification: React.FC<SmartNotificationProps> = ({
@@ -59,7 +61,7 @@ const SmartNotification: React.FC<SmartNotificationProps> = ({
     }
   };
 
-  const scheduleNotification = async () => {
+  const scheduleNotification = async (): Promise<void> => {
     if (Platform.OS === 'web') {
       // Web notifications fallback
       if ('Notification' in window) {
@@ -111,16 +113,18 @@ const SmartNotification: React.FC<SmartNotificationProps> = ({
           priority: (priority === 'high'
             ? (Notifications as any).AndroidNotificationPriority.HIGH
             : priority === 'low'
-            ? (Notifications as any).AndroidNotificationPriority.LOW
-            : (Notifications as any).AndroidNotificationPriority.DEFAULT) as any,
+              ? (Notifications as any).AndroidNotificationPriority.LOW
+              : (Notifications as any).AndroidNotificationPriority.DEFAULT) as any,
         },
         trigger: scheduledFor ? ({ type: 'date', date: scheduledFor } as any) : null,
       });
 
       showToast('Notification scheduled successfully', 'success');
-      console.log('Scheduled notification:', notificationId);
+  // Use a lightweight record for logger.info to avoid implicit-any issues
+  logger.info('Scheduled notification:', { notificationId });
     } catch (error) {
-      console.error('Failed to schedule notification:', error);
+      // Convert unknown error into a record for typed logger API
+      logger.error('Failed to schedule notification:', safeToRecord(error) ?? { error: String(error) });
       showToast('Failed to schedule notification', 'error');
     } finally {
       setIsScheduling(false);

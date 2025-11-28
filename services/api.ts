@@ -6,6 +6,12 @@
  */
 
 import Constants from 'expo-constants';
+// Polyfill fetch for Node.js integration tests
+// @ts-ignore
+if (typeof fetch === 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  globalThis.fetch = require('node-fetch');
+}
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { log } from '@/utils/logger';
@@ -21,13 +27,13 @@ export interface ApiConfig {
   retryDelay: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
     message: string;
     code?: string;
-    details?: any;
+    details?: unknown;
   };
   meta?: {
     timestamp: Date;
@@ -112,6 +118,32 @@ export interface OfflineAction {
 // ============================================================================
 
 class NaviKidApiClient {
+  // Generic HTTP methods for external use
+  async post<T = unknown>(
+    endpoint: string,
+    body?: unknown,
+    options?: RequestInit,
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: 'POST',
+      body: body ? JSON.stringify(body) : undefined,
+      ...(options || {}),
+    });
+  }
+  async put<T = unknown>(endpoint: string, body?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: 'PUT',
+      body: body ? JSON.stringify(body) : undefined,
+      ...(options || {}),
+    });
+  }
+
+  async get<T = any>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: 'GET',
+      ...(options || {}),
+    });
+  }
   private config: ApiConfig;
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
@@ -122,7 +154,8 @@ class NaviKidApiClient {
     const extra = Constants.expoConfig?.extra;
 
     this.config = {
-      baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000',
+  // Default to backend API mount point which serves routes under /api
+  baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000/api',
       timeout: config?.timeout || extra?.api?.timeout || 15000,
       retryAttempts: config?.retryAttempts || 3,
       retryDelay: config?.retryDelay || 1000,
@@ -215,9 +248,15 @@ class NaviKidApiClient {
     const url = `${this.config.baseUrl}${endpoint}`;
 
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
     };
+
+    // Only set Content-Type when there's a body to send. Some callers POST without
+    // a body (e.g. triggerAlert) and sending an empty application/json header causes
+    // Fastify to attempt to parse an empty body and return 400. Avoid that.
+    if (options.body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     // Add auth token if available and not skipped
     if (!skipAuth && this.accessToken) {
@@ -305,7 +344,9 @@ class NaviKidApiClient {
         // Wait before retry (exponential backoff)
         if (attempt < this.config.retryAttempts - 1) {
           const delay = this.config.retryDelay * Math.pow(2, attempt);
-          log.debug(`Retrying request in ${delay}ms (attempt ${attempt + 1}/${this.config.retryAttempts})`);
+          log.debug(
+            `Retrying request in ${delay}ms (attempt ${attempt + 1}/${this.config.retryAttempts})`,
+          );
           await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
@@ -319,7 +360,11 @@ class NaviKidApiClient {
   // ==========================================================================
 
   auth = {
-    register: async (email: string, password: string, role: 'parent' | 'guardian' = 'parent'): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
+    register: async (
+      email: string,
+      password: string,
+      role: 'parent' | 'guardian' = 'parent',
+    ): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
       const response = await this.request<{ user: User; tokens: AuthTokens }>(
         '/auth/register',
         {
@@ -336,7 +381,10 @@ class NaviKidApiClient {
       return response;
     },
 
-    login: async (email: string, password: string): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
+    login: async (
+      email: string,
+      password: string,
+    ): Promise<ApiResponse<{ user: User; tokens: AuthTokens }>> => {
       const response = await this.request<{ user: User; tokens: AuthTokens }>(
         '/auth/login',
         {
@@ -388,7 +436,10 @@ class NaviKidApiClient {
       return this.request<{ user: User }>('/auth/me');
     },
 
-    changePassword: async (oldPassword: string, newPassword: string): Promise<ApiResponse<void>> => {
+    changePassword: async (
+      oldPassword: string,
+      newPassword: string,
+    ): Promise<ApiResponse<void>> => {
       return this.request<void>('/auth/change-password', {
         method: 'POST',
         body: JSON.stringify({ oldPassword, newPassword }),
@@ -407,14 +458,19 @@ class NaviKidApiClient {
       accuracy: number,
       context?: LocationContext,
     ): Promise<ApiResponse<Location>> => {
+      // Ensure we always send a timestamp — backend validation expects it.
+      // Use an ISO string which satisfies both string and date schema checks.
+      const payload = {
+        latitude,
+        longitude,
+        accuracy,
+        timestamp: new Date().toISOString(),
+        context: context || {},
+      };
+
       return this.requestWithRetry<Location>('/locations', {
         method: 'POST',
-        body: JSON.stringify({
-          latitude,
-          longitude,
-          accuracy,
-          context: context || {},
-        }),
+        body: JSON.stringify(payload),
       });
     },
 
@@ -484,7 +540,10 @@ class NaviKidApiClient {
       });
     },
 
-    checkGeofence: async (latitude: number, longitude: number): Promise<ApiResponse<{ insideSafeZone: boolean; safeZone?: SafeZone }>> => {
+    checkGeofence: async (
+      latitude: number,
+      longitude: number,
+    ): Promise<ApiResponse<{ insideSafeZone: boolean; safeZone?: SafeZone }>> => {
       return this.request<{ insideSafeZone: boolean; safeZone?: SafeZone }>(
         `/safe-zones/check?latitude=${latitude}&longitude=${longitude}`,
       );
@@ -517,7 +576,10 @@ class NaviKidApiClient {
       });
     },
 
-    updateContact: async (id: string, updates: Partial<EmergencyContact>): Promise<ApiResponse<EmergencyContact>> => {
+    updateContact: async (
+      id: string,
+      updates: Partial<EmergencyContact>,
+    ): Promise<ApiResponse<EmergencyContact>> => {
       return this.request<EmergencyContact>(`/emergency-contacts/${id}`, {
         method: 'PUT',
         body: JSON.stringify(updates),
@@ -542,7 +604,9 @@ class NaviKidApiClient {
   // ==========================================================================
 
   offline = {
-    syncActions: async (actions: OfflineAction[]): Promise<ApiResponse<{ syncedCount: number }>> => {
+    syncActions: async (
+      actions: OfflineAction[],
+    ): Promise<ApiResponse<{ syncedCount: number }>> => {
       return this.request<{ syncedCount: number }>('/offline-actions/sync', {
         method: 'POST',
         body: JSON.stringify({ actions }),
@@ -579,8 +643,8 @@ class NaviKidApiClient {
   // Health Check
   // ==========================================================================
 
-  async healthCheck(): Promise<ApiResponse<{ status: string; services: any }>> {
-    return this.request<{ status: string; services: any }>('/health', {}, true);
+  async healthCheck(): Promise<ApiResponse<{ status: string; services: unknown }>> {
+    return this.request<{ status: string; services: unknown }>('/health', {}, true);
   }
 }
 

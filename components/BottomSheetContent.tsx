@@ -5,7 +5,9 @@ const RouteInfoPanel = ({ route, unifiedRoute }: any) => {
   if (!route && !unifiedRoute) {
     return (
       <View style={{ padding: 8 }}>
-        <Text style={{ fontWeight: '600', color: '#4F8EF7' }}>{strings.routeInfoPanel.noRouteSelected}</Text>
+        <Text style={{ fontWeight: '600', color: '#4F8EF7' }}>
+          {strings.routeInfoPanel.noRouteSelected}
+        </Text>
         <Text style={{ color: '#666', marginTop: 6 }}>
           {strings.routeInfoPanel.setOriginAndDestination}
         </Text>
@@ -21,7 +23,7 @@ const RouteInfoPanel = ({ route, unifiedRoute }: any) => {
         {route?.name ?? unifiedRoute?.name ?? strings.routeInfoPanel.selectedRoute}
       </Text>
       {summary && (
-        <Text style={{ color: '#374151', marginTop: 6 }}>{`${strings.routeInfoPanel.distance}${ 
+        <Text style={{ color: '#374151', marginTop: 6 }}>{`${strings.routeInfoPanel.distance}${
           Math.round(((summary.distance ?? 0) / 1000) * 10) / 10
         }${strings.routeInfoPanel.kmDuration}${Math.round((summary.duration ?? 0) / 60)}${strings.routeInfoPanel.min}`}</Text>
       )}
@@ -32,9 +34,7 @@ const RouteInfoPanel = ({ route, unifiedRoute }: any) => {
 const SafetyPanel = ({ children }: any) => (
   <View style={{ padding: 8, backgroundColor: '#FEF3F2', borderRadius: 8, marginVertical: 8 }}>
     <Text style={{ fontWeight: '700', color: '#B91C1C' }}>{strings.safetyPanel.safetyTips}</Text>
-    <Text style={{ color: '#7F1D1D', marginTop: 6 }}>
-      {strings.safetyPanel.tips}
-    </Text>
+    <Text style={{ color: '#7F1D1D', marginTop: 6 }}>{strings.safetyPanel.tips}</Text>
     {children}
   </View>
 );

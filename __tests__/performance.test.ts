@@ -78,13 +78,14 @@ describe('Performance Tests', () => {
       };
 
       // Core modules should be under 200KB each
-      const coreModules = ['core', 'safety', 'navigation', 'ui'];
-      coreModules.forEach((module) => {
+      const coreModules = ['core', 'safety', 'navigation', 'ui'] as const;
+      type CoreKey = typeof coreModules[number];
+      coreModules.forEach((module: CoreKey) => {
         expect(mockBundleSizes[module]).toBeLessThan(200);
       });
 
       // Total core bundle should be under 1MB
-      const totalCoreSize = coreModules.reduce((sum, module) => sum + mockBundleSizes[module], 0);
+  const totalCoreSize = coreModules.reduce((sum, module) => sum + mockBundleSizes[module], 0);
       expect(totalCoreSize).toBeLessThan(1000);
     });
   });

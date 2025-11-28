@@ -16,22 +16,21 @@ async function runCleanup() {
     const deletedLocations = await locationService.deleteOldLocations(
       config.dataRetention.locationRetentionDays
     );
-    logger.info(`Deleted ${deletedLocations} old location records`);
+    logger.info({ deletedLocations }, 'Deleted old location records');
 
     // Delete old synced offline actions (keep for 7 days)
     const deletedActions = await offlineService.deleteOldSyncedActions(7);
-    logger.info(`Deleted ${deletedActions} old synced offline actions`);
+    logger.info({ deletedActions }, 'Deleted old synced offline actions');
 
     // Delete old audit logs (optional, keep for 90 days)
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 90);
 
-    const auditResult = await db.query(
-      'DELETE FROM audit_logs WHERE timestamp < $1',
-      [cutoffDate]
-    );
+    const auditResult = await db.query('DELETE FROM audit_logs WHERE timestamp < $1', [
+      cutoffDate,
+    ]);
     const deletedAuditLogs = auditResult.rowCount ?? 0;
-    logger.info(`Deleted ${deletedAuditLogs} old audit logs`);
+    logger.info({ deletedAuditLogs }, 'Deleted old audit logs');
 
     logger.info('Data retention cleanup completed successfully');
 
@@ -41,7 +40,7 @@ async function runCleanup() {
       process.exit(0);
     }
   } catch (error) {
-    logger.error({ error  }, 'Data retention cleanup failed');
+    logger.error({ error }, 'Data retention cleanup failed');
 
     if (require.main === module) {
       process.exit(1);

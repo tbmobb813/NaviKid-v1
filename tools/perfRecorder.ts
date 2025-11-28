@@ -25,11 +25,14 @@ export function recordTiming(testName: string, ms: number) {
     // Keep only last 50 entries per test to limit file size
     if (data[testName].length > 50) data[testName] = data[testName].slice(-50);
 
-    fs.writeFileSync(outPath, JSON.stringify(data, null, 2), 'utf8');
+    // Write atomically: write to a temp file then rename into place.
+    const tempPath = `${outPath}.tmp-${process.pid}-${Date.now()}`;
+    fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf8');
+    fs.renameSync(tempPath, outPath);
   } catch (err) {
-    // Do not fail tests if recording fails
-
+    // Do not fail tests if recording fails; log to console to avoid added deps
     const e: any = err;
+    // Use console.warn instead of a logger to avoid pulling runtime deps into tools
     console.warn('perfRecorder: failed to record timing', e && e.message ? e.message : e);
   }
 }

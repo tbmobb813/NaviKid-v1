@@ -30,6 +30,7 @@ module.exports = {
     '^expo-constants$': '<rootDir>/__mocks__/expo-constants.js',
     '^lucide-react-native$': '<rootDir>/__mocks__/lucide-react-native.js',
     '^react-native-svg$': '<rootDir>/__mocks__/react-native-svg.js',
+    '^@sentry/react-native$': '<rootDir>/__mocks__/@sentry/react-native.js',
     // Prefer TypeScript source when both .ts and .js exist
     '^utils/(.*)$': '<rootDir>/utils/$1.ts',
   },
@@ -42,4 +43,7 @@ module.exports = {
   setupFiles: ['<rootDir>/jest.setup.cjs'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
+  // Start backend server before tests and stop after tests so integration suites can run
+  globalSetup: '<rootDir>/jest.global-setup.js',
+  globalTeardown: '<rootDir>/jest.global-teardown.js',
 };

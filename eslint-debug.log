@@ -1,0 +1,124 @@
+2025-11-27T15:52:14.672Z eslint:cli CLI args: [ '--debug', 'app', '--ext', '.ts,.tsx', '--config', 'eslint.config.frontend.cjs' ]
+2025-11-27T15:52:14.675Z eslint:cli Using flat config? true
+2025-11-27T15:52:14.689Z eslint:cli Running on files
+2025-11-27T15:52:14.693Z eslint:eslint Using config loader LegacyConfigLoader
+2025-11-27T15:52:14.695Z eslint:eslint Using file patterns: app
+2025-11-27T15:52:14.695Z eslint:eslint Deleting cache file at /home/nixstation-remote/Projects/NaviKid-v1/.eslintcache
+2025-11-27T15:52:14.833Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:14.834Z eslint:config-loader Override config file path is eslint.config.frontend.cjs
+2025-11-27T15:52:14.834Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:14.845Z eslint:config-loader Calculating config array from config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:14.852Z eslint:config-loader Loading config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs
+2025-11-27T15:52:14.853Z eslint:config-loader Loading config from /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs
+2025-11-27T15:52:14.853Z eslint:config-loader Config file URL is file:///home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs
+2025-11-27T15:52:15.888Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2025-11-27T15:52:15.949Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2025-11-27T15:52:15.959Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2025-11-27T15:52:15.961Z eslint:rules Loading rule 'max-params' (remaining=288)
+2025-11-27T15:52:16.003Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2025-11-27T15:52:16.015Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2025-11-27T15:52:16.046Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2025-11-27T15:52:16.048Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2025-11-27T15:52:16.050Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2025-11-27T15:52:16.055Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2025-11-27T15:52:16.136Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2025-11-27T15:52:16.355Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2025-11-27T15:52:16.374Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2025-11-27T15:52:16.396Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+2025-11-27T15:52:17.264Z eslint:config-loader Config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs is not empty
+2025-11-27T15:52:17.274Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.274Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.275Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.304Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/achievements.tsx
+2025-11-27T15:52:17.305Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/achievements.tsx
+2025-11-27T15:52:17.305Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.307Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/dev
+2025-11-27T15:52:17.307Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.309Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/dev/native-debug.tsx
+2025-11-27T15:52:17.309Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/dev/native-debug.tsx
+2025-11-27T15:52:17.310Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.311Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/index.tsx
+2025-11-27T15:52:17.312Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/index.tsx
+2025-11-27T15:52:17.312Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.313Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/map.tsx
+2025-11-27T15:52:17.313Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/map.tsx
+2025-11-27T15:52:17.313Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.314Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/settings.tsx
+2025-11-27T15:52:17.314Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/settings.tsx
+2025-11-27T15:52:17.314Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.317Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/transit.tsx
+2025-11-27T15:52:17.317Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/transit.tsx
+2025-11-27T15:52:17.317Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.318Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/+not-found.tsx
+2025-11-27T15:52:17.318Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/+not-found.tsx
+2025-11-27T15:52:17.318Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.319Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/_layout.tsx
+2025-11-27T15:52:17.321Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/_layout.tsx
+2025-11-27T15:52:17.322Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.322Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/auth.tsx
+2025-11-27T15:52:17.322Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/auth.tsx
+2025-11-27T15:52:17.322Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.323Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/index.tsx
+2025-11-27T15:52:17.323Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/index.tsx
+2025-11-27T15:52:17.323Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.324Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/modal.tsx
+2025-11-27T15:52:17.324Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/modal.tsx
+2025-11-27T15:52:17.324Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.327Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/onboarding.tsx
+2025-11-27T15:52:17.328Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/onboarding.tsx
+2025-11-27T15:52:17.328Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.330Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/route
+2025-11-27T15:52:17.331Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.332Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/route/[id].tsx
+2025-11-27T15:52:17.332Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/route/[id].tsx
+2025-11-27T15:52:17.332Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.332Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/search.tsx
+2025-11-27T15:52:17.333Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/search.tsx
+2025-11-27T15:52:17.333Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.333Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/styles
+2025-11-27T15:52:17.333Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.334Z eslint:config-loader Calculating config for file /home/nixstation-remote/Projects/NaviKid-v1/app/styles/transit.ts
+2025-11-27T15:52:17.334Z eslint:config-loader [Legacy]: Calculating config for /home/nixstation-remote/Projects/NaviKid-v1/app/styles/transit.ts
+2025-11-27T15:52:17.334Z eslint:config-loader [Legacy]: Using config file /home/nixstation-remote/Projects/NaviKid-v1/eslint.config.frontend.cjs and base path /home/nixstation-remote/Projects/NaviKid-v1
+2025-11-27T15:52:17.335Z eslint:eslint 16 file(s) found in 2609 ms
+2025-11-27T15:52:17.335Z eslint:eslint Linting in single-thread mode.
+2025-11-27T15:52:17.336Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.337Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.339Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/achievements.tsx
+2025-11-27T15:52:17.339Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.340Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/dev/native-debug.tsx
+2025-11-27T15:52:17.341Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/dev
+2025-11-27T15:52:17.342Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/index.tsx
+2025-11-27T15:52:17.342Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.342Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/map.tsx
+2025-11-27T15:52:17.343Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.343Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/settings.tsx
+2025-11-27T15:52:17.344Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.344Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/transit.tsx
+2025-11-27T15:52:17.345Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)
+2025-11-27T15:52:17.345Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/+not-found.tsx
+2025-11-27T15:52:17.346Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.346Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/_layout.tsx
+2025-11-27T15:52:17.347Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.348Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/auth.tsx
+2025-11-27T15:52:17.348Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.348Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/index.tsx
+2025-11-27T15:52:17.349Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.349Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/modal.tsx
+2025-11-27T15:52:17.349Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.350Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/onboarding.tsx
+2025-11-27T15:52:17.350Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.351Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/route/[id].tsx
+2025-11-27T15:52:17.351Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/route
+2025-11-27T15:52:17.351Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/search.tsx
+2025-11-27T15:52:17.351Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app
+2025-11-27T15:52:17.352Z eslint:config-loader Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/styles/transit.ts
+2025-11-27T15:52:17.352Z eslint:config-loader [Legacy]: Looking up cached config for /home/nixstation-remote/Projects/NaviKid-v1/app/styles
+2025-11-27T15:52:17.357Z eslint:eslint-helpers File "/home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx" read in 19 ms
+2025-11-27T15:52:17.359Z eslint:linter Linting code for /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx (pass 1)
+2025-11-27T15:52:17.359Z eslint:linter Verify
+2025-11-27T15:52:17.360Z eslint:linter With flat config: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.363Z eslint:languages:js Parsing: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.472Z eslint:languages:js Parsing successful: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.472Z eslint:languages:js Scope analysis: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx
+2025-11-27T15:52:17.472Z eslint:languages:js Scope analysis successful: /home/nixstation-remote/Projects/NaviKid-v1/app/(tabs)/_layout.tsx

@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Ensure Volta's shims are present in PATH so hooks run with the pinned Node
+# (some GUI/git clients and CI shells don't source user shell profiles).
+export PATH="$HOME/.volta/bin:$PATH"
+
+npx lint-staged

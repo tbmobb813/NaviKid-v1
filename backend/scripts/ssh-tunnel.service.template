@@ -1,0 +1,16 @@
+[Unit]
+Description=SSH tunnel for Supabase DB (template)
+After=network-online.target
+
+[Service]
+Type=simple
+User=%i
+ExecStart=/usr/bin/ssh -o ExitOnForwardFailure=yes -L 127.0.0.1:15432:db.feqfhdwmwrolaafchldq.supabase.co:5432 %h -N
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+# Usage: copy this file to ~/.config/systemd/user/ssh-tunnel@<username>.service or
+# on system level to /etc/systemd/system/ssh-tunnel@<username>.service and edit ExecStart to
+# point to the correct remote SSH target (replace %h with remote user@host or edit the line).

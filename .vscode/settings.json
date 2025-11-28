@@ -1,7 +1,12 @@
 {
+  "eslint.workingDirectories": [{ "directory": ".", "changeProcessCWD": true }, { "mode": "auto" }],
   "java.configuration.updateBuildConfiguration": "interactive",
   "jestrunner.jestCommandLine": "npm test --",
   "jest.pathToJest": "node_modules/.bin/jest",
   "jest.jestCommandLine": "npm test --",
-  "jest.enabled": true
+  "jest.enabled": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "warning"
+  }
 }

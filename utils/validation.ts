@@ -314,7 +314,7 @@ export function sanitizeInput(input: string, maxLength: number = 1000): string {
 
 // Validate and sanitize form data
 export function validateAndSanitizeFormData(
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   schema: Record<string, any>,
 ): {
   isValid: boolean;

@@ -1,0 +1,21 @@
+
+/app/backend/src/services/auth.service.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+/app/backend/src/services/emergency.service.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+/app/backend/src/services/location.service.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+/app/backend/src/services/offline.service.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+/app/backend/src/services/safezone.service.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+/app/backend/src/services/sessionStore.ts
+  0:0  error  Parsing error: error TS5012: Cannot read file '/app/backend/backend/tsconfig.json': ENOENT: no such file or directory, open '/app/backend/backend/tsconfig.json'
+
+✖ 6 problems (6 errors, 0 warnings)
+

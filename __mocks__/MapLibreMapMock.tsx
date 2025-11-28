@@ -1,19 +1,25 @@
 import React from 'react';
 
 // Mock components for MapLibre GL components
-const MockShapeSource = ({ children, ...props }: any) => (
-  <div data-testid="mock-shape-source" {...props}>
+type MockChildrenProps = { children?: React.ReactNode; [key: string]: unknown };
+
+const MockShapeSource = ({ children, ...props }: MockChildrenProps) => (
+  <div data-testid="mock-shape-source" {...(props as any)}>
     {children}
   </div>
 );
 
-const MockLineLayer = (props: any) => <div data-testid="mock-line-layer" {...props} />;
+const MockLineLayer = (props: Record<string, unknown>) => (
+  <div data-testid="mock-line-layer" {...(props as any)} />
+);
 
-const MockCircleLayer = (props: any) => <div data-testid="mock-circle-layer" {...props} />;
+const MockCircleLayer = (props: Record<string, unknown>) => (
+  <div data-testid="mock-circle-layer" {...(props as any)} />
+);
 
 // Main MapLibre Map component mock
-const MockMapLibreMap = ({ children, ...props }: any) => (
-  <div data-testid="mock-maplibre-map" {...props}>
+const MockMapLibreMap = ({ children, ...props }: MockChildrenProps) => (
+  <div data-testid="mock-maplibre-map" {...(props as any)}>
     {children}
   </div>
 );

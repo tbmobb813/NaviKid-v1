@@ -263,7 +263,8 @@ export const storeLocationSchema = z.object({
 
 export const registerSchema = z.object({
   email: z.string().email('Invalid email address'),
-  password: z.string()
+  password: z
+    .string()
     .min(8)
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Must contain uppercase, lowercase, and number'),
 });
@@ -281,16 +282,18 @@ export const registerSchema = z.object({
 
 ```typescript
 // backend/src/services/location.service.ts
-await db.query(
-  'SELECT * FROM locations WHERE user_id = $1 AND timestamp >= $2',
-  [userId, startDate]
-);
+await db.query('SELECT * FROM locations WHERE user_id = $1 AND timestamp >= $2', [
+  userId,
+  startDate,
+]);
 
 // backend/src/services/auth.service.ts
-await db.query(
-  'INSERT INTO users (email, password_hash, salt, role) VALUES ($1, $2, $3, $4)',
-  [email.toLowerCase(), passwordHash, salt, role]
-);
+await db.query('INSERT INTO users (email, password_hash, salt, role) VALUES ($1, $2, $3, $4)', [
+  email.toLowerCase(),
+  passwordHash,
+  salt,
+  role,
+]);
 ```
 
 **Assessment:** Zero SQL injection vulnerabilities detected. All queries properly parameterized.
@@ -328,45 +331,45 @@ DELETE FROM emergency_contacts WHERE id = $1 AND user_id = $2
 
 #### Authentication Endpoints
 
-| Endpoint | Method | Auth Required | Validation | Authorization | Status |
-|----------|--------|---------------|------------|---------------|--------|
-| `/auth/register` | POST | No | ✅ Zod | N/A | ✅ PASS |
-| `/auth/login` | POST | No | ✅ Zod | N/A | ✅ PASS |
-| `/auth/logout` | POST | ✅ Yes | None | User = Self | ✅ PASS |
-| `/auth/refresh` | POST | No | ✅ Zod | Token valid | ✅ PASS |
-| `/auth/me` | GET | ✅ Yes | None | User = Self | ✅ PASS |
-| `/auth/change-password` | POST | ✅ Yes | ✅ Zod | User = Self | ✅ PASS |
+| Endpoint                | Method | Auth Required | Validation | Authorization | Status  |
+| ----------------------- | ------ | ------------- | ---------- | ------------- | ------- |
+| `/auth/register`        | POST   | No            | ✅ Zod     | N/A           | ✅ PASS |
+| `/auth/login`           | POST   | No            | ✅ Zod     | N/A           | ✅ PASS |
+| `/auth/logout`          | POST   | ✅ Yes        | None       | User = Self   | ✅ PASS |
+| `/auth/refresh`         | POST   | No            | ✅ Zod     | Token valid   | ✅ PASS |
+| `/auth/me`              | GET    | ✅ Yes        | None       | User = Self   | ✅ PASS |
+| `/auth/change-password` | POST   | ✅ Yes        | ✅ Zod     | User = Self   | ✅ PASS |
 
 #### Location Endpoints
 
-| Endpoint | Method | Auth Required | Validation | Authorization | Status |
-|----------|--------|---------------|------------|---------------|--------|
-| `/locations` | POST | ✅ Yes | ✅ Zod | User owns data | ✅ PASS |
-| `/locations` | GET | ✅ Yes | Query params | User = Self | ✅ PASS |
-| `/locations/current` | GET | ✅ Yes | None | User = Self | ✅ PASS |
-| `/locations/:id` | DELETE | ✅ Yes | None | User owns location | ✅ PASS |
-| `/locations/batch` | POST | ✅ Yes | ✅ Zod (max 100) | User owns data | ✅ PASS |
+| Endpoint             | Method | Auth Required | Validation       | Authorization      | Status  |
+| -------------------- | ------ | ------------- | ---------------- | ------------------ | ------- |
+| `/locations`         | POST   | ✅ Yes        | ✅ Zod           | User owns data     | ✅ PASS |
+| `/locations`         | GET    | ✅ Yes        | Query params     | User = Self        | ✅ PASS |
+| `/locations/current` | GET    | ✅ Yes        | None             | User = Self        | ✅ PASS |
+| `/locations/:id`     | DELETE | ✅ Yes        | None             | User owns location | ✅ PASS |
+| `/locations/batch`   | POST   | ✅ Yes        | ✅ Zod (max 100) | User owns data     | ✅ PASS |
 
 #### Safe Zone Endpoints
 
-| Endpoint | Method | Auth Required | Validation | Authorization | Status |
-|----------|--------|---------------|------------|---------------|--------|
-| `/safe-zones` | GET | ✅ Yes | None | User = Self | ✅ PASS |
-| `/safe-zones` | POST | ✅ Yes | ✅ Zod | User creates own | ✅ PASS |
-| `/safe-zones/:id` | PUT | ✅ Yes | ✅ Zod | User owns zone | ✅ PASS |
-| `/safe-zones/:id` | DELETE | ✅ Yes | None | User owns zone | ✅ PASS |
-| `/safe-zones/check` | GET | ✅ Yes | Query | User = Self | ✅ PASS |
+| Endpoint            | Method | Auth Required | Validation | Authorization    | Status  |
+| ------------------- | ------ | ------------- | ---------- | ---------------- | ------- |
+| `/safe-zones`       | GET    | ✅ Yes        | None       | User = Self      | ✅ PASS |
+| `/safe-zones`       | POST   | ✅ Yes        | ✅ Zod     | User creates own | ✅ PASS |
+| `/safe-zones/:id`   | PUT    | ✅ Yes        | ✅ Zod     | User owns zone   | ✅ PASS |
+| `/safe-zones/:id`   | DELETE | ✅ Yes        | None       | User owns zone   | ✅ PASS |
+| `/safe-zones/check` | GET    | ✅ Yes        | Query      | User = Self      | ✅ PASS |
 
 #### Emergency Endpoints
 
-| Endpoint | Method | Auth Required | Validation | Authorization | Status |
-|----------|--------|---------------|------------|---------------|--------|
-| `/emergency-contacts` | GET | ✅ Yes | None | User = Self | ✅ PASS |
-| `/emergency-contacts` | POST | ✅ Yes | ✅ Zod | User creates own | ✅ PASS |
-| `/emergency-contacts/:id` | PUT | ✅ Yes | ✅ Zod | User owns contact | ✅ PASS |
-| `/emergency-contacts/:id` | DELETE | ✅ Yes | None | User owns contact | ✅ PASS |
-| `/emergency/alert` | POST | ✅ Yes | ✅ Zod | User triggers own | ⚠️ NEEDS RATE LIMIT |
-| `/emergency/alerts` | GET | ✅ Yes | Query | User = Self | ✅ PASS |
+| Endpoint                  | Method | Auth Required | Validation | Authorization     | Status              |
+| ------------------------- | ------ | ------------- | ---------- | ----------------- | ------------------- |
+| `/emergency-contacts`     | GET    | ✅ Yes        | None       | User = Self       | ✅ PASS             |
+| `/emergency-contacts`     | POST   | ✅ Yes        | ✅ Zod     | User creates own  | ✅ PASS             |
+| `/emergency-contacts/:id` | PUT    | ✅ Yes        | ✅ Zod     | User owns contact | ✅ PASS             |
+| `/emergency-contacts/:id` | DELETE | ✅ Yes        | None       | User owns contact | ✅ PASS             |
+| `/emergency/alert`        | POST   | ✅ Yes        | ✅ Zod     | User triggers own | ⚠️ NEEDS RATE LIMIT |
+| `/emergency/alerts`       | GET    | ✅ Yes        | Query      | User = Self       | ✅ PASS             |
 
 **⚠️ HIGH: Emergency Alert Rate Limiting**
 
@@ -385,7 +388,7 @@ The `/emergency/alert` endpoint lacks specific rate limiting for alert spam prev
 ```typescript
 // backend/src/index.ts
 await fastify.register(rateLimit, {
-  max: config.security.rateLimit.max,          // Default: 100 requests
+  max: config.security.rateLimit.max, // Default: 100 requests
   timeWindow: config.security.rateLimit.timeWindow, // Default: 60000ms (1 minute)
   cache: 10000,
   allowList: ['127.0.0.1'],
@@ -413,15 +416,19 @@ await fastify.register(rateLimit, {
 **Recommendation:** Implement per-route rate limiting:
 
 ```typescript
-fastify.post('/auth/login', {
-  preHandler: authMiddleware,
-  config: {
-    rateLimit: {
-      max: 5,
-      timeWindow: '1 minute'
-    }
-  }
-}, handler);
+fastify.post(
+  '/auth/login',
+  {
+    preHandler: authMiddleware,
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: '1 minute',
+      },
+    },
+  },
+  handler,
+);
 ```
 
 ### Account Lockout
@@ -490,8 +497,8 @@ await fastify.register(helmet, {
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc: ["'self'"],
       imgSrc: ["'self'", 'data:', 'https:'],
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -634,7 +641,7 @@ public async deleteOldLocations(retentionDays: number): Promise<number> {
 ```typescript
 // backend/src/scripts/cleanup.ts
 const deletedLocations = await locationService.deleteOldLocations(
-  config.dataRetention.locationRetentionDays // Default: 30 days
+  config.dataRetention.locationRetentionDays, // Default: 30 days
 );
 ```
 
@@ -651,7 +658,8 @@ const deletedLocations = await locationService.deleteOldLocations(
 ```typescript
 // Option 1: Node-cron
 import cron from 'node-cron';
-cron.schedule('0 2 * * *', async () => { // Run daily at 2 AM
+cron.schedule('0 2 * * *', async () => {
+  // Run daily at 2 AM
   await runCleanup();
 });
 
@@ -850,19 +858,23 @@ fastify.get('/ws/locations', { websocket: true }, (connection, req) => {
 **Recommendation:**
 
 ```typescript
-fastify.get('/ws/locations', {
-  websocket: true,
-  preHandler: authMiddleware, // Add authentication
-}, (connection, req) => {
-  const userId = req.user!.userId;
+fastify.get(
+  '/ws/locations',
+  {
+    websocket: true,
+    preHandler: authMiddleware, // Add authentication
+  },
+  (connection, req) => {
+    const userId = req.user!.userId;
 
-  // Associate connection with userId
-  connections.set(connection.socket, userId);
+    // Associate connection with userId
+    connections.set(connection.socket, userId);
 
-  connection.socket.on('message', (message) => {
-    // Verify message is from authenticated user
-  });
-});
+    connection.socket.on('message', (message) => {
+      // Verify message is from authenticated user
+    });
+  },
+);
 ```
 
 ---
@@ -924,9 +936,7 @@ export async function errorHandler(error: any, request: any, reply: any) {
   logger.error({ error, url: request.url }, 'Request error');
 
   // Don't expose internal errors in production
-  const message = config.server.nodeEnv === 'production'
-    ? 'Internal server error'
-    : error.message;
+  const message = config.server.nodeEnv === 'production' ? 'Internal server error' : error.message;
 
   reply.status(error.statusCode || 500).send({
     success: false,
@@ -1262,49 +1272,49 @@ curl -X POST http://localhost:3000/auth/login \
 
 ### COPPA Compliance
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| Parental consent for data collection | ⚠️ Partial | Needs consent form |
-| Privacy policy for parents | ❌ Missing | Must create |
-| 30-day location data retention | ⚠️ Implemented but not automated | Needs cron job |
-| No marketing/behavioral tracking | ✅ Pass | No tracking code |
-| Parental control over data | ⚠️ Partial | Needs dashboard |
-| Data deletion on request | ✅ Pass | Account deletion works |
-| Secure storage | ✅ Pass | Encrypted connections |
-| No sale of child data | ✅ Pass | No third-party sharing |
-| Minimal data collection | ✅ Pass | Purpose-limited |
+| Requirement                          | Status                           | Notes                  |
+| ------------------------------------ | -------------------------------- | ---------------------- |
+| Parental consent for data collection | ⚠️ Partial                       | Needs consent form     |
+| Privacy policy for parents           | ❌ Missing                       | Must create            |
+| 30-day location data retention       | ⚠️ Implemented but not automated | Needs cron job         |
+| No marketing/behavioral tracking     | ✅ Pass                          | No tracking code       |
+| Parental control over data           | ⚠️ Partial                       | Needs dashboard        |
+| Data deletion on request             | ✅ Pass                          | Account deletion works |
+| Secure storage                       | ✅ Pass                          | Encrypted connections  |
+| No sale of child data                | ✅ Pass                          | No third-party sharing |
+| Minimal data collection              | ✅ Pass                          | Purpose-limited        |
 
 **Overall COPPA Status:** ⚠️ NEEDS WORK (Must complete before beta)
 
 ### GDPR Compliance
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| Right to access | ✅ Pass | Via API endpoints |
-| Right to deletion | ✅ Pass | Account deletion |
-| Right to portability | ❌ Missing | Need export endpoint |
-| Right to rectification | ✅ Pass | Update endpoints |
-| Right to restrict processing | ⚠️ Partial | Need account suspension |
-| Data minimization | ✅ Pass | Only essential data |
-| Purpose limitation | ✅ Pass | Clear purposes |
-| Storage limitation | ✅ Pass | 30-day retention |
-| Integrity and confidentiality | ✅ Pass | Encryption, access controls |
-| Accountability | ✅ Pass | Audit logs |
-| Breach notification | ❌ Missing | Need procedures |
-| Data Protection Officer | N/A | Required only if large scale |
+| Requirement                   | Status     | Notes                        |
+| ----------------------------- | ---------- | ---------------------------- |
+| Right to access               | ✅ Pass    | Via API endpoints            |
+| Right to deletion             | ✅ Pass    | Account deletion             |
+| Right to portability          | ❌ Missing | Need export endpoint         |
+| Right to rectification        | ✅ Pass    | Update endpoints             |
+| Right to restrict processing  | ⚠️ Partial | Need account suspension      |
+| Data minimization             | ✅ Pass    | Only essential data          |
+| Purpose limitation            | ✅ Pass    | Clear purposes               |
+| Storage limitation            | ✅ Pass    | 30-day retention             |
+| Integrity and confidentiality | ✅ Pass    | Encryption, access controls  |
+| Accountability                | ✅ Pass    | Audit logs                   |
+| Breach notification           | ❌ Missing | Need procedures              |
+| Data Protection Officer       | N/A        | Required only if large scale |
 
 **Overall GDPR Status:** ⚠️ ACCEPTABLE (Complete before EU launch)
 
 ### CCPA Compliance
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| Right to know | ✅ Pass | Via API |
-| Right to delete | ✅ Pass | Account deletion |
-| Right to opt-out of sale | ✅ Pass | No data sale |
-| Right to non-discrimination | ✅ Pass | No service degradation |
-| Privacy notice | ❌ Missing | Must create |
-| Data security | ✅ Pass | Reasonable measures |
+| Requirement                 | Status     | Notes                  |
+| --------------------------- | ---------- | ---------------------- |
+| Right to know               | ✅ Pass    | Via API                |
+| Right to delete             | ✅ Pass    | Account deletion       |
+| Right to opt-out of sale    | ✅ Pass    | No data sale           |
+| Right to non-discrimination | ✅ Pass    | No service degradation |
+| Privacy notice              | ❌ Missing | Must create            |
+| Data security               | ✅ Pass    | Reasonable measures    |
 
 **Overall CCPA Status:** ✅ MOSTLY COMPLIANT (Privacy notice needed)
 

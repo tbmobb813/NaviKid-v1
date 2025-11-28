@@ -36,6 +36,7 @@ import {
   ChevronRight,
 } from 'lucide-react-native';
 import Colors from '@/constants/colors';
+import { logger } from '@sentry/react-native';
 
 type StationAccessibility = {
   wheelchairAccessible: boolean;
@@ -136,7 +137,7 @@ const YourCityStationFinder: React.FC<YourCityStationFinderProps> = ({
 
       setStations(transformedStations);
     } catch (error) {
-      console.error('Failed to load stations:', error);
+      logger.error('Failed to load stations:', error);
       // You might want to load a local backup or show an error message
     } finally {
       setLoading(false);

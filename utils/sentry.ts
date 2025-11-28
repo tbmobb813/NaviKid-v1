@@ -83,10 +83,10 @@ export function initSentry(config: SentryConfig) {
       appHangTimeoutIntervalMillis: 5000,
 
       // Before sending error events
-      beforeSend(event, hint) {
+      beforeSend(event: unknown, hint: unknown) {
         // Filter out specific errors if needed
-        if (event.exception) {
-          const error = hint.originalException;
+        if ((event as any).exception) {
+          const error = (hint as any)?.originalException;
 
           // Don't send authentication errors from user testing
           if (error instanceof Error && error.message.includes('401')) {
@@ -94,19 +94,20 @@ export function initSentry(config: SentryConfig) {
           }
         }
 
-        return event;
+        return event as any;
       },
 
       // Breadcrumb filtering
-      beforeBreadcrumb(breadcrumb) {
+      beforeBreadcrumb(breadcrumb: unknown) {
         // Filter sensitive data from breadcrumbs
-        if (breadcrumb.category === 'http') {
+        const bc = breadcrumb as any;
+        if (bc.category === 'http') {
           // Don't log request bodies with sensitive data
-          if (breadcrumb.data?.url?.includes('/auth')) {
-            breadcrumb.data = { url: '[redacted]' };
+          if (bc.data?.url?.includes('/auth')) {
+            bc.data = { url: '[redacted]' };
           }
         }
-        return breadcrumb;
+        return bc;
       },
 
       // Initialize with defaults
@@ -147,7 +148,7 @@ export function initSentry(config: SentryConfig) {
         // Only log updates info if running under EAS Updates
         Sentry.captureMessage(
           `App launched with expo-updates in ${Updates.isEmbeddedLaunch ? 'embedded' : 'dynamic'} mode`,
-          'info'
+          'info',
         );
       } catch (error) {
         // Silently ignore OTA update errors

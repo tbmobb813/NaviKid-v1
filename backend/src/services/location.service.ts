@@ -10,7 +10,7 @@ export class LocationService {
     userId: string,
     latitude: number,
     longitude: number,
-    accuracy: number,
+    accuracy: number | undefined,
     timestamp: Date,
     context: LocationContext = {}
   ): Promise<Location> {
@@ -19,16 +19,23 @@ export class LocationService {
         `INSERT INTO locations (user_id, latitude, longitude, accuracy, timestamp, context)
          VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-        [userId, latitude, longitude, accuracy, timestamp, JSON.stringify(context)]
+        [
+          userId,
+          latitude,
+          longitude,
+          accuracy ?? null,
+          timestamp,
+          JSON.stringify(context),
+        ]
       );
 
       const location = result.rows[0];
 
-      logger.debug({ userId, locationId: location.id  }, 'Location stored');
+      logger.debug({ userId, locationId: location.id }, 'Location stored');
 
-      return location;
+      return this.normalizeLocation(location);
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to store location');
+      logger.error({ userId, error }, 'Failed to store location');
       throw error;
     }
   }
@@ -45,7 +52,7 @@ export class LocationService {
   ): Promise<{ locations: Location[]; total: number }> {
     try {
       let query = 'SELECT * FROM locations WHERE user_id = $1';
-      const params: any[] = [userId];
+      const params: unknown[] = [userId];
       let paramIndex = 2;
 
       if (startDate) {
@@ -71,18 +78,21 @@ export class LocationService {
 
       const result = await db.query<Location>(query, params);
 
-      logger.debug({
-        userId,
-        count: result.rows.length,
-        total,
-      }, 'Location history retrieved');
+      logger.debug(
+        {
+          userId,
+          count: result.rows.length,
+          total,
+        },
+        'Location history retrieved'
+      );
 
       return {
-        locations: result.rows,
+        locations: result.rows.map((r) => this.normalizeLocation(r)),
         total,
       };
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get location history');
+      logger.error({ userId, error }, 'Failed to get location history');
       throw error;
     }
   }
@@ -100,9 +110,9 @@ export class LocationService {
         [userId]
       );
 
-      return result.rows.length > 0 ? result.rows[0] : null;
+      return result.rows.length > 0 ? this.normalizeLocation(result.rows[0]) : null;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get current location');
+      logger.error({ userId, error }, 'Failed to get current location');
       throw error;
     }
   }
@@ -110,10 +120,7 @@ export class LocationService {
   /**
    * Delete specific location
    */
-  public async deleteLocation(
-    userId: string,
-    locationId: string
-  ): Promise<boolean> {
+  public async deleteLocation(userId: string, locationId: string): Promise<boolean> {
     try {
       const result = await db.query(
         'DELETE FROM locations WHERE id = $1 AND user_id = $2',
@@ -123,12 +130,12 @@ export class LocationService {
       const deleted = (result.rowCount ?? 0) > 0;
 
       if (deleted) {
-        logger.info({ userId, locationId  }, 'Location deleted');
+        logger.info({ userId, locationId }, 'Location deleted');
       }
 
       return deleted;
     } catch (error) {
-      logger.error({ userId, locationId, error  }, 'Failed to delete location');
+      logger.error({ userId, locationId, error }, 'Failed to delete location');
       throw error;
     }
   }
@@ -141,18 +148,17 @@ export class LocationService {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
 
-      const result = await db.query(
-        'DELETE FROM locations WHERE created_at < $1',
-        [cutoffDate]
-      );
+      const result = await db.query('DELETE FROM locations WHERE created_at < $1', [
+        cutoffDate,
+      ]);
 
       const deletedCount = result.rowCount ?? 0;
 
-      logger.info({ deletedCount, cutoffDate  }, 'Old locations deleted');
+      logger.info({ deletedCount, cutoffDate }, 'Old locations deleted');
 
       return deletedCount;
     } catch (error) {
-      logger.error({ error  }, 'Failed to delete old locations');
+      logger.error({ error }, 'Failed to delete old locations');
       throw error;
     }
   }
@@ -176,7 +182,7 @@ export class LocationService {
 
       return result.rows;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get locations by time range');
+      logger.error({ userId, error }, 'Failed to get locations by time range');
       throw error;
     }
   }
@@ -189,7 +195,7 @@ export class LocationService {
     locations: Array<{
       latitude: number;
       longitude: number;
-      accuracy: number;
+      accuracy?: number;
       timestamp: Date;
       context?: LocationContext;
     }>
@@ -213,20 +219,45 @@ export class LocationService {
               JSON.stringify(loc.context || {}),
             ]
           );
-          storedLocations.push(result.rows[0]);
+          storedLocations.push(this.normalizeLocation(result.rows[0]));
         }
       });
 
-      logger.info({
-        userId,
-        count: storedLocations.length,
-      }, 'Batch locations stored');
+      logger.info(
+        {
+          userId,
+          count: storedLocations.length,
+        },
+        'Batch locations stored'
+      );
 
       return storedLocations;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to batch store locations');
+      logger.error({ userId, error }, 'Failed to batch store locations');
       throw error;
     }
+  }
+
+  /**
+   * Normalize DB location row to API-friendly types
+   */
+  private normalizeLocation(row: any): any {
+    return {
+      id: row.id,
+      userId: row.user_id,
+      latitude: Number(row.latitude),
+      longitude: Number(row.longitude),
+      // DB accuracy may be null; backend type expects a number so coerce null to 0
+      accuracy: Number(row.accuracy ?? 0),
+      timestamp:
+        row.timestamp instanceof Date
+          ? row.timestamp.toISOString()
+          : String(row.timestamp),
+      context:
+        typeof row.context === 'string'
+          ? JSON.parse(row.context || '{}')
+          : row.context || {},
+    };
   }
 }
 

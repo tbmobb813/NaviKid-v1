@@ -7,7 +7,9 @@ import {
   validate,
 } from '../utils/validation';
 import { ApiResponse } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function locationRoutes(fastify: FastifyInstance) {
   /**
@@ -21,8 +23,14 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
-        const { latitude, longitude, accuracy, timestamp, context } = request.body as any;
+        const { userId } = getAuthUser(request);
+        const { latitude, longitude, accuracy, timestamp, context } = request.body as {
+          latitude: number;
+          longitude: number;
+          accuracy?: number;
+          timestamp: string;
+          context?: Record<string, unknown>;
+        };
 
         const location = await locationService.storeLocation(
           userId,
@@ -35,19 +43,20 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { location },
+          data: location,
           meta: {
             timestamp: new Date(),
           },
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Store location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Store location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to store location',
+            message: message || 'Failed to store location',
             code: 'LOCATION_STORE_ERROR',
           },
         });
@@ -59,15 +68,16 @@ export async function locationRoutes(fastify: FastifyInstance) {
    * Get location history
    * GET /locations
    */
+  // Alias for client tests which call /locations/history
   fastify.get(
-    '/locations',
+    '/locations/history',
     {
       preHandler: authMiddleware,
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
-        const query = request.query as any;
+        const { userId } = getAuthUser(request);
+        const query = request.query as Record<string, string | undefined>;
 
         const startDate = query.startDate ? new Date(query.startDate) : undefined;
         const endDate = query.endDate ? new Date(query.endDate) : undefined;
@@ -82,10 +92,12 @@ export async function locationRoutes(fastify: FastifyInstance) {
           offset
         );
 
+        // Return plain array to match client expectations, include pagination metadata
         const response: ApiResponse = {
           success: true,
-          data: {
-            locations,
+          data: locations,
+          meta: {
+            timestamp: new Date(),
             pagination: {
               total,
               limit,
@@ -93,18 +105,69 @@ export async function locationRoutes(fastify: FastifyInstance) {
               hasMore: offset + locations.length < total,
             },
           },
+        };
+
+        reply.status(200).send(response);
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get location history error');
+        reply.status(500).send({
+          success: false,
+          error: {
+            message: message || 'Failed to get location history',
+            code: 'LOCATION_HISTORY_ERROR',
+          },
+        });
+      }
+    }
+  );
+
+  fastify.get(
+    '/locations',
+    {
+      preHandler: authMiddleware,
+    },
+    async (request, reply) => {
+      try {
+        const { userId } = getAuthUser(request);
+        const query = request.query as Record<string, string | undefined>;
+
+        const startDate = query.startDate ? new Date(query.startDate) : undefined;
+        const endDate = query.endDate ? new Date(query.endDate) : undefined;
+        const limit = query.limit ? parseInt(query.limit) : 100;
+        const offset = query.offset ? parseInt(query.offset) : 0;
+
+        const { locations, total } = await locationService.getLocationHistory(
+          userId,
+          startDate,
+          endDate,
+          limit,
+          offset
+        );
+
+        // Return plain array to match client expectations, include pagination metadata
+        const response: ApiResponse = {
+          success: true,
+          data: locations,
           meta: {
             timestamp: new Date(),
+            pagination: {
+              total,
+              limit,
+              offset,
+              hasMore: offset + locations.length < total,
+            },
           },
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Get location history error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get location history error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get location history',
+            message: message || 'Failed to get location history',
             code: 'LOCATION_HISTORY_ERROR',
           },
         });
@@ -123,7 +186,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const { userId } = getAuthUser(request);
 
         const location = await locationService.getCurrentLocation(userId);
 
@@ -139,19 +202,20 @@ export async function locationRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { location },
+          data: location,
           meta: {
             timestamp: new Date(),
           },
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Get current location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get current location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get current location',
+            message: message || 'Failed to get current location',
             code: 'CURRENT_LOCATION_ERROR',
           },
         });
@@ -170,7 +234,7 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const { userId } = getAuthUser(request);
         const { id } = request.params as { id: string };
 
         const deleted = await locationService.deleteLocation(userId, id);
@@ -194,12 +258,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Delete location error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Delete location error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to delete location',
+            message: message || 'Failed to delete location',
             code: 'LOCATION_DELETE_ERROR',
           },
         });
@@ -218,10 +283,18 @@ export async function locationRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
-        const { locations } = request.body as any;
+        const { userId } = getAuthUser(request);
+        const { locations } = request.body as {
+          locations: Array<{
+            latitude: number;
+            longitude: number;
+            accuracy?: number;
+            timestamp: string;
+            context?: Record<string, unknown>;
+          }>;
+        };
 
-        const processedLocations = locations.map((loc: any) => ({
+        const processedLocations = locations.map((loc) => ({
           ...loc,
           timestamp: new Date(loc.timestamp),
         }));
@@ -243,12 +316,13 @@ export async function locationRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Batch store locations error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Batch store locations error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to batch store locations',
+            message: message || 'Failed to batch store locations',
             code: 'BATCH_LOCATION_ERROR',
           },
         });

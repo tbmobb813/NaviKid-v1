@@ -46,6 +46,14 @@ try {
   // ignore if util is not available in some environments
 }
 
+// Polyfill `setImmediate` / `clearImmediate` for environments (jsdom/Jest)
+// that do not provide it (prevents ReferenceError during server response handling)
+if (typeof global.setImmediate === 'undefined') {
+  global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
+}
+if (typeof global.clearImmediate === 'undefined') {
+  global.clearImmediate = (id) => clearTimeout(id);
+}
 // Increase default test timeout globally to accommodate tests that use timers
 if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
   jest.setTimeout(60000);

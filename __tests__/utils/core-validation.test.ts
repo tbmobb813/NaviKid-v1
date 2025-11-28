@@ -32,7 +32,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
         { latitude: 0, longitude: -181 }, // lon too low
       ];
 
-      invalidLocations.forEach((location) => {
+  invalidLocations.forEach((location: { latitude: number; longitude: number }) => {
         const isValidLat = location.latitude >= -90 && location.latitude <= 90;
         const isValidLon = location.longitude >= -180 && location.longitude <= 180;
 
@@ -47,7 +47,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
         { latitude: 0, longitude: 0 }, // zero values
       ];
 
-      edgeCases.forEach((location) => {
+  edgeCases.forEach((location: { latitude: number; longitude: number }) => {
         const isValidLat = location.latitude >= -90 && location.latitude <= 90;
         const isValidLon = location.longitude >= -180 && location.longitude <= 180;
 
@@ -61,7 +61,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
       const validPINs = ['1234', '0000', '9999', '5678'];
       const pinRegex = /^\d{4}$/;
 
-      validPINs.forEach((pin) => {
+      validPINs.forEach((pin: string) => {
         expect(pinRegex.test(pin)).toBe(true);
       });
     });
@@ -70,7 +70,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
       const invalidPINs = ['123', '12345', 'abcd', '', '12a4'];
       const pinRegex = /^\d{4}$/;
 
-      invalidPINs.forEach((pin) => {
+      invalidPINs.forEach((pin: string) => {
         expect(pinRegex.test(pin)).toBe(false);
       });
     });
@@ -78,7 +78,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
     test('should identify weak PINs', () => {
       const weakPINs = ['0000', '1111', '1234', '4321'];
 
-      const isWeak = (pin) => {
+      const isWeak = (pin: string): boolean => {
         // Same digits
         if (pin === pin[0].repeat(4)) return true;
         // Sequential
@@ -96,8 +96,8 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
   describe('sanitizeInput', () => {
     test('should clean HTML and trim whitespace', () => {
-      const sanitize = (input) => {
-        return input.toString().trim().replace(/[<>]/g, '');
+      const sanitize = (input: unknown): string => {
+        return String(input).trim().replace(/[<>]/g, '');
       };
 
       expect(sanitize('  hello world  ')).toBe('hello world');
@@ -107,8 +107,8 @@ describe('Validation Utils - Pure Logic Tests', () => {
     });
 
     test('should handle special characters', () => {
-      const sanitize = (input, maxLength = 100) => {
-        return input.toString().trim().replace(/[<>]/g, '').substring(0, maxLength);
+      const sanitize = (input: unknown, maxLength = 100): string => {
+        return String(input).trim().replace(/[<>]/g, '').substring(0, maxLength);
       };
 
       expect(sanitize('text with émojis 🎉')).toBe('text with émojis 🎉');
@@ -118,7 +118,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
   describe('Distance Calculations', () => {
     test('should calculate distance between coordinates', () => {
-      const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
         const R = 6371; // Earth's radius in km
         const dLat = ((lat2 - lat1) * Math.PI) / 180;
         const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -142,7 +142,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
     });
 
     test('should validate distance ranges', () => {
-      const isValidDistance = (distance) => {
+      const isValidDistance = (distance: number): boolean => {
         return distance >= 0 && distance < 20000 && !isNaN(distance);
       };
 
@@ -156,7 +156,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
   describe('Safe Zone Validation', () => {
     test('should validate safe zone properties', () => {
-      const validateSafeZone = (zone) => {
+      const validateSafeZone = (zone: { id?: string; latitude: number; longitude: number; radius: number }) => {
         return {
           hasId: !!zone.id,
           hasValidRadius: zone.radius > 0 && zone.radius <= 5000,

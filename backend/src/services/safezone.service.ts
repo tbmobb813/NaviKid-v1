@@ -52,7 +52,7 @@ export class SafeZoneService {
 
       return safeZone;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to create safe zone');
+      logger.error({ userId, error }, 'Failed to create safe zone');
       throw error;
     }
   }
@@ -69,7 +69,7 @@ export class SafeZoneService {
 
       return result.rows;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to get safe zones');
+      logger.error({ userId, error }, 'Failed to get safe zones');
       throw error;
     }
   }
@@ -89,7 +89,7 @@ export class SafeZoneService {
 
       return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
-      logger.error({ userId, safeZoneId, error  }, 'Failed to get safe zone');
+      logger.error({ userId, safeZoneId, error }, 'Failed to get safe zone');
       throw error;
     }
   }
@@ -110,7 +110,7 @@ export class SafeZoneService {
   ): Promise<SafeZone | null> {
     try {
       const fields: string[] = [];
-      const values: any[] = [];
+      const values: unknown[] = [];
       let paramIndex = 1;
 
       if (updates.name !== undefined) {
@@ -161,13 +161,13 @@ export class SafeZoneService {
       const result = await db.query<SafeZone>(query, values);
 
       if (result.rows.length > 0) {
-        logger.info({ userId, safeZoneId  }, 'Safe zone updated');
+        logger.info({ userId, safeZoneId }, 'Safe zone updated');
         return result.rows[0];
       }
 
       return null;
     } catch (error) {
-      logger.error({ userId, safeZoneId, error  }, 'Failed to update safe zone');
+      logger.error({ userId, safeZoneId, error }, 'Failed to update safe zone');
       throw error;
     }
   }
@@ -175,10 +175,7 @@ export class SafeZoneService {
   /**
    * Delete safe zone
    */
-  public async deleteSafeZone(
-    userId: string,
-    safeZoneId: string
-  ): Promise<boolean> {
+  public async deleteSafeZone(userId: string, safeZoneId: string): Promise<boolean> {
     try {
       const result = await db.query(
         'DELETE FROM safe_zones WHERE id = $1 AND user_id = $2',
@@ -188,12 +185,12 @@ export class SafeZoneService {
       const deleted = (result.rowCount ?? 0) > 0;
 
       if (deleted) {
-        logger.info({ userId, safeZoneId  }, 'Safe zone deleted');
+        logger.info({ userId, safeZoneId }, 'Safe zone deleted');
       }
 
       return deleted;
     } catch (error) {
-      logger.error({ userId, safeZoneId, error  }, 'Failed to delete safe zone');
+      logger.error({ userId, safeZoneId, error }, 'Failed to delete safe zone');
       throw error;
     }
   }
@@ -241,7 +238,7 @@ export class SafeZoneService {
         safeZones: matchingSafeZones,
       };
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to check location in safe zones');
+      logger.error({ userId, error }, 'Failed to check location in safe zones');
       throw error;
     }
   }
@@ -283,15 +280,18 @@ export class SafeZoneService {
       }
 
       if (violations.length > 0) {
-        logger.warn({
-          userId,
-          violationCount: violations.length,
-        }, 'Geofence violations detected');
+        logger.warn(
+          {
+            userId,
+            violationCount: violations.length,
+          },
+          'Geofence violations detected'
+        );
       }
 
       return violations;
     } catch (error) {
-      logger.error({ userId, error  }, 'Failed to detect geofence violations');
+      logger.error({ userId, error }, 'Failed to detect geofence violations');
       throw error;
     }
   }

@@ -2,14 +2,10 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import authService from '../services/auth.service';
 import config from '../config';
 import logger from '../utils/logger';
-import { JWTPayload } from '../types';
+import { formatError } from '../utils/formatError';
+import { getAuthUser } from '../utils/auth';
 
 // Extend FastifyRequest to include user
-declare module 'fastify' {
-  interface FastifyRequest {
-    user?: JWTPayload;
-  }
-}
 
 /**
  * Authentication middleware
@@ -38,10 +34,11 @@ export async function authMiddleware(
     // Verify token
     const payload = authService.verifyJWT(token, config.jwt.accessSecret);
 
-    // Attach user to request
+    // Attach user to request (typed via Fastify declaration merge)
     request.user = payload;
-  } catch (error: any) {
-    logger.warn({ error: error.message  }, 'Authentication failed');
+  } catch (error: unknown) {
+    const { errorObj } = formatError(error);
+    logger.warn({ error: errorObj }, 'Authentication failed');
     return reply.status(401).send({
       success: false,
       error: {
@@ -70,7 +67,7 @@ export async function optionalAuthMiddleware(
     }
   } catch (error) {
     // Silently fail for optional auth
-    logger.debug({ error  }, 'Optional auth failed');
+    logger.debug({ error }, 'Optional auth failed');
   }
 }
 
@@ -89,7 +86,8 @@ export function requireRole(...roles: string[]) {
       });
     }
 
-    if (!roles.includes(request.user.role)) {
+    const user = getAuthUser(request);
+    if (!roles.includes(user.role)) {
       return reply.status(403).send({
         success: false,
         error: {

@@ -55,7 +55,6 @@
 </QueryClientProvider>
 ```
 
-
 ### Providers Now Active
 
 1. ✅ **QueryClientProvider** - For React Query (weather, API calls)
@@ -140,7 +139,6 @@ These are normal in Expo Go:
 rm -rf node_modules/.cache .expo
 npx expo start --clear
 ```
-
 
 ### Error: App won't connect
 

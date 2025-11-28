@@ -1,5 +1,6 @@
 export enum UserRole {
   PARENT = 'parent',
+  CHILD = 'child',
   GUARDIAN = 'guardian',
 }
 
@@ -101,7 +102,7 @@ export interface OfflineAction {
   id: string;
   user_id: string;
   action_type: OfflineActionType;
-  data: any;
+  data: unknown;
   created_at: Date;
   synced_at?: Date;
 }
@@ -110,7 +111,7 @@ export interface AuditLog {
   id: string;
   user_id: string;
   action: string;
-  details: any;
+  details: unknown;
   ip_address: string;
   timestamp: Date;
 }
@@ -121,21 +122,72 @@ export interface JWTPayload {
   role: UserRole;
 }
 
+export interface SocketLike {
+  remoteAddress?: string;
+  send: (data: string) => void;
+  on: (event: string, cb: (...args: unknown[]) => void) => void;
+  close?: () => void;
+}
+
+export interface RedisLike {
+  on?: (event: string, cb: (...args: unknown[]) => void) => void;
+  get?: (key: string) => Promise<string | null>;
+  setex?: (key: string, ttl: number, val: string) => Promise<void>;
+  set?: (key: string, val: string) => Promise<void>;
+  del?: (...keys: string[]) => Promise<void>;
+  keys?: (pattern: string) => Promise<string[]>;
+  exists?: (key: string) => Promise<number>;
+  ping?: () => Promise<string>;
+  quit?: () => Promise<void>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  incr?: (key: string) => Promise<number>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+}
+
+export interface InternalRedisClient {
+  on: (event: string, cb: (...args: unknown[]) => void) => void;
+  get: (key: string) => Promise<string | null>;
+  setex: (key: string, expires: number, val: string) => Promise<void>;
+  set: (key: string, val: string) => Promise<void>;
+  del: (...keys: string[]) => Promise<void>;
+  keys: (pattern: string) => Promise<string[]>;
+  exists: (key: string) => Promise<number>;
+  ping: () => Promise<string>;
+  quit: () => Promise<void>;
+  expire?: (key: string, ttl: number) => Promise<number> | Promise<void>;
+  incr?: (key: string) => Promise<number>;
+  pipeline?: () => {
+    incr: (key: string) => void;
+    expire: (key: string, ttl: number) => void;
+    exec: () => Promise<Array<[unknown, unknown] | null>>;
+  };
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
     message: string;
     code?: string;
-    details?: any;
+    details?: unknown;
   };
   meta?: {
     timestamp: Date;
     requestId?: string;
+    pagination?: {
+      total: number;
+      limit: number;
+      offset: number;
+      hasMore: boolean;
+    };
   };
 }

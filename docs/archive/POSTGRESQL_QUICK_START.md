@@ -33,7 +33,6 @@ EOF
 docker-compose -f docker-compose.spatial.yml up -d
 ```
 
-
 #### 2. Add Environment Variables
 
 ```bash
@@ -45,14 +44,12 @@ EXPO_PUBLIC_SPATIAL_API_URL=http://localhost:3000/api/spatial
 " >> .env
 ```
 
-
 #### 3. Test Connection
 
 ```bash
 # Verify PostgreSQL + PostGIS is working
 docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELECT PostGIS_Version();"
 ```
-
 
 ### 🔧 **Add to Your Existing Code**
 
@@ -72,7 +69,6 @@ export interface EnhancedSafeZone extends SafeZone {
   };
 }
 ```
-
 
 **2. Enhance Safe Zone Creation** (modify `stores/parentalStore.ts`):
 
@@ -109,7 +105,6 @@ const addSafeZone = async (zone: Omit<SafeZone, 'id' | 'createdAt'>) => {
   return newZone;
 };
 ```
-
 
 **3. Create Basic Spatial API** (create `utils/spatialApi.ts`):
 
@@ -150,7 +145,6 @@ export const spatialApi = {
 };
 ```
 
-
 ### 🧪 **Test Your Integration**
 
 **1. Test Database Connection**:
@@ -160,7 +154,6 @@ export const spatialApi = {
 docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELECT PostGIS_Version();"
 ```
 
-
 **2. Test in Your App**:
 
 ```typescript
@@ -168,7 +161,6 @@ docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELE
 // Check if the spatial API is called
 // Verify it falls back gracefully when backend is unavailable
 ```
-
 
 ### 📊 **Check Results**
 
@@ -179,7 +171,6 @@ docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELE
 docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELECT * FROM safe_zones;"
 ```
 
-
 **Monitor API Calls**:
 
 ```bash
@@ -187,7 +178,6 @@ docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "SELE
 # ✅ Created spatial safe zone: [name]
 # ⚠️ Spatial API unavailable, using fallback
 ```
-
 
 ### 🎯 **Benefits You Get Immediately**
 
@@ -214,13 +204,11 @@ docker logs kidfriendlymap-db
 # Check for port conflicts, memory issues
 ```
 
-
 **PostGIS Not Working**:
 
 ```bash
 docker exec -it kidfriendlymap-db psql -U kidmap_user -d kidfriendlymap -c "CREATE EXTENSION IF NOT EXISTS postgis;"
 ```
-
 
 **App Can't Connect**:
 

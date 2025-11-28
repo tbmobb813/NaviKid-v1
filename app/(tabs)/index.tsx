@@ -24,6 +24,7 @@ import { useRegionalData } from '@/hooks/useRegionalData';
 import { trackScreenView, trackUserAction } from '@/utils/analytics';
 import { useCategoryStore } from '@/stores/categoryStore';
 import { SafeZoneIndicator } from '@/components/SafeZoneIndicator';
+import logger from '@/utils/logger';
 
 type SearchSuggestion = {
   id: string;
@@ -182,11 +183,11 @@ export default function HomeScreen() {
               new Date().getHours() < 12
                 ? 'morning'
                 : new Date().getHours() < 18
-                ? 'afternoon'
-                : 'evening'
+                  ? 'afternoon'
+                  : 'evening'
             }
             onSelectRoute={(suggestion) => {
-              console.log('Selected route:', suggestion);
+              logger.info('Selected route:', suggestion);
               trackUserAction('select_smart_route', { route_type: suggestion.type });
             }}
           />

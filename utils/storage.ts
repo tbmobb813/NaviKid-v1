@@ -10,7 +10,6 @@
  * - Encryption support
  */
 
-import type { MMKV } from 'react-native-mmkv';
 import { createMMKV } from 'react-native-mmkv';
 import { log } from './logger';
 
@@ -84,7 +83,7 @@ class MemoryStorage implements StorageInstance {
 type StorageDriver = 'mmkv' | 'memory';
 
 const createStorageInstance = (
-  config?: ConstructorParameters<typeof MMKV>[0],
+  config?: Parameters<typeof createMMKV>[0],
 ): { instance: StorageInstance; driver: StorageDriver } => {
   const label = config?.id ?? 'default';
 
@@ -100,7 +99,10 @@ const createStorageInstance = (
     log.warn(
       `MMKV native module unavailable for ${label}. Falling back to in-memory storage. Persistent data will reset between sessions.`,
       {
-        error: error instanceof Error ? { name: error.name, message: error.message } : { message: String(error) },
+        error:
+          error instanceof Error
+            ? { name: error.name, message: error.message }
+            : { message: String(error) },
       },
     );
     return { instance: new MemoryStorage(label), driver: 'memory' };
@@ -275,7 +277,7 @@ export class StorageManager {
   /**
    * Batch set multiple values
    */
-  setBatch(entries: Record<string, any>): boolean {
+  setBatch(entries: Record<string, unknown>): boolean {
     try {
       Object.entries(entries).forEach(([key, value]) => {
         this.set(key, value);

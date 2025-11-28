@@ -20,6 +20,7 @@ import {
 } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { subwayLineColors } from '@/config/transit-data/mta-subway-lines';
+import { logger } from '@sentry/react-native';
 
 type MTALiveArrivalsProps = {
   stationId?: string;
@@ -185,7 +186,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
       setAlerts(mockAlerts);
       setLastUpdated(new Date());
     } catch (error) {
-      console.error('Failed to load arrivals:', error);
+      logger.error('Failed to load arrivals:', { error: String(error) });
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -301,7 +302,8 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
       key={alert.id}
       style={[
         styles.alertCard,
-        styles[`alert${alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1)}`],
+        // computed style key - cast to any to satisfy TypeScript index typing
+        (styles as any)[`alert${alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1)}`],
       ]}
     >
       <View style={styles.alertHeader}>
@@ -310,8 +312,8 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
           {alert.type === 'delay'
             ? 'Service Delay'
             : alert.type === 'service-change'
-            ? 'Service Change'
-            : 'Information'}
+              ? 'Service Change'
+              : 'Information'}
         </Text>
       </View>
 

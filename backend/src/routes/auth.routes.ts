@@ -9,7 +9,9 @@ import {
   validate,
 } from '../utils/validation';
 import { ApiResponse, UserRole } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function authRoutes(fastify: FastifyInstance) {
   /**
@@ -17,9 +19,19 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/register
    */
   fastify.post(
-    '/auth/register',
+    '/register',
     {
       preHandler: validate(registerSchema),
+      // Limit registration attempts to slow down automated account creation
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many registration attempts. Please try again later.' };
+          },
+        },
+      },
     },
     async (request, reply) => {
       try {
@@ -29,7 +41,13 @@ export async function authRoutes(fastify: FastifyInstance) {
           role?: UserRole;
         };
 
-        const user = await authService.register(email, password, role);
+        // Create user
+        await authService.register(email, password, role);
+
+        // Generate tokens by performing a login so the client receives the
+        // same token shape as a normal login flow. This keeps the client-side
+        // behavior consistent for downstream tests and usage.
+        const { user, tokens } = await authService.login(email, password, request.ip);
 
         const response: ApiResponse = {
           success: true,
@@ -38,8 +56,9 @@ export async function authRoutes(fastify: FastifyInstance) {
               id: user.id,
               email: user.email,
               role: user.role,
-              createdAt: user.created_at,
+              createdAt: (user as any).created_at || new Date(),
             },
+            tokens,
           },
           meta: {
             timestamp: new Date(),
@@ -47,12 +66,13 @@ export async function authRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(201).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Registration error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Registration error');
         reply.status(400).send({
           success: false,
           error: {
-            message: error.message || 'Registration failed',
+            message: message || 'Registration failed',
             code: 'REGISTRATION_ERROR',
           },
         });
@@ -65,7 +85,7 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/login
    */
   fastify.post(
-    '/auth/login',
+    '/login',
     {
       preHandler: validate(loginSchema),
     },
@@ -96,12 +116,13 @@ export async function authRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Login error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Login error');
         reply.status(401).send({
           success: false,
           error: {
-            message: error.message || 'Login failed',
+            message: message || 'Login failed',
             code: 'LOGIN_ERROR',
           },
         });
@@ -114,9 +135,19 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/refresh
    */
   fastify.post(
-    '/auth/refresh',
+    '/refresh',
     {
       preHandler: validate(refreshTokenSchema),
+      // Limit refresh token attempts to mitigate abuse
+      config: {
+        rateLimit: {
+          max: 20,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many token requests. Please try again later.' };
+          },
+        },
+      },
     },
     async (request, reply) => {
       try {
@@ -126,19 +157,17 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         const response: ApiResponse = {
           success: true,
-          data: { tokens },
-          meta: {
-            timestamp: new Date(),
-          },
+          data: tokens,
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Token refresh error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Token refresh error');
         reply.status(401).send({
           success: false,
           error: {
-            message: error.message || 'Token refresh failed',
+            message: message || 'Token refresh failed',
             code: 'TOKEN_REFRESH_ERROR',
           },
         });
@@ -151,14 +180,24 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/logout
    */
   fastify.post(
-    '/auth/logout',
+    '/logout',
     {
       preHandler: authMiddleware,
+      // ADD THIS RATE LIMITING CONFIGURATION:
+      config: {
+        rateLimit: {
+          max: 20,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many logout requests. Please try again later.' };
+          },
+        },
+      },
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
-        const refreshToken = request.body as any;
+        const { userId } = getAuthUser(request);
+        const refreshToken = request.body as { refreshToken: string };
 
         await authService.logout(userId, refreshToken.refreshToken);
 
@@ -171,12 +210,13 @@ export async function authRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Logout error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Logout error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Logout failed',
+            message: message || 'Logout failed',
             code: 'LOGOUT_ERROR',
           },
         });
@@ -189,13 +229,13 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/change-password
    */
   fastify.post(
-    '/auth/change-password',
+    '/change-password',
     {
       preHandler: [authMiddleware, validate(changePasswordSchema)],
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const { userId } = getAuthUser(request);
         const { oldPassword, newPassword } = request.body as {
           oldPassword: string;
           newPassword: string;
@@ -212,12 +252,13 @@ export async function authRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Password change error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Password change error');
         reply.status(400).send({
           success: false,
           error: {
-            message: error.message || 'Password change failed',
+            message: message || 'Password change failed',
             code: 'PASSWORD_CHANGE_ERROR',
           },
         });
@@ -230,14 +271,14 @@ export async function authRoutes(fastify: FastifyInstance) {
    * GET /auth/me
    */
   fastify.get(
-    '/auth/me',
+    '/me',
     {
       preHandler: authMiddleware,
     },
     async (request, reply) => {
       const response: ApiResponse = {
         success: true,
-        data: { user: request.user },
+        data: { user: getAuthUser(request) },
         meta: {
           timestamp: new Date(),
         },

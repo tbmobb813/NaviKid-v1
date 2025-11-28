@@ -32,6 +32,7 @@ cat .env
 ```
 
 Key settings:
+
 - `DB_NAME=navikid_db`
 - `DB_USER=postgres`
 - `DB_PASSWORD=postgres` (change to your PostgreSQL password)
@@ -44,6 +45,7 @@ npm run db:migrate
 ```
 
 Expected output:
+
 ```
 Starting database migrations...
 Executing migration: 001_initial_schema.sql
@@ -58,6 +60,7 @@ npm run dev
 ```
 
 Expected output:
+
 ```
 Server started successfully
 Host: 0.0.0.0
@@ -74,6 +77,7 @@ curl http://localhost:3000/health
 ```
 
 Expected response:
+
 ```json
 {
   "status": "healthy",
@@ -117,6 +121,7 @@ Save the `accessToken` from the response for authenticated requests.
 **Error**: `Connection refused`
 
 **Solution**: Start PostgreSQL
+
 ```bash
 # On macOS/Linux
 sudo service postgresql start
@@ -130,6 +135,7 @@ sudo service postgresql status
 **Error**: `Redis client error`
 
 **Solution**: Start Redis
+
 ```bash
 # On macOS/Linux
 sudo service redis-server start
@@ -144,6 +150,7 @@ redis-cli ping
 **Error**: `Database connection failed`
 
 **Solution**: Check PostgreSQL credentials in `.env`
+
 ```bash
 # Test connection
 psql -U postgres -d navikid_db -c "SELECT 1"
@@ -154,6 +161,7 @@ psql -U postgres -d navikid_db -c "SELECT 1"
 **Error**: `Port 3000 already in use`
 
 **Solution**: Change port in `.env`
+
 ```env
 PORT=3001
 ```
@@ -190,6 +198,7 @@ npm test
 ## API Base URL
 
 All API requests should use:
+
 ```
 http://localhost:3000
 ```
@@ -197,6 +206,7 @@ http://localhost:3000
 ## Authentication
 
 Include the JWT token in headers:
+
 ```
 Authorization: Bearer <your_access_token>
 ```

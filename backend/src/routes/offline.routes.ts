@@ -3,7 +3,9 @@ import offlineService from '../services/offline.service';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { syncOfflineActionsSchema, validate } from '../utils/validation';
 import { ApiResponse } from '../types';
+import { getAuthUser } from '../utils/auth';
 import logger from '../utils/logger';
+import { formatError } from '../utils/formatError';
 
 export async function offlineRoutes(fastify: FastifyInstance) {
   /**
@@ -17,22 +19,32 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
-        const { actions } = request.body as any;
+        const { userId } = getAuthUser(request);
+        const { actions } = request.body as {
+          actions: Array<{
+            actionType: string;
+            data: Record<string, unknown>;
+            timestamp?: string | number;
+          }>;
+        };
 
-        const processedActions = actions.map((action: any) => ({
-          ...action,
-          timestamp: new Date(action.timestamp),
-        }));
+        const processedActions = actions.map((action) => {
+          // Accept timestamp either at top-level or nested inside action.data.timestamp
+          const rawTs =
+            action.timestamp ?? (action.data && (action.data as any).timestamp);
+          return {
+            ...action,
+            actionType: action.actionType as import('../types').OfflineActionType,
+            timestamp: rawTs ? new Date(rawTs as any) : new Date(),
+          };
+        });
 
-        const result = await offlineService.syncOfflineActions(
-          userId,
-          processedActions
-        );
+        const result = await offlineService.syncOfflineActions(userId, processedActions);
 
         const response: ApiResponse = {
           success: result.success,
           data: {
+            syncedCount: result.processed ?? 0,
             processed: result.processed,
             failed: result.failed,
             errors: result.errors,
@@ -43,12 +55,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Offline sync error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Offline sync error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to sync offline actions',
+            message: message || 'Failed to sync offline actions',
             code: 'OFFLINE_SYNC_ERROR',
           },
         });
@@ -67,7 +80,7 @@ export async function offlineRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        const userId = request.user!.userId;
+        const { userId } = getAuthUser(request);
 
         const pendingActions = await offlineService.getPendingOfflineActions(userId);
 
@@ -83,12 +96,13 @@ export async function offlineRoutes(fastify: FastifyInstance) {
         };
 
         reply.status(200).send(response);
-      } catch (error: any) {
-        logger.error({ error  }, 'Get pending actions error');
+      } catch (error: unknown) {
+        const { message, errorObj } = formatError(error);
+        logger.error({ error: errorObj }, 'Get pending actions error');
         reply.status(500).send({
           success: false,
           error: {
-            message: error.message || 'Failed to get pending actions',
+            message: message || 'Failed to get pending actions',
             code: 'PENDING_ACTIONS_ERROR',
           },
         });

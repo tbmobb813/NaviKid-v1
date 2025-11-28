@@ -9,6 +9,7 @@ Run health checks and display current project status.
 ## Quick Status
 
 Display:
+
 1. Git status
 2. Recent commits
 3. Test results (if available)

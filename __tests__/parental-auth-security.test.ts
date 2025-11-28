@@ -28,7 +28,7 @@ jest.mock('expo-secure-store', () => ({
 const mockStorageMap = new Map<string, any>();
 const mockMainStorage = {
   set: jest.fn((k: string, v: any) => mockStorageMap.set(k, v)),
-  get: jest.fn((k: string) => mockStorageMap.has(k) ? mockStorageMap.get(k) : undefined),
+  get: jest.fn((k: string) => (mockStorageMap.has(k) ? mockStorageMap.get(k) : undefined)),
   delete: jest.fn((k: string) => mockStorageMap.delete(k)),
   getAllKeys: jest.fn(() => Array.from(mockStorageMap.keys())),
 } as any;
@@ -49,17 +49,17 @@ const Crypto = require('expo-crypto');
 describe('Parental Authentication Security', () => {
   // Create a proper AsyncStorage mock that persists data
   const asyncStorageData: Record<string, string> = {};
-  
+
   beforeEach(() => {
     jest.clearAllMocks();
     jest.useFakeTimers();
 
     // Clear the mock storage
-    Object.keys(asyncStorageData).forEach(key => delete asyncStorageData[key]);
+    Object.keys(asyncStorageData).forEach((key) => delete asyncStorageData[key]);
 
     // Mock AsyncStorage with actual storage behavior
-    (AsyncStorage.getItem as jest.Mock).mockImplementation((key: string) => 
-      Promise.resolve(asyncStorageData[key] || null)
+    (AsyncStorage.getItem as jest.Mock).mockImplementation((key: string) =>
+      Promise.resolve(asyncStorageData[key] || null),
     );
     (AsyncStorage.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
       asyncStorageData[key] = value;
@@ -76,13 +76,13 @@ describe('Parental Authentication Security', () => {
 
     // Mock Crypto
     (Crypto.getRandomBytesAsync as jest.Mock).mockResolvedValue(
-      new Uint8Array(32).fill(1) // Predictable salt for testing
+      new Uint8Array(32).fill(1), // Predictable salt for testing
     );
     (Crypto.digestStringAsync as jest.Mock).mockImplementation(
       async (_algorithm: any, data: string) => {
         // Simple mock hash function
         return `hashed_${data}`;
-      }
+      },
     );
   });
 
@@ -106,14 +106,8 @@ describe('Parental Authentication Security', () => {
       expect(Crypto.digestStringAsync).toHaveBeenCalled();
 
       // Verify hash and salt stored in SecureStore, not AsyncStorage
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_hash',
-        expect.any(String)
-      );
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_salt',
-        expect.any(String)
-      );
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_hash', expect.any(String));
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_salt', expect.any(String));
     });
 
     it('should validate PIN format (4-6 digits)', async () => {
@@ -122,7 +116,9 @@ describe('Parental Authentication Security', () => {
       // Test invalid PINs
       await expect(result.current.setParentPin('123')).rejects.toThrow('PIN must be 4-6 digits');
 
-      await expect(result.current.setParentPin('1234567')).rejects.toThrow('PIN must be 4-6 digits');
+      await expect(result.current.setParentPin('1234567')).rejects.toThrow(
+        'PIN must be 4-6 digits',
+      );
 
       await expect(result.current.setParentPin('abcd')).rejects.toThrow('PIN must be 4-6 digits');
 
@@ -148,13 +144,11 @@ describe('Parental Authentication Security', () => {
   describe('Rate Limiting', () => {
     beforeEach(() => {
       // Setup: PIN is already configured
-      (SecureStore.getItemAsync as jest.Mock).mockImplementation(
-        async (key: string) => {
-          if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
-          if (key === 'kidmap_pin_salt') return 'correct_salt';
-          return null;
-        }
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockImplementation(async (key: string) => {
+        if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
+        if (key === 'kidmap_pin_salt') return 'correct_salt';
+        return null;
+      });
     });
 
     it('should track failed authentication attempts', async () => {
@@ -169,7 +163,7 @@ describe('Parental Authentication Security', () => {
       // Verify attempt was tracked in the new storage layer
       expect(mockMainStorage.set).toHaveBeenCalledWith(
         'kidmap_auth_attempts',
-        expect.objectContaining({ count: 1 })
+        expect.objectContaining({ count: 1 }),
       );
     });
 
@@ -184,7 +178,9 @@ describe('Parental Authentication Security', () => {
       }
 
       // Attempt 5: Should lock the account
-      await expect(result.current.authenticateParentMode('9999')).rejects.toThrow('Account locked for 15 minutes');
+      await expect(result.current.authenticateParentMode('9999')).rejects.toThrow(
+        'Account locked for 15 minutes',
+      );
     });
 
     it('should prevent authentication during lockout period', async () => {
@@ -202,7 +198,9 @@ describe('Parental Authentication Security', () => {
       }
 
       // Try to authenticate during lockout
-      await expect(result.current.authenticateParentMode('1234')).rejects.toThrow('Too many failed attempts');
+      await expect(result.current.authenticateParentMode('1234')).rejects.toThrow(
+        'Too many failed attempts',
+      );
     });
 
     it('should reset attempts after successful authentication', async () => {
@@ -220,8 +218,8 @@ describe('Parental Authentication Security', () => {
         expect(success).toBe(true);
       });
 
-  // Verify attempts were reset in the new storage layer
-  expect(mockMainStorage.delete).toHaveBeenCalledWith('kidmap_auth_attempts');
+      // Verify attempts were reset in the new storage layer
+      expect(mockMainStorage.delete).toHaveBeenCalledWith('kidmap_auth_attempts');
     });
 
     it('should allow authentication after lockout expires', async () => {
@@ -253,13 +251,11 @@ describe('Parental Authentication Security', () => {
 
   describe('Session Timeout', () => {
     beforeEach(() => {
-      (SecureStore.getItemAsync as jest.Mock).mockImplementation(
-        async (key: string) => {
-          if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
-          if (key === 'kidmap_pin_salt') return 'correct_salt';
-          return null;
-        }
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockImplementation(async (key: string) => {
+        if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
+        if (key === 'kidmap_pin_salt') return 'correct_salt';
+        return null;
+      });
     });
 
     it('should auto-logout after 30 minutes of inactivity', async () => {
@@ -331,14 +327,8 @@ describe('Parental Authentication Security', () => {
       });
 
       // Verify SecureStore was used (encrypted storage)
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_hash',
-        expect.any(String)
-      );
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_salt',
-        expect.any(String)
-      );
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_hash', expect.any(String));
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_salt', expect.any(String));
     });
 
     it('should handle first-time setup (no PIN configured)', async () => {
@@ -365,13 +355,11 @@ describe('Parental Authentication Security', () => {
     });
 
     it('should log successful authentication', async () => {
-      (SecureStore.getItemAsync as jest.Mock).mockImplementation(
-        async (key: string) => {
-          if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
-          if (key === 'kidmap_pin_salt') return 'correct_salt';
-          return null;
-        }
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockImplementation(async (key: string) => {
+        if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
+        if (key === 'kidmap_pin_salt') return 'correct_salt';
+        return null;
+      });
 
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
@@ -380,18 +368,16 @@ describe('Parental Authentication Security', () => {
       });
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('[Security] Parent mode authenticated successfully')
+        expect.stringContaining('[Security] Parent mode authenticated successfully'),
       );
     });
 
     it('should log lockout events', async () => {
-      (SecureStore.getItemAsync as jest.Mock).mockImplementation(
-        async (key: string) => {
-          if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
-          if (key === 'kidmap_pin_salt') return 'correct_salt';
-          return null;
-        }
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockImplementation(async (key: string) => {
+        if (key === 'kidmap_pin_hash') return 'hashed_1234correct_salt';
+        if (key === 'kidmap_pin_salt') return 'correct_salt';
+        return null;
+      });
 
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
@@ -407,7 +393,7 @@ describe('Parental Authentication Security', () => {
       }
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('[Security] Maximum authentication attempts exceeded')
+        expect.stringContaining('[Security] Maximum authentication attempts exceeded'),
       );
     });
   });

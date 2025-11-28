@@ -1,0 +1,58 @@
+name: 'Node setup (composite)'
+description: 'Checkout, setup Node.js, cache and install npm dependencies. Intended as a reusable composite action.'
+
+inputs:
+  node_version:
+    description: 'Node.js version to install'
+    required: false
+    default: '22'
+  cache_dependency_path:
+    description: 'Path to package-lock.json (used to compute cache key)'
+    required: false
+    default: 'package-lock.json'
+  working_directory:
+    description: 'Working directory to run install commands in (relative to repo root)'
+    required: false
+    default: '.'
+  install_command:
+    description: 'Install command to run (defaults to npm ci)'
+    required: false
+    default: 'npm ci'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: 'npm'
+
+    - name: Restore node_modules cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ inputs.working_directory }}/node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-${{ inputs.node_version }}-${{ hashFiles(inputs.cache_dependency_path) }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ inputs.node_version }}-
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        echo "Installing dependencies in '${{ inputs.working_directory }}'"
+        # run in specified working directory so callers don't need to repeat prefix
+        (cd "${{ inputs.working_directory }}" && ${{ inputs.install_command }})
+
+    - name: Save node_modules cache (best-effort)
+      if: always()
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ inputs.working_directory }}/node_modules
+          ~/.npm
+        key: ${{ runner.os }}-node-${{ inputs.node_version }}-${{ hashFiles(inputs.cache_dependency_path) }}

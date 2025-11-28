@@ -1,40 +1,22 @@
-# Dependencies
 node_modules
+dist
 npm-debug.log
-yarn-error.log
-
-# Testing
-coverage
-*.test.ts
-*.spec.ts
-__tests__
-__mocks__
-
-# Development files
 .env
 .env.local
 .env.*.local
-*.md
 .git
 .gitignore
+README.md
 .vscode
 .idea
-
-# Build output (will be copied from builder stage)
-dist
-
-# CI/CD
-.github
-.gitlab-ci.yml
-.travis.yml
-
-# Documentation
-docs
-README.md
-CHANGELOG.md
-
-# Misc
+*.md
+docker-compose.yml
+.dockerignore
+Dockerfile
 .DS_Store
+coverage
+.nyc_output
 *.log
-*.tmp
-.cache
+test
+tests
+__tests__

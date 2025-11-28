@@ -74,7 +74,6 @@ createNetworkAwareApi() → automatic cache fallback
 withRetry() → exponential backoff strategy
 ```
 
-
 ### **Error Surfaces**
 
 ```typescript
@@ -91,7 +90,6 @@ withRetry() → exponential backoff strategy
   // Connection quality indicator
 ```
 
-
 ### **Offline Management**
 
 ```typescript
@@ -100,7 +98,6 @@ OfflineManager → queue actions, sync when online
 NetworkState → real-time connectivity monitoring
 OfflineAction → queued operations with retry logic
 ```
-
 
 ### **Enhanced Hooks**
 
@@ -111,7 +108,6 @@ useApiWithErrorHandling<T>() → loading, error, retry states
 // Paginated API calls
 usePaginatedApiWithErrorHandling<T>() → infinite scroll support
 ```
-
 
 ## 📊 **Backend Integration Features**
 

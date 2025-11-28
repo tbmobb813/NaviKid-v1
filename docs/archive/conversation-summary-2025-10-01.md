@@ -6,6 +6,7 @@ This document has been archived to reduce noise in the main docs.
 Please use the archived copy at:
 
 docs/archive/conversations/conversation-summary-2025-10-01.md
+
 > Moved: See docs/archive/conversations/conversation-summary-2025-10-01.md
 
 This document has been archived to reduce noise in the main docs.

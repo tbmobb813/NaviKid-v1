@@ -29,14 +29,14 @@ Manages user consent for analytics:
 
 ```typescript
 interface PrivacySettings {
-  analyticsEnabled: boolean;      // User's consent choice
+  analyticsEnabled: boolean; // User's consent choice
   lastConsentUpdate: number | null; // When consent was updated
-  consentVersion: number;          // Version of consent flow
+  consentVersion: number; // Version of consent flow
 }
 ```
 
-
 **Features:**
+
 - Persistent storage using Zustand + AsyncStorage
 - Privacy-first: analytics disabled by default
 - Methods:
@@ -64,10 +64,10 @@ trackEvent('favorite-saved', { location: 'central-park' });
 await flush();
 ```
 
-
 ### 3. ✅ Consent Modal (`components/PrivacyConsentModal.tsx`)
 
 Beautiful, informative consent UI:
+
 - Explains what analytics collects
 - Lists what's NOT tracked (privacy guarantees)
 - COPPA compliance statement
@@ -77,6 +77,7 @@ Beautiful, informative consent UI:
 ### 4. ✅ App Integration (`app/_layout.tsx`)
 
 Auto-initialized on app startup:
+
 - Calls `initializePlausible()` on mount
 - Shows consent modal on first load
 - Enables/disables analytics based on user choice
@@ -85,6 +86,7 @@ Auto-initialized on app startup:
 ### 5. ✅ Existing Analytics Engine (`utils/analytics.ts`)
 
 Already implemented:
+
 - Event batching (groups events before sending)
 - Automatic flushing (every 30 seconds)
 - Error handling and retry logic
@@ -112,7 +114,6 @@ Enable Analytics
 Track Events to Plausible
 ```
 
-
 ### Technical Flow
 
 ```
@@ -131,7 +132,6 @@ Fetch to Plausible API
 Server processes event
 ```
 
-
 ---
 
 ## Configuration
@@ -147,7 +147,6 @@ PLAUSIBLE_SITE_ID=kid-friendly-map.com
 PLAUSIBLE_SHARED_KEY=your-optional-api-key
 ```
 
-
 Or add to EAS Build:
 
 ```bash
@@ -155,7 +154,6 @@ eas build --platform ios \
   --env PLAUSIBLE_ENDPOINT=https://plausible.io/api/event \
   --env PLAUSIBLE_SITE_ID=kid-friendly-map.com
 ```
-
 
 ### App Config (`app.config.ts`)
 
@@ -177,7 +175,6 @@ extra: {
 }
 ```
 
-
 ---
 
 ## Usage Examples
@@ -198,7 +195,6 @@ function HomeScreen() {
 }
 ```
 
-
 ### Track User Actions
 
 ```typescript
@@ -214,7 +210,6 @@ function MapScreen() {
   return <MapView onZoom={handleZoom} />;
 }
 ```
-
 
 ### Track Feature Usage
 
@@ -234,7 +229,6 @@ function AddSafeZoneButton() {
 }
 ```
 
-
 ### Track Errors
 
 ```typescript
@@ -248,7 +242,6 @@ function RiskyOperation() {
   }
 }
 ```
-
 
 ---
 
@@ -309,7 +302,6 @@ To track custom events in Plausible:
    trackEvent('safe-zone-created', { type: 'school' });
    ```
 
-
 ---
 
 ## Privacy & Compliance
@@ -317,6 +309,7 @@ To track custom events in Plausible:
 ### COPPA Compliance (US Children)
 
 ✅ **What we do:**
+
 - Analytics is opt-in only
 - No collection of personal information
 - No PII sent to Plausible
@@ -325,6 +318,7 @@ To track custom events in Plausible:
 - Data deleted after 90 days
 
 ❌ **What we don't do:**
+
 - Behavioral tracking
 - Cross-site tracking
 - Profile building
@@ -334,6 +328,7 @@ To track custom events in Plausible:
 ### GDPR Compliance (EU Users)
 
 ✅ **Features:**
+
 - Users can opt-out anytime
 - No cookies set
 - No tracking across sites
@@ -343,6 +338,7 @@ To track custom events in Plausible:
 ### CCPA Compliance (California Users)
 
 ✅ **Features:**
+
 - Users can opt-out in app settings
 - No sale of personal information
 - Clear privacy disclosures
@@ -361,9 +357,8 @@ To track custom events in Plausible:
    npm start
    ```
 
-
 1. **Accept consent modal**
-2. **Trigger events:**
+1. **Trigger events:**
    - Navigate between screens
    - Click buttons
    - Use features
@@ -373,7 +368,6 @@ To track custom events in Plausible:
    ```bash
    npm logs | grep Analytics
    ```
-
 
 ### Verify on Plausible Dashboard
 
@@ -389,7 +383,6 @@ To track custom events in Plausible:
 const { isEnabled } = usePlausible();
 console.log('[Plausible] Analytics enabled:', isEnabled);
 ```
-
 
 ---
 
@@ -408,7 +401,6 @@ trackEvent('safe-zone-created', { type: 'school' });
 trackEvent('map-opened', { view: 'list' });
 ```
 
-
 ### ❌ DON'T
 
 ```typescript
@@ -421,7 +413,6 @@ trackEvent('map-render', { coordinates: [...] });
 // Bad: Personally identifiable info
 trackEvent('user-identified', { user_id: '12345' });
 ```
-
 
 ---
 
@@ -446,7 +437,6 @@ trackEvent('user-identified', { user_id: '12345' });
    Config.ANALYTICS.PLAUSIBLE.SITE_ID  // Should be set
    ```
 
-
 1. **Check network:**
    - Open DevTools → Network
    - Look for requests to `plausible.io`
@@ -458,7 +448,6 @@ trackEvent('user-identified', { user_id: '12345' });
    npm logs | grep -i analytics
    ```
 
-
 ### Too Many Events
 
 If quota exceeded on Plausible:
@@ -469,13 +458,11 @@ If quota exceeded on Plausible:
    flushInterval: 60000, // 1 minute instead of 30s
    ```
 
-
 1. Reduce `batchSize`:
 
    ```typescript
    batchSize: 5, // Send after 5 events instead of 10
    ```
-
 
 1. Filter non-essential events:
 
@@ -485,7 +472,6 @@ If quota exceeded on Plausible:
      return; // Skip verbose events
    }
    ```
-
 
 ---
 
@@ -498,8 +484,8 @@ If quota exceeded on Plausible:
 3. Create new website:
    - Site URL: `app.kidfriendlymap.example`
    - Time Zone: Your location
-1. Copy Site ID and Endpoint
-2. Set environment variables
+4. Copy Site ID and Endpoint
+5. Set environment variables
 
 ### Configure Custom Events
 
@@ -514,6 +500,7 @@ In Plausible dashboard, create these events:
 ### Add to Privacy Policy
 
 Update your privacy policy to disclose:
+
 - You use Plausible Analytics
 - What data is collected
 - How users can opt-out
@@ -553,13 +540,13 @@ Update your privacy policy to disclose:
 
 ## Summary
 
-| Component | Status | Purpose |
-|-----------|--------|---------|
-| Privacy Store | ✅ | Manages user consent |
-| Plausible Hook | ✅ | Provides tracking functions |
-| Consent Modal | ✅ | Shows privacy terms to users |
-| Analytics Engine | ✅ | Batches and sends events |
-| Plausible API | ⏳ | Receives and processes events |
+| Component        | Status | Purpose                       |
+| ---------------- | ------ | ----------------------------- |
+| Privacy Store    | ✅     | Manages user consent          |
+| Plausible Hook   | ✅     | Provides tracking functions   |
+| Consent Modal    | ✅     | Shows privacy terms to users  |
+| Analytics Engine | ✅     | Batches and sends events      |
+| Plausible API    | ⏳     | Receives and processes events |
 
 ---
 
@@ -573,7 +560,6 @@ Update your privacy policy to disclose:
    const { trackEvent } = usePlausible();
    trackEvent('my-event', { property: 'value' });
    ```
-
 
 1. **How do users opt-out?**
    - Settings screen: Add toggle for `setAnalyticsEnabled(false)`

@@ -73,11 +73,20 @@ class EnhancedCacheManager {
 
   private setupPeriodicCleanup() {
     // Clean up every 30 minutes
-    setInterval(() => {
-      this.cleanupExpiredEntries().catch((error) => {
-        log.warn('Periodic cache cleanup failed', error as Error);
-      });
-    }, 30 * 60 * 1000);
+    // Do not start background timers during Jest tests to avoid leaking handles
+    if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
+      log.debug('Skipping periodic cache cleanup in test environment');
+      return;
+    }
+
+    setInterval(
+      () => {
+        this.cleanupExpiredEntries().catch((error) => {
+          log.warn('Periodic cache cleanup failed', error as Error);
+        });
+      },
+      30 * 60 * 1000,
+    );
   }
 
   private getCacheKey(key: string): string {
@@ -367,7 +376,7 @@ class EnhancedCacheManager {
 
   private async updateCacheMetadata(key: string, metadata: any): Promise<void> {
     try {
-      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, any>>(
+      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, unknown>>(
         this.metadataKey,
         {},
         { strategy: 'fallback', fallbackValue: {} },
@@ -376,7 +385,7 @@ class EnhancedCacheManager {
       const updatedMetadata = {
         ...existingMetadata,
         [key]: {
-          ...existingMetadata?.[key],
+          ...(existingMetadata?.[key] as Record<string, any>),
           ...metadata,
         },
       };
@@ -389,7 +398,7 @@ class EnhancedCacheManager {
 
   private async removeCacheMetadata(key: string): Promise<void> {
     try {
-      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, any>>(
+      const existingMetadata = await SafeAsyncStorage.getItem<Record<string, unknown>>(
         this.metadataKey,
         {},
         { strategy: 'fallback', fallbackValue: {} },

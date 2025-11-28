@@ -1,24 +1,32 @@
 import pino from 'pino';
-import config from '../config';
+import { config } from '../config';
 
-const logger = pino({
+export const logger = pino({
   level: config.logging.level,
-  transport: config.logging.pretty
-    ? {
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
-        },
-      }
-    : undefined,
-  formatters: {
-    level: (label) => {
-      return { level: label };
-    },
+  // Avoid creating the pino-pretty worker transport in test runs — it leaves
+  // a background worker thread open which prevents Jest from exiting cleanly.
+  transport:
+    config.logging.pretty && !config.isTest
+      ? {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'SYS:standard',
+            ignore: 'pid,hostname',
+          },
+        }
+      : undefined,
+  base: {
+    env: config.env,
   },
-  timestamp: pino.stdTimeFunctions.isoTime,
 });
 
+/**
+ * Create a child logger with additional context
+ */
+export function createLogger(context: Record<string, unknown>) {
+  return logger.child(context);
+}
+
+// Provide a default export for modules that import the logger as default
 export default logger;

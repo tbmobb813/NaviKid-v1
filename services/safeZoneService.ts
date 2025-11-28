@@ -60,7 +60,7 @@ class SafeZoneService {
     latitude: number,
     longitude: number,
     radius: number,
-    type: 'home' | 'school' | 'friend' | 'custom'
+    type: 'home' | 'school' | 'friend' | 'custom',
   ): Promise<SafeZone | null> {
     try {
       log.info('Creating safe zone', { name, type });
@@ -128,7 +128,10 @@ class SafeZoneService {
   // Geofence Checking
   // ==========================================================================
 
-  async checkGeofence(latitude: number, longitude: number): Promise<{ inside: boolean; zone?: SafeZone }> {
+  async checkGeofence(
+    latitude: number,
+    longitude: number,
+  ): Promise<{ inside: boolean; zone?: SafeZone }> {
     try {
       const response = await apiClient.safeZones.checkGeofence(latitude, longitude);
 
@@ -148,13 +151,16 @@ class SafeZoneService {
     }
   }
 
-  private checkGeofenceLocal(latitude: number, longitude: number): { inside: boolean; zone?: SafeZone } {
+  private checkGeofenceLocal(
+    latitude: number,
+    longitude: number,
+  ): { inside: boolean; zone?: SafeZone } {
     for (const zone of this.safeZones) {
       const distance = this.calculateDistance(
         latitude,
         longitude,
         zone.centerLatitude,
-        zone.centerLongitude
+        zone.centerLongitude,
       );
 
       if (distance <= zone.radius) {

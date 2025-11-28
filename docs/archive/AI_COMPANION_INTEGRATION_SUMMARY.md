@@ -66,7 +66,6 @@ Successfully integrated the **AI Journey Companion** ("Buddy") with the **AI Rou
 └─────────────────────────────────────────┘
 ```
 
-
 ### After Integration
 
 ```
@@ -90,7 +89,6 @@ Successfully integrated the **AI Journey Companion** ("Buddy") with the **AI Rou
 └─────────────────────────────────────────┘
 ```
 
-
 ---
 
 ## 📝 Code Changes
@@ -112,7 +110,6 @@ type AIJourneyCompanionProps = {
 };
 ```
 
-
 1. **Enhanced Message Types**
 
 ```typescript
@@ -124,7 +121,6 @@ type: 'story' |
   'landmark'; // 🆕 NEW
 ```
 
-
 1. **New Imports**
 
 ```typescript
@@ -132,7 +128,6 @@ import { SmartRoute } from '../utils/aiRouteEngine';
 import { speakMessage } from '../utils/voice';
 import { Shield, MapPin } from 'lucide-react-native';
 ```
-
 
 1. **New Function: generateRouteInsight()**
 
@@ -143,7 +138,6 @@ const generateRouteInsight = async () => {
   // Speaks message if voice enabled
 };
 ```
-
 
 1. **Enhanced generateJourneyContent()**
 
@@ -161,7 +155,6 @@ if (selectedRoute) {
   `;
 }
 ```
-
 
 1. **New UI Components**
 
@@ -183,7 +176,6 @@ if (selectedRoute) {
 </View>
 ```
 
-
 1. **New Styles**
 
 ```typescript
@@ -193,7 +185,6 @@ routeInfoTitle: { /* Title styling */ },
 routeStats: { /* Stats row styling */ },
 routeStat: { /* Individual stat styling */ },
 ```
-
 
 ---
 
@@ -224,7 +215,6 @@ function NavigationScreen() {
 }
 ```
 
-
 ### With SmartNavigationScreen
 
 ```typescript
@@ -238,7 +228,6 @@ function NavigationScreen() {
   selectedRoute={selectedRoute}
 />
 ```
-
 
 ---
 
@@ -310,7 +299,6 @@ function NavigationScreen() {
 visit each year. Have fun exploring! 🌳"
 ```
 
-
 ### After (Route-Aware)
 
 ```
@@ -320,7 +308,6 @@ With a 95% safety score and passing through
 has over 26,000 trees waiting for you! 🌳🛡️"
 ```
 
-
 ### Route Insight Example
 
 ```
@@ -328,7 +315,6 @@ has over 26,000 trees waiting for you! 🌳🛡️"
 you through well-lit streets and past the library.
 Perfect for your evening adventure! 🛡️✨"
 ```
-
 
 ---
 

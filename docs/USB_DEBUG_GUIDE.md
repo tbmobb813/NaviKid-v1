@@ -75,7 +75,6 @@ lsusb
 adb devices
 ```
 
-
 ---
 
 ## Expected Results After Fix
@@ -89,14 +88,12 @@ Bus 001 Device 005: ID 0bda:b023 Realtek Semiconductor Corp.
 Bus 001 Device 004: ID 05e3:0610 Genesys Logic, Inc. Hub
 ```
 
-
 After (what you should see):
 
 ```text
 Bus 001 Device 006: ID 04e8:6860 Samsung Electronics Co., Ltd Galaxy (MTP)
                     ^^^^^^ This is a new device! (ID will vary)
 ```
-
 
 ### Step 2: `adb devices` should show your device
 
@@ -107,7 +104,6 @@ List of devices attached
 [empty]
 ```
 
-
 After (what you should see):
 
 ```text
@@ -115,14 +111,12 @@ List of devices attached
 R58M4XXXXXX    unauthorized    ← First time, needs authorization
 ```
 
-
 Then after tapping "Allow" on your phone:
 
 ```text
 List of devices attached
 R58M4XXXXXX    device    ← Ready to use!
 ```
-
 
 ---
 
@@ -138,7 +132,6 @@ If after trying everything your device won't connect, let's use an Android emula
    emulator -list-avds
    ```
 
-
 1. **If you have an emulator, start it:**
 
    ```bash
@@ -149,7 +142,6 @@ If after trying everything your device won't connect, let's use an Android emula
    emulator -avd Pixel_5_API_33 &
    ```
 
-
 1. **Check emulator shows up:**
 
    ```bash
@@ -157,13 +149,11 @@ If after trying everything your device won't connect, let's use an Android emula
    # Should show: emulator-5554    device
    ```
 
-
 1. **Build to emulator:**
 
    ```bash
    npx expo run:android
    ```
-
 
 ### Don't Have an Emulator? Create One
 
@@ -180,7 +170,6 @@ sdkmanager "system-images;android-33;google_apis;x86_64"
 avdmanager create avd -n Pixel_5_API_33 -k "system-images;android-33;google_apis;x86_64"
 emulator -avd Pixel_5_API_33 &
 ```
-
 
 ---
 
@@ -207,7 +196,6 @@ If USB just won't work, you can use WiFi!
    # Verify
    adb devices
    ```
-
 
 ---
 
@@ -266,7 +254,6 @@ adb devices -l
 # Once connected, build!
 npx expo run:android
 ```
-
 
 ---
 

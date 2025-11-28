@@ -175,7 +175,7 @@ export const smartRoutesApi = {
 // Offline support
 export const offlineStorage = {
   // In-memory fallback cache used when AsyncStorage operations fail (useful in tests)
-  _memoryCache: new Map<string, { data: any; timestamp: number }>(),
+  _memoryCache: new Map<string, { data: unknown; timestamp: number }>(),
 
   async cacheResponse<T>(key: string, data: T): Promise<void> {
     try {
@@ -252,7 +252,7 @@ export const offlineStorage = {
 
 // Enhanced error handling for API responses
 export const handleApiError = (
-  error: any,
+  error: unknown,
 ): { message: string; code?: string; isNetworkError: boolean } => {
   if (error instanceof Error) {
     if (error.name === 'AbortError') {
@@ -394,7 +394,7 @@ export class BackendHealthMonitor {
 export const backendHealthMonitor = BackendHealthMonitor.getInstance();
 
 // Network-aware API wrapper with enhanced error handling
-export const createNetworkAwareApi = <T extends any[], R>(
+export const createNetworkAwareApi = <T extends unknown[], R>(
   apiFunction: (...args: T) => Promise<ApiResponse<R>>,
   cacheKey: string,
   maxAge?: number,

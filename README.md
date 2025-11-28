@@ -2,7 +2,6 @@
 
 This repository contains an Expo React Native application designed for families to discover new places, embark on fun adventures, and explore their city together.
 
-[![CI Lite](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml)
 [![CI Full](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml)
 
 ## Quickstart
@@ -45,7 +44,6 @@ This project uses Expo Application Services (EAS) for production mobile builds.
 
 ```bash
 npm install -g eas-cli
-```
 
 2. Login and configure credentials:
 
@@ -113,6 +111,7 @@ A Sentry integration skeleton is available at `utils/sentry.ts`. Add `SENTRY_DSN
 There is a GitHub Actions pipeline in `.github/workflows/ci.yml` and a lightweight PR workflow at `.github/workflows/ci-lite.yml`.
 
 Notes:
+
 - We removed Bun-specific test runners from the main PR pipelines and migrated tests to run under Jest/npm. Prefer `npm ci` in CI unless you intentionally want Bun for performance experiments.
 
 - See `CI_FIX_SUMMARY.md` → "Active GitHub Actions workflows" for a compact reference of which workflow runs what and how to trigger manual/heavy jobs.
@@ -168,7 +167,6 @@ npm run test:concurrent
 CI runs these suites in parallel jobs — see `.github/workflows/tests.yml` for
 the workflow definition.
 
-
 Notes on performance-sensitive tests
 
 - PERF_TIME_MULTIPLIER: You can relax strict timing assertions locally by
@@ -190,7 +188,6 @@ Notes on performance-sensitive tests
 CI runs the strict performance checks with `PERF_TIME_MULTIPLIER=1` by
 default; if you see failures locally, increase `PERF_TIME_MULTIPLIER` for
 development runs.
-
 
 ## License
 

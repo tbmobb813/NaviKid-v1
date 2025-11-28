@@ -3,6 +3,7 @@
 Quick commands and procedures for the NaviKid-v1 CI/CD pipeline.
 
 ## Table of Contents
+
 - [Quick Commands](#quick-commands)
 - [Workflow Triggers](#workflow-triggers)
 - [Emergency Procedures](#emergency-procedures)
@@ -62,10 +63,12 @@ gh run view --web
 ### Backend CI (`backend-ci.yml`)
 
 **Auto-triggers:**
+
 - Push to `main` with backend file changes
 - PR to `main` with backend file changes
 
 **Files watched:**
+
 - `backend/**`
 - `.github/workflows/backend-ci.yml`
 
@@ -76,10 +79,12 @@ gh run view --web
 ### Frontend CI (`frontend-ci.yml`)
 
 **Auto-triggers:**
+
 - Push to `main` (excluding backend changes)
 - PR to `main` (excluding backend changes)
 
 **Files ignored:**
+
 - `backend/**`
 - `.github/workflows/backend-ci.yml`
 - `**.md`
@@ -91,11 +96,13 @@ gh run view --web
 ### Security Scanning (`security.yml`)
 
 **Auto-triggers:**
+
 - Push to `main` or `develop`
 - PR to `main`
 - Every Monday at 2 AM UTC
 
 **Manual trigger:**
+
 1. Go to Actions → Security Scanning
 2. Run workflow → Select scan level
 3. Click Run workflow
@@ -107,6 +114,7 @@ gh run view --web
 **Trigger:** Manual only
 
 **Quick Deploy:**
+
 1. Actions → Manual Deployment → Run workflow
 2. Select options:
    - Environment: `staging` or `production`
@@ -354,6 +362,7 @@ npm run typecheck
 ### Required Status Checks (for PRs)
 
 Before merge, these must pass:
+
 - ✅ Frontend: Lint & Code Quality
 - ✅ Frontend: TypeScript Type Check
 - ✅ Frontend: Unit Tests
@@ -365,6 +374,7 @@ Before merge, these must pass:
 ### Optional Checks
 
 These can fail without blocking merge:
+
 - ⚪ Backend: Integration Tests
 - ⚪ Security: Configuration Scan
 - ⚪ Performance Tests
@@ -394,10 +404,12 @@ https://github.com/YOUR_USERNAME/NaviKid-v1/actions/workflows/deploy.yml
 ## Environment URLs
 
 ### Staging
+
 - Backend API: `https://staging-api.navikid.app`
 - Frontend: Expo channel `staging`
 
 ### Production
+
 - Backend API: `https://api.navikid.app`
 - Frontend: App Stores + Expo channel `production`
 

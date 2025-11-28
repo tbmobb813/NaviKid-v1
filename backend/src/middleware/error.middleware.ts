@@ -11,13 +11,16 @@ export function errorHandler(
   reply: FastifyReply
 ): void {
   // Log error
-  logger.error({
-    error: error.message,
-    stack: error.stack,
-    method: request.method,
-    url: request.url,
-    statusCode: error.statusCode,
-  }, 'Request error');
+  logger.error(
+    {
+      error: error.message,
+      stack: error.stack,
+      method: request.method,
+      url: request.url,
+      statusCode: error.statusCode,
+    },
+    'Request error'
+  );
 
   // Determine status code
   const statusCode = error.statusCode || 500;
@@ -43,10 +46,7 @@ export function errorHandler(
 /**
  * Not found handler
  */
-export function notFoundHandler(
-  request: FastifyRequest,
-  reply: FastifyReply
-): void {
+export function notFoundHandler(request: FastifyRequest, reply: FastifyReply): void {
   const response: ApiResponse = {
     success: false,
     error: {
@@ -66,23 +66,33 @@ export function notFoundHandler(
  * Validation error handler
  */
 export function validationErrorHandler(
-  error: any,
+  error: unknown,
   request: FastifyRequest,
   reply: FastifyReply
 ): void {
-  logger.warn({
-    error: error.message,
-    validation: error.validation,
-    method: request.method,
-    url: request.url,
-  }, 'Validation error');
+  // Attempt to extract useful fields from the validation error
+  let message = 'Validation failed';
+  let details: unknown = undefined;
+
+  if (typeof error === 'object' && error !== null) {
+    const errObj = error as { message?: string; validation?: unknown; errors?: unknown };
+    message = errObj.message || message;
+    details = errObj.validation ?? errObj.errors ?? undefined;
+  } else if (typeof error === 'string') {
+    message = error;
+  }
+
+  logger.warn(
+    { message, details, method: request.method, url: request.url },
+    'Validation error'
+  );
 
   const response: ApiResponse = {
     success: false,
     error: {
-      message: 'Validation failed',
+      message,
       code: 'VALIDATION_ERROR',
-      details: error.validation || error.message,
+      details,
     },
     meta: {
       timestamp: new Date(),

@@ -44,7 +44,6 @@ export default function App() {
 }
 ```
 
-
 ### Generate AI Routes Programmatically
 
 ```typescript
@@ -64,7 +63,6 @@ aiRouteEngine.updatePreferences({
 const recommendations = aiRouteEngine.getPersonalizedRecommendations();
 ```
 
-
 ### Use Voice Guidance
 
 ```typescript
@@ -76,7 +74,6 @@ await speakNavigation('Turn left at the next corner');
 // Safety reminder
 await voiceManager.speak('Remember to look both ways!');
 ```
-
 
 ### Display Map with Routes
 
@@ -90,7 +87,6 @@ import KidFriendlyMap from './components/KidFriendlyMap';
   onSafeZoneEnter={(zone) => console.log('Entered', zone.name)}
 />
 ```
-
 
 ---
 
@@ -188,7 +184,6 @@ Future recommendations adapt with bonus scores
 Personalized insights: "Based on your history..."
 ```
 
-
 ### Scoring Algorithm
 
 ```typescript
@@ -199,7 +194,6 @@ Total Score = (
   User Preference × 15%
 ) + Context Bonuses
 ```
-
 
 ### Context Awareness
 
@@ -226,7 +220,6 @@ bun install
 # Start the app
 npx expo start
 ```
-
 
 ### Navigate to Enhanced Features Demo
 
@@ -259,13 +252,11 @@ All required packages are already in `package.json`:
 }
 ```
 
-
 Just run:
 
 ```bash
 npm install
 ```
-
 
 ---
 
@@ -336,7 +327,6 @@ const routes = await aiRouteEngine.generateSmartRoutes(home, museum);
 // "This route passes through 3 safe zones and is well-lit"
 ```
 
-
 ### School Commute
 
 ```typescript
@@ -349,7 +339,6 @@ const afternoonRoutes = await aiRouteEngine.generateSmartRoutes(school, home);
 // AI recommends: Scenic route (more relaxed time, nice weather)
 ```
 
-
 ### Weekend Adventure
 
 ```typescript
@@ -358,7 +347,6 @@ const routes = await aiRouteEngine.generateSmartRoutes(home, park);
 // AI suggests: Scenic Route with parks and landmarks
 // "Perfect day for an adventure! This route has a playground along the way."
 ```
-
 
 ---
 

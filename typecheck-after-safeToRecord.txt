@@ -1,0 +1,14 @@
+components/AIRouteSuggestions.tsx(50,50): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Record<string, unknown> | undefined'.
+components/DevChecks/NativeViewManagerCheck.tsx(16,62): error TS2345: Argument of type 'ViewManagerCheckResult[]' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'ViewManagerCheckResult[]'.
+components/DevChecks/NativeViewManagerCheck.tsx(20,47): error TS2345: Argument of type 'ViewManagerCheckResult[]' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'ViewManagerCheckResult[]'.
+components/DevicePingHandler.tsx(32,12): error TS2339: Property 'log' does not exist on type 'typeof import("/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@sentry/core/build/types/logs/public-api")'.
+components/DevicePingHandler.tsx(137,51): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Record<string, unknown> | undefined'.
+components/ErrorBoundary.tsx(28,47): error TS2345: Argument of type 'Error' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'Error'.
+components/MTALiveArrivals.tsx(189,48): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Record<string, unknown> | undefined'.
+components/MTALiveArrivals.tsx(305,9): error TS7053: Element implicitly has an 'any' type because expression of type '`alert${string}`' can't be used to index type '{ container: { flex: number; backgroundColor: string; }; loadingContainer: { flex: number; justifyContent: "center"; alignItems: "center"; backgroundColor: string; }; loadingText: { marginTop: number; fontSize: number; color: "#757575"; }; ... 45 more ...; tipText: { ...; }; }'.
+components/ParentDashboard.tsx(88,21): error TS7006: Parameter 'message' implicitly has an 'any' type.
+components/SmartNotification.tsx(122,46): error TS2345: Argument of type 'string' is not assignable to parameter of type 'Record<string, unknown>'.
+components/SmartNotification.tsx(124,56): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Record<string, unknown> | undefined'.

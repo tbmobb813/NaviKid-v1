@@ -12,7 +12,7 @@ type LogEntry = {
   level: LogLevel;
   message: string;
   timestamp: number;
-  context?: Record<string, any>;
+  context?: unknown;
   stack?: string;
 };
 
@@ -21,7 +21,7 @@ class Logger {
   private maxLogs = 1000;
   private minLevel = Config.isDev ? LogLevel.DEBUG : LogLevel.INFO;
 
-  private formatMessage(level: LogLevel, message: string, context?: Record<string, any>): string {
+  private formatMessage(level: LogLevel, message: string, context?: unknown): string {
     const timestamp = new Date().toISOString();
     const levelStr = LogLevel[level];
     const contextStr = context ? ` ${JSON.stringify(context)}` : '';
@@ -32,7 +32,7 @@ class Logger {
     return level >= this.minLevel;
   }
 
-  private addLog(level: LogLevel, message: string, context?: Record<string, any>, error?: Error) {
+  private addLog(level: LogLevel, message: string, context?: unknown, error?: Error) {
     if (!this.shouldLog(level)) return;
 
     const logEntry: LogEntry = {
@@ -115,19 +115,19 @@ class Logger {
     }
   }
 
-  debug(message: string, context?: Record<string, any>) {
+  debug(message: string, context?: unknown) {
     this.addLog(LogLevel.DEBUG, message, context);
   }
 
-  info(message: string, context?: Record<string, any>) {
+  info(message: string, context?: unknown) {
     this.addLog(LogLevel.INFO, message, context);
   }
 
-  warn(message: string, context?: Record<string, any>) {
+  warn(message: string, context?: unknown) {
     this.addLog(LogLevel.WARN, message, context);
   }
 
-  error(message: string, error?: Error, context?: Record<string, any>) {
+  error(message: string, error?: Error, context?: unknown) {
     this.addLog(LogLevel.ERROR, message, context, error);
   }
 
@@ -158,11 +158,10 @@ class Logger {
 export const logger = new Logger();
 
 export const log = {
-  debug: (message: string, context?: Record<string, any>) => logger.debug(message, context),
-  info: (message: string, context?: Record<string, any>) => logger.info(message, context),
-  warn: (message: string, context?: Record<string, any>) => logger.warn(message, context),
-  error: (message: string, error?: Error, context?: Record<string, any>) =>
-    logger.error(message, error, context),
+  debug: (message: string, context?: unknown) => logger.debug(message, context),
+  info: (message: string, context?: unknown) => logger.info(message, context),
+  warn: (message: string, context?: unknown) => logger.warn(message, context),
+  error: (message: string, error?: Error, context?: unknown) => logger.error(message, error, context),
   time: (label: string) => logger.time(label),
   timeEnd: (label: string) => logger.timeEnd(label),
 };
