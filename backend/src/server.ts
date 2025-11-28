@@ -166,8 +166,10 @@ export async function buildServer() {
   // During tests we allow routing without the /api prefix to support older
   // integration tests that call endpoints directly (e.g. /auth/register).
   // Register the same route handlers at the non-prefixed paths only in test
-  // mode so production behavior is unchanged.
-  if (config.isTest) {
+  // mode so production behavior is unchanged. Some test runners set
+  // `NODE_ENV=test` but the config loader may not reflect that yet, so
+  // check the environment variable as a fallback to be resilient.
+  if (process.env.NODE_ENV === 'test' || config.isTest) {
     await server.register(authRoutes, { prefix: '/auth' });
     await server.register(userRoutes, { prefix: '/users' });
     await server.register(locationRoutes, { prefix: '/locations' });
