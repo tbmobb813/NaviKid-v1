@@ -1,4 +1,4 @@
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, act } from '@testing-library/react-native';
 // Import default export and alias to match template intent
 import useEnhancedNavigationStore from '../enhancedNavigationStore';
 
