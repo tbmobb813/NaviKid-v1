@@ -176,6 +176,21 @@ export async function buildServer() {
     await server.register(geofenceRoutes, { prefix: '/safe-zones' });
   }
 
+  // Log route registration info in test mode to aid debugging of integration
+  // test failures where tests hit non-prefixed endpoints.
+  if (process.env.NODE_ENV === 'test' || config.isTest) {
+    try {
+      logger.info({ testMode: true }, 'Registered non-prefixed test routes');
+      // Print the route table for easier debugging when running integration tests
+      // (Fastify exposes a `printRoutes` helper which returns a string).
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const routesTable = (server as any).printRoutes ? (server as any).printRoutes() : 'printRoutes unavailable';
+      logger.debug({ routes: routesTable }, 'Fastify route table');
+    } catch (e) {
+      logger.warn({ e }, 'Failed to print routes for debugging');
+    }
+  }
+
   // Root endpoint
   server.get('/', async () => {
     return {
