@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-native';
+import { renderHook, act, waitFor } from '@testing-library/react-native';
 // Import default export and alias to match template intent
 import useEnhancedNavigationStore from '../enhancedNavigationStore';
 
@@ -318,11 +318,7 @@ describe('enhancedNavigationStore', () => {
       const beforeCount = result.current.photoCheckIns.length;
 
       act(() => {
-        result.current.addPhotoCheckIn({
-          photoUrl: 'file://photo1.jpg',
-          placeId: 'p1',
-          timestamp: Date.now(),
-        } as any);
+        result.current.addPhotoCheckIn({ photoUrl: 'file://photo1.jpg', placeId: 'p1', timestamp: Date.now() } as any);
       });
 
       expect(result.current.photoCheckIns.length).toBe(beforeCount + 1);
@@ -463,8 +459,8 @@ describe('enhancedNavigationStore', () => {
 
       const verification = result.current.addLocationVerifiedPhotoCheckIn(
         { photoUrl: 'file://nearby.jpg', placeId: 'p1', timestamp: Date.now() } as any,
-        { latitude: 40.7128, longitude: -74.006 },
-        { latitude: 40.7128, longitude: -74.006 },
+        { latitude: 40.7128, longitude: -74.0060 },
+        { latitude: 40.7128, longitude: -74.0060 },
       );
 
       expect(verification.isWithinRadius).toBe(true);
@@ -476,7 +472,7 @@ describe('enhancedNavigationStore', () => {
 
       const verification = result.current.addLocationVerifiedPhotoCheckIn(
         { photoUrl: 'file://far.jpg', placeId: 'p2', timestamp: Date.now() } as any,
-        { latitude: 40.7128, longitude: -74.006 },
+        { latitude: 40.7128, longitude: -74.0060 },
         { latitude: 41.0, longitude: -75.0 },
       );
 
