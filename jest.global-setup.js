@@ -28,8 +28,13 @@ function waitForHealth(timeoutMs = 30000, intervalMs = 500) {
 }
 
 module.exports = async function globalSetup() {
-  // Only start backend if backend has a start script and user didn't disable via env
-  if (process.env.SKIP_START_BACKEND === '1') {
+  // Allow skipping entire backend setup (including Docker) for environments without Docker
+  if (process.env.SKIP_START_BACKEND === '1' || process.env.MOCK_DOCKER_SETUP === '1') {
+    console.log('Skipping backend/Docker setup (SKIP_START_BACKEND or MOCK_DOCKER_SETUP set)');
+    // Set minimal environment variables for tests
+    process.env.JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'x'.repeat(40);
+    process.env.JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'y'.repeat(40);
+    process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://test:test@localhost:5432/test';
     return;
   }
 
