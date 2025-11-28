@@ -48,7 +48,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
-          category: 'trivy-filesystem'
 
       - name: Run Trivy vulnerability scanner (summary)
         uses: aquasecurity/trivy-action@0.33.1
@@ -231,7 +230,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-docker-results.sarif'
-          category: 'trivy-docker'
 
   security-summary:
     name: Security Summary
