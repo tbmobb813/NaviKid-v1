@@ -126,19 +126,31 @@ module.exports = async function globalSetup() {
     // This ensures integration tests don't fail with "relation \"users\" does not exist".
     try {
       console.log('Running backend migrations (npm run migrate)...');
-      await new Promise((resolve, reject) => {
-        const mig = spawn('npm', ['run', 'migrate'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } });
-        mig.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend migrate failed'))));
-      });
+      // Retry migrations a few times to allow Postgres to finish initializing
+      const runWithRetries = async (cmd, args, opts, attempts = 5, delayMs = 2000) => {
+        for (let i = 0; i < attempts; i++) {
+          try {
+            await new Promise((resolve, reject) => {
+              const p = spawn(cmd, args, opts);
+              p.on('close', (code) => (code === 0 ? resolve() : reject(new Error(`exit code ${code}`))));
+            });
+            return;
+          } catch (e) {
+            const remaining = attempts - i - 1;
+            console.warn(`Migration attempt ${i + 1} failed: ${e?.message ?? e}. ${remaining} attempts left.`);
+            if (remaining <= 0) throw e;
+            await new Promise((r) => setTimeout(r, delayMs));
+          }
+        }
+      };
+
+      await runWithRetries('npm', ['run', 'migrate'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } }, 6, 3000);
       // Optionally run seeds if available to populate initial data for tests
       const seedScript = path.join(backendDir, 'dist', 'db', 'seed.js');
       const seedSrc = path.join(backendDir, 'src', 'db', 'seed.ts');
       if (fs.existsSync(seedScript) || fs.existsSync(seedSrc)) {
         console.log('Running backend seeds (npm run seed)...');
-        await new Promise((resolve, reject) => {
-          const seed = spawn('npm', ['run', 'seed'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } });
-          seed.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend seed failed'))));
-        });
+        await runWithRetries('npm', ['run', 'seed'], { cwd: backendDir, stdio: 'inherit', env: { ...process.env } }, 4, 2000);
       }
     } catch (err) {
       console.error('Error running migrations/seeds:', err?.message ?? err);
