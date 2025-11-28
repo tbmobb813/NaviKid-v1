@@ -2,8 +2,6 @@
 
 This repository contains an Expo React Native application designed for families to discover new places, embark on fun adventures, and explore their city together.
 
-[![CI Lite](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci-lite.yml)
-
 [![CI Full](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml)
 
 ## Quickstart

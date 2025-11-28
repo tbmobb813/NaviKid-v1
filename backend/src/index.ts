@@ -136,7 +136,11 @@ async function buildServer() {
   });
 
   // Register API routes
-  await fastify.register(authRoutes);
+  // authRoutes defines paths like `/register` and `/login` and therefore
+  // should be mounted under the `/auth` prefix so endpoints become
+  // `/auth/register`, `/auth/login`, etc. This matches the integration
+  // test expectations.
+  await fastify.register(authRoutes, { prefix: '/auth' });
   await fastify.register(locationRoutes);
   await fastify.register(safeZoneRoutes);
   await fastify.register(emergencyRoutes);
