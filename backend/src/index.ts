@@ -260,7 +260,9 @@ async function start() {
     const signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM'];
     signals.forEach((signal) => {
       process.on(signal, async () => {
-        logger.info(`${signal} received, shutting down gracefully...`);
+        // Avoid format-string logging with externally-controlled values;
+        // include the signal in structured data instead.
+        logger.info({ signal }, 'Signal received, shutting down gracefully');
 
         try {
           await fastify.close();

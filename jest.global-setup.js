@@ -182,7 +182,8 @@ module.exports = async function globalSetup() {
         serverArgs = ['run', 'dev'];
       }
 
-      const server = spawn(serverCmd, serverArgs, { cwd: backendDir, env: { ...process.env, NODE_ENV: 'test' }, stdio: ['ignore', 'inherit', 'inherit'] });
+      // assign to outer-scoped variable so we can reference it below
+      server = spawn(serverCmd, serverArgs, { cwd: backendDir, env: { ...process.env, NODE_ENV: 'test' }, stdio: ['ignore', 'inherit', 'inherit'] });
       // Securely create PID_FILE with restrictive permissions
       try {
         fs.writeFileSync(PID_FILE, String(server.pid), { encoding: 'utf8', flag: 'wx', mode: 0o600 });
@@ -213,7 +214,11 @@ module.exports = async function globalSetup() {
       console.log('Backend started and healthy');
     } catch (e) {
       console.error('Backend failed to become healthy:', e);
-      try { process.kill(server.pid); } catch (err) {}
+      try {
+        if (server && server.pid) {
+          process.kill(server.pid);
+        }
+      } catch (err) {}
       throw e;
     }
   } catch (e) {

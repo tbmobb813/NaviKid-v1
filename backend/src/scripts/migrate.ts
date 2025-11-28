@@ -50,7 +50,7 @@ async function runMigrations() {
       ]);
 
       if (rows.length > 0) {
-        logger.info(`Migration ${file} already executed, skipping...`);
+        logger.info({ migration: file }, 'Migration already executed, skipping');
         continue;
       }
 
@@ -58,13 +58,13 @@ async function runMigrations() {
       const filePath = path.join(migrationsDir, file);
       const sql = fs.readFileSync(filePath, 'utf-8');
 
-      logger.info(`Executing migration: ${file}`);
+      logger.info({ migration: file }, 'Executing migration');
       await db.query(sql);
 
       // Record migration
       await db.query('INSERT INTO migrations (name) VALUES ($1)', [file]);
 
-      logger.info(`Migration ${file} completed successfully`);
+      logger.info({ migration: file }, 'Migration completed successfully');
     }
 
     logger.info('All migrations completed successfully');
