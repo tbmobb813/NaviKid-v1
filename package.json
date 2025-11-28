@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_OPTIONS=\"--experimental-specifier-resolution=node\" expo start",
     "preinstall": "node ./scripts/check-node-version.cjs && node ./scripts/check-no-maps.cjs",
-    "postinstall": "patch-package || node ./scripts/apply-test-exclude-patch.js || true",
+    "postinstall": "node ./scripts/apply-test-exclude-patch.js || true",
     "start:clean": "rimraf node_modules/.cache .expo && expo start --clear",
     "start:web": "expo start --web",
     "start:ios": "expo start --ios",
