@@ -173,6 +173,12 @@
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
+  "overrides": {
+    "glob": "11.1.0"
+  },
+  "resolutions": {
+    "glob": "11.1.0"
+  },
   "prepare": "husky install",
   "lint-staged": {
     "app/**/*.{ts,tsx},components/**/*.{ts,tsx},hooks/**/*.{ts,tsx},utils/**/*.{ts,tsx}": [
