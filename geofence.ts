@@ -96,7 +96,7 @@ async function handleGeofenceEvent(
         regionId: region.identifier,
         guardianDevices: 'backend-service-would-handle-this',
       });
-    } catch (eventError) {
+      } catch (eventError) {
       logger.error('Failed to emit geofence event:', eventError as unknown as Error);
     }
   } catch (notificationError) {

@@ -16,90 +16,6 @@ import {
 } from '@/types/parental';
 import { logger } from '@/utils/logger';
 
-// Instrumentation: incremental instance id to trace provider mounts in tests
-let __parentalProviderInstanceCounter = 0;
-
-// Test-only: emit a module-load marker so we can confirm at runtime which
-// file Jest is actually loading. This helps detect module resolution / caching
-// surprises when instrumentation changes don't appear in test output.
-try {
-  if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
-    // __filename is available in CommonJS modules (ts-jest compiles to CJS by default)
-    // Print a compact JSON marker so timeline parsers can pick it up easily.
-    // Keep this minimal and gated to test env only.
-
-    const loadMarker = `{"op":"parentalStore.loaded","file":"${__filename}","ts":${Date.now()}}`;
-    console.log(`[TestDebug] ${loadMarker}`);
-    try {
-      // Also append to a dedicated, append-only test debug file so capturing
-      // issues with stdout/jest don't prevent us from seeing the marker.
-      const outDir = '.test-debug';
-      try {
-        fs.mkdirSync(outDir, { recursive: true });
-      } catch (e) {
-        /* noop */
-      }
-      fs.appendFileSync(`${outDir}/parentalStore_module_loads.log`, loadMarker + '\n');
-    } catch (e) {
-      // noop - do not break tests for diagnostics
-    }
-  }
-} catch (e) {
-  // noop - diagnostics only
-}
-
-// Test-only helper: emit a compact JSON object both to stdout (for human
-// inspection) and to an append-only .test-debug file so our parser can
-// reliably consume events without depending on Jest's console capture.
-// Internal flag used to truncate the sink once at process start when
-// TEST_DEBUG_CLEAR=1 is set. This prevents mixing events from previous
-// runs during local development or CI agents that reuse workspaces.
-let __testDebugSinkInitialized = false;
-function emitTestDebug(obj: Record<string, any>) {
-  try {
-    // Convert BigInt fields (hr) to string to keep JSON stable
-    const normalized: Record<string, any> = {};
-    for (const k of Object.keys(obj)) {
-      const v = (obj as any)[k];
-      if (typeof v === 'bigint') normalized[k] = v.toString();
-      else normalized[k] = v;
-    }
-    const json = JSON.stringify(normalized);
-    // Build a prefixed line with ISO and hr when available so parsers that
-    // expect a leading timestamp | hrtime can still consume the file.
-    const iso = new Date().toISOString();
-    const hrPart = normalized.hr ? ` | ${normalized.hr}` : '';
-    const line = `${iso}${hrPart} ${json}`;
-    // stdout for quick debugging
-
-    console.log(`[TestDebug] ${line}`);
-
-    // append to file for parser consumption
-    try {
-      const outDir = process.env.TEST_DEBUG_DIR || '.test-debug';
-      const sink = process.env.TEST_DEBUG_SINK || `${outDir}/instrumented-events.log`;
-      // Ensure directory exists
-      fs.mkdirSync(outDir, { recursive: true });
-      // Optionally truncate/clear the sink on first write in this process
-      // when TEST_DEBUG_CLEAR=1 is set. This is helpful in CI where runs
-      // re-use workspaces and we want a per-run artifact.
-      if (!__testDebugSinkInitialized && process.env.TEST_DEBUG_CLEAR === '1') {
-        try {
-          fs.writeFileSync(sink, '');
-        } catch (e) {
-          // ignore
-        }
-        __testDebugSinkInitialized = true;
-      }
-      fs.appendFileSync(sink, line + '\n');
-    } catch (e) {
-      // ignore file write errors in CI/test
-    }
-  } catch (e) {
-    // best-effort only
-  }
-}
-
 const DEFAULT_EMERGENCY_CONTACTS: EmergencyContact[] = [
   {
     id: 'emergency_911',
@@ -316,11 +232,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     logger.debug('[TestDebug] parentalStore mounted', { instanceId });
 
     const loadData = async () => {
-      bumpActive();
-      logger.debug('[TestDebug] parentalStore.loadData start', {
-        instanceId,
-        activeOps: activeOpsRef.current,
-      });
+      logger.debug('[TestDebug] parentalStore.loadData start');
       try {
         const [
           storedSettings,
@@ -388,12 +300,8 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       } catch (error) {
         logger.error('Failed to load parental data:', error as Error);
       } finally {
-        dropActive();
-        logger.debug('[TestDebug] parentalStore.loadData end', {
-          instanceId,
-          activeOps: activeOpsRef.current,
-        });
-        applyIfMounted(() => setIsLoading(false));
+        logger.debug('[TestDebug] parentalStore.loadData end');
+        setIsLoading(false);
       }
     };
 
@@ -623,10 +531,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           }
         } catch (parseError) {
           // Handle corrupted stored attempts data
-          logger.warn(
-            '[Security] Corrupted auth attempts data detected, clearing and continuing:',
-            parseError,
-          );
+          logger.warn('[Security] Corrupted auth attempts data detected, clearing and continuing:', parseError);
           await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
           applyIfMounted(() => setAuthAttempts(0));
           applyIfMounted(() => setLockoutUntil(null));
@@ -648,10 +553,8 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       // If no PIN is set, allow access (first-time setup)
       if (!storedHash || !storedSalt) {
         logger.warn('[Security] No PIN configured - allowing access for initial setup');
-        applyIfMounted(() => {
-          setIsParentMode(true);
-          startSessionTimeout();
-        });
+        setIsParentMode(true);
+        startSessionTimeout();
         return true;
       }
 
@@ -668,10 +571,8 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         } catch (e) {
           await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
         }
-        applyIfMounted(() => {
-          setIsParentMode(true);
-          startSessionTimeout();
-        });
+        setIsParentMode(true);
+        startSessionTimeout();
         logger.info('[Security] Parent mode authenticated successfully');
         return true;
       }
@@ -685,10 +586,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           timestamp: Date.now(),
         });
       } catch (storageError) {
-        logger.error(
-          '[Security] Failed to persist auth attempts to storage:',
-          storageError as Error,
-        );
+        logger.error('[Security] Failed to persist auth attempts to storage:', storageError as Error);
         // Fall back to AsyncStorage if mainStorage fails for any reason
         try {
           await AsyncStorage.setItem(
@@ -736,7 +634,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
   const exitParentMode = () => {
     clearSessionTimeout();
-    applyIfMounted(() => setIsParentMode(false));
+    setIsParentMode(false);
     logger.info('[Security] Exited parent mode');
   };
   const setParentPin = async (pin: string) => {
@@ -747,6 +645,10 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     bumpActive();
     try {
       logger.debug('[TestDebug] setParentPin start');
+      // Validate PIN (should be 4-6 digits)
+      if (!/^\d{4,6}$/.test(pin)) {
+        throw new Error('PIN must be 4-6 digits');
+      }
 
       // Generate new salt
       const salt = await generateSalt();

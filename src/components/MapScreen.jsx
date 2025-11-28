@@ -37,7 +37,7 @@ const MapScreen = () => {
         
         setLoading(false);
       } catch (error) {
-        logger.error('Error setting up map:', error);
+        logger.error('Error setting up map:', error as any);
         Alert.alert('Error', 'Failed to load map data.');
       }
     }
