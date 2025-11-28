@@ -11,7 +11,7 @@
     "start:web": "expo start --web",
     "start:ios": "expo start --ios",
     "start:android": "expo start --android",
-    "test": "jest",
+    "test": "BABEL_DISABLE_MODULE_RESOLVER=1 jest",
     "test:watch": "jest --watch",
     "test:logic": "jest --roots ./__tests__",
     "test:logic:watch": "jest --roots ./__tests__ --watch",

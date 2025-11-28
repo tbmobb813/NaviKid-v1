@@ -12,6 +12,7 @@ import {
   ParentDashboardData,
   DevicePingRequest,
 } from '@/types/parental';
+import { logger } from '@/utils/logger';
 
 const DEFAULT_EMERGENCY_CONTACTS: EmergencyContact[] = [
   {
@@ -78,7 +79,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
   // Load data from storage
   useEffect(() => {
     const loadData = async () => {
-      console.log('[TestDebug] parentalStore.loadData start');
+      logger.debug('[TestDebug] parentalStore.loadData start');
       try {
         const [
           storedSettings,
@@ -140,9 +141,9 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           }
         }
       } catch (error) {
-        console.error('Failed to load parental data:', error);
+        logger.error('Failed to load parental data:', error as Error);
       } finally {
-        console.log('[TestDebug] parentalStore.loadData end');
+        logger.debug('[TestDebug] parentalStore.loadData end');
         setIsLoading(false);
       }
     };
@@ -163,7 +164,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       await AsyncStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(newSettings));
       setSettings(newSettings);
     } catch (error) {
-      console.error('Failed to save settings:', error);
+      logger.error('Failed to save settings:', error as Error);
     }
   };
 
@@ -172,7 +173,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       await AsyncStorage.setItem(STORAGE_KEYS.SAFE_ZONES, JSON.stringify(newSafeZones));
       setSafeZones(newSafeZones);
     } catch (error) {
-      console.error('Failed to save safe zones:', error);
+      logger.error('Failed to save safe zones:', error as Error);
     }
   };
 
@@ -181,7 +182,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       await AsyncStorage.setItem(STORAGE_KEYS.CHECK_IN_REQUESTS, JSON.stringify(newRequests));
       setCheckInRequests(newRequests);
     } catch (error) {
-      console.error('Failed to save check-in requests:', error);
+      logger.error('Failed to save check-in requests:', error as Error);
     }
   };
 
@@ -190,7 +191,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       await AsyncStorage.setItem(STORAGE_KEYS.DASHBOARD_DATA, JSON.stringify(newData));
       setDashboardData(newData);
     } catch (error) {
-      console.error('Failed to save dashboard data:', error);
+      logger.error('Failed to save dashboard data:', error as Error);
     }
   };
 
@@ -199,7 +200,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       await AsyncStorage.setItem(STORAGE_KEYS.DEVICE_PINGS, JSON.stringify(newPings));
       setDevicePings(newPings);
     } catch (error) {
-      console.error('Failed to save device pings:', error);
+      logger.error('Failed to save device pings:', error as Error);
     }
   };
 
@@ -227,7 +228,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     clearSessionTimeout();
     sessionTimeoutRef.current = setTimeout(() => {
       exitParentMode();
-      console.log('[Security] Parent mode session expired after 30 minutes');
+      logger.info('[Security] Parent mode session expired after 30 minutes');
     }, SECURITY_CONFIG.SESSION_TIMEOUT);
   };
 
@@ -259,10 +260,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           }
         } catch (parseError) {
           // Handle corrupted stored attempts data
-          console.warn(
-            '[Security] Corrupted auth attempts data detected, clearing and continuing:',
-            parseError,
-          );
+          logger.warn('[Security] Corrupted auth attempts data detected, clearing and continuing:', parseError);
           await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
           setAuthAttempts(0);
           setLockoutUntil(null);
@@ -283,7 +281,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
       // If no PIN is set, allow access (first-time setup)
       if (!storedHash || !storedSalt) {
-        console.warn('[Security] No PIN configured - allowing access for initial setup');
+        logger.warn('[Security] No PIN configured - allowing access for initial setup');
         setIsParentMode(true);
         startSessionTimeout();
         return true;
@@ -304,7 +302,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         }
         setIsParentMode(true);
         startSessionTimeout();
-        console.log('[Security] Parent mode authenticated successfully');
+        logger.info('[Security] Parent mode authenticated successfully');
         return true;
       }
 
@@ -317,7 +315,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           timestamp: Date.now(),
         });
       } catch (storageError) {
-        console.error('[Security] Failed to persist auth attempts to storage:', storageError);
+        logger.error('[Security] Failed to persist auth attempts to storage:', storageError as Error);
         // Fall back to AsyncStorage if mainStorage fails for any reason
         try {
           await AsyncStorage.setItem(
@@ -345,18 +343,18 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
             timestamp: Date.now(),
           }),
         );
-        console.warn('[Security] Maximum authentication attempts exceeded - account locked');
+        logger.warn('[Security] Maximum authentication attempts exceeded - account locked');
         throw new Error(
           `Too many failed attempts. Account locked for ${SECURITY_CONFIG.LOCKOUT_DURATION / 60000} minutes.`,
         );
       }
 
       const remainingAttempts = SECURITY_CONFIG.MAX_AUTH_ATTEMPTS - newAttempts;
-      console.warn(`[Security] Authentication failed. ${remainingAttempts} attempt(s) remaining.`);
+      logger.warn(`[Security] Authentication failed. ${remainingAttempts} attempt(s) remaining.`);
 
       return false;
     } catch (error) {
-      console.error('[Security] Authentication error:', error);
+      logger.error('[Security] Authentication error:', error as Error);
       throw error;
     }
   };
@@ -364,12 +362,12 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
   const exitParentMode = () => {
     clearSessionTimeout();
     setIsParentMode(false);
-    console.log('[Security] Exited parent mode');
+    logger.info('[Security] Exited parent mode');
   };
 
   const setParentPin = async (pin: string) => {
     try {
-      console.log('[TestDebug] setParentPin start');
+      logger.debug('[TestDebug] setParentPin start');
       // Validate PIN (should be 4-6 digits)
       if (!/^\d{4,6}$/.test(pin)) {
         throw new Error('PIN must be 4-6 digits');
@@ -377,17 +375,17 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
       // Generate new salt
       const salt = await generateSalt();
-      console.log('[TestDebug] generated salt', salt);
+      logger.debug('[TestDebug] generated salt', { salt });
 
       // Hash the PIN with the salt
       const hash = await hashPinWithSalt(pin, salt);
-      console.log('[TestDebug] generated hash', hash);
+      logger.debug('[TestDebug] generated hash', { hash });
 
       // Store hash and salt in SecureStore (encrypted storage)
       await SecureStore.setItemAsync(STORAGE_KEYS.PIN_HASH, hash);
-      console.log('[TestDebug] stored hash');
+      logger.debug('[TestDebug] stored hash');
       await SecureStore.setItemAsync(STORAGE_KEYS.PIN_SALT, salt);
-      console.log('[TestDebug] stored salt');
+      logger.debug('[TestDebug] stored salt');
 
       // Remove plain text PIN from settings if it exists
       const newSettings = { ...settings };
@@ -404,9 +402,9 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
       }
 
-      console.log('[Security] PIN updated successfully with secure hashing');
+      logger.info('[Security] PIN updated successfully with secure hashing');
     } catch (error) {
-      console.error('[Security] Failed to set PIN:', error);
+      logger.error('[Security] Failed to set PIN:', error as Error);
       throw error;
     }
   };

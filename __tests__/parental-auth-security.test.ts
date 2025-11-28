@@ -346,11 +346,11 @@ describe('Parental Authentication Security', () => {
   });
 
   describe('Security Logging', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    const consoleInfoSpy = jest.spyOn(console, 'info').mockImplementation();
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
     afterEach(() => {
-      consoleSpy.mockClear();
+      consoleInfoSpy.mockClear();
       consoleWarnSpy.mockClear();
     });
 
@@ -367,7 +367,7 @@ describe('Parental Authentication Security', () => {
         await result.current.authenticateParentMode('1234');
       });
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      expect(consoleInfoSpy).toHaveBeenCalledWith(
         expect.stringContaining('[Security] Parent mode authenticated successfully'),
       );
     });

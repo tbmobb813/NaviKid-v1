@@ -20,6 +20,7 @@ This plan addresses the 4 critical issues identified in the code review that mus
 ### Phase 1.1: Enable Strict TypeScript (2 hours)
 
 **Tasks**:
+
 1. Update `tsconfig.json` to enable strict mode
    - Set `noImplicitAny: true`
    - Set `strict: true`
@@ -28,12 +29,14 @@ This plan addresses the 4 critical issues identified in the code review that mus
 3. Document error count and locations
 
 **Success Criteria**:
+
 - TypeScript compiler runs with strict mode enabled
 - Error log generated with all type violations
 
 ### Phase 1.2: Fix High-Impact Files (15-20 hours)
 
 **Priority Order** (files with most `any` usage):
+
 1. `utils/unifiedRoutingService.ts` - 28 instances
 2. `utils/monitoring.ts` - 11 instances
 3. Backend route handlers - multiple files
@@ -41,6 +44,7 @@ This plan addresses the 4 critical issues identified in the code review that mus
 5. `components/ParentDashboard.tsx`
 
 **Approach for Each File**:
+
 1. Read file and identify all `any` types
 2. Determine actual types from context/usage
 3. Create proper type definitions
@@ -49,6 +53,7 @@ This plan addresses the 4 critical issues identified in the code review that mus
 6. Commit changes per file
 
 **Success Criteria**:
+
 - Each file has <3 remaining `any` types (only where truly necessary)
 - All functions have explicit return types
 - Tests pass
@@ -56,11 +61,13 @@ This plan addresses the 4 critical issues identified in the code review that mus
 ### Phase 1.3: Fix Remaining Files (20-30 hours)
 
 **Tasks**:
+
 1. Create script to identify files by `any` count
 2. Work through files in priority order
 3. Document any legitimate uses of `any` with comments
 
 **Success Criteria**:
+
 - <10 total uses of `any` in entire codebase
 - All legitimate `any` uses have explanatory comments
 - `npm run typecheck` passes with 0 errors
@@ -68,11 +75,13 @@ This plan addresses the 4 critical issues identified in the code review that mus
 ### Phase 1.4: Add Type Safety to New Code (3 hours)
 
 **Tasks**:
+
 1. Add ESLint rule to prevent new `any` types
 2. Add pre-commit hook to run type check
 3. Update CONTRIBUTING.md with type safety guidelines
 
 **Success Criteria**:
+
 - ESLint catches new `any` types
 - Pre-commit hook prevents type errors
 - Documentation updated
@@ -89,6 +98,7 @@ This plan addresses the 4 critical issues identified in the code review that mus
 ### Phase 2.1: Update Coverage Configuration (1 hour)
 
 **Tasks**:
+
 1. Update `jest.config.cjs` with incremental thresholds:
    - Start at 30% (achievable quickly)
    - Set final target at 70%
@@ -96,12 +106,14 @@ This plan addresses the 4 critical issues identified in the code review that mus
 3. Add coverage badge to README
 
 **Success Criteria**:
+
 - Coverage threshold enforced in CI
 - Coverage reports generated on each run
 
 ### Phase 2.2: Add Store Tests (15-20 hours)
 
 **Priority Files** (currently no tests):
+
 1. `stores/navigationStore.ts`
 2. `stores/enhancedNavigationStore.ts`
 3. `stores/gamificationStore.ts`
@@ -112,6 +124,7 @@ This plan addresses the 4 critical issues identified in the code review that mus
 8. `stores/dataRetentionStore.ts`
 
 **Test Template for Each Store**:
+
 ```typescript
 describe('[StoreName]', () => {
   beforeEach(() => {
@@ -139,6 +152,7 @@ describe('[StoreName]', () => {
 ```
 
 **Success Criteria**:
+
 - All stores have test files with >80% coverage
 - All state mutations tested
 - Edge cases covered
@@ -146,16 +160,19 @@ describe('[StoreName]', () => {
 ### Phase 2.3: Add Component Tests - Priority 1 (25-30 hours)
 
 **Components to Test**:
+
 1. `KidTripPlanner.tsx` (1,082 lines) - 15 hours
 2. `ParentDashboard.tsx` (712 lines) - 10 hours
 
 **Test Strategy**:
+
 - Unit tests for helper functions
 - Integration tests for user flows
 - Snapshot tests for UI
 - Accessibility tests
 
 **Example Test Structure**:
+
 ```typescript
 describe('KidTripPlanner', () => {
   describe('Rendering', () => {
@@ -186,6 +203,7 @@ describe('KidTripPlanner', () => {
 ```
 
 **Success Criteria**:
+
 - Each component has >70% coverage
 - All user flows tested
 - Accessibility verified
@@ -193,16 +211,19 @@ describe('KidTripPlanner', () => {
 ### Phase 2.4: Add Component Tests - Priority 2 (20-25 hours)
 
 **Components to Test**:
+
 1. `MTALiveArrivals.tsx` (696 lines) - 10 hours
 2. `MTAStationFinder.tsx` (791 lines) - 10 hours
 3. Other large components - 5 hours
 
 **Success Criteria**:
+
 - Coverage increased to 50%+
 
 ### Phase 2.5: Add Service Tests (15-20 hours)
 
 **Services to Test**:
+
 1. `services/api.ts` - Retry logic, token refresh, error handling
 2. `services/locationService.ts` - Location tracking, permissions
 3. `services/safeZoneService.ts` - Geofencing logic
@@ -211,6 +232,7 @@ describe('KidTripPlanner', () => {
 6. `services/websocket.ts` - Connection handling, reconnection
 
 **Success Criteria**:
+
 - All services have >80% coverage
 - Edge cases and error paths tested
 - Retry logic verified
@@ -218,11 +240,13 @@ describe('KidTripPlanner', () => {
 ### Phase 2.6: Increase to 70% Threshold (5 hours)
 
 **Tasks**:
+
 1. Identify remaining uncovered code
 2. Add targeted tests
 3. Update coverage threshold to 70%
 
 **Success Criteria**:
+
 - CI passes with 70% threshold
 - All critical paths covered
 
@@ -264,6 +288,7 @@ describe('KidTripPlanner', () => {
    - Integration test for full flow
 
 **Success Criteria**:
+
 - Main component <200 lines
 - Each sub-component <150 lines
 - Logic in reusable hooks/services
@@ -293,6 +318,7 @@ describe('KidTripPlanner', () => {
 4. **Update Tests** (5 hours)
 
 **Success Criteria**:
+
 - Main component <200 lines
 - Security logic properly isolated
 - All tests passing
@@ -302,11 +328,13 @@ describe('KidTripPlanner', () => {
 **Current**: 696 lines
 
 **Refactoring Strategy**:
+
 1. Extract `hooks/useMTAArrivals.ts`
 2. Split into smaller UI components
 3. Move API logic to service
 
 **Success Criteria**:
+
 - Main component <250 lines
 - Tests passing
 
@@ -322,10 +350,12 @@ describe('KidTripPlanner', () => {
 ### Phase 4.1: Identify High-Usage Files (30 minutes)
 
 **Tasks**:
+
 1. Run script to count console usage per file
 2. Prioritize files with >5 console statements
 
 **Script**:
+
 ```bash
 grep -r "console\." --include="*.ts" --include="*.tsx" . | \
   grep -v node_modules | \
@@ -337,6 +367,7 @@ grep -r "console\." --include="*.ts" --include="*.tsx" . | \
 ### Phase 4.2: Fix High-Priority Files (4-5 hours)
 
 **Replacement Pattern**:
+
 ```typescript
 // Before
 console.log('User logged in:', userId);
@@ -352,34 +383,40 @@ logger.warn('Deprecated feature used');
 ```
 
 **Files to Fix First** (estimated):
+
 1. Backend route handlers - 1 hour
 2. API service - 1 hour
 3. Navigation stores - 1 hour
 4. Large components - 2 hours
 
 **Success Criteria**:
+
 - Files with >5 console statements fixed
 - Logger used consistently
 
 ### Phase 4.3: Fix Remaining Files (3-4 hours)
 
 **Tasks**:
+
 1. Work through remaining files systematically
 2. Remove debug console.logs entirely
 3. Convert informational logs to logger
 
 **Success Criteria**:
+
 - 0 console.log/warn/error in codebase
 - All logging uses logger utility
 
 ### Phase 4.4: Add ESLint Rule (30 minutes)
 
 **Tasks**:
+
 1. Add ESLint rule to prevent console statements
 2. Configure exceptions for logger utility
 3. Add to pre-commit hook
 
 **ESLint Config**:
+
 ```javascript
 rules: {
   'no-console': ['error', {
@@ -389,6 +426,7 @@ rules: {
 ```
 
 **Success Criteria**:
+
 - ESLint catches new console statements
 - CI fails on console usage
 - Pre-commit hook prevents commits with console
@@ -397,24 +435,30 @@ rules: {
 
 ## Execution Order
 
-**Week 1: Quick Wins**
+*Week 1: Quick Wins**
+
 - Day 1: Phase 4 (Console Logging) - 8-10 hours ✅ Fastest impact
 - Day 2-3: Phase 1.1 (Enable Strict TS) - 2 hours
 - Day 3-5: Phase 1.2 (Fix High-Impact Type Files) - 15-20 hours
 
-**Week 2-3: Type Safety**
+*Week 2-3: Type Safety**
+
 - Complete Phase 1.3 & 1.4 - 23-33 hours
 
-**Week 4-6: Testing**
+*Week 4-6: Testing**
+
 - Phase 2.1-2.3: Store tests + Priority 1 component tests - 40-50 hours
 
-**Week 7-9: Component Refactoring**
+*Week 7-9: Component Refactoring**
+
 - Phase 3.1-3.3: Refactor large components - 60-80 hours
 
-**Week 10-11: Complete Testing**
+*Week 10-11: Complete Testing**
+
 - Phase 2.4-2.6: Remaining tests + coverage - 40-50 hours
 
-**Week 12: Integration & Documentation**
+*Week 12: Integration & Documentation**
+
 - Verify all changes work together
 - Update documentation
 - Final testing
@@ -436,23 +480,27 @@ rules: {
 ### Per-Phase Success Criteria
 
 **Phase 1 Complete When**:
+
 - ✅ `noImplicitAny: true` enabled
 - ✅ <10 uses of `any` in codebase
 - ✅ All functions have return types
 - ✅ `npm run typecheck` passes
 
 **Phase 2 Complete When**:
+
 - ✅ Coverage threshold at 70%
 - ✅ All stores have tests
 - ✅ All large components have tests
 - ✅ CI enforces coverage
 
 **Phase 3 Complete When**:
+
 - ✅ No components >300 lines
 - ✅ Logic extracted to hooks/services
 - ✅ All tests updated and passing
 
 **Phase 4 Complete When**:
+
 - ✅ 0 console statements
 - ✅ ESLint rule enforced
 - ✅ All logging uses logger utility
@@ -462,25 +510,33 @@ rules: {
 ## Risk Mitigation
 
 ### Risk 1: Type Fixes Break Runtime Behavior
+
 **Mitigation**:
+
 - Run full test suite after each file
 - Test manually in dev environment
 - Deploy to staging before production
 
 ### Risk 2: Tests Slow Down Development
+
 **Mitigation**:
+
 - Use Jest's watch mode for fast feedback
 - Run unit tests locally, integration in CI
 - Parallelize test execution
 
 ### Risk 3: Refactoring Introduces Bugs
+
 **Mitigation**:
+
 - Refactor one component at a time
 - Keep old component until tests pass
 - Use feature flags if needed
 
 ### Risk 4: Time Estimates Too Aggressive
+
 **Mitigation**:
+
 - Add 20% buffer to estimates
 - Prioritize critical issues first
 - Can reduce target coverage to 60% if needed
@@ -492,11 +548,13 @@ rules: {
 Update this section weekly:
 
 **Week 1**: [Date] - [Status]
+
 - Phase 4 Progress: ____%
 - Blockers: ___
 - Notes: ___
 
 **Week 2**: [Date] - [Status]
+
 - Phase 1 Progress: ____%
 - Blockers: ___
 - Notes: ___

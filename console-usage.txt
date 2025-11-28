@@ -1,0 +1,10 @@
+     39 ./scripts/test-backend-connection.ts
+     30 ./__tests__/integration/backend-integration.test.ts
+     24 ./stores/parentalStore.ts
+      8 ./utils/logger.ts
+      6 ./geofence.ts
+      2 ./tools/perfRecorder.ts
+      2 ./scripts/update-ny.ts
+      1 ./utils/geofenceEvents.ts
+      1 ./hooks/useGeofenceEvents.ts
+      1 ./components/ParentDashboard.tsx

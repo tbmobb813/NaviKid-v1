@@ -2,6 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import { supabase } from '../../lib/supabase'
+import { logger } from '@/utils/logger'
 
 export const offlineService = {
   // Queue for storing operations when offline
@@ -17,7 +18,7 @@ export const offlineService = {
         this.processQueue()
       }
     } catch (error) {
-      console.error('Failed to load offline queue', error)
+      logger.error('Failed to load offline queue', error)
     }
     
     // Subscribe to connection changes
@@ -51,7 +52,7 @@ export const offlineService = {
         }
         // Process other operation types as needed
       } catch (error) {
-        console.error('Failed to process offline operation', error)
+        logger.error('Failed to process offline operation', error)
         this.queue.push(op)
       }
     }
