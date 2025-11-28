@@ -396,63 +396,64 @@ export async function authRoutes(server: FastifyInstance) {
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-    const body = resetPasswordSchema.parse(request.body);
+      const body = resetPasswordSchema.parse(request.body);
 
-    // Validate password strength
-    const passwordValidation = validatePassword(body.newPassword);
-    if (!passwordValidation.valid) {
-      return reply.badRequest(passwordValidation.errors.join('. '));
-    }
+      // Validate password strength
+      const passwordValidation = validatePassword(body.newPassword);
+      if (!passwordValidation.valid) {
+        return reply.badRequest(passwordValidation.errors.join('. '));
+      }
 
-    // Verify token
-    const result = await query(
-      `SELECT id, user_id, expires_at, used
+      // Verify token
+      const result = await query(
+        `SELECT id, user_id, expires_at, used
        FROM password_reset_tokens
        WHERE token = $1`,
-      [body.token]
-    );
-
-    if (result.rowCount === 0) {
-      return reply.badRequest('Invalid password reset token');
-    }
-
-    const tokenData = result.rows[0];
-
-    // Check if already used
-    if (tokenData.used) {
-      return reply.badRequest('Password reset token has already been used');
-    }
-
-    // Check if expired
-    if (new Date(tokenData.expires_at) < new Date()) {
-      return reply.badRequest('Password reset token has expired');
-    }
-
-    await transaction(async (client) => {
-      // Hash new password
-      const passwordHash = await hashPassword(body.newPassword);
-
-      // Update password
-      await client.query(
-        'UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2',
-        [passwordHash, tokenData.user_id]
+        [body.token]
       );
 
-      // Mark token as used
-      await client.query(
-        'UPDATE password_reset_tokens SET used = TRUE, used_at = NOW() WHERE id = $1',
-        [tokenData.id]
-      );
+      if (result.rowCount === 0) {
+        return reply.badRequest('Invalid password reset token');
+      }
 
-      // Revoke all refresh tokens for security
-      await client.query(
-        'UPDATE refresh_tokens SET revoked = TRUE, revoked_at = NOW() WHERE user_id = $1',
-        [tokenData.user_id]
-      );
-    });
+      const tokenData = result.rows[0];
 
-    reply.send({ message: 'Password reset successfully' });
-  });
+      // Check if already used
+      if (tokenData.used) {
+        return reply.badRequest('Password reset token has already been used');
+      }
+
+      // Check if expired
+      if (new Date(tokenData.expires_at) < new Date()) {
+        return reply.badRequest('Password reset token has expired');
+      }
+
+      await transaction(async (client) => {
+        // Hash new password
+        const passwordHash = await hashPassword(body.newPassword);
+
+        // Update password
+        await client.query(
+          'UPDATE users SET password_hash = $1, updated_at = NOW() WHERE id = $2',
+          [passwordHash, tokenData.user_id]
+        );
+
+        // Mark token as used
+        await client.query(
+          'UPDATE password_reset_tokens SET used = TRUE, used_at = NOW() WHERE id = $1',
+          [tokenData.id]
+        );
+
+        // Revoke all refresh tokens for security
+        await client.query(
+          'UPDATE refresh_tokens SET revoked = TRUE, revoked_at = NOW() WHERE user_id = $1',
+          [tokenData.user_id]
+        );
+      });
+
+      reply.send({ message: 'Password reset successfully' });
+    }
+  );
 
   /**
    * GET /api/auth/verify-email/:token
