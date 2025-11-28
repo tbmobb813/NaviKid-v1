@@ -44,7 +44,6 @@ This project uses Expo Application Services (EAS) for production mobile builds.
 
 ```bash
 npm install -g eas-cli
-```
 
 2. Login and configure credentials:
 
