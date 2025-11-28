@@ -152,29 +152,14 @@ export async function authRoutes(fastify: FastifyInstance) {
       },
     },
     async (request, reply) => {
-    async (request, reply) => {
       try {
         const { refreshToken } = request.body as { refreshToken: string };
 
         const tokens = await authService.refreshAccessToken(refreshToken);
 
         const response: ApiResponse = {
-  fastify.post(
-    '/auth/change-password',
-    {
-      preHandler: [authMiddleware, validate(changePasswordSchema)],
-      // Protect password-change endpoint from abuse
-      config: {
-        rateLimit: {
-          max: 5,
-          timeWindow: 60 * 1000, // 1 minute
-          errorResponseBuilder: function (_req: any, _context: any) {
-            return { error: 'Too many requests. Please try again later.' };
-          },
-        },
-      },
-    },
-    async (request, reply) => {
+          success: true,
+          data: tokens,
         };
 
         reply.status(200).send(response);
