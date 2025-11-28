@@ -6183,7 +6183,7 @@ expo-updates-interface@~2.0.0:
   resolved "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-2.0.0.tgz"
   integrity sha512-pTzAIufEZdVPKql6iMi5ylVSPqV1qbEopz9G6TSECQmnNde2nwq42PxdFBaUEd8IZJ/fdJLQnOT3m6+XJ5s7jg==
 
-expo-updates@~29.0.13:
+expo-updates@^29.0.13:
   version "29.0.13"
   resolved "https://registry.npmjs.org/expo-updates/-/expo-updates-29.0.13.tgz"
   integrity sha512-tf/yex7U7betbIyDNwaSyDWDxMQVgmJ5qyghGEDlHP0052CPKUvbNEdtdf4DNCpsL3uxn8+71A4O4NxQdJEFuA==
