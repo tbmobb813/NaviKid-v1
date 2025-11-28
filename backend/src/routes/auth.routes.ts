@@ -183,6 +183,16 @@ export async function authRoutes(fastify: FastifyInstance) {
     '/logout',
     {
       preHandler: authMiddleware,
+      // ADD THIS RATE LIMITING CONFIGURATION:
+      config: {
+        rateLimit: {
+          max: 20,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many logout requests. Please try again later.' };
+          },
+        },
+      },
     },
     async (request, reply) => {
       try {

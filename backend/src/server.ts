@@ -241,6 +241,14 @@ export async function buildServer() {
     prefix: '/api/locations',
   });
 
+  // Protect geofence/safe-zones endpoints with scoped rate limiting
+  await server.register(rateLimit, {
+    max: 50, // Moderate limit for geofence operations
+    timeWindow: 60 * 1000, // 1 minute
+    redis: config.redis.url ? getRedis() : undefined,
+    prefix: '/api/safe-zones',
+  });
+
   return server;
 }
 

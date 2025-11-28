@@ -323,6 +323,20 @@ export async function authRoutes(server: FastifyInstance) {
    */
   server.post(
     '/request-password-reset',
+    {
+      config: {
+        rateLimit: {
+          max: 3, // Very strict - only 3 attempts per minute
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return {
+              error: 'Too many password reset requests. Please try again later.',
+              code: 'RATE_LIMIT_EXCEEDED',
+            };
+          },
+        },
+      },
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const body = resetPasswordRequestSchema.parse(request.body);
 
@@ -365,7 +379,23 @@ export async function authRoutes(server: FastifyInstance) {
    * POST /api/auth/reset-password
    * Reset password with token
    */
-  server.post('/reset-password', async (request: FastifyRequest, reply: FastifyReply) => {
+  server.post(
+    '/reset-password',
+    {
+      config: {
+        rateLimit: {
+          max: 5, // Allow 5 attempts per minute
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return {
+              error: 'Too many password reset attempts. Please try again later.',
+              code: 'RATE_LIMIT_EXCEEDED',
+            };
+          },
+        },
+      },
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
     const body = resetPasswordSchema.parse(request.body);
 
     // Validate password strength
