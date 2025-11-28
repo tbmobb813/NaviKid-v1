@@ -5,7 +5,7 @@ import {
   getMapViewWrapperMock,
   getLastFloatingMenuProps,
   getTestMapHost,
-} from '../tests/test-utils';
+} from './test-utils';
 
 // Now require the screens after mocks are established
 // Mock MapLibre native library to avoid native modules in tests
