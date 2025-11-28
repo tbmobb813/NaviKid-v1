@@ -36,41 +36,42 @@ export async function healthRoutes(server: FastifyInstance) {
       },
     },
     async (_request, reply) => {
-    const startTime = Date.now();
+      const startTime = Date.now();
 
-    // Check database
-    const dbHealth = await checkConnection().catch(() => false);
+      // Check database
+      const dbHealth = await checkConnection().catch(() => false);
 
-    // Check Redis
-    const redisHealth = await checkRedisConnection().catch(() => false);
+      // Check Redis
+      const redisHealth = await checkRedisConnection().catch(() => false);
 
-    const responseTime = Date.now() - startTime;
+      const responseTime = Date.now() - startTime;
 
-    const health = {
-      status: dbHealth && redisHealth ? 'healthy' : 'degraded',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      environment: config.env,
-      version: '1.0.0',
-      checks: {
-        database: {
-          status: dbHealth ? 'up' : 'down',
-          responseTime: dbHealth ? `${responseTime}ms` : 'N/A',
+      const health = {
+        status: dbHealth && redisHealth ? 'healthy' : 'degraded',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: config.env,
+        version: '1.0.0',
+        checks: {
+          database: {
+            status: dbHealth ? 'up' : 'down',
+            responseTime: dbHealth ? `${responseTime}ms` : 'N/A',
+          },
+          redis: {
+            status: redisHealth ? 'up' : 'down',
+          },
         },
-        redis: {
-          status: redisHealth ? 'up' : 'down',
+        memory: {
+          used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+          total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB',
+          external: Math.round(process.memoryUsage().external / 1024 / 1024) + 'MB',
         },
-      },
-      memory: {
-        used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
-        total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB',
-        external: Math.round(process.memoryUsage().external / 1024 / 1024) + 'MB',
-      },
-    };
+      };
 
-    const statusCode = health.status === 'healthy' ? 200 : 503;
-    reply.code(statusCode).send(health);
-  });
+      const statusCode = health.status === 'healthy' ? 200 : 503;
+      reply.code(statusCode).send(health);
+    }
+  );
 
   /**
    * GET /api/health/ready
@@ -90,12 +91,13 @@ export async function healthRoutes(server: FastifyInstance) {
     async (_request, reply) => {
       const dbReady = await checkConnection().catch(() => false);
 
-    if (dbReady) {
-      reply.code(200).send({ ready: true });
-    } else {
-      reply.code(503).send({ ready: false });
+      if (dbReady) {
+        reply.code(200).send({ ready: true });
+      } else {
+        reply.code(503).send({ ready: false });
+      }
     }
-  });
+  );
 
   /**
    * GET /api/health/live
