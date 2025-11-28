@@ -29,11 +29,7 @@ class Logger {
     if (context && typeof context === 'object' && (context as any).context) {
       contextTag = String((context as any).context);
     }
-    const contextStr = contextTag
-      ? ` [${contextTag}] `
-      : context
-        ? ` ${JSON.stringify(context)}`
-        : ' ';
+    const contextStr = contextTag ? ` [${contextTag}] ` : context ? ` ${JSON.stringify(context)}` : ' ';
     return `[${timestamp}] ${levelStr}:${contextStr}${message}`;
   }
 

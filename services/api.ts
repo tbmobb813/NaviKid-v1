@@ -428,6 +428,7 @@ class NaviKidApiClient {
         throw new Error('No refresh token available');
       }
 
+
       const response = await this.request<any>(
         '/auth/refresh',
         {
@@ -440,21 +441,11 @@ class NaviKidApiClient {
       if (response.success && response.data) {
         // The refresh endpoint may return either { tokens: { accessToken, refreshToken } }
         // (for some flows) or { accessToken, expiresIn } (only a new access token).
-        let tokensObj: AuthTokens | undefined = undefined;
         if (response.data.tokens) {
-          tokensObj = response.data.tokens as AuthTokens;
+          await this.saveTokens(response.data.tokens);
         } else if (response.data.accessToken) {
-          // Construct a tokens object using the existing refresh token if available
-          tokensObj = {
-            accessToken: response.data.accessToken,
-            refreshToken: this.refreshToken || '',
-          };
-        }
-
-        if (tokensObj) {
-          await this.saveTokens(tokensObj);
-          // Normalize returned shape so callers can always expect `.data.tokens`
-          response.data = { tokens: tokensObj } as any;
+          // Update only the access token
+          this.setAuthToken(response.data.accessToken);
         }
       }
 
