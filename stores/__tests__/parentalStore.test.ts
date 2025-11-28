@@ -1,14 +1,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { ParentalProvider, useParentalStore } from '../parentalStore';
 import React from 'react';
-// Instrumented act wrapper for test debugging (logs ACT-START/END)
-const loggedAct = require('../../.test-debug/loggedAct.cjs');
-import type {
-  SafeZone,
-  CheckInRequest,
-  EmergencyContact,
-  DevicePingRequest,
-} from '@/types/parental';
+import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
 
 // Mock modules
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -229,8 +222,14 @@ describe('parentalStore', () => {
 
       expect(Crypto.getRandomBytesAsync).toHaveBeenCalledWith(32);
       expect(Crypto.digestStringAsync).toHaveBeenCalled();
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_hash', expect.any(String));
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_salt', expect.any(String));
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
+        'kidmap_pin_hash',
+        expect.any(String),
+      );
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
+        'kidmap_pin_salt',
+        expect.any(String),
+      );
     });
 
     it('rejects invalid PINs during setup', async () => {
@@ -241,13 +240,13 @@ describe('parentalStore', () => {
       });
 
       await expect(
-        loggedAct(async () => {
+        act(async () => {
           await result.current.setParentPin('12'); // Too short
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
 
       await expect(
-        loggedAct(async () => {
+        act(async () => {
           await result.current.setParentPin('abc123'); // Not all digits
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
@@ -340,7 +339,7 @@ describe('parentalStore', () => {
 
       // 6th attempt should be blocked
       await expect(
-        loggedAct(async () => {
+        act(async () => {
           await result.current.authenticateParentMode(wrongPin);
         }),
       ).rejects.toThrow('Too many failed attempts');
@@ -361,7 +360,7 @@ describe('parentalStore', () => {
       expect(result.current.isParentMode).toBe(true);
 
       // Then exit
-      await loggedAct(() => {
+      act(() => {
         result.current.exitParentMode();
       });
 
@@ -395,7 +394,10 @@ describe('parentalStore', () => {
       expect(createdZone?.name).toBe('School');
       expect(createdZone?.id).toBeDefined();
       expect(result.current.safeZones).toHaveLength(1);
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith('kidmap_safe_zones', expect.any(String));
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        'kidmap_safe_zones',
+        expect.any(String),
+      );
     });
 
     it('updates an existing safe zone', async () => {
@@ -666,9 +668,7 @@ describe('parentalStore', () => {
       });
 
       expect(result.current.settings.emergencyContacts.length).toBe(initialCount - 1);
-      expect(
-        result.current.settings.emergencyContacts.find((c) => c.id === 'contact1'),
-      ).toBeUndefined();
+      expect(result.current.settings.emergencyContacts.find((c) => c.id === 'contact1')).toBeUndefined();
     });
   });
 
@@ -771,7 +771,7 @@ describe('parentalStore', () => {
         location: { latitude: 40.7128, longitude: -74.006 },
       };
 
-      await loggedAct(() => {
+      act(() => {
         result.current.addCheckInToDashboard(checkIn);
       });
 
@@ -797,7 +797,7 @@ describe('parentalStore', () => {
         placeName: 'Central Park',
       };
 
-      await loggedAct(() => {
+      act(() => {
         result.current.updateLastKnownLocation(location);
       });
 
