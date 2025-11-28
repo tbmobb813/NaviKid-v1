@@ -5,9 +5,9 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and TS configs
 COPY package*.json ./
-COPY tsconfig.json ./
+COPY tsconfig*.json ./
 
 # Install dependencies
 RUN npm ci --only=production=false
