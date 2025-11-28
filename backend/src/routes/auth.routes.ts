@@ -19,10 +19,22 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/register
    */
   fastify.post(
-    '/auth/register',
+    '/register',
     {
       preHandler: validate(registerSchema),
+      // Limit registration attempts to slow down automated account creation
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many registration attempts. Please try again later.' };
+          },
+        },
+      },
     },
+    async (request, reply) => {
+      try {
     async (request, reply) => {
       try {
         const { email, password, role } = request.body as {
@@ -75,7 +87,7 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/login
    */
   fastify.post(
-    '/auth/login',
+    '/login',
     {
       preHandler: validate(loginSchema),
     },
@@ -125,10 +137,21 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/refresh
    */
   fastify.post(
-    '/auth/refresh',
+    '/refresh',
     {
       preHandler: validate(refreshTokenSchema),
+      // Limit refresh token attempts to mitigate abuse
+      config: {
+        rateLimit: {
+          max: 20,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many token requests. Please try again later.' };
+          },
+        },
+      },
     },
+    async (request, reply) => {
     async (request, reply) => {
       try {
         const { refreshToken } = request.body as { refreshToken: string };
@@ -136,11 +159,22 @@ export async function authRoutes(fastify: FastifyInstance) {
         const tokens = await authService.refreshAccessToken(refreshToken);
 
         const response: ApiResponse = {
-          success: true,
-          data: { tokens },
-          meta: {
-            timestamp: new Date(),
+  fastify.post(
+    '/auth/change-password',
+    {
+      preHandler: [authMiddleware, validate(changePasswordSchema)],
+      // Protect password-change endpoint from abuse
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: 60 * 1000, // 1 minute
+          errorResponseBuilder: function (_req: any, _context: any) {
+            return { error: 'Too many requests. Please try again later.' };
           },
+        },
+      },
+    },
+    async (request, reply) => {
         };
 
         reply.status(200).send(response);
@@ -163,7 +197,7 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/logout
    */
   fastify.post(
-    '/auth/logout',
+    '/logout',
     {
       preHandler: authMiddleware,
     },
@@ -202,7 +236,7 @@ export async function authRoutes(fastify: FastifyInstance) {
    * POST /auth/change-password
    */
   fastify.post(
-    '/auth/change-password',
+    '/change-password',
     {
       preHandler: [authMiddleware, validate(changePasswordSchema)],
     },
@@ -244,7 +278,7 @@ export async function authRoutes(fastify: FastifyInstance) {
    * GET /auth/me
    */
   fastify.get(
-    '/auth/me',
+    '/me',
     {
       preHandler: authMiddleware,
     },
