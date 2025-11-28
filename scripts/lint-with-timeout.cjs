@@ -24,21 +24,38 @@ function getTimeoutMs() {
 async function main() {
   const timeoutMs = getTimeoutMs();
 
-  // Try to resolve a local eslint binary; fall back to using `npx eslint` if
-  // the package's exports do not expose the bin file (some newer eslint
-  // packages don't allow require.resolve on the bin path).
+  // Prefer `eslint_d` daemon for speed if available in node_modules/.bin.
+  // Otherwise try local eslint bin; if that fails, fall back to `npx eslint`.
+  const fs = require('fs');
+  const binDir = path.join(process.cwd(), 'node_modules', '.bin');
+  const eslintDPath = path.join(binDir, process.platform === 'win32' ? 'eslint_d.cmd' : 'eslint_d');
+  const eslintBinPath = path.join(binDir, process.platform === 'win32' ? 'eslint.cmd' : 'eslint');
   let useNpx = false;
-  let eslintBin;
-  try {
-    eslintBin = require.resolve('eslint/bin/eslint.js', { paths: [process.cwd()] });
-  } catch (err) {
-    // Fallback to npx if resolution fails
-    useNpx = true;
+  let spawnCmd;
+  let spawnArgs = [];
+  if (fs.existsSync(eslintDPath)) {
+    spawnCmd = eslintDPath;
+  } else {
+    try {
+      // resolve eslint JS entry
+      const eslintJs = require.resolve('eslint/bin/eslint.js', { paths: [process.cwd()] });
+      spawnCmd = process.execPath;
+      spawnArgs.push(eslintJs);
+    } catch (err) {
+      // fallback to npx
+      useNpx = true;
+    }
   }
 
   const userArgs = process.argv.slice(2);
   const defaultArgs = ['**/*.{ts,tsx}', '--max-warnings=0'];
-  const args = userArgs.length ? userArgs : defaultArgs;
+  let args = userArgs.length ? [...userArgs] : defaultArgs.slice();
+
+  // Ensure caching is enabled by default unless explicitly disabled
+  const hasCache = args.some((a) => a === '--cache' || a === '--no-cache' || a === '--cache-location');
+  if (!hasCache) {
+    args.push('--cache', '--cache-location', '.cache/eslint/default');
+  }
 
   let child;
 
@@ -66,12 +83,35 @@ async function main() {
       env: process.env,
     });
   } else {
-    // Spawn Node with the local eslint JS file
-    child = spawn(process.execPath, [eslintBin, ...args], {
-      stdio: 'inherit',
-      cwd: process.cwd(),
-      env: process.env,
-    });
+    if (spawnCmd && spawnCmd.endsWith('eslint_d')) {
+      // eslint_d binary supports being invoked directly with args
+      child = spawn(spawnCmd, args, {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+        env: process.env,
+      });
+    } else if (spawnCmd === process.execPath) {
+      // we resolved eslint JS; spawn node with the resolved file
+      child = spawn(process.execPath, [...spawnArgs, ...args], {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+        env: process.env,
+      });
+    } else if (fs.existsSync(eslintBinPath)) {
+      // fallback to node_modules/.bin/eslint
+      child = spawn(eslintBinPath, args, {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+        env: process.env,
+      });
+    } else {
+      // ultimate fallback to npx
+      child = spawn('npx', ['eslint', ...args], {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+        env: process.env,
+      });
+    }
   }
 
 

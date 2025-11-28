@@ -99,7 +99,7 @@ function findFiles() {
     }
 
     const { spawn } = require('child_process');
-    const args = ['backend/src', '--ext', '.ts,.tsx', '--max-warnings=0'];
+    const args = ['backend/src', '--ext', '.ts,.tsx', '--max-warnings=0', '--config', 'backend/.eslintrc.cjs'];
     let child;
     if (useNpx) {
       child = spawn('npx', ['eslint', ...args], { stdio: 'inherit', cwd: process.cwd(), env: process.env });

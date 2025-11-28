@@ -37,6 +37,17 @@ module.exports = async function globalSetup() {
   if (!fs.existsSync(path.join(backendDir, 'package.json'))) return;
 
   // Build backend so dist/server.js exists
+  // Ensure backend dependencies are installed (helps CI and fresh checkouts).
+  // Can be skipped by setting SKIP_INSTALL_BACKEND=1 in the environment.
+  const backendNodeModules = path.join(backendDir, 'node_modules');
+  if (!process.env.SKIP_INSTALL_BACKEND && !fs.existsSync(backendNodeModules)) {
+    console.log('backend/node_modules not present — installing backend dependencies (npm ci)...');
+    await new Promise((resolve, reject) => {
+      const install = spawn('npm', ['ci'], { cwd: backendDir, stdio: 'inherit' });
+      install.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend npm ci failed'))));
+    });
+  }
+
   await new Promise((resolve, reject) => {
     const build = spawn('npm', ['run', 'build'], { cwd: backendDir, stdio: 'inherit' });
     build.on('close', (code) => (code === 0 ? resolve() : reject(new Error('backend build failed'))));
