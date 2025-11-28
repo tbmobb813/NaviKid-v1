@@ -214,4 +214,3 @@ function apply() {
 }
 
 apply();
-`,
