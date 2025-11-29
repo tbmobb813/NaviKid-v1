@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import React from 'react';
-import logger from './logger';
+import { logger } from '@/utils/logger';
 
 type PerformanceMetric = {
   name: string;
@@ -35,7 +35,7 @@ class PerformanceMonitor {
     };
 
     this.metrics.push(metric);
-    logger.info(`Performance: ${name} = ${value}ms`);
+    logger.debug('Performance metric recorded', { name, valueMs: value });
   }
 
   getMetrics() {

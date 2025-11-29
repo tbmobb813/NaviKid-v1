@@ -33,6 +33,7 @@ import ParentDashboard from '@/components/ParentDashboard';
 import NotificationStatusCard from '@/components/NotificationStatusCard';
 import SystemHealthMonitor from '@/components/SystemHealthMonitor';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/utils/logger';
 
 type SettingItemProps = {
   icon: React.ReactNode;
@@ -100,24 +101,31 @@ export default function SettingsScreen() {
 
   const handleTransitDataUpdate = async () => {
     try {
-      console.log('Starting transit data update for all regions...');
+      logger.info('Starting transit data update for all regions');
       const results = await transitDataUpdater.updateAllRegions();
 
       const successCount = results.filter((r) => r.success).length;
       const totalCount = results.length;
 
       if (successCount === totalCount) {
-        console.log(`Successfully updated transit data for all ${totalCount} regions`);
+        logger.info('Successfully updated transit data for all regions', {
+          totalCount
+        });
       } else {
-        console.log(`Updated ${successCount}/${totalCount} regions successfully`);
+        logger.warn('Partial transit data update success', {
+          successCount,
+          totalCount
+        });
         results
           .filter((r) => !r.success)
           .forEach((result) => {
-            console.error(`Failed to update ${result.regionId}: ${result.message}`);
+            logger.error('Failed to update region transit data', new Error(result.message), {
+              regionId: result.regionId
+            });
           });
       }
     } catch (error) {
-      console.error('Failed to update transit data:', error);
+      logger.error('Failed to update transit data', error as Error);
     }
   };
 

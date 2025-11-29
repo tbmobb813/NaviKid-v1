@@ -10,7 +10,7 @@
  * - Encryption support
  */
 
-import { createMMKV } from 'react-native-mmkv';
+import { MMKV, createMMKV } from 'react-native-mmkv';
 import { log } from './logger';
 
 type StorageInstance = {

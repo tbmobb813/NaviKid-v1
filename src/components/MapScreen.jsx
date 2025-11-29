@@ -5,6 +5,7 @@ import MapLibreGL from '@maplibre/maplibre-react-native';
 import { authService } from '../services/auth';
 import { locationService } from '../services/location';
 import { mapService } from '../services/map';
+import { logger } from '@/utils/logger';
 
 // MapLibre needs to be initialized with API key (or empty string for local resources)
 MapLibreGL.setAccessToken('');
@@ -36,7 +37,7 @@ const MapScreen = () => {
         
         setLoading(false);
       } catch (error) {
-        console.error('Error setting up map:', error);
+        logger.error('Error setting up map:', error);
         Alert.alert('Error', 'Failed to load map data.');
       }
     }

@@ -1,6 +1,7 @@
 import { RegionConfig } from '@/types/region';
 import { useRegionStore } from '@/stores/regionStore';
 import { getMockFeed } from '@/config/mock-feeds';
+import { logger } from '@/utils/logger';
 
 export type TransitDataUpdateResult = {
   success: boolean;
@@ -47,7 +48,7 @@ export class TransitDataUpdater {
         throw new Error(`Region ${regionId} not found`);
       }
 
-      console.log(`Updating transit data for ${region.name}...`);
+      logger.info('Updating transit data', { regionName: region.name, regionId });
 
       // Simulate API call to transit system
       const transitData = await this.fetchTransitData(region);
@@ -69,7 +70,7 @@ export class TransitDataUpdater {
         lastUpdated: new Date(),
       };
     } catch (error) {
-      console.error(`Failed to update transit data for ${regionId}:`, error);
+      logger.error('Failed to update transit data', error as Error, { regionId });
       return {
         success: false,
         regionId,
@@ -117,7 +118,7 @@ export class TransitDataUpdater {
           const fetchFn = typeof fetch !== 'undefined' ? fetch : require('node-fetch');
           const res = await fetchFn(url);
           if (!res.ok) {
-            console.warn(`Adapter fetch failed for ${system.id}: ${res.status}`);
+            logger.warn('Adapter fetch failed', { systemId: system.id, status: res.status });
             continue;
           }
           const json = await res.json();
@@ -125,7 +126,7 @@ export class TransitDataUpdater {
           if (json.schedules) allSchedules.push(...json.schedules);
           if (json.alerts) allAlerts.push(...json.alerts);
         } catch (err) {
-          console.warn(`Failed to fetch from adapter for ${system.id}:`, err);
+          logger.warn('Failed to fetch from adapter', { systemId: system.id, error: err });
         }
       }
 
@@ -154,12 +155,15 @@ export class TransitDataUpdater {
           const mock = getMockFeed(id);
 
           if (mock) {
-            console.log(`Loading mock feed: ${id}`);
+            logger.debug('Loading mock feed', { feedId: id });
             if (mock.routes) allRoutes.push(...mock.routes);
             if (mock.schedules) allSchedules.push(...mock.schedules);
             if (mock.alerts) allAlerts.push(...mock.alerts);
           } else {
-            console.warn(`Mock feed not found: ${id}. Available feeds: mta-subway, mta-bus`);
+            logger.warn('Mock feed not found', {
+              feedId: id,
+              availableFeeds: ['mta-subway', 'mta-bus']
+            });
           }
 
           continue;
@@ -211,7 +215,8 @@ export class TransitDataUpdater {
                   new Uint8Array(buffer),
                 );
 
-                console.log(`Decoded GTFS-RT feed for ${system.id}:`, {
+                logger.info('Decoded GTFS-RT feed', {
+                  systemId: system.id,
                   entities: feed.entity?.length || 0,
                   timestamp: feed.header?.timestamp,
                 });
@@ -223,23 +228,28 @@ export class TransitDataUpdater {
                 if (parsedData.schedules.length > 0) allSchedules.push(...parsedData.schedules);
                 if (parsedData.alerts.length > 0) allAlerts.push(...parsedData.alerts);
 
-                console.log(
-                  `Parsed GTFS-RT data for ${system.id}:`,
-                  `${parsedData.routes.length} routes, ${parsedData.schedules.length} schedules, ${parsedData.alerts.length} alerts`,
-                );
+                logger.info('Parsed GTFS-RT data', {
+                  systemId: system.id,
+                  routesCount: parsedData.routes.length,
+                  schedulesCount: parsedData.schedules.length,
+                  alertsCount: parsedData.alerts.length,
+                });
 
                 continue;
               } catch (protobufError) {
-                console.warn(`Failed to decode GTFS-RT protobuf for ${system.id}:`, protobufError);
+                logger.warn('Failed to decode GTFS-RT protobuf', {
+                  systemId: system.id,
+                  error: protobufError
+                });
                 // Fall through to try other methods or fail gracefully
               }
             }
           } catch (err) {
-            console.warn(`Failed to fetch/parse feed for ${system.id}:`, err);
+            logger.warn('Failed to fetch/parse feed', { systemId: system.id, error: err });
           }
         }
       } catch (e) {
-        console.warn(`Error processing feed for system ${system.id}:`, e);
+        logger.warn('Error processing feed for system', { systemId: system.id, error: e });
       }
     }
 
@@ -331,7 +341,7 @@ export class TransitDataUpdater {
     const alerts: any[] = [];
 
     if (!feed.entity || !Array.isArray(feed.entity)) {
-      console.warn(`No entities found in GTFS-RT feed for ${systemId}`);
+      logger.warn('No entities found in GTFS-RT feed', { systemId });
       return { routes, schedules, alerts };
     }
 
@@ -429,7 +439,10 @@ export class TransitDataUpdater {
           });
         }
       } catch (entityError) {
-        console.warn(`Failed to parse GTFS-RT entity ${entity.id}:`, entityError);
+        logger.warn('Failed to parse GTFS-RT entity', {
+          entityId: entity.id,
+          error: entityError
+        });
         // Continue processing other entities
       }
     }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
+import { logger } from '@/utils/logger';
 import {
   Compass,
   Camera,
@@ -54,15 +55,25 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
   const handleGetHelp = () => {
     Alert.alert('Need Help?', 'Choose who to contact:', [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Call 911', style: 'destructive', onPress: () => console.log('Emergency call') },
-      { text: 'Call My Crew', onPress: () => console.log('Parent call') },
+      {
+        text: 'Call 911',
+        style: 'destructive',
+        onPress: () => logger.info('Emergency call initiated', { type: '911', context: 'AdventureHub' })
+      },
+      {
+        text: 'Call My Crew',
+        onPress: () => logger.info('Emergency call initiated', { type: 'crew', context: 'AdventureHub' })
+      },
     ]);
   };
 
   const handleShareUpdate = () => {
     Alert.alert('Share Update', "Let your crew know you're having fun?", [
       { text: 'Not now', style: 'cancel' },
-      { text: "I'm Having Fun!", onPress: () => console.log('Fun update sent') },
+      {
+        text: "I'm Having Fun!",
+        onPress: () => logger.info('Fun update sent to crew', { timestamp: Date.now() })
+      },
     ]);
   };
 
@@ -179,7 +190,9 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               <QuickActionButton
                 icon={<Camera />}
                 title="Capture Moment"
-                onPress={() => console.log('Photo memory')}
+                onPress={() => logger.info('Photo memory capture triggered', {
+                  place: currentPlace?.name
+                })}
                 color="#4CAF50"
               />
 
@@ -193,7 +206,9 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               <QuickActionButton
                 icon={<MapPin />}
                 title="Share Adventure"
-                onPress={() => console.log('Share location')}
+                onPress={() => logger.info('Share adventure location triggered', {
+                  location: currentLocation
+                })}
                 color="#9C27B0"
               />
 
@@ -226,7 +241,9 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               value={discoveredZones}
               subtitle="Zones explored"
               color="#2196F3"
-              onPress={() => console.log('Navigate to exploration zones')}
+              onPress={() => logger.info('Navigate to exploration zones requested', {
+                zonesCount: discoveredZones
+              })}
             />
 
             <AdventureStatCard
@@ -235,7 +252,9 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               value={recentMemories.length}
               subtitle="Recent"
               color="#4CAF50"
-              onPress={() => console.log('Navigate to memory gallery')}
+              onPress={() => logger.info('Navigate to memory gallery requested', {
+                memoriesCount: recentMemories.length
+              })}
             />
           </View>
 
@@ -254,7 +273,9 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               value={adventureBuddies}
               subtitle="Adventure buddies"
               color="#9C27B0"
-              onPress={() => console.log('Navigate to adventure crew')}
+              onPress={() => logger.info('Navigate to adventure crew requested', {
+                crewCount: adventureBuddies
+              })}
             />
           </View>
         </View>

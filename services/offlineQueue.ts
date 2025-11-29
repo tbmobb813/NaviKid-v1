@@ -6,13 +6,14 @@
 
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import apiClient from './api';
+import apiClient, { OfflineAction as ApiOfflineAction } from './api';
 import { log } from '@/utils/logger';
 
 // ============================================================================
 // Types
 // ============================================================================
 
+// Client-side offline action with retry tracking
 export interface OfflineAction {
   id: string;
   actionType: 'location_update' | 'safe_zone_check' | 'emergency_alert';
@@ -202,8 +203,16 @@ class OfflineQueueService {
         return;
       }
 
+      // Transform client actions to API format
+      const apiActions: ApiOfflineAction[] = actionsToSync.map((action) => ({
+        id: action.id,
+        actionType: action.type,
+        data: action.data,
+        createdAt: action.timestamp,
+      }));
+
       // Call backend sync endpoint
-      const response = await apiClient.offline.syncActions(actionsToSync);
+      const response = await apiClient.offline.syncActions(apiActions);
 
       if (response.success && response.data) {
         const syncedCount = response.data.syncedCount;

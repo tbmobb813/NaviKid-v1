@@ -1,5 +1,6 @@
 import { Linking } from 'react-native';
 import { router } from 'expo-router';
+import { logger } from '@/utils/logger';
 
 export type DeepLinkParams = {
   screen?: string;
@@ -30,7 +31,7 @@ export const handleDeepLink = (url: string) => {
       router.push('/' as any);
     }
   } catch (error) {
-    console.error('Error handling deep link:', error);
+    logger.error('Error handling deep link', error as Error, { url });
     router.push('/' as any);
   }
 };
@@ -54,6 +55,6 @@ export const shareRoute = async (routeId: string) => {
   try {
     await Linking.openURL(`sms:?body=Check out this route: ${url}`);
   } catch (error) {
-    console.error('Error sharing route:', error);
+    logger.error('Error sharing route', error as Error, { routeId, url });
   }
 };

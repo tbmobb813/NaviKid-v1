@@ -24,8 +24,13 @@ class Logger {
   private formatMessage(level: LogLevel, message: string, context?: unknown): string {
     const timestamp = new Date().toISOString();
     const levelStr = LogLevel[level];
-    const contextStr = context ? ` ${JSON.stringify(context)}` : '';
-    return `[${timestamp}] ${levelStr}: ${message}${contextStr}`;
+    // If context is an object with a `context` string property, show it as a short tag
+    let contextTag = '';
+    if (context && typeof context === 'object' && (context as any).context) {
+      contextTag = String((context as any).context);
+    }
+    const contextStr = contextTag ? ` [${contextTag}] ` : context ? ` ${JSON.stringify(context)}` : ' ';
+    return `[${timestamp}] ${levelStr}:${contextStr}${message}`;
   }
 
   private shouldLog(level: LogLevel): boolean {

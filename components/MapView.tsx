@@ -5,25 +5,15 @@ import { useRouteORS } from '@/hooks/useRouteORS';
 import { Geometry } from 'geojson';
 import Config from '@/utils/config';
 
-type LatLngContainer = { coordinates: { longitude: number; latitude: number } };
+interface MapViewProps {
+  origin: Place | null;
+  destination: Place | null;
+  selectedUnifiedRoute: UnifiedRoute | null;
+  onStationPress: (stationId: string) => void;
+  mapLibreCameraRef: React.RefObject<any>;
+}
 
-type UnifiedRoute = { id?: string | number; geometry?: Geometry | undefined };
-
-type MapViewProps = {
-  origin?: LatLngContainer | null;
-  destination?: LatLngContainer | null;
-  selectedUnifiedRoute?: UnifiedRoute | null;
-  onStationPress?: (id: string) => void;
-  mapLibreCameraRef?: React.RefObject<unknown>;
-};
-
-export default function MapView({
-  origin,
-  destination,
-  selectedUnifiedRoute,
-  onStationPress,
-  mapLibreCameraRef,
-}: MapViewProps) {
+export default function MapView({ origin, destination, selectedUnifiedRoute, onStationPress, mapLibreCameraRef }: MapViewProps) {
   const originCoord = origin
     ? ([origin.coordinates.longitude, origin.coordinates.latitude] as [number, number])
     : undefined;

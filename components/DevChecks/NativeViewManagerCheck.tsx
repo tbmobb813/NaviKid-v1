@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ScrollView, StyleSheet } from 'react-native';
 import { checkMapViewManagers, ViewManagerCheckResult } from '@/utils/nativeChecks';
-import { logger } from '@sentry/react-native';
-import safeToRecord from '@/utils/safeToRecord';
+import { logger } from '@/utils/logger';
 
 const NativeViewManagerCheck: React.FC = () => {
   const [results, setResults] = useState<ViewManagerCheckResult[]>([]);
@@ -13,12 +12,11 @@ const NativeViewManagerCheck: React.FC = () => {
 
     // Also print to console so adb logcat picks it up
     // Tag logs with 'NativeCheck' to make them easy to filter
-
-    logger.info('[NativeCheck] View manager check results:', safeToRecord(results) ?? { results });
+    logger.info('Native view manager check results', { results: res });
   }, []);
 
   const handleLog = () => {
-    logger.info('[NativeCheck] Manual dump:', safeToRecord(results) ?? { results });
+    logger.info('Native view manager manual dump', { results });
     alert('Native view manager check logged to console (tag: NativeCheck)');
   };
 

@@ -1,0 +1,279 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Trivy Vulnerability Scanner",
+          "informationUri": "https://github.com/aquasecurity/trivy",
+          "name": "Trivy",
+          "rules": [
+            {
+              "id": "CVE-2025-64756",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "glob CLI: Command injection via -c/--cmd executes matches with shell:true"
+              },
+              "fullDescription": {
+                "text": "Glob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-64756",
+              "help": {
+                "text": "Vulnerability CVE-2025-64756\nSeverity: HIGH\nPackage: glob\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)\nGlob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0.",
+                "markdown": "**Vulnerability CVE-2025-64756**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|glob|11.1.0, 10.5.0|[CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)|\n\nGlob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            }
+          ],
+          "version": "0.65.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2025-64756",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: glob\nInstalled Version: 10.4.5\nVulnerability CVE-2025-64756\nSeverity: HIGH\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3345,
+                  "startColumn": 1,
+                  "endLine": 3364,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3591,
+                  "startColumn": 1,
+                  "endLine": 3610,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3675,
+                  "startColumn": 1,
+                  "endLine": 3694,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3764,
+                  "startColumn": 1,
+                  "endLine": 3783,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3877,
+                  "startColumn": 1,
+                  "endLine": 3896,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 4089,
+                  "startColumn": 1,
+                  "endLine": 4108,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 5478,
+                  "startColumn": 1,
+                  "endLine": 5498,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 12933,
+                  "startColumn": 1,
+                  "endLine": 12952,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 15505,
+                  "startColumn": 1,
+                  "endLine": 15525,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 16143,
+                  "startColumn": 1,
+                  "endLine": 16163,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 23432,
+                  "startColumn": 1,
+                  "endLine": 23451,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-64756",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: glob\nInstalled Version: 10.4.5\nVulnerability CVE-2025-64756\nSeverity: HIGH\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "yarn.lock",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 6675,
+                  "startColumn": 1,
+                  "endLine": 6685,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "yarn.lock: glob@10.4.5"
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits",
+      "originalUriBaseIds": {
+        "ROOTPATH": {
+          "uri": "file:///project/"
+        }
+      }
+    }
+  ]
+}

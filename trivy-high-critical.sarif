@@ -1,0 +1,443 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Trivy Vulnerability Scanner",
+          "informationUri": "https://github.com/aquasecurity/trivy",
+          "name": "Trivy",
+          "rules": [
+            {
+              "id": "CVE-2025-64756",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "glob CLI: Command injection via -c/--cmd executes matches with shell:true"
+              },
+              "fullDescription": {
+                "text": "Glob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-64756",
+              "help": {
+                "text": "Vulnerability CVE-2025-64756\nSeverity: HIGH\nPackage: glob\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)\nGlob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0.",
+                "markdown": "**Vulnerability CVE-2025-64756**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|glob|11.1.0, 10.5.0|[CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)|\n\nGlob matches files using patterns the shell uses. Starting in version 10.2.0 and prior to versions 10.5.0 and 11.1.0, the glob CLI contains a command injection vulnerability in its -c/--cmd option that allows arbitrary command execution when processing files with malicious names. When glob -c \u003ccommand\u003e \u003cpatterns\u003e are used, matched filenames are passed to a shell with shell: true, enabling shell metacharacters in filenames to trigger command injection and achieve arbitrary code execution under the user or CI account privileges. This issue has been patched in versions 10.5.0 and 11.1.0."
+              },
+              "properties": {
+                "cvssv3_baseScore": 7.5,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                "precision": "very-high",
+                "security-severity": "7.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-12816",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "An interpretation-conflict (CWE-436) vulnerability in node-forge versi ..."
+              },
+              "fullDescription": {
+                "text": "An interpretation-conflict (CWE-436) vulnerability in node-forge versions 1.3.1 and earlier enables unauthenticated attackers to craft ASN.1 structures to desynchronize schema validations, yielding a semantic divergence that may bypass downstream cryptographic verifications and security decisions."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-12816",
+              "help": {
+                "text": "Vulnerability CVE-2025-12816\nSeverity: HIGH\nPackage: node-forge\nFixed Version: 1.3.2\nLink: [CVE-2025-12816](https://avd.aquasec.com/nvd/cve-2025-12816)\nAn interpretation-conflict (CWE-436) vulnerability in node-forge versions 1.3.1 and earlier enables unauthenticated attackers to craft ASN.1 structures to desynchronize schema validations, yielding a semantic divergence that may bypass downstream cryptographic verifications and security decisions.",
+                "markdown": "**Vulnerability CVE-2025-12816**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|node-forge|1.3.2|[CVE-2025-12816](https://avd.aquasec.com/nvd/cve-2025-12816)|\n\nAn interpretation-conflict (CWE-436) vulnerability in node-forge versions 1.3.1 and earlier enables unauthenticated attackers to craft ASN.1 structures to desynchronize schema validations, yielding a semantic divergence that may bypass downstream cryptographic verifications and security decisions."
+              },
+              "properties": {
+                "cvssv3_baseScore": 8.6,
+                "cvssv3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:N",
+                "precision": "very-high",
+                "security-severity": "8.6",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-66031",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "Forge (also called `node-forge`) is a native implementation of Transpo ..."
+              },
+              "fullDescription": {
+                "text": "Forge (also called `node-forge`) is a native implementation of Transport Layer Security in JavaScript. An Uncontrolled Recursion vulnerability in node-forge versions 1.3.1 and below enables remote, unauthenticated attackers to craft deep ASN.1 structures that trigger unbounded recursive parsing. This leads to a Denial-of-Service (DoS) via stack exhaustion when parsing untrusted DER inputs. This issue has been patched in version 1.3.2."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2025-66031",
+              "help": {
+                "text": "Vulnerability CVE-2025-66031\nSeverity: HIGH\nPackage: node-forge\nFixed Version: 1.3.2\nLink: [CVE-2025-66031](https://avd.aquasec.com/nvd/cve-2025-66031)\nForge (also called `node-forge`) is a native implementation of Transport Layer Security in JavaScript. An Uncontrolled Recursion vulnerability in node-forge versions 1.3.1 and below enables remote, unauthenticated attackers to craft deep ASN.1 structures that trigger unbounded recursive parsing. This leads to a Denial-of-Service (DoS) via stack exhaustion when parsing untrusted DER inputs. This issue has been patched in version 1.3.2.",
+                "markdown": "**Vulnerability CVE-2025-66031**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|node-forge|1.3.2|[CVE-2025-66031](https://avd.aquasec.com/nvd/cve-2025-66031)|\n\nForge (also called `node-forge`) is a native implementation of Transport Layer Security in JavaScript. An Uncontrolled Recursion vulnerability in node-forge versions 1.3.1 and below enables remote, unauthenticated attackers to craft deep ASN.1 structures that trigger unbounded recursive parsing. This leads to a Denial-of-Service (DoS) via stack exhaustion when parsing untrusted DER inputs. This issue has been patched in version 1.3.2."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "8.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            }
+          ],
+          "version": "0.65.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2025-64756",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: glob\nInstalled Version: 10.4.5\nVulnerability CVE-2025-64756\nSeverity: HIGH\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3344,
+                  "startColumn": 1,
+                  "endLine": 3363,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3590,
+                  "startColumn": 1,
+                  "endLine": 3609,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3674,
+                  "startColumn": 1,
+                  "endLine": 3693,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3763,
+                  "startColumn": 1,
+                  "endLine": 3782,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 3876,
+                  "startColumn": 1,
+                  "endLine": 3895,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 4088,
+                  "startColumn": 1,
+                  "endLine": 4107,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 5477,
+                  "startColumn": 1,
+                  "endLine": 5497,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 12932,
+                  "startColumn": 1,
+                  "endLine": 12951,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 15504,
+                  "startColumn": 1,
+                  "endLine": 15524,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 16142,
+                  "startColumn": 1,
+                  "endLine": 16162,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 23431,
+                  "startColumn": 1,
+                  "endLine": 23450,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: glob@10.4.5"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-12816",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Package: node-forge\nInstalled Version: 1.3.1\nVulnerability CVE-2025-12816\nSeverity: HIGH\nFixed Version: 1.3.2\nLink: [CVE-2025-12816](https://avd.aquasec.com/nvd/cve-2025-12816)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 19412,
+                  "startColumn": 1,
+                  "endLine": 19420,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: node-forge@1.3.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-66031",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Package: node-forge\nInstalled Version: 1.3.1\nVulnerability CVE-2025-66031\nSeverity: HIGH\nFixed Version: 1.3.2\nLink: [CVE-2025-66031](https://avd.aquasec.com/nvd/cve-2025-66031)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package-lock.json",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 19412,
+                  "startColumn": 1,
+                  "endLine": 19420,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "package-lock.json: node-forge@1.3.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-64756",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: glob\nInstalled Version: 10.4.5\nVulnerability CVE-2025-64756\nSeverity: HIGH\nFixed Version: 11.1.0, 10.5.0\nLink: [CVE-2025-64756](https://avd.aquasec.com/nvd/cve-2025-64756)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "yarn.lock",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 6675,
+                  "startColumn": 1,
+                  "endLine": 6685,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "yarn.lock: glob@10.4.5"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-12816",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Package: node-forge\nInstalled Version: 1.3.1\nVulnerability CVE-2025-12816\nSeverity: HIGH\nFixed Version: 1.3.2\nLink: [CVE-2025-12816](https://avd.aquasec.com/nvd/cve-2025-12816)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "yarn.lock",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 9334,
+                  "startColumn": 1,
+                  "endLine": 9337,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "yarn.lock: node-forge@1.3.1"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-66031",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Package: node-forge\nInstalled Version: 1.3.1\nVulnerability CVE-2025-66031\nSeverity: HIGH\nFixed Version: 1.3.2\nLink: [CVE-2025-66031](https://avd.aquasec.com/nvd/cve-2025-66031)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "yarn.lock",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 9334,
+                  "startColumn": 1,
+                  "endLine": 9337,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "yarn.lock: node-forge@1.3.1"
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits",
+      "originalUriBaseIds": {
+        "ROOTPATH": {
+          "uri": "file:///project/"
+        }
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import Colors from '@/constants/colors';
 import { Cloud, Sun, CloudRain, Users, Clock, Zap, MapPin, Heart } from 'lucide-react-native';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { handleApiError, smartRoutesApi } from '@/utils/api';
+import { logger } from '@/utils/logger';
 import { useAuth } from '@/hooks/useAuth';
 const iconForType = (type) => {
     switch (type) {
@@ -89,14 +90,14 @@ const SmartRouteSuggestions = ({ destination, currentLocation, weather = 'sunny'
             if (ctx?.prevProfile)
                 qc.setQueryData(['userProfile'], ctx.prevProfile);
             const e = handleApiError(err);
-            console.log('like error', e.message);
+            logger.error('like mutation error', e);
         },
         onSuccess: async ({ id, liked }) => {
             try {
                 await toggleLikedSuggestion(id, liked);
             }
             catch (e) {
-                console.log('Failed to sync like to profile', e);
+                logger.error('Failed to sync like to profile', e);
             }
         },
         onSettled: () => {

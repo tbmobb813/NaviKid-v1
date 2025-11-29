@@ -118,32 +118,7 @@ export interface OfflineAction {
 // ============================================================================
 
 class NaviKidApiClient {
-  // Generic HTTP methods for external use
-  async post<T = unknown>(
-    endpoint: string,
-    body?: unknown,
-    options?: RequestInit,
-  ): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'POST',
-      body: body ? JSON.stringify(body) : undefined,
-      ...(options || {}),
-    });
-  }
-  async put<T = unknown>(endpoint: string, body?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'PUT',
-      body: body ? JSON.stringify(body) : undefined,
-      ...(options || {}),
-    });
-  }
-
-  async get<T = any>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
-      method: 'GET',
-      ...(options || {}),
-    });
-  }
+  // (HTTP helper methods implemented later with retry and skipAuth options)
   private config: ApiConfig;
   private accessToken: string | null = null;
   private refreshToken: string | null = null;
@@ -356,6 +331,51 @@ class NaviKidApiClient {
   }
 
   // ==========================================================================
+  // Public HTTP Methods
+  // ==========================================================================
+
+  async get<T>(endpoint: string, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(endpoint, { method: 'GET' }, skipAuth);
+  }
+
+  async post<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'POST',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async put<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'PUT',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async patch<T>(endpoint: string, body?: any, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(
+      endpoint,
+      {
+        method: 'PATCH',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      skipAuth,
+    );
+  }
+
+  async delete<T>(endpoint: string, skipAuth: boolean = false): Promise<ApiResponse<T>> {
+    return this.requestWithRetry<T>(endpoint, { method: 'DELETE' }, skipAuth);
+  }
+
+  // ==========================================================================
   // Authentication API
   // ==========================================================================
 
@@ -416,7 +436,8 @@ class NaviKidApiClient {
         throw new Error('No refresh token available');
       }
 
-      const response = await this.request<{ tokens: AuthTokens }>(
+
+      const response = await this.request<any>(
         '/auth/refresh',
         {
           method: 'POST',
@@ -426,7 +447,24 @@ class NaviKidApiClient {
       );
 
       if (response.success && response.data) {
-        await this.saveTokens(response.data.tokens);
+        // The refresh endpoint may return either { tokens: { accessToken, refreshToken } }
+        // (for some flows) or { accessToken, expiresIn } (only a new access token).
+        let tokensObj: AuthTokens | undefined = undefined;
+        if (response.data.tokens) {
+          tokensObj = response.data.tokens as AuthTokens;
+        } else if (response.data.accessToken) {
+          // Construct a tokens object using the existing refresh token if available
+          tokensObj = {
+            accessToken: response.data.accessToken,
+            refreshToken: this.refreshToken || '',
+          };
+        }
+
+        if (tokensObj) {
+          await this.saveTokens(tokensObj);
+          // Normalize returned shape so callers can always expect `.data.tokens`
+          response.data = { tokens: tokensObj } as any;
+        }
       }
 
       return response;

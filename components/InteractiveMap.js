@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useMemo, useRef, useState, useCallback } from 'react';
+import { logger } from '@/utils/logger';
 import { View, StyleSheet, Platform, Pressable, Text } from 'react-native';
 import Colors from '@/constants/colors';
 import MapPlaceholder from './MapPlaceholder';
@@ -26,17 +27,17 @@ const MapboxPreloader = ({ testId, WebViewComponent }) => {
             window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'mapbox-preloaded' }));
           }
         } catch (e) {
-          console.log('mapbox preload error', e);
+          // runs inside the WebView context; keep the in-webview console for debugging there
         }
       </script>
     </body>
     </html>
-  `;
+    } 
     return (_jsx(WebViewComponent, { testID: testId ?? 'mapbox-preloader', source: { html: preloadHtml }, style: styles.preloader, javaScriptEnabled: true, domStorageEnabled: true, onMessage: (e) => {
-            try {
-                console.log('Mapbox preloader message', e?.nativeEvent?.data ?? '');
-            }
-            catch { }
+      try {
+        logger.debug('Mapbox preloader message', e?.nativeEvent?.data ?? '');
+      }
+      catch { }
         } }));
 };
 const InteractiveMap = ({ origin, destination, route, onMapReady, onSelectLocation, testId, }) => {
@@ -44,12 +45,12 @@ const InteractiveMap = ({ origin, destination, route, onMapReady, onSelectLocati
         if (Platform.OS === 'web')
             return null;
         try {
-            const mod = require('react-native-webview');
-            return mod?.WebView ?? null;
+          const mod = require('react-native-webview');
+          return mod?.WebView ?? null;
         }
         catch (e) {
-            console.log('WebView module not available', e);
-            return null;
+          logger.warn('WebView module not available', e);
+          return null;
         }
     }, []);
     const webViewRef = useRef(null);
@@ -156,7 +157,7 @@ const InteractiveMap = ({ origin, destination, route, onMapReady, onSelectLocati
             }
         }
         catch (e) {
-            console.log('InteractiveMap handleMessage error', e);
+          logger.error('InteractiveMap handleMessage error', e);
         }
     }, [onMapReady, onSelectLocation]);
     const sendRecenter = useCallback(() => {
@@ -164,7 +165,7 @@ const InteractiveMap = ({ origin, destination, route, onMapReady, onSelectLocati
             webViewRef.current?.postMessage(JSON.stringify({ type: 'recenter' }));
         }
         catch (e) {
-            console.log('recenter postMessage error', e);
+          logger.error('recenter postMessage error', e);
         }
     }, []);
     return (_jsxs(View, { style: styles.container, testID: testId ?? (Platform.OS === 'web' ? 'interactive-map-web' : 'interactive-map'), children: [Platform.OS === 'web' ? (_jsx(MapPlaceholder, { message: destination ? `Interactive map: ${origin?.name ?? 'Origin'} → ${destination.name}` : 'Select destination for interactive map' })) : WebViewComponent ? (_jsx(WebViewComponent, { ref: webViewRef, source: { html: generateLeafletHTML() }, style: styles.webMap, onMessage: handleMessage, javaScriptEnabled: true, domStorageEnabled: true, startInLoadingState: true, scalesPageToFit: true, allowsFullscreenVideo: false })) : (_jsx(MapPlaceholder, { message: "Map unavailable on this device" })), _jsxs(Pressable, { accessibilityRole: "button", testID: "recenter-button", style: styles.recenterBtn, onPress: sendRecenter, children: [_jsx(Crosshair, { color: Colors.text, size: 18 }), _jsx(Text, { style: styles.recenterLabel, children: "Recenter" })] }), _jsx(MapboxPreloader, { WebViewComponent: WebViewComponent })] }));

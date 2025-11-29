@@ -48,7 +48,12 @@ class GeofenceEventEmitter {
         try {
           listener(event);
         } catch (error) {
-          console.error('Geofence event listener error:', error);
+          // Prefer structured logging via project logger
+          // Cast to unknown first to satisfy various runtime error shapes
+          // (e.g., Error, string, or custom error types).
+          // Importing logger here is safe because this module runs in the RN runtime.
+          const { logger } = require('@/utils/logger') as { logger: any };
+          logger.error('Geofence event listener error:', error as unknown as Error);
         }
       });
     });

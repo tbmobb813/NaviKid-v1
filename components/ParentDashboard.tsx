@@ -18,6 +18,7 @@ import {
 } from 'lucide-react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useCategoryStore } from '@/stores/categoryStore';
+import { logger } from '@/utils/logger';
 import SafeZoneManagement from '@/components/SafeZoneManagement';
 import { SafeZoneStatusCard } from '@/components/SafeZoneStatusCard';
 import { SafeZoneActivityLog } from '@/components/SafeZoneActivityLog';
@@ -35,7 +36,7 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
   // Listen for real-time geofence events from background tasks
   useGeofenceEvents((event) => {
     // Real-time dashboard updates when child enters/exits safe zones
-    console.log(`Real-time geofence ${event.type}: ${event.regionId}`, event);
+    logger.info(`Real-time geofence ${event.type}: ${event.regionId}`, event);
 
     // Optional: Show in-app notification or update UI state
     // You can add additional logic here to:
@@ -86,11 +87,11 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
         {
           text: 'Send',
           onPress: (message?: string) => {
-              if (message && message.trim()) {
-                sendDevicePing('message', message.trim());
-                Alert.alert('Message Sent', 'Your message has been sent to your child');
-              }
-            },
+            if (message && message.trim()) {
+              sendDevicePing('message', message.trim());
+              Alert.alert('Message Sent', 'Your message has been sent to your child');
+            }
+          },
         },
       ],
       'plain-text',

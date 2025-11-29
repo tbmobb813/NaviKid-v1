@@ -4,6 +4,8 @@ This repository contains an Expo React Native application designed for families 
 
 [![CI Full](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml/badge.svg?branch=feature/transit-screen-mta-integration)](https://github.com/tbmobb813/Kid-Friendly-Map-v1/actions/workflows/ci.yml)
 
+[![codecov](https://codecov.io/gh/tbmobb813/NaviKid-v1/graph/badge.svg?token=RFVHM4QJBM)](https://codecov.io/gh/tbmobb813/NaviKid-v1)
+
 ## Quickstart
 
 1. Install dependencies (pick one package manager and standardize):

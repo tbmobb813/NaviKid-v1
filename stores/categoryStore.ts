@@ -2,6 +2,7 @@ import createContextHook from '@nkzw/create-context-hook';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CustomCategory, CategoryManagementSettings, PlaceCategory } from '@/types/navigation';
+import { logger } from '@/utils/logger';
 
 const DEFAULT_CATEGORIES: CustomCategory[] = [
   {
@@ -121,7 +122,7 @@ export const [CategoryProvider, useCategoryStoreInternal] = createContextHook(()
           setSettings(parsedSettings);
         }
       } catch (error) {
-        console.error('Failed to load category data:', error);
+        logger.error('Failed to load category data', error as Error);
       } finally {
         setIsLoading(false);
       }
@@ -136,7 +137,9 @@ export const [CategoryProvider, useCategoryStoreInternal] = createContextHook(()
       await AsyncStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(newCategories));
       setCategories(newCategories);
     } catch (error) {
-      console.error('Failed to save categories:', error);
+      logger.error('Failed to save categories', error as Error, {
+        categoriesCount: newCategories.length
+      });
     }
   };
 
@@ -146,7 +149,7 @@ export const [CategoryProvider, useCategoryStoreInternal] = createContextHook(()
       await AsyncStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(newSettings));
       setSettings(newSettings);
     } catch (error) {
-      console.error('Failed to save settings:', error);
+      logger.error('Failed to save category settings', error as Error);
     }
   };
 
@@ -290,7 +293,7 @@ export const useCategoryStore = () => {
   try {
     return useCategoryStoreInternal();
   } catch (error) {
-    console.warn('CategoryStore not available, using fallback');
+    logger.warn('CategoryStore not available, using fallback', { error });
     // Return fallback values
     return {
       categories: DEFAULT_CATEGORIES,

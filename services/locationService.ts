@@ -5,11 +5,18 @@
  */
 
 import * as Location from 'expo-location';
-import * as Battery from 'expo-battery';
 import * as Device from 'expo-device';
 import apiClient from './api';
 import { offlineQueue } from './offlineQueue';
 import { log } from '@/utils/logger';
+
+// Optional battery module - may not be available in all environments
+let Battery: any = null;
+try {
+  Battery = require('expo-battery');
+} catch (e) {
+  log.debug('expo-battery not available');
+}
 
 // ============================================================================
 // Types
@@ -286,6 +293,9 @@ class LocationService {
 
   private async getBatteryLevel(): Promise<number> {
     try {
+      if (!Battery) {
+        return -1; // Battery module not available
+      }
       const batteryLevel = await Battery.getBatteryLevelAsync();
       return Math.round(batteryLevel * 100);
     } catch (error) {

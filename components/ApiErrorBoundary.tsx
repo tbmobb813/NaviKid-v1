@@ -4,6 +4,7 @@ import Colors from '@/constants/colors';
 import { AlertTriangle, RefreshCw, Wifi } from 'lucide-react-native';
 import { offlineManager } from '@/utils/offlineManager';
 import { backendHealthMonitor } from '@/utils/api';
+import { logger } from '@/utils/logger';
 
 interface Props {
   children: ReactNode;
@@ -67,7 +68,7 @@ export default class ApiErrorBoundary extends Component<Props, State> {
     });
 
     // Log the error
-    console.error('API Error Boundary caught an error:', error, errorInfo);
+    logger.error('API Error Boundary caught an error', error, { errorInfo });
   }
 
   handleRetry = async () => {
@@ -98,7 +99,7 @@ export default class ApiErrorBoundary extends Component<Props, State> {
         isRetrying: false,
       });
     } catch (error) {
-      console.warn('Retry failed:', error);
+      logger.warn('API retry failed', { error });
       this.setState({ isRetrying: false });
     }
   };

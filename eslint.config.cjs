@@ -53,7 +53,8 @@ module.exports = [
       'prettier/prettier': 'error',
       'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
       '@typescript-eslint/explicit-function-return-type': 'off',
-      'import/prefer-default-export': 'off',
+      'no-console': ['error', { allow: [] }],
+      '@typescript-eslint/no-explicit-any': 'warn', // Warn on new any types
     },
     settings: {
       react: { version: 'detect' },
