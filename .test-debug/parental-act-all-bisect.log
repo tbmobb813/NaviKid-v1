@@ -1,0 +1,3904 @@
+
+> expo-app@1.0.0 test
+> BABEL_DISABLE_MODULE_RESOLVER=1 jest tmp/bisect_prefix/prefix_1.test.ts tmp/bisect_prefix/prefix_3.test.ts tmp/bisect_prefix/prefix_7.test.ts tmp/bisect_prefix/prefix_15.test.ts tmp/bisect_prefix/prefix_full.test.ts --runInBand --setupFiles=./.test-debug/jest-log-timestamps.cjs --setupFiles=./.test-debug/logger-wrap.cjs --detectOpenHandles --verbose
+
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+
+> navikid-backend@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> navikid-backend@1.0.0 postbuild
+> cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true
+
+time="2025-11-28T22:41:53-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network navikid-integration-net  Creating
+ Network navikid-integration-net  Created
+ Container docker-postgres-1  Creating
+ Container docker-redis-1  Creating
+ Container docker-postgres-1  Created
+ Container docker-redis-1  Created
+ Container docker-redis-1  Starting
+ Container docker-postgres-1  Starting
+ Container docker-postgres-1  Started
+ Container docker-redis-1  Started
+Running backend migrations (npm run migrate)...
+
+> navikid-backend@1.0.0 migrate
+> node ./dist/scripts/migrate.js || tsx ./src/scripts/migrate.ts
+
+{"level":30,"time":1764387715225,"env":"test","msg":"Starting database migrations..."}
+{"level":30,"time":1764387715358,"env":"test","migration":"001_initial_schema.sql","msg":"Migration already executed, skipping"}
+{"level":30,"time":1764387715358,"env":"test","msg":"All migrations completed successfully"}
+Running backend seeds (npm run seed)...
+
+> navikid-backend@1.0.0 seed
+> node dist/db/seed.js
+
+{"level":30,"time":1764387715986,"env":"test","count":1,"msg":"Running database seeds"}
+{"level":30,"time":1764387716016,"env":"test","msg":"Database connection pool created"}
+{"level":30,"time":1764387716170,"env":"test","seed":"001_demo_seed.sql","msg":"Seed executed"}
+{"level":30,"time":1764387716173,"env":"test","msg":"All seeds executed successfully"}
+Port 3000 appears to be in use; assuming backend already running. Skipping spawn.
+Backend started and healthy
+  console.warn
+    2025-11-29T03:42:08.425Z | 5763680053658 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:42:16.129Z | 5771383677660 [LOG] [2025-11-29T03:42:16.129Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.153Z | 5771408065350 [LOG] [2025-11-29T03:42:16.153Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.157Z | 5771412150336 [LOG] [2025-11-29T03:42:16.157Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.180Z | 5771434837904 [LOG] [2025-11-29T03:42:16.180Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.182Z | 5771437385223 [LOG] [2025-11-29T03:42:16.182Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.249Z | 5771504269533 [LOG] [2025-11-29T03:42:16.249Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.252Z | 5771507373432 [LOG] [2025-11-29T03:42:16.252Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.273Z | 5771527734594 [LOG] [2025-11-29T03:42:16.273Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.279Z | 5771533694869 [LOG] [2025-11-29T03:42:16.278Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.284Z | 5771538994846 [LOG] [2025-11-29T03:42:16.284Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.295Z | 5771549677285 [LOG] [2025-11-29T03:42:16.295Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.296Z | 5771551269709 [LOG] [2025-11-29T03:42:16.296Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.368Z | 5771623324297 [LOG] [2025-11-29T03:42:16.368Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.371Z | 5771626336213 [LOG] [2025-11-29T03:42:16.371Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.386Z | 5771641039941 [LOG] [2025-11-29T03:42:16.386Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.390Z | 5771645330335 [LOG] [2025-11-29T03:42:16.390Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.395Z | 5771649905969 [LOG] [2025-11-29T03:42:16.395Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.404Z | 5771659286183 [LOG] [2025-11-29T03:42:16.404Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.406Z | 5771660665725 [LOG] [2025-11-29T03:42:16.406Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.471Z | 5771725824420 [LOG] [2025-11-29T03:42:16.471Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.476Z | 5771731413408 [LOG] [2025-11-29T03:42:16.476Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.491Z | 5771746252772 [LOG] [2025-11-29T03:42:16.491Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.498Z | 5771752819703 [LOG] [2025-11-29T03:42:16.498Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.502Z | 5771757067284 [LOG] [2025-11-29T03:42:16.502Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.515Z | 5771769562223 [LOG] [2025-11-29T03:42:16.514Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.516Z | 5771771480325 [LOG] [2025-11-29T03:42:16.516Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.568Z | 5771822578967 [LOG] [2025-11-29T03:42:16.568Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.572Z | 5771827101799 [LOG] [2025-11-29T03:42:16.572Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.577Z | 5771832159560 [LOG] [2025-11-29T03:42:16.577Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.580Z | 5771834840280 [LOG] [2025-11-29T03:42:16.580Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.622Z | 5771876946686 [LOG] [2025-11-29T03:42:16.622Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.625Z | 5771879755149 [LOG] [2025-11-29T03:42:16.625Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.638Z | 5771893160214 [LOG] [2025-11-29T03:42:16.638Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.643Z | 5771897824758 [LOG] [2025-11-29T03:42:16.643Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.648Z | 5771903138075 [LOG] [2025-11-29T03:42:16.648Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.658Z | 5771912599517 [LOG] [2025-11-29T03:42:16.658Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.659Z | 5771914265415 [LOG] [2025-11-29T03:42:16.659Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.710Z | 5771965402750 [LOG] [2025-11-29T03:42:16.710Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:16.715Z | 5771969941716 [WARN] [2025-11-29T03:42:16.715Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_full.test.ts:206:19
+
+  console.log
+    2025-11-29T03:42:16.719Z | 5771973799852 [LOG] [2025-11-29T03:42:16.719Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.720Z | 5771975278221 [LOG] [2025-11-29T03:42:16.720Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.722Z | 5771976958927 [LOG] [2025-11-29T03:42:16.722Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.745Z | 5771999714312 [LOG] [2025-11-29T03:42:16.745Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.750Z | 5772005313009 [LOG] [2025-11-29T03:42:16.750Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.770Z | 5772025409815 [LOG] [2025-11-29T03:42:16.770Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.774Z | 5772029117578 [LOG] [2025-11-29T03:42:16.774Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.782Z | 5772037126212 [LOG] [2025-11-29T03:42:16.782Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.793Z | 5772048194325 [LOG] [2025-11-29T03:42:16.793Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.796Z | 5772050719993 [LOG] [2025-11-29T03:42:16.796Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.850Z | 5772104741011 [LOG] [2025-11-29T03:42:16.850Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.855Z | 5772110323225 [LOG] [2025-11-29T03:42:16.855Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.862Z | 5772116572859 [LOG] [2025-11-29T03:42:16.861Z] DEBUG: {"salt":"f82a6d9b5724e1af01e41967fe413bcaf3cd30075c70c0bd2d54a468fcfbedba"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.870Z | 5772125136187 [LOG] [2025-11-29T03:42:16.870Z] DEBUG: {"hash":"hashed_1234f82a6d9b5724e1af01e41967fe413bcaf3cd30075c70c0bd2d54a468fcfbedba"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.873Z | 5772128233661 [LOG] [2025-11-29T03:42:16.873Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.880Z | 5772134625915 [LOG] [2025-11-29T03:42:16.880Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.883Z | 5772137594039 [LOG] [2025-11-29T03:42:16.883Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.887Z | 5772142359716 [LOG] [2025-11-29T03:42:16.887Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:16.890Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:16.892Z | 5772146964894 [LOG] [2025-11-29T03:42:16.892Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.912Z | 5772167456104 [LOG] [2025-11-29T03:42:16.912Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.915Z | 5772170312968 [LOG] [2025-11-29T03:42:16.915Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.927Z | 5772182368594 [LOG] [2025-11-29T03:42:16.927Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.931Z | 5772185849855 [LOG] [2025-11-29T03:42:16.931Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.936Z | 5772190574115 [LOG] [2025-11-29T03:42:16.935Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.947Z | 5772202456949 [LOG] [2025-11-29T03:42:16.947Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:16.950Z | 5772204568796 [LOG] [2025-11-29T03:42:16.949Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.069Z | 5772323632221 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:16.999Z hr=5772253962496 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:244:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.078Z | 5772333167208 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:17.078Z hr=5772332535546 duration_ms=78.573 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:244:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.106Z | 5772360704614 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:17.105Z hr=5772360255033 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:250:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.109Z | 5772364087746 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:17.109Z hr=5772364000023 duration_ms=3.745 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:250:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.136Z | 5772390666834 [LOG] [2025-11-29T03:42:17.136Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.138Z | 5772393296778 [LOG] [2025-11-29T03:42:17.138Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.149Z | 5772404201667 [LOG] [2025-11-29T03:42:17.149Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.155Z | 5772409762160 [LOG] [2025-11-29T03:42:17.155Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.159Z | 5772414459879 [LOG] [2025-11-29T03:42:17.159Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.169Z | 5772423818651 [LOG] [2025-11-29T03:42:17.169Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.171Z | 5772425909266 [LOG] [2025-11-29T03:42:17.171Z] DEBUG: {"instanceId":8,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.227Z | 5772481694942 [LOG] [2025-11-29T03:42:17.227Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.237Z | 5772491565315 [LOG] [2025-11-29T03:42:17.236Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.241Z | 5772495891749 [LOG] [2025-11-29T03:42:17.241Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:17.243Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:17.249Z | 5772504180733 [LOG] [2025-11-29T03:42:17.249Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.267Z | 5772521545695 [LOG] [2025-11-29T03:42:17.266Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.274Z | 5772529524855 [LOG] [2025-11-29T03:42:17.274Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.288Z | 5772543025884 [LOG] [2025-11-29T03:42:17.288Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.294Z | 5772548722012 [LOG] [2025-11-29T03:42:17.294Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.300Z | 5772555076830 [LOG] [2025-11-29T03:42:17.300Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.310Z | 5772564720562 [LOG] [2025-11-29T03:42:17.310Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.311Z | 5772566424386 [LOG] [2025-11-29T03:42:17.311Z] DEBUG: {"instanceId":9,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.361Z | 5772616264175 [LOG] [2025-11-29T03:42:17.361Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.367Z | 5772621565968 [WARN] [2025-11-29T03:42:17.367Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:302:19
+
+  console.log
+    2025-11-29T03:42:17.370Z | 5772624595065 [LOG] [2025-11-29T03:42:17.370Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.391Z | 5772645997170 [LOG] [2025-11-29T03:42:17.391Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.397Z | 5772651786468 [LOG] [2025-11-29T03:42:17.397Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.418Z | 5772673223984 [LOG] [2025-11-29T03:42:17.418Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.422Z | 5772677202738 [LOG] [2025-11-29T03:42:17.422Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.427Z | 5772681693164 [LOG] [2025-11-29T03:42:17.427Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.436Z | 5772690675481 [LOG] [2025-11-29T03:42:17.436Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.437Z | 5772692170055 [LOG] [2025-11-29T03:42:17.437Z] DEBUG: {"instanceId":10,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.490Z | 5772745284649 [LOG] [2025-11-29T03:42:17.490Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.502Z | 5772756767770 [WARN] [2025-11-29T03:42:17.502Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:17.507Z | 5772762430233 [LOG] [2025-11-29T03:42:17.507Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.514Z | 5772768795319 [LOG] [2025-11-29T03:42:17.514Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.520Z | 5772774650898 [WARN] [2025-11-29T03:42:17.520Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:17.526Z | 5772781163841 [LOG] [2025-11-29T03:42:17.526Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.532Z | 5772787456290 [LOG] [2025-11-29T03:42:17.532Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.541Z | 5772795954594 [WARN] [2025-11-29T03:42:17.539Z] WARN: [Security] Authentication failed. 2 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:17.545Z | 5772799741629 [LOG] [2025-11-29T03:42:17.545Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.548Z | 5772802880380 [LOG] [2025-11-29T03:42:17.548Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.553Z | 5772807719742 [WARN] [2025-11-29T03:42:17.553Z] WARN: [Security] Authentication failed. 1 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:17.555Z | 5772810147140 [LOG] [2025-11-29T03:42:17.555Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.558Z | 5772813323467 [LOG] [2025-11-29T03:42:17.558Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.563Z | 5772818375920 [WARN] [2025-11-29T03:42:17.563Z] WARN: [Security] Maximum authentication attempts exceeded - account locked
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:406:16)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.error
+    2025-11-29T03:42:17.571Z | 5772826123341 [ERR] [2025-11-29T03:42:17.571Z] ERROR: [Security] Authentication error: Error: Too many failed attempts. Account locked for 15 minutes.
+        at Object.authenticateParentMode (/home/nixstation-remote/Projects/NaviKid-v1/stores/parentalStore.ts:407:15)
+        at /home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at Logger.addLog (utils/logger.ts:73:19)
+      at Logger.error (utils/logger.ts:136:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:417:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:17.576Z | 5772830713921 [LOG] [2025-11-29T03:42:17.576Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.580Z | 5772835348503 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:17.580Z hr=5772834932866 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:343:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.582Z | 5772837106175 [LOG] [2025-11-29T03:42:17.582Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.error
+    2025-11-29T03:42:17.587Z | 5772842217576 [ERR] [2025-11-29T03:42:17.587Z] ERROR: [Security] Authentication error: Error: Too many failed attempts. Please try again in 15 minute(s).
+        at Object.authenticateParentMode (/home/nixstation-remote/Projects/NaviKid-v1/stores/parentalStore.ts:333:15)
+        at /home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:344:11
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at Logger.addLog (utils/logger.ts:73:19)
+      at Logger.error (utils/logger.ts:136:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:417:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:344:11
+
+  console.log
+    2025-11-29T03:42:17.590Z | 5772844824890 [LOG] [2025-11-29T03:42:17.590Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.592Z | 5772847189011 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:17.592Z hr=5772847118469 duration_ms=12.186 err=Too many failed attempts. Please try again in 15 minute(s). stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:343:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.599Z | 5772854306097 [LOG] [2025-11-29T03:42:17.599Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.601Z | 5772856377226 [LOG] [2025-11-29T03:42:17.601Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.612Z | 5772866946938 [LOG] [2025-11-29T03:42:17.612Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.616Z | 5772870553638 [LOG] [2025-11-29T03:42:17.615Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.619Z | 5772874196378 [LOG] [2025-11-29T03:42:17.619Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.630Z | 5772884916043 [LOG] [2025-11-29T03:42:17.630Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.632Z | 5772887530901 [LOG] [2025-11-29T03:42:17.632Z] DEBUG: {"instanceId":11,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.683Z | 5772937709569 [LOG] [2025-11-29T03:42:17.683Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:17.687Z | 5772942226395 [WARN] [2025-11-29T03:42:17.687Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_full.test.ts:358:9
+
+  console.log
+    2025-11-29T03:42:17.690Z | 5772945368009 [LOG] [2025-11-29T03:42:17.690Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.692Z | 5772947406032 [LOG] [2025-11-29T03:42:17.692Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.694Z | 5772949164962 [LOG] [2025-11-29T03:42:17.694Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.698Z | 5772952780323 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:17.697Z hr=5772952320825 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:364:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.699Z | 5772954401312 [LOG] [2025-11-29T03:42:17.699Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:17.703Z] INFO: [Security] Exited parent mode
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:17.707Z | 5772961720874 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:17.707Z hr=5772961658783 duration_ms=9.338 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:364:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.715Z | 5772969827428 [LOG] [2025-11-29T03:42:17.715Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.717Z | 5772972146570 [LOG] [2025-11-29T03:42:17.717Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.729Z | 5772984515791 [LOG] [2025-11-29T03:42:17.729Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.734Z | 5772988663845 [LOG] [2025-11-29T03:42:17.734Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.738Z | 5772993258756 [LOG] [2025-11-29T03:42:17.738Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.748Z | 5773002944533 [LOG] [2025-11-29T03:42:17.748Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.749Z | 5773004305497 [LOG] [2025-11-29T03:42:17.749Z] DEBUG: {"instanceId":12,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.802Z | 5773057388592 [LOG] [2025-11-29T03:42:17.802Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.806Z | 5773061283256 [LOG] [2025-11-29T03:42:17.806Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.819Z | 5773077091553 [LOG] [2025-11-29T03:42:17.819Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.824Z | 5773079175882 [LOG] [2025-11-29T03:42:17.824Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.840Z | 5773095385498 [LOG] [2025-11-29T03:42:17.840Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.847Z | 5773102490432 [LOG] [2025-11-29T03:42:17.847Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.852Z | 5773106904589 [LOG] [2025-11-29T03:42:17.852Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.862Z | 5773116897117 [LOG] [2025-11-29T03:42:17.861Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.865Z | 5773120056053 [LOG] [2025-11-29T03:42:17.865Z] DEBUG: {"instanceId":13,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.916Z | 5773170739617 [LOG] [2025-11-29T03:42:17.916Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.922Z | 5773176915008 [LOG] [2025-11-29T03:42:17.922Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.944Z | 5773199243024 [LOG] [2025-11-29T03:42:17.944Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.947Z | 5773202415998 [LOG] [2025-11-29T03:42:17.947Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.958Z | 5773212963780 [LOG] [2025-11-29T03:42:17.958Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.963Z | 5773217621200 [LOG] [2025-11-29T03:42:17.963Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.967Z | 5773221858374 [LOG] [2025-11-29T03:42:17.967Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.975Z | 5773230386781 [LOG] [2025-11-29T03:42:17.975Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:17.978Z | 5773233156690 [LOG] [2025-11-29T03:42:17.978Z] DEBUG: {"instanceId":14,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.030Z | 5773285274623 [LOG] [2025-11-29T03:42:18.030Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.035Z | 5773290289221 [LOG] [2025-11-29T03:42:18.035Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.052Z | 5773307438368 [LOG] [2025-11-29T03:42:18.052Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.060Z | 5773314627742 [LOG] [2025-11-29T03:42:18.060Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.069Z | 5773324402430 [LOG] [2025-11-29T03:42:18.069Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.078Z | 5773332968482 [LOG] [2025-11-29T03:42:18.078Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.083Z | 5773337544186 [LOG] [2025-11-29T03:42:18.082Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.090Z | 5773345072090 [LOG] [2025-11-29T03:42:18.090Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.092Z | 5773347371047 [LOG] [2025-11-29T03:42:18.092Z] DEBUG: {"instanceId":15,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.148Z | 5773403461030 [LOG] [2025-11-29T03:42:18.147Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.153Z | 5773407567458 [LOG] [2025-11-29T03:42:18.152Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.164Z | 5773418903000 [LOG] [2025-11-29T03:42:18.164Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.166Z | 5773421414420 [LOG] [2025-11-29T03:42:18.166Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.176Z | 5773431027700 [LOG] [2025-11-29T03:42:18.176Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.183Z | 5773437549095 [LOG] [2025-11-29T03:42:18.182Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.188Z | 5773443458384 [LOG] [2025-11-29T03:42:18.188Z] DEBUG: {"instanceId":16,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.196Z | 5773451363231 [LOG] [2025-11-29T03:42:18.196Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.198Z | 5773452792431 [LOG] [2025-11-29T03:42:18.198Z] DEBUG: {"instanceId":16,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.250Z | 5773505141545 [LOG] [2025-11-29T03:42:18.250Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.254Z | 5773509153056 [LOG] [2025-11-29T03:42:18.254Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.268Z | 5773522942468 [LOG] [2025-11-29T03:42:18.268Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.270Z | 5773525026378 [LOG] [2025-11-29T03:42:18.270Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.281Z | 5773535819309 [LOG] [2025-11-29T03:42:18.281Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.286Z | 5773540820777 [LOG] [2025-11-29T03:42:18.286Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.291Z | 5773545835584 [LOG] [2025-11-29T03:42:18.291Z] DEBUG: {"instanceId":17,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.300Z | 5773555362050 [LOG] [2025-11-29T03:42:18.300Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.302Z | 5773556906212 [LOG] [2025-11-29T03:42:18.302Z] DEBUG: {"instanceId":17,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.352Z | 5773606609947 [LOG] [2025-11-29T03:42:18.352Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.356Z | 5773610772110 [LOG] [2025-11-29T03:42:18.355Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.366Z | 5773620842374 [LOG] [2025-11-29T03:42:18.366Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.368Z | 5773622950799 [LOG] [2025-11-29T03:42:18.368Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.378Z | 5773632798403 [LOG] [2025-11-29T03:42:18.378Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.382Z | 5773637105350 [LOG] [2025-11-29T03:42:18.382Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.386Z | 5773641405244 [LOG] [2025-11-29T03:42:18.386Z] DEBUG: {"instanceId":18,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.393Z | 5773647752868 [LOG] [2025-11-29T03:42:18.393Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.394Z | 5773649026179 [LOG] [2025-11-29T03:42:18.394Z] DEBUG: {"instanceId":18,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.446Z | 5773700680912 [LOG] [2025-11-29T03:42:18.446Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.449Z | 5773704505243 [LOG] [2025-11-29T03:42:18.449Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.464Z | 5773718860455 [LOG] [2025-11-29T03:42:18.464Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.466Z | 5773721442206 [LOG] [2025-11-29T03:42:18.466Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.479Z | 5773734472633 [LOG] [2025-11-29T03:42:18.479Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.484Z | 5773739089055 [LOG] [2025-11-29T03:42:18.484Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.488Z | 5773742796399 [LOG] [2025-11-29T03:42:18.488Z] DEBUG: {"instanceId":19,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.496Z | 5773750830736 [LOG] [2025-11-29T03:42:18.496Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.498Z | 5773752714405 [LOG] [2025-11-29T03:42:18.498Z] DEBUG: {"instanceId":19,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.548Z | 5773802857384 [LOG] [2025-11-29T03:42:18.548Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.553Z | 5773807931209 [LOG] [2025-11-29T03:42:18.553Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.567Z | 5773822353400 [LOG] [2025-11-29T03:42:18.567Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.570Z | 5773825323479 [LOG] [2025-11-29T03:42:18.570Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.581Z | 5773836222991 [LOG] [2025-11-29T03:42:18.581Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.585Z | 5773840224375 [LOG] [2025-11-29T03:42:18.585Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.588Z | 5773843536686 [LOG] [2025-11-29T03:42:18.588Z] DEBUG: {"instanceId":20,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.595Z | 5773850298690 [LOG] [2025-11-29T03:42:18.595Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.596Z | 5773851527440 [LOG] [2025-11-29T03:42:18.596Z] DEBUG: {"instanceId":20,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.647Z | 5773902183627 [LOG] [2025-11-29T03:42:18.647Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.651Z | 5773905631294 [LOG] [2025-11-29T03:42:18.651Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.660Z | 5773915150775 [LOG] [2025-11-29T03:42:18.660Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.665Z | 5773919949558 [LOG] [2025-11-29T03:42:18.665Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.676Z | 5773930823367 [LOG] [2025-11-29T03:42:18.676Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.679Z | 5773934378942 [LOG] [2025-11-29T03:42:18.679Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.684Z | 5773938778781 [LOG] [2025-11-29T03:42:18.684Z] DEBUG: {"instanceId":21,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.691Z | 5773946049313 [LOG] [2025-11-29T03:42:18.691Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.692Z | 5773947501980 [LOG] [2025-11-29T03:42:18.692Z] DEBUG: {"instanceId":21,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.745Z | 5773999776782 [LOG] [2025-11-29T03:42:18.745Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.749Z | 5774003819233 [LOG] [2025-11-29T03:42:18.749Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.759Z | 5774014488821 [LOG] [2025-11-29T03:42:18.759Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.762Z | 5774017129591 [LOG] [2025-11-29T03:42:18.762Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.771Z | 5774026051983 [LOG] [2025-11-29T03:42:18.771Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.775Z | 5774029688366 [LOG] [2025-11-29T03:42:18.775Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.778Z | 5774033479522 [LOG] [2025-11-29T03:42:18.778Z] DEBUG: {"instanceId":22,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.786Z | 5774041346584 [LOG] [2025-11-29T03:42:18.786Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.788Z | 5774043022819 [LOG] [2025-11-29T03:42:18.788Z] DEBUG: {"instanceId":22,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.838Z | 5774093090647 [LOG] [2025-11-29T03:42:18.838Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.843Z | 5774098168453 [LOG] [2025-11-29T03:42:18.843Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.852Z | 5774106991458 [LOG] [2025-11-29T03:42:18.852Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.854Z | 5774109327223 [LOG] [2025-11-29T03:42:18.854Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.861Z | 5774116506958 [LOG] [2025-11-29T03:42:18.861Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.865Z | 5774120204734 [LOG] [2025-11-29T03:42:18.865Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.869Z | 5774124474455 [LOG] [2025-11-29T03:42:18.869Z] DEBUG: {"instanceId":23,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.878Z | 5774132778456 [LOG] [2025-11-29T03:42:18.878Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.879Z | 5774134337145 [LOG] [2025-11-29T03:42:18.879Z] DEBUG: {"instanceId":23,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.931Z | 5774185953675 [LOG] [2025-11-29T03:42:18.931Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.936Z | 5774190954584 [LOG] [2025-11-29T03:42:18.936Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.945Z | 5774200321178 [LOG] [2025-11-29T03:42:18.945Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.948Z | 5774202963414 [LOG] [2025-11-29T03:42:18.948Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.968Z | 5774223119727 [LOG] [2025-11-29T03:42:18.968Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.972Z | 5774226777483 [LOG] [2025-11-29T03:42:18.972Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.976Z | 5774231029114 [LOG] [2025-11-29T03:42:18.976Z] DEBUG: {"instanceId":24,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.983Z | 5774238381293 [LOG] [2025-11-29T03:42:18.983Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:18.985Z | 5774240426090 [LOG] [2025-11-29T03:42:18.985Z] DEBUG: {"instanceId":24,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.037Z | 5774291560563 [LOG] [2025-11-29T03:42:19.036Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.042Z | 5774297508964 [LOG] [2025-11-29T03:42:19.042Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.062Z | 5774316745024 [LOG] [2025-11-29T03:42:19.062Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.065Z | 5774319637438 [LOG] [2025-11-29T03:42:19.065Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.075Z | 5774330359828 [LOG] [2025-11-29T03:42:19.075Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.080Z | 5774335412979 [LOG] [2025-11-29T03:42:19.080Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.084Z | 5774339489095 [LOG] [2025-11-29T03:42:19.084Z] DEBUG: {"instanceId":25,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.096Z | 5774350776865 [LOG] [2025-11-29T03:42:19.096Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.098Z | 5774352622750 [LOG] [2025-11-29T03:42:19.098Z] DEBUG: {"instanceId":25,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.147Z | 5774402080777 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:19.147Z hr=5774401670029 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:775:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.149Z | 5774403651340 [LOG] [2025-11-29T03:42:19.149Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.152Z | 5774407499278 [LOG] [2025-11-29T03:42:19.152Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.156Z | 5774411278002 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:19.156Z hr=5774411216051 duration_ms=9.546 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:775:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.172Z | 5774427483079 [LOG] [2025-11-29T03:42:19.172Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.177Z | 5774432356733 [LOG] [2025-11-29T03:42:19.177Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.189Z | 5774443547002 [LOG] [2025-11-29T03:42:19.188Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.195Z | 5774450399313 [LOG] [2025-11-29T03:42:19.195Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.199Z | 5774453743892 [LOG] [2025-11-29T03:42:19.199Z] DEBUG: {"instanceId":26,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.205Z | 5774460378642 [LOG] [2025-11-29T03:42:19.205Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.207Z | 5774461985314 [LOG] [2025-11-29T03:42:19.207Z] DEBUG: {"instanceId":26,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.259Z | 5774514176373 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:19.259Z hr=5774513722043 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:801:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.261Z | 5774515646432 [LOG] [2025-11-29T03:42:19.261Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.270Z | 5774524641950 [LOG] [2025-11-29T03:42:19.270Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.274Z | 5774529095638 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:19.274Z hr=5774529033687 duration_ms=15.312 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_full.test.ts:801:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.289Z | 5774544451072 [LOG] [2025-11-29T03:42:19.289Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.294Z | 5774549075736 [LOG] [2025-11-29T03:42:19.294Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.304Z | 5774559032296 [LOG] [2025-11-29T03:42:19.304Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.307Z | 5774562312968 [LOG] [2025-11-29T03:42:19.307Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.310Z | 5774565444735 [LOG] [2025-11-29T03:42:19.310Z] DEBUG: {"instanceId":27,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.318Z | 5774572673920 [LOG] [2025-11-29T03:42:19.318Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.319Z | 5774574032020 [LOG] [2025-11-29T03:42:19.319Z] DEBUG: {"instanceId":27,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.371Z | 5774625707078 [LOG] [2025-11-29T03:42:19.371Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.374Z | 5774629057384 [LOG] [2025-11-29T03:42:19.374Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.381Z | 5774635585693 [LOG] [2025-11-29T03:42:19.381Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.384Z | 5774638941516 [LOG] [2025-11-29T03:42:19.384Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.387Z | 5774642307676 [LOG] [2025-11-29T03:42:19.387Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.392Z | 5774646765485 [LOG] [2025-11-29T03:42:19.392Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.397Z | 5774652113515 [LOG] [2025-11-29T03:42:19.397Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.401Z | 5774656227346 [LOG] [2025-11-29T03:42:19.401Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.407Z | 5774661706331 [LOG] [2025-11-29T03:42:19.407Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.413Z | 5774668402403 [LOG] [2025-11-29T03:42:19.413Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.418Z | 5774673450596 [LOG] [2025-11-29T03:42:19.418Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.428Z | 5774682807622 [LOG] [2025-11-29T03:42:19.428Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.432Z | 5774686582085 [LOG] [2025-11-29T03:42:19.432Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.436Z | 5774690736076 [LOG] [2025-11-29T03:42:19.436Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.441Z | 5774696148012 [LOG] [2025-11-29T03:42:19.441Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.445Z | 5774699746541 [LOG] [2025-11-29T03:42:19.445Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.449Z | 5774704181580 [LOG] [2025-11-29T03:42:19.449Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.452Z | 5774707484323 [LOG] [2025-11-29T03:42:19.452Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.456Z | 5774711187686 [LOG] [2025-11-29T03:42:19.456Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.466Z | 5774721034452 [LOG] [2025-11-29T03:42:19.466Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.474Z | 5774729132416 [LOG] [2025-11-29T03:42:19.474Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.480Z | 5774735107288 [LOG] [2025-11-29T03:42:19.480Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.488Z | 5774743283196 [LOG] [2025-11-29T03:42:19.488Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.492Z | 5774746601514 [LOG] [2025-11-29T03:42:19.492Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.507Z | 5774761693291 [LOG] [2025-11-29T03:42:19.507Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.509Z | 5774763667058 [LOG] [2025-11-29T03:42:19.509Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.517Z | 5774772406042 [LOG] [2025-11-29T03:42:19.517Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.521Z | 5774776113386 [LOG] [2025-11-29T03:42:19.521Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.525Z | 5774779902377 [LOG] [2025-11-29T03:42:19.525Z] DEBUG: {"instanceId":28,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.531Z | 5774786436832 [LOG] [2025-11-29T03:42:19.531Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.533Z | 5774787942999 [LOG] [2025-11-29T03:42:19.533Z] DEBUG: {"instanceId":28,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.584Z | 5774838881422 [LOG] [2025-11-29T03:42:19.584Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.587Z | 5774841900322 [LOG] [2025-11-29T03:42:19.587Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.604Z | 5774859187549 [LOG] [2025-11-29T03:42:19.604Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.610Z | 5774864712281 [LOG] [2025-11-29T03:42:19.610Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.620Z | 5774875459535 [LOG] [2025-11-29T03:42:19.620Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.625Z | 5774879661858 [LOG] [2025-11-29T03:42:19.625Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.629Z | 5774883566509 [LOG] [2025-11-29T03:42:19.628Z] DEBUG: {"instanceId":29,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.639Z | 5774893852169 [LOG] [2025-11-29T03:42:19.639Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.645Z | 5774899723603 [LOG] [2025-11-29T03:42:19.645Z] DEBUG: {"instanceId":29,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.693Z | 5774948503104 [LOG] [2025-11-29T03:42:19.693Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:19.701Z | 5774956520050 [WARN] [2025-11-29T03:42:19.701Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:883:9
+
+  console.log
+    2025-11-29T03:42:19.706Z | 5774960932251 [LOG] [2025-11-29T03:42:19.706Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.712Z | 5774967139281 [LOG] [2025-11-29T03:42:19.712Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:19.716Z | 5774971299698 [WARN] [2025-11-29T03:42:19.716Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:886:9
+
+  console.log
+    2025-11-29T03:42:19.719Z | 5774974480355 [LOG] [2025-11-29T03:42:19.719Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.724Z | 5774978946475 [LOG] [2025-11-29T03:42:19.724Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.732Z | 5774987653261 [LOG] [2025-11-29T03:42:19.732Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.735Z | 5774989669982 [LOG] [2025-11-29T03:42:19.735Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:19.737Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:19.739Z | 5774994271807 [LOG] [2025-11-29T03:42:19.739Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.754Z | 5775008845069 [LOG] [2025-11-29T03:42:19.754Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.757Z | 5775012154865 [LOG] [2025-11-29T03:42:19.757Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.770Z | 5775025053498 [LOG] [2025-11-29T03:42:19.770Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.775Z | 5775030074731 [LOG] [2025-11-29T03:42:19.775Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.779Z | 5775034389641 [LOG] [2025-11-29T03:42:19.779Z] DEBUG: {"instanceId":30,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.788Z | 5775042782622 [LOG] [2025-11-29T03:42:19.788Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.789Z | 5775044102238 [LOG] [2025-11-29T03:42:19.789Z] DEBUG: {"instanceId":30,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.838Z | 5775092911004 [LOG] [2025-11-29T03:42:19.838Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:19.844Z | 5775099249968 [WARN] [2025-11-29T03:42:19.844Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_full.test.ts:917:9
+
+  console.log
+    2025-11-29T03:42:19.847Z | 5775101848622 [LOG] [2025-11-29T03:42:19.847Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.865Z | 5775119929615 [LOG] [2025-11-29T03:42:19.865Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:19.871Z | 5775125919853 [LOG] [2025-11-29T03:42:19.871Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_full.test.ts (21.971 s)
+  parentalStore
+    Initialization
+      ✓ initializes with default state (182 ms)
+      ✓ loads stored settings from AsyncStorage (110 ms)
+      ✓ loads safe zones from AsyncStorage (105 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (144 ms)
+      ✓ allows access when no PIN is set (first-time setup) (129 ms)
+      ✓ sets a new PIN with secure hashing (159 ms)
+      ✓ rejects invalid PINs during setup (221 ms)
+      ✓ authenticates with correct PIN (135 ms)
+      ✓ rejects incorrect PIN (132 ms)
+      ✓ implements rate limiting after multiple failed attempts (192 ms)
+      ✓ exits parent mode (116 ms)
+    Safe Zone Management
+      ✓ adds a new safe zone (110 ms)
+      ✓ updates an existing safe zone (118 ms)
+      ✓ deletes a safe zone (112 ms)
+    Check-In Requests
+      ✓ creates a new check-in request (105 ms)
+      ✓ creates urgent check-in requests (103 ms)
+      ✓ completes a check-in request (97 ms)
+    Emergency Contacts
+      ✓ adds an emergency contact (102 ms)
+      ✓ updates an emergency contact (101 ms)
+      ✓ deletes an emergency contact (93 ms)
+    Device Pings
+      ✓ sends a location ping (94 ms)
+      ✓ sends a ring ping (91 ms)
+      ✓ sends a message ping (104 ms)
+      ✓ acknowledges a ping (104 ms)
+    Dashboard Data
+      ✓ adds check-in to dashboard (113 ms)
+      ✓ updates last known location (116 ms)
+      ✓ keeps only the last 10 check-ins (213 ms)
+    Settings Management
+      ✓ saves updated settings (102 ms)
+    Security Features
+      ✓ resets auth attempts after successful authentication (149 ms)
+      ✓ persists auth attempts to storage (113 ms)
+
+  console.warn
+    2025-11-29T03:42:20.157Z | 5775411750417 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:42:22.080Z | 5777335178108 [LOG] [2025-11-29T03:42:22.080Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.084Z | 5777339319876 [LOG] [2025-11-29T03:42:22.084Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.088Z | 5777343211676 [LOG] [2025-11-29T03:42:22.088Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.097Z | 5777351761176 [LOG] [2025-11-29T03:42:22.097Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.098Z | 5777352969742 [LOG] [2025-11-29T03:42:22.098Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.156Z | 5777410905542 [LOG] [2025-11-29T03:42:22.156Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.158Z | 5777413045466 [LOG] [2025-11-29T03:42:22.158Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.172Z | 5777427093018 [LOG] [2025-11-29T03:42:22.172Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.176Z | 5777431185827 [LOG] [2025-11-29T03:42:22.176Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.183Z | 5777437941545 [LOG] [2025-11-29T03:42:22.183Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.191Z | 5777446293249 [LOG] [2025-11-29T03:42:22.191Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.193Z | 5777448519639 [LOG] [2025-11-29T03:42:22.193Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.251Z | 5777506455019 [LOG] [2025-11-29T03:42:22.251Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.254Z | 5777509443119 [LOG] [2025-11-29T03:42:22.254Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.264Z | 5777519156345 [LOG] [2025-11-29T03:42:22.264Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.268Z | 5777523403088 [LOG] [2025-11-29T03:42:22.268Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.273Z | 5777528109119 [LOG] [2025-11-29T03:42:22.273Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.282Z | 5777537370670 [LOG] [2025-11-29T03:42:22.282Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.284Z | 5777539359733 [LOG] [2025-11-29T03:42:22.284Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.347Z | 5777602108703 [LOG] [2025-11-29T03:42:22.347Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.350Z | 5777605312339 [LOG] [2025-11-29T03:42:22.350Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.364Z | 5777619181023 [LOG] [2025-11-29T03:42:22.364Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.368Z | 5777622951994 [LOG] [2025-11-29T03:42:22.368Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.372Z | 5777627340379 [LOG] [2025-11-29T03:42:22.372Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.380Z | 5777634596942 [LOG] [2025-11-29T03:42:22.380Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.381Z | 5777636369980 [LOG] [2025-11-29T03:42:22.381Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.486Z | 5777741396545 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.433Z hr=5777687587078 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:187:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.490Z | 5777744617222 [LOG] [2025-11-29T03:42:22.490Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.496Z | 5777751461292 [LOG] [2025-11-29T03:42:22.496Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.500Z | 5777755400375 [LOG] [2025-11-29T03:42:22.500Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.502Z | 5777757379940 [LOG] [2025-11-29T03:42:22.502Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.507Z | 5777762432672 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:22.507Z hr=5777762371699 duration_ms=74.785 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:187:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.524Z | 5777779176310 [LOG] [2025-11-29T03:42:22.524Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.526Z | 5777781173265 [LOG] [2025-11-29T03:42:22.526Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.535Z | 5777789950663 [LOG] [2025-11-29T03:42:22.535Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.542Z | 5777796695696 [LOG] [2025-11-29T03:42:22.542Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.547Z | 5777801890838 [LOG] [2025-11-29T03:42:22.547Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.555Z | 5777809818175 [LOG] [2025-11-29T03:42:22.555Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.557Z | 5777812346986 [LOG] [2025-11-29T03:42:22.557Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.607Z | 5777861589409 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.606Z hr=5777861205970 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:205:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.608Z | 5777863200341 [LOG] [2025-11-29T03:42:22.608Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:22.612Z | 5777866598420 [WARN] [2025-11-29T03:42:22.612Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_15.test.ts:206:19
+
+  console.log
+    2025-11-29T03:42:22.616Z | 5777871120066 [LOG] [2025-11-29T03:42:22.615Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.618Z | 5777873185607 [LOG] [2025-11-29T03:42:22.618Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.620Z | 5777875085899 [LOG] [2025-11-29T03:42:22.620Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.623Z | 5777877991584 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:22.623Z hr=5777877931519 duration_ms=16.726 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:205:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.631Z | 5777885880996 [LOG] [2025-11-29T03:42:22.631Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.633Z | 5777888524629 [LOG] [2025-11-29T03:42:22.633Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.643Z | 5777898396120 [LOG] [2025-11-29T03:42:22.643Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.648Z | 5777902803502 [LOG] [2025-11-29T03:42:22.648Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.652Z | 5777907095573 [LOG] [2025-11-29T03:42:22.652Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.661Z | 5777915841192 [LOG] [2025-11-29T03:42:22.661Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.663Z | 5777918284585 [LOG] [2025-11-29T03:42:22.663Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.714Z | 5777968621799 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.713Z hr=5777968268044 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:220:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.717Z | 5777972535809 [LOG] [2025-11-29T03:42:22.717Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.720Z | 5777975458745 [LOG] [2025-11-29T03:42:22.720Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.724Z | 5777978855706 [LOG] [2025-11-29T03:42:22.724Z] DEBUG: {"salt":"6351e6f91da6dc5b905e2763a3e448ec4c1d9b1297905fe22a334c57e685b21b"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.728Z | 5777983028625 [LOG] [2025-11-29T03:42:22.728Z] DEBUG: {"hash":"hashed_12346351e6f91da6dc5b905e2763a3e448ec4c1d9b1297905fe22a334c57e685b21b"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.729Z | 5777984393080 [LOG] [2025-11-29T03:42:22.729Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.732Z | 5777987155517 [LOG] [2025-11-29T03:42:22.732Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.734Z | 5777988713717 [LOG] [2025-11-29T03:42:22.734Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.736Z | 5777991507373 [LOG] [2025-11-29T03:42:22.736Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:22.740Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:22.741Z | 5777996133853 [LOG] [2025-11-29T03:42:22.741Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.745Z | 5777999617490 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:22.745Z hr=5777999553025 duration_ms=31.285 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:220:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.769Z | 5778023935966 [LOG] [2025-11-29T03:42:22.769Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.773Z | 5778027609786 [LOG] [2025-11-29T03:42:22.773Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.780Z | 5778034915169 [LOG] [2025-11-29T03:42:22.780Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.783Z | 5778038536118 [LOG] [2025-11-29T03:42:22.783Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.788Z | 5778043077878 [LOG] [2025-11-29T03:42:22.788Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.795Z | 5778050490191 [LOG] [2025-11-29T03:42:22.795Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.797Z | 5778051632546 [LOG] [2025-11-29T03:42:22.797Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.849Z | 5778103868376 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.849Z hr=5778103546679 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:244:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.852Z | 5778107182224 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:22.852Z hr=5778107125093 duration_ms=3.578 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:244:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.880Z | 5778135347452 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.880Z hr=5778134934748 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:250:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.886Z | 5778141279649 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:22.886Z hr=5778141223426 duration_ms=6.289 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:250:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.895Z | 5778150437692 [LOG] [2025-11-29T03:42:22.895Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.898Z | 5778152647530 [LOG] [2025-11-29T03:42:22.898Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.907Z | 5778162372071 [LOG] [2025-11-29T03:42:22.907Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.911Z | 5778166350755 [LOG] [2025-11-29T03:42:22.911Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.915Z | 5778170455228 [LOG] [2025-11-29T03:42:22.915Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.922Z | 5778177497442 [LOG] [2025-11-29T03:42:22.922Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.924Z | 5778179072336 [LOG] [2025-11-29T03:42:22.924Z] DEBUG: {"instanceId":8,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.974Z | 5778229369879 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:22.974Z hr=5778229053629 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:274:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.976Z | 5778230582984 [LOG] [2025-11-29T03:42:22.976Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.987Z | 5778241767247 [LOG] [2025-11-29T03:42:22.987Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.989Z | 5778244151762 [LOG] [2025-11-29T03:42:22.989Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:22.991Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:22.992Z | 5778247287161 [LOG] [2025-11-29T03:42:22.992Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:22.999Z | 5778254111605 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:22.999Z hr=5778254047489 duration_ms=24.994 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:274:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.008Z | 5778263388241 [LOG] [2025-11-29T03:42:23.008Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.013Z | 5778267958218 [LOG] [2025-11-29T03:42:23.013Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.032Z | 5778286760204 [LOG] [2025-11-29T03:42:23.032Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.037Z | 5778291547812 [LOG] [2025-11-29T03:42:23.036Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.041Z | 5778296359795 [LOG] [2025-11-29T03:42:23.041Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.052Z | 5778307442785 [LOG] [2025-11-29T03:42:23.052Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.054Z | 5778308774624 [LOG] [2025-11-29T03:42:23.054Z] DEBUG: {"instanceId":9,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.105Z | 5778360533147 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.105Z hr=5778360225139 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:301:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.107Z | 5778361728373 [LOG] [2025-11-29T03:42:23.107Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.118Z | 5778372816322 [WARN] [2025-11-29T03:42:23.118Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:302:19
+
+  console.log
+    2025-11-29T03:42:23.124Z | 5778379336809 [LOG] [2025-11-29T03:42:23.124Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.132Z | 5778387342929 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.132Z hr=5778387234742 duration_ms=27.010 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:301:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.155Z | 5778409653205 [LOG] [2025-11-29T03:42:23.155Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.158Z | 5778413160449 [LOG] [2025-11-29T03:42:23.158Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.172Z | 5778427058467 [LOG] [2025-11-29T03:42:23.172Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.175Z | 5778430401230 [LOG] [2025-11-29T03:42:23.175Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.179Z | 5778434115698 [LOG] [2025-11-29T03:42:23.179Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.186Z | 5778441226639 [LOG] [2025-11-29T03:42:23.186Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.188Z | 5778442651998 [LOG] [2025-11-29T03:42:23.188Z] DEBUG: {"instanceId":10,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.243Z | 5778497961207 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.243Z hr=5778497655992 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.244Z | 5778499186325 [LOG] [2025-11-29T03:42:23.244Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.259Z | 5778513904023 [WARN] [2025-11-29T03:42:23.259Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:23.266Z | 5778521225750 [LOG] [2025-11-29T03:42:23.266Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.272Z | 5778527259080 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.272Z hr=5778527195244 duration_ms=29.539 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.274Z | 5778528797725 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.273Z hr=5778528421480 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.275Z | 5778529988621 [LOG] [2025-11-29T03:42:23.275Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.278Z | 5778532972390 [WARN] [2025-11-29T03:42:23.278Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:23.280Z | 5778534902994 [LOG] [2025-11-29T03:42:23.280Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.282Z | 5778537272423 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.282Z hr=5778537211869 duration_ms=8.790 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.284Z | 5778538683115 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.283Z hr=5778538345772 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.285Z | 5778539794948 [LOG] [2025-11-29T03:42:23.285Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.289Z | 5778543791582 [WARN] [2025-11-29T03:42:23.289Z] WARN: [Security] Authentication failed. 2 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:23.291Z | 5778545772683 [LOG] [2025-11-29T03:42:23.291Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.293Z | 5778548327755 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.293Z hr=5778548267760 duration_ms=9.922 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.295Z | 5778549795230 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.294Z hr=5778549462637 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.296Z | 5778550971039 [LOG] [2025-11-29T03:42:23.296Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.300Z | 5778555136065 [WARN] [2025-11-29T03:42:23.300Z] WARN: [Security] Authentication failed. 1 attempt(s) remaining.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:413:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:23.302Z | 5778557155580 [LOG] [2025-11-29T03:42:23.302Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.323Z | 5778578460744 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.323Z hr=5778578405009 duration_ms=28.942 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.325Z | 5778579876744 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.325Z hr=5778579570691 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.333Z | 5778588208403 [LOG] [2025-11-29T03:42:23.333Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.342Z | 5778596805675 [WARN] [2025-11-29T03:42:23.342Z] WARN: [Security] Maximum authentication attempts exceeded - account locked
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:406:16)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.error
+    2025-11-29T03:42:23.351Z | 5778606267327 [ERR] [2025-11-29T03:42:23.351Z] ERROR: [Security] Authentication error: Error: Too many failed attempts. Account locked for 15 minutes.
+        at Object.authenticateParentMode (/home/nixstation-remote/Projects/NaviKid-v1/stores/parentalStore.ts:407:15)
+        at /home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at Logger.addLog (utils/logger.ts:73:19)
+      at Logger.error (utils/logger.ts:136:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:417:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:331:13
+
+  console.log
+    2025-11-29T03:42:23.355Z | 5778609914117 [LOG] [2025-11-29T03:42:23.355Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.361Z | 5778615742458 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.361Z hr=5778615680856 duration_ms=36.110 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:329:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.369Z | 5778624283716 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.368Z hr=5778622922054 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:343:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.371Z | 5778625557097 [LOG] [2025-11-29T03:42:23.370Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.error
+    2025-11-29T03:42:23.381Z | 5778636240863 [ERR] [2025-11-29T03:42:23.381Z] ERROR: [Security] Authentication error: Error: Too many failed attempts. Please try again in 15 minute(s).
+        at Object.authenticateParentMode (/home/nixstation-remote/Projects/NaviKid-v1/stores/parentalStore.ts:333:15)
+        at /home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:344:11
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at Logger.addLog (utils/logger.ts:73:19)
+      at Logger.error (utils/logger.ts:136:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:417:14)
+      at tmp/bisect_prefix/prefix_15.test.ts:344:11
+
+  console.log
+    2025-11-29T03:42:23.387Z | 5778642057052 [LOG] [2025-11-29T03:42:23.387Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.389Z | 5778644086344 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:23.389Z hr=5778644000088 duration_ms=21.078 err=Too many failed attempts. Please try again in 15 minute(s). stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:343:9)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.404Z | 5778659195932 [LOG] [2025-11-29T03:42:23.404Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.407Z | 5778661711193 [LOG] [2025-11-29T03:42:23.407Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.419Z | 5778673785467 [LOG] [2025-11-29T03:42:23.419Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.422Z | 5778677437496 [LOG] [2025-11-29T03:42:23.422Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.426Z | 5778680663271 [LOG] [2025-11-29T03:42:23.426Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.432Z | 5778687437009 [LOG] [2025-11-29T03:42:23.432Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.435Z | 5778689732823 [LOG] [2025-11-29T03:42:23.435Z] DEBUG: {"instanceId":11,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.485Z | 5778740286552 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.485Z hr=5778739871194 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:357:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.487Z | 5778741738102 [LOG] [2025-11-29T03:42:23.487Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:23.502Z | 5778756916904 [WARN] [2025-11-29T03:42:23.502Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_15.test.ts:358:9
+
+  console.log
+    2025-11-29T03:42:23.517Z | 5778772086486 [LOG] [2025-11-29T03:42:23.517Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.520Z | 5778774824198 [LOG] [2025-11-29T03:42:23.520Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.522Z | 5778777234136 [LOG] [2025-11-29T03:42:23.522Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.529Z | 5778783597685 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.529Z hr=5778783538458 duration_ms=43.667 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:357:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.532Z | 5778787477193 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.532Z hr=5778786916701 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:364:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.535Z | 5778789617536 [LOG] [2025-11-29T03:42:23.535Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:23.537Z] INFO: [Security] Exited parent mode
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:23.540Z | 5778795395729 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.540Z hr=5778795345023 duration_ms=8.428 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:364:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.550Z | 5778804561735 [LOG] [2025-11-29T03:42:23.549Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.553Z | 5778807819149 [LOG] [2025-11-29T03:42:23.553Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.564Z | 5778818904235 [LOG] [2025-11-29T03:42:23.564Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.569Z | 5778824152668 [LOG] [2025-11-29T03:42:23.569Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.573Z | 5778827910230 [LOG] [2025-11-29T03:42:23.573Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.583Z | 5778837960100 [LOG] [2025-11-29T03:42:23.583Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.584Z | 5778839318619 [LOG] [2025-11-29T03:42:23.584Z] DEBUG: {"instanceId":12,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.635Z | 5778889756617 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.634Z hr=5778889464394 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:390:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.638Z | 5778892680461 [LOG] [2025-11-29T03:42:23.638Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.644Z | 5778899195989 [LOG] [2025-11-29T03:42:23.644Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.649Z | 5778904152967 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.649Z hr=5778904104426 duration_ms=14.640 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:390:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.657Z | 5778911553337 [LOG] [2025-11-29T03:42:23.656Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.659Z | 5778913567753 [LOG] [2025-11-29T03:42:23.659Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.670Z | 5778925457502 [LOG] [2025-11-29T03:42:23.670Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.674Z | 5778928923538 [LOG] [2025-11-29T03:42:23.674Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.678Z | 5778932710224 [LOG] [2025-11-29T03:42:23.678Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.685Z | 5778940136716 [LOG] [2025-11-29T03:42:23.685Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.687Z | 5778941542100 [LOG] [2025-11-29T03:42:23.686Z] DEBUG: {"instanceId":13,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.738Z | 5778993529498 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.738Z hr=5778993034031 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:429:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.742Z | 5778996795993 [LOG] [2025-11-29T03:42:23.742Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.748Z | 5779003097730 [LOG] [2025-11-29T03:42:23.748Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.753Z | 5779008031171 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.753Z hr=5779007956718 duration_ms=14.923 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:429:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.760Z | 5779014712716 [LOG] [2025-11-29T03:42:23.760Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.766Z | 5779021346278 [LOG] [2025-11-29T03:42:23.766Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.778Z | 5779032621756 [LOG] [2025-11-29T03:42:23.778Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.781Z | 5779036222310 [LOG] [2025-11-29T03:42:23.781Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.785Z | 5779039977218 [LOG] [2025-11-29T03:42:23.785Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.792Z | 5779047106457 [LOG] [2025-11-29T03:42:23.792Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.794Z | 5779048750006 [LOG] [2025-11-29T03:42:23.794Z] DEBUG: {"instanceId":14,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.846Z | 5779100754656 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:23.845Z hr=5779100380087 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:476:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.850Z | 5779104965779 [LOG] [2025-11-29T03:42:23.850Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.858Z | 5779112680304 [LOG] [2025-11-29T03:42:23.858Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.861Z | 5779115567480 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:23.860Z hr=5779115516355 duration_ms=15.136 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_15.test.ts:476:13)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.874Z | 5779128907661 [LOG] [2025-11-29T03:42:23.874Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.876Z | 5779131263121 [LOG] [2025-11-29T03:42:23.876Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.889Z | 5779143749889 [LOG] [2025-11-29T03:42:23.889Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.893Z | 5779147598805 [LOG] [2025-11-29T03:42:23.893Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.899Z | 5779154348168 [LOG] [2025-11-29T03:42:23.899Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.907Z | 5779162156213 [LOG] [2025-11-29T03:42:23.907Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.909Z | 5779163934000 [LOG] [2025-11-29T03:42:23.909Z] DEBUG: {"instanceId":15,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.961Z | 5779215602844 [LOG] [2025-11-29T03:42:23.961Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.967Z | 5779221799049 [LOG] [2025-11-29T03:42:23.967Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.981Z | 5779235853446 [LOG] [2025-11-29T03:42:23.981Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:23.986Z | 5779240543135 [LOG] [2025-11-29T03:42:23.985Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_15.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (124 ms)
+      ✓ loads stored settings from AsyncStorage (93 ms)
+      ✓ loads safe zones from AsyncStorage (99 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (171 ms)
+      ✓ allows access when no PIN is set (first-time setup) (107 ms)
+      ✓ sets a new PIN with secure hashing (137 ms)
+      ✓ rejects invalid PINs during setup (125 ms)
+      ✓ authenticates with correct PIN (122 ms)
+      ✓ rejects incorrect PIN (142 ms)
+      ✓ implements rate limiting after multiple failed attempts (242 ms)
+      ✓ exits parent mode (145 ms)
+    Safe Zone Management
+      ✓ adds a new safe zone (109 ms)
+      ✓ updates an existing safe zone (105 ms)
+      ✓ deletes a safe zone (108 ms)
+    Check-In Requests
+      ✓ creates a new check-in request (107 ms)
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  console.warn
+    2025-11-29T03:42:24.168Z | 5779423443765 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:42:25.602Z | 5780857246942 [LOG] [2025-11-29T03:42:25.602Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.606Z | 5780860734978 [LOG] [2025-11-29T03:42:25.606Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.609Z | 5780864316745 [LOG] [2025-11-29T03:42:25.609Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.624Z | 5780879465235 [LOG] [2025-11-29T03:42:25.624Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.626Z | 5780880848409 [LOG] [2025-11-29T03:42:25.626Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.686Z | 5780940875244 [LOG] [2025-11-29T03:42:25.686Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.688Z | 5780942845798 [LOG] [2025-11-29T03:42:25.688Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.703Z | 5780957668540 [LOG] [2025-11-29T03:42:25.703Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.708Z | 5780962741178 [LOG] [2025-11-29T03:42:25.708Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.719Z | 5780973629376 [LOG] [2025-11-29T03:42:25.719Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.733Z | 5780988413216 [LOG] [2025-11-29T03:42:25.733Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.735Z | 5780989732134 [LOG] [2025-11-29T03:42:25.735Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.792Z | 5781047121133 [LOG] [2025-11-29T03:42:25.792Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.794Z | 5781049238079 [LOG] [2025-11-29T03:42:25.794Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.811Z | 5781065669657 [LOG] [2025-11-29T03:42:25.811Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.814Z | 5781069358563 [LOG] [2025-11-29T03:42:25.814Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.819Z | 5781074494828 [LOG] [2025-11-29T03:42:25.819Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.827Z | 5781082380260 [LOG] [2025-11-29T03:42:25.827Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.829Z | 5781083844312 [LOG] [2025-11-29T03:42:25.829Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.895Z | 5781150138242 [LOG] [2025-11-29T03:42:25.895Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.897Z | 5781152314415 [LOG] [2025-11-29T03:42:25.897Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.907Z | 5781162288436 [LOG] [2025-11-29T03:42:25.907Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.911Z | 5781165770955 [LOG] [2025-11-29T03:42:25.911Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.915Z | 5781170473984 [LOG] [2025-11-29T03:42:25.915Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.924Z | 5781178598488 [LOG] [2025-11-29T03:42:25.924Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:25.925Z | 5781180170308 [LOG] [2025-11-29T03:42:25.925Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.037Z | 5781292470271 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:25.978Z hr=5781232663163 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:187:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.040Z | 5781295357727 [LOG] [2025-11-29T03:42:26.040Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.044Z | 5781298547394 [LOG] [2025-11-29T03:42:26.043Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.046Z | 5781300931979 [LOG] [2025-11-29T03:42:26.046Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.050Z | 5781304897254 [LOG] [2025-11-29T03:42:26.050Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.057Z | 5781311716948 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:26.057Z hr=5781311658769 duration_ms=78.996 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:187:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.065Z | 5781320351936 [LOG] [2025-11-29T03:42:26.065Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.068Z | 5781322819076 [LOG] [2025-11-29T03:42:26.068Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.078Z | 5781332615835 [LOG] [2025-11-29T03:42:26.078Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.081Z | 5781336419144 [LOG] [2025-11-29T03:42:26.081Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.088Z | 5781343392354 [LOG] [2025-11-29T03:42:26.088Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.096Z | 5781350928150 [LOG] [2025-11-29T03:42:26.096Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.097Z | 5781352384310 [LOG] [2025-11-29T03:42:26.097Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.149Z | 5781404187674 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:26.149Z hr=5781403661336 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:205:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.150Z | 5781405367185 [LOG] [2025-11-29T03:42:26.150Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:42:26.158Z | 5781413297036 [WARN] [2025-11-29T03:42:26.158Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_7.test.ts:206:19
+
+  console.log
+    2025-11-29T03:42:26.163Z | 5781417776706 [LOG] [2025-11-29T03:42:26.163Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.165Z | 5781419896027 [LOG] [2025-11-29T03:42:26.165Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.170Z | 5781424678606 [LOG] [2025-11-29T03:42:26.170Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.180Z | 5781435323610 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:26.180Z hr=5781435260752 duration_ms=31.599 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:205:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.190Z | 5781445168142 [LOG] [2025-11-29T03:42:26.190Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.195Z | 5781450422652 [LOG] [2025-11-29T03:42:26.195Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.208Z | 5781463246064 [LOG] [2025-11-29T03:42:26.208Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.212Z | 5781466965910 [LOG] [2025-11-29T03:42:26.212Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.216Z | 5781471217752 [LOG] [2025-11-29T03:42:26.216Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.223Z | 5781477756886 [LOG] [2025-11-29T03:42:26.223Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.224Z | 5781479104301 [LOG] [2025-11-29T03:42:26.224Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.274Z | 5781529182398 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:26.274Z hr=5781528846942 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:220:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.275Z | 5781530366449 [LOG] [2025-11-29T03:42:26.275Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.277Z | 5781532043453 [LOG] [2025-11-29T03:42:26.277Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.280Z | 5781535044823 [LOG] [2025-11-29T03:42:26.280Z] DEBUG: {"salt":"6b61442340af8b8bb5cfae5bcdaa6908fe42d5fc10f1819e24c01a370a858b5c"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.282Z | 5781536562375 [LOG] [2025-11-29T03:42:26.281Z] DEBUG: {"hash":"hashed_12346b61442340af8b8bb5cfae5bcdaa6908fe42d5fc10f1819e24c01a370a858b5c"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.283Z | 5781538051570 [LOG] [2025-11-29T03:42:26.283Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.284Z | 5781539441868 [LOG] [2025-11-29T03:42:26.284Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.286Z | 5781540796895 [LOG] [2025-11-29T03:42:26.286Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.288Z | 5781543406864 [LOG] [2025-11-29T03:42:26.288Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:42:26.290Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:42:26.291Z | 5781545979746 [LOG] [2025-11-29T03:42:26.291Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.294Z | 5781548950105 [LOG] [TestDebug][ACT-END] 2025-11-29T03:42:26.294Z hr=5781548880402 duration_ms=20.033 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:220:15)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.302Z | 5781556718899 [LOG] [2025-11-29T03:42:26.302Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.305Z | 5781559959132 [LOG] [2025-11-29T03:42:26.305Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.318Z | 5781572915246 [LOG] [2025-11-29T03:42:26.318Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.322Z | 5781576703259 [LOG] [2025-11-29T03:42:26.322Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.325Z | 5781580419403 [LOG] [2025-11-29T03:42:26.325Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.332Z | 5781587100390 [LOG] [2025-11-29T03:42:26.332Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.333Z | 5781588487056 [LOG] [2025-11-29T03:42:26.333Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.385Z | 5781639697660 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:26.384Z hr=5781639260372 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:244:11)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.389Z | 5781643594559 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:26.389Z hr=5781643527020 duration_ms=4.267 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:244:11)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.419Z | 5781673886651 [LOG] [TestDebug][ACT-START] 2025-11-29T03:42:26.419Z hr=5781673629418 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:250:11)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.426Z | 5781681338845 [LOG] [TestDebug][ACT-END-ERR] 2025-11-29T03:42:26.425Z hr=5781680413842 duration_ms=6.784 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/tmp/bisect_prefix/prefix_7.test.ts:250:11)
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.444Z | 5781699424659 [LOG] [2025-11-29T03:42:26.444Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:26.446Z | 5781701489432 [LOG] [2025-11-29T03:42:26.446Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_7.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (111 ms)
+      ✓ loads stored settings from AsyncStorage (102 ms)
+      ✓ loads safe zones from AsyncStorage (102 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (170 ms)
+      ✓ allows access when no PIN is set (first-time setup) (128 ms)
+      ✓ sets a new PIN with secure hashing (108 ms)
+      ✓ rejects invalid PINs during setup (142 ms)
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  console.warn
+    2025-11-29T03:42:26.611Z | 5781866181886 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:42:28.023Z | 5783278512722 [LOG] [2025-11-29T03:42:28.023Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.027Z | 5783281808201 [LOG] [2025-11-29T03:42:28.027Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.030Z | 5783284929771 [LOG] [2025-11-29T03:42:28.030Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.038Z | 5783293191099 [LOG] [2025-11-29T03:42:28.038Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.039Z | 5783294388001 [LOG] [2025-11-29T03:42:28.039Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.103Z | 5783358094244 [LOG] [2025-11-29T03:42:28.103Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.105Z | 5783359837529 [LOG] [2025-11-29T03:42:28.105Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.113Z | 5783368196358 [LOG] [2025-11-29T03:42:28.113Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.117Z | 5783372037941 [LOG] [2025-11-29T03:42:28.117Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.121Z | 5783375588347 [LOG] [2025-11-29T03:42:28.121Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.127Z | 5783382454139 [LOG] [2025-11-29T03:42:28.127Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.129Z | 5783383639866 [LOG] [2025-11-29T03:42:28.129Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.188Z | 5783443435033 [LOG] [2025-11-29T03:42:28.188Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.190Z | 5783445350551 [LOG] [2025-11-29T03:42:28.190Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.199Z | 5783454086742 [LOG] [2025-11-29T03:42:28.199Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.203Z | 5783458112082 [LOG] [2025-11-29T03:42:28.203Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.207Z | 5783461899956 [LOG] [2025-11-29T03:42:28.207Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.229Z | 5783483571029 [LOG] [2025-11-29T03:42:28.228Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.233Z | 5783487567803 [LOG] [2025-11-29T03:42:28.232Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.291Z | 5783546490419 [LOG] [2025-11-29T03:42:28.291Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:28.300Z | 5783554690075 [LOG] [2025-11-29T03:42:28.300Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_3.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (101 ms)
+      ✓ loads stored settings from AsyncStorage (84 ms)
+      ✓ loads safe zones from AsyncStorage (115 ms)
+    PIN Authentication
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  console.warn
+    2025-11-29T03:42:28.495Z | 5783750115405 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:42:29.662Z | 5784917177715 [LOG] [2025-11-29T03:42:29.662Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.665Z | 5784920508605 [LOG] [2025-11-29T03:42:29.665Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.669Z | 5784924473950 [LOG] [2025-11-29T03:42:29.669Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.677Z | 5784932268935 [LOG] [2025-11-29T03:42:29.677Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.678Z | 5784933498104 [LOG] [2025-11-29T03:42:29.678Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.740Z | 5784994834850 [LOG] [2025-11-29T03:42:29.740Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:42:29.742Z | 5784997051881 [LOG] [2025-11-29T03:42:29.742Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_1.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (102 ms)
+      ○ skipped loads stored settings from AsyncStorage
+      ○ skipped loads safe zones from AsyncStorage
+    PIN Authentication
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+Test Suites: 5 passed, 5 total
+Tests:       94 skipped, 56 passed, 150 total
+Snapshots:   0 total
+Time:        33.305 s, estimated 48 s
+Ran all test suites matching tmp/bisect_prefix/prefix_1.test.ts|tmp/bisect_prefix/prefix_3.test.ts|tmp/bisect_prefix/prefix_7.test.ts|tmp/bisect_prefix/prefix_15.test.ts|tmp/bisect_prefix/prefix_full.test.ts.
+time="2025-11-28T22:42:30-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container docker-redis-1  Stopping
+ Container docker-postgres-1  Stopping
+ Container docker-redis-1  Stopped
+ Container docker-redis-1  Removing
+ Container docker-redis-1  Removed
+ Container docker-postgres-1  Stopped
+ Container docker-postgres-1  Removing
+ Container docker-postgres-1  Removed
+ Network navikid-integration-net  Removing
+ Network navikid-integration-net  Removed

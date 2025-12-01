@@ -1,0 +1,82 @@
+Parsed 51 events from ./.test-debug/parental-act-prefix15.log
+Relative timeline (ms from first event):
+
+    0.000 ms | 1764386607475 | mounted {"instanceId":1} |  console.log 2025-11-29T03:23:27.475Z | 4642729897188 [LOG] [2025-11-29T03:23:27.475Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+    0.000 ms | 1764386607493 | activeOps++ {"activeOps":1,"instanceId":1} |  console.log 2025-11-29T03:23:27.493Z | 4642747551448 [LOG] [2025-11-29T03:23:27.492Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764386607499 | loadData start {"instanceId":1,"activeOps":1} |  console.log 2025-11-29T03:23:27.499Z | 4642754363918 [LOG] [2025-11-29T03:23:27.499Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764386607534 | activeOps-- {"activeOps":0,"instanceId":1} |  console.log 2025-11-29T03:23:27.534Z | 4642789108194 [LOG] [2025-11-29T03:23:27.534Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764386607536 | loadData end {"instanceId":1,"activeOps":0} |  console.log 2025-11-29T03:23:27.536Z | 4642791396106 [LOG] [2025-11-29T03:23:27.536Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764386607688 | unmounted {"instanceId":1} |  console.log 2025-11-29T03:23:27.688Z | 4642943181156 [LOG] [2025-11-29T03:23:27.688Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764386607712 | mounted {"instanceId":2} |  console.log 2025-11-29T03:23:27.712Z | 4642967317609 [LOG] [2025-11-29T03:23:27.712Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+    0.000 ms | 1764386607719 | activeOps++ {"activeOps":1,"instanceId":2} |  console.log 2025-11-29T03:23:27.719Z | 4642973986068 [LOG] [2025-11-29T03:23:27.719Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764386607730 | loadData start {"instanceId":2,"activeOps":1} |  console.log 2025-11-29T03:23:27.730Z | 4642985441687 [LOG] [2025-11-29T03:23:27.730Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764386607749 | activeOps-- {"activeOps":0,"instanceId":2} |  console.log 2025-11-29T03:23:27.749Z | 4643004213398 [LOG] [2025-11-29T03:23:27.749Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764386607752 | loadData end {"instanceId":2,"activeOps":0} |  console.log 2025-11-29T03:23:27.752Z | 4643007309995 [LOG] [2025-11-29T03:23:27.752Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764386607808 | unmounted {"instanceId":2} |  console.log 2025-11-29T03:23:27.808Z | 4643063451293 [LOG] [2025-11-29T03:23:27.808Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764386607836 | mounted {"instanceId":3} |  console.log 2025-11-29T03:23:27.836Z | 4643091191038 [LOG] [2025-11-29T03:23:27.836Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+    0.000 ms | 1764386607842 | activeOps++ {"activeOps":1,"instanceId":3} |  console.log 2025-11-29T03:23:27.842Z | 4643096781575 [LOG] [2025-11-29T03:23:27.842Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764386607854 | loadData start {"instanceId":3,"activeOps":1} |  console.log 2025-11-29T03:23:27.854Z | 4643108862967 [LOG] [2025-11-29T03:23:27.854Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764386607864 | activeOps-- {"activeOps":0,"instanceId":3} |  console.log 2025-11-29T03:23:27.864Z | 4643119069974 [LOG] [2025-11-29T03:23:27.864Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764386607866 | loadData end {"instanceId":3,"activeOps":0} |  console.log 2025-11-29T03:23:27.866Z | 4643120920752 [LOG] [2025-11-29T03:23:27.866Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764386607937 | unmounted {"instanceId":3} |  console.log 2025-11-29T03:23:27.937Z | 4643191990568 [LOG] [2025-11-29T03:23:27.937Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764386607953 | mounted {"instanceId":4} |  console.log 2025-11-29T03:23:27.953Z | 4643208285030 [LOG] [2025-11-29T03:23:27.953Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+    0.000 ms | 1764386607963 | activeOps++ {"activeOps":1,"instanceId":4} |  console.log 2025-11-29T03:23:27.963Z | 4643218199055 [LOG] [2025-11-29T03:23:27.963Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764386607971 | loadData start {"instanceId":4,"activeOps":1} |  console.log 2025-11-29T03:23:27.971Z | 4643225746739 [LOG] [2025-11-29T03:23:27.971Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764386607983 | activeOps-- {"activeOps":0,"instanceId":4} |  console.log 2025-11-29T03:23:27.983Z | 4643238251994 [LOG] [2025-11-29T03:23:27.983Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386607985 | loadData end {"instanceId":4,"activeOps":0} |  console.log 2025-11-29T03:23:27.985Z | 4643239821593 [LOG] [2025-11-29T03:23:27.985Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764386608036 | activeOps++ {"activeOps":1,"instanceId":4} |  console.log 2025-11-29T03:23:28.036Z | 4643290997431 [LOG] [2025-11-29T03:23:28.036Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608045 | activeOps-- {"activeOps":0,"instanceId":4} |  console.log 2025-11-29T03:23:28.045Z | 4643299821175 [LOG] [2025-11-29T03:23:28.045Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608070 | unmounted {"instanceId":4} |  console.log 2025-11-29T03:23:28.070Z | 4643325357936 [LOG] [2025-11-29T03:23:28.070Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764386608101 | mounted {"instanceId":5} |  console.log 2025-11-29T03:23:28.101Z | 4643356191834 [LOG] [2025-11-29T03:23:28.101Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+    0.001 ms | 1764386608105 | activeOps++ {"activeOps":1,"instanceId":5} |  console.log 2025-11-29T03:23:28.105Z | 4643360137065 [LOG] [2025-11-29T03:23:28.105Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608109 | loadData start {"instanceId":5,"activeOps":1} |  console.log 2025-11-29T03:23:28.109Z | 4643364405589 [LOG] [2025-11-29T03:23:28.109Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764386608117 | activeOps-- {"activeOps":0,"instanceId":5} |  console.log 2025-11-29T03:23:28.117Z | 4643372134579 [LOG] [2025-11-29T03:23:28.117Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608119 | loadData end {"instanceId":5,"activeOps":0} |  console.log 2025-11-29T03:23:28.119Z | 4643373759004 [LOG] [2025-11-29T03:23:28.119Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764386608172 | activeOps++ {"activeOps":1,"instanceId":5} |  console.log 2025-11-29T03:23:28.172Z | 4643427532289 [LOG] [2025-11-29T03:23:28.172Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608195 | activeOps-- {"activeOps":0,"instanceId":5} |  console.log 2025-11-29T03:23:28.195Z | 4643449778785 [LOG] [2025-11-29T03:23:28.195Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608204 | unmounted {"instanceId":5} |  console.log 2025-11-29T03:23:28.204Z | 4643459077375 [LOG] [2025-11-29T03:23:28.204Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764386608216 | mounted {"instanceId":6} |  console.log 2025-11-29T03:23:28.216Z | 4643471254380 [LOG] [2025-11-29T03:23:28.216Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+    0.001 ms | 1764386608220 | activeOps++ {"activeOps":1,"instanceId":6} |  console.log 2025-11-29T03:23:28.220Z | 4643474837277 [LOG] [2025-11-29T03:23:28.220Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608224 | loadData start {"instanceId":6,"activeOps":1} |  console.log 2025-11-29T03:23:28.224Z | 4643478935669 [LOG] [2025-11-29T03:23:28.224Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764386608232 | activeOps-- {"activeOps":0,"instanceId":6} |  console.log 2025-11-29T03:23:28.232Z | 4643486850645 [LOG] [2025-11-29T03:23:28.232Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608233 | loadData end {"instanceId":6,"activeOps":0} |  console.log 2025-11-29T03:23:28.233Z | 4643488450625 [LOG] [2025-11-29T03:23:28.233Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764386608285 | activeOps++ {"activeOps":1,"instanceId":6} |  console.log 2025-11-29T03:23:28.285Z | 4643540463226 [LOG] [2025-11-29T03:23:28.285Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608306 | activeOps++ {"activeOps":2,"instanceId":6} |  console.log 2025-11-29T03:23:28.306Z | 4643560880036 [LOG] [2025-11-29T03:23:28.306Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608312 | activeOps-- {"activeOps":1,"instanceId":6} |  console.log 2025-11-29T03:23:28.312Z | 4643566855186 [LOG] [2025-11-29T03:23:28.312Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608317 | activeOps-- {"activeOps":0,"instanceId":6} |  console.log 2025-11-29T03:23:28.317Z | 4643572515356 [LOG] [2025-11-29T03:23:28.317Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608336 | unmounted {"instanceId":6} |  console.log 2025-11-29T03:23:28.336Z | 4643591398045 [LOG] [2025-11-29T03:23:28.336Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764386608351 | mounted {"instanceId":7} |  console.log 2025-11-29T03:23:28.351Z | 4643606505495 [LOG] [2025-11-29T03:23:28.351Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+    0.001 ms | 1764386608357 | activeOps++ {"activeOps":1,"instanceId":7} |  console.log 2025-11-29T03:23:28.357Z | 4643612147226 [LOG] [2025-11-29T03:23:28.357Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764386608365 | loadData start {"instanceId":7,"activeOps":1} |  console.log 2025-11-29T03:23:28.365Z | 4643619803163 [LOG] [2025-11-29T03:23:28.365Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764386608379 | activeOps-- {"activeOps":0,"instanceId":7} |  console.log 2025-11-29T03:23:28.379Z | 4643633548441 [LOG] [2025-11-29T03:23:28.378Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764386608380 | loadData end {"instanceId":7,"activeOps":0} |  console.log 2025-11-29T03:23:28.380Z | 4643635368559 [LOG] [2025-11-29T03:23:28.380Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764386608435 | overlap-warning |  console.error 2025-11-29T03:23:28.435Z | 4643689648957 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+    0.001 ms | 1764386608527 | overlap-warning |  console.error 2025-11-29T03:23:28.527Z | 4643781672314 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+Quick checks per instance:
+
+Instance 1: mounted=1 increments=1 decrements=1 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 2: mounted=1 increments=1 decrements=1 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 3: mounted=1 increments=1 decrements=1 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 4: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 5: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 6: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 7: mounted=1 increments=1 decrements=1 unmounts=0
+
+Instance __noid: mounted=0 increments=0 decrements=0 unmounts=0
+
+Overlap warnings found: 2
+
+Done.

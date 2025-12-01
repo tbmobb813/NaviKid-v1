@@ -6,7 +6,6 @@ This document describes the complete frontend-backend integration for NaviKid, i
 
 ## Architecture
 
-```
 ┌─────────────────────────────────────────────────────────────┐
 │                     React Native App                         │
 │                                                              │
@@ -47,7 +46,6 @@ This document describes the complete frontend-backend integration for NaviKid, i
 │                                        │  (Sessions)  │     │
 │                                        └──────────────┘     │
 └─────────────────────────────────────────────────────────────┘
-```
 
 ## Setup Instructions
 
@@ -493,6 +491,7 @@ const isOnline = offlineQueue.isNetworkOnline();
    ```
 
 2. **Run integration tests:**
+
    ```bash
    npm run test:integration
    ```

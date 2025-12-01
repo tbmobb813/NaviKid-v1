@@ -1,0 +1,2190 @@
+
+> expo-app@1.0.0 test
+> BABEL_DISABLE_MODULE_RESOLVER=1 jest tmp/bisect_prefix/prefix_15.test.ts tmp/bisect_prefix/prefix_1.test.ts tmp/bisect_prefix/prefix_3.test.ts tmp/bisect_prefix/prefix_7.test.ts tmp/bisect_prefix/prefix_full.test.ts --runInBand --setupFiles=./.test-debug/jest-log-timestamps.cjs --setupFiles=./.test-debug/logger-wrap.cjs --detectOpenHandles --verbose
+
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+
+> navikid-backend@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> navikid-backend@1.0.0 postbuild
+> cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true
+
+time="2025-11-28T22:12:26-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network navikid-integration-net  Creating
+ Network navikid-integration-net  Created
+ Container docker-postgres-1  Creating
+ Container docker-redis-1  Creating
+ Container docker-postgres-1  Created
+ Container docker-redis-1  Created
+ Container docker-redis-1  Starting
+ Container docker-postgres-1  Starting
+ Container docker-postgres-1  Started
+ Container docker-redis-1  Started
+Running backend migrations (npm run migrate)...
+
+> navikid-backend@1.0.0 migrate
+> node ./dist/scripts/migrate.js || tsx ./src/scripts/migrate.ts
+
+{"level":30,"time":1764385948305,"env":"test","msg":"Starting database migrations..."}
+{"level":30,"time":1764385948401,"env":"test","migration":"001_initial_schema.sql","msg":"Migration already executed, skipping"}
+{"level":30,"time":1764385948401,"env":"test","msg":"All migrations completed successfully"}
+Running backend seeds (npm run seed)...
+
+> navikid-backend@1.0.0 seed
+> node dist/db/seed.js
+
+{"level":30,"time":1764385948967,"env":"test","count":1,"msg":"Running database seeds"}
+{"level":30,"time":1764385948987,"env":"test","msg":"Database connection pool created"}
+{"level":30,"time":1764385949064,"env":"test","seed":"001_demo_seed.sql","msg":"Seed executed"}
+{"level":30,"time":1764385949065,"env":"test","msg":"All seeds executed successfully"}
+Port 3000 appears to be in use; assuming backend already running. Skipping spawn.
+Backend started and healthy
+  console.warn
+    2025-11-29T03:12:40.768Z | 3996023288060 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:12:41.472Z | 3996726690932 [LOG] [2025-11-29T03:12:41.472Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.484Z | 3996738870894 [LOG] [2025-11-29T03:12:41.484Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.502Z | 3996756901869 [LOG] [2025-11-29T03:12:41.502Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.525Z | 3996780278405 [LOG] [2025-11-29T03:12:41.525Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.528Z | 3996782865244 [LOG] [2025-11-29T03:12:41.528Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.593Z | 3996847662072 [LOG] [2025-11-29T03:12:41.593Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.596Z | 3996851167554 [LOG] [2025-11-29T03:12:41.596Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.613Z | 3996868529225 [LOG] [2025-11-29T03:12:41.613Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.619Z | 3996873609592 [LOG] [2025-11-29T03:12:41.618Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.623Z | 3996878447466 [LOG] [2025-11-29T03:12:41.623Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.643Z | 3996898320965 [LOG] [2025-11-29T03:12:41.643Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.645Z | 3996899816300 [LOG] [2025-11-29T03:12:41.645Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.708Z | 3996962902817 [LOG] [2025-11-29T03:12:41.708Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.712Z | 3996966550917 [LOG] [2025-11-29T03:12:41.711Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.747Z | 3997001997063 [LOG] [2025-11-29T03:12:41.747Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.752Z | 3997006725563 [LOG] [2025-11-29T03:12:41.752Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.758Z | 3997013105566 [LOG] [2025-11-29T03:12:41.758Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.776Z | 3997030978067 [LOG] [2025-11-29T03:12:41.776Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.779Z | 3997033922571 [LOG] [2025-11-29T03:12:41.779Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.837Z | 3997091846306 [LOG] [2025-11-29T03:12:41.837Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.840Z | 3997095534078 [LOG] [2025-11-29T03:12:41.840Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.852Z | 3997107334164 [LOG] [2025-11-29T03:12:41.852Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.858Z | 3997112576218 [LOG] [2025-11-29T03:12:41.857Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.869Z | 3997123733960 [LOG] [2025-11-29T03:12:41.869Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.878Z | 3997132587167 [LOG] [2025-11-29T03:12:41.878Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.879Z | 3997134288050 [LOG] [2025-11-29T03:12:41.879Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.933Z | 3997188421344 [LOG] [2025-11-29T03:12:41.933Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.938Z | 3997192724221 [LOG] [2025-11-29T03:12:41.938Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.941Z | 3997195623188 [LOG] [2025-11-29T03:12:41.941Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.943Z | 3997198503786 [LOG] [2025-11-29T03:12:41.943Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.960Z | 3997215060169 [LOG] [2025-11-29T03:12:41.960Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.963Z | 3997217898791 [LOG] [2025-11-29T03:12:41.963Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.995Z | 3997250117430 [LOG] [2025-11-29T03:12:41.995Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:41.999Z | 3997254526329 [LOG] [2025-11-29T03:12:41.999Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.004Z | 3997259216694 [LOG] [2025-11-29T03:12:42.004Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.015Z | 3997269693329 [LOG] [2025-11-29T03:12:42.015Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.016Z | 3997271279879 [LOG] [2025-11-29T03:12:42.016Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.069Z | 3997323947246 [LOG] [2025-11-29T03:12:42.069Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:12:42.074Z | 3997329109470 [WARN] [2025-11-29T03:12:42.074Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_7.test.ts:205:19
+
+  console.log
+    2025-11-29T03:12:42.079Z | 3997334364864 [LOG] [2025-11-29T03:12:42.079Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.082Z | 3997336704250 [LOG] [2025-11-29T03:12:42.082Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.086Z | 3997340694651 [LOG] [2025-11-29T03:12:42.086Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.097Z | 3997351962745 [LOG] [2025-11-29T03:12:42.097Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.100Z | 3997354824625 [LOG] [2025-11-29T03:12:42.100Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.111Z | 3997366096491 [LOG] [2025-11-29T03:12:42.111Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.116Z | 3997370830299 [LOG] [2025-11-29T03:12:42.116Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.120Z | 3997375093925 [LOG] [2025-11-29T03:12:42.120Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.129Z | 3997383808286 [LOG] [2025-11-29T03:12:42.129Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.131Z | 3997385740767 [LOG] [2025-11-29T03:12:42.131Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.182Z | 3997436632869 [LOG] [2025-11-29T03:12:42.182Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.184Z | 3997438911212 [LOG] [2025-11-29T03:12:42.184Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.189Z | 3997443822071 [LOG] [2025-11-29T03:12:42.189Z] DEBUG: {"salt":"9b73d32280f7992a614e7fa8551e04548a9b7559a316acbda6ba61fed0b16a58"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.192Z | 3997446743108 [LOG] [2025-11-29T03:12:42.192Z] DEBUG: {"hash":"hashed_12349b73d32280f7992a614e7fa8551e04548a9b7559a316acbda6ba61fed0b16a58"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.194Z | 3997448817790 [LOG] [2025-11-29T03:12:42.194Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.196Z | 3997450555131 [LOG] [2025-11-29T03:12:42.195Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.198Z | 3997453117315 [LOG] [2025-11-29T03:12:42.198Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.203Z | 3997458059464 [LOG] [2025-11-29T03:12:42.203Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:12:42.206Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:12:42.207Z | 3997462465220 [LOG] [2025-11-29T03:12:42.207Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.246Z | 3997501136711 [LOG] [2025-11-29T03:12:42.246Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.249Z | 3997503750020 [LOG] [2025-11-29T03:12:42.249Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.261Z | 3997515760265 [LOG] [2025-11-29T03:12:42.261Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.266Z | 3997520986953 [LOG] [2025-11-29T03:12:42.266Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.272Z | 3997526747660 [LOG] [2025-11-29T03:12:42.272Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.281Z | 3997535872069 [LOG] [2025-11-29T03:12:42.281Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:42.283Z | 3997537825573 [LOG] [2025-11-29T03:12:42.283Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.error
+    2025-11-29T03:12:42.337Z | 3997592129218 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+  console.error
+    2025-11-29T03:12:42.426Z | 3997681186798 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+PASS tmp/bisect_prefix/prefix_7.test.ts (11.77 s)
+  parentalStore
+    Initialization
+      ✓ initializes with default state (209 ms)
+      ✓ loads stored settings from AsyncStorage (131 ms)
+      ✓ loads safe zones from AsyncStorage (105 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (141 ms)
+      ✓ allows access when no PIN is set (first-time setup) (116 ms)
+      ✓ sets a new PIN with secure hashing (148 ms)
+      ✓ rejects invalid PINs during setup (187 ms)
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  console.warn
+    2025-11-29T03:12:42.704Z | 3997958871097 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:12:50.041Z | 4005296241426 [LOG] [2025-11-29T03:12:50.041Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.045Z | 4005300335127 [LOG] [2025-11-29T03:12:50.045Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.049Z | 4005303991751 [LOG] [2025-11-29T03:12:50.049Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.057Z | 4005312520753 [LOG] [2025-11-29T03:12:50.057Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.059Z | 4005313881223 [LOG] [2025-11-29T03:12:50.059Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.119Z | 4005373783433 [LOG] [2025-11-29T03:12:50.119Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.122Z | 4005377194350 [LOG] [2025-11-29T03:12:50.122Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.133Z | 4005387547858 [LOG] [2025-11-29T03:12:50.132Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.137Z | 4005391616764 [LOG] [2025-11-29T03:12:50.137Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.142Z | 4005397340388 [LOG] [2025-11-29T03:12:50.142Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.152Z | 4005406817507 [LOG] [2025-11-29T03:12:50.152Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.153Z | 4005408249636 [LOG] [2025-11-29T03:12:50.153Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.209Z | 4005464531750 [LOG] [2025-11-29T03:12:50.209Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.212Z | 4005466987914 [LOG] [2025-11-29T03:12:50.212Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.224Z | 4005479143997 [LOG] [2025-11-29T03:12:50.224Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.228Z | 4005483248453 [LOG] [2025-11-29T03:12:50.228Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.232Z | 4005487143730 [LOG] [2025-11-29T03:12:50.232Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.240Z | 4005495089196 [LOG] [2025-11-29T03:12:50.240Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.242Z | 4005496842042 [LOG] [2025-11-29T03:12:50.242Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.299Z | 4005554357652 [LOG] [2025-11-29T03:12:50.299Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.305Z | 4005560171931 [LOG] [2025-11-29T03:12:50.305Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.324Z | 4005578706974 [LOG] [2025-11-29T03:12:50.324Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.330Z | 4005584548981 [LOG] [2025-11-29T03:12:50.329Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.334Z | 4005588611741 [LOG] [2025-11-29T03:12:50.334Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.342Z | 4005597060425 [LOG] [2025-11-29T03:12:50.342Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.343Z | 4005598437237 [LOG] [2025-11-29T03:12:50.343Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.393Z | 4005648397733 [LOG] [2025-11-29T03:12:50.393Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.397Z | 4005652132092 [LOG] [2025-11-29T03:12:50.397Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.400Z | 4005654811055 [LOG] [2025-11-29T03:12:50.400Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.403Z | 4005658507070 [LOG] [2025-11-29T03:12:50.403Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.424Z | 4005678912645 [LOG] [2025-11-29T03:12:50.424Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.426Z | 4005681282344 [LOG] [2025-11-29T03:12:50.426Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.436Z | 4005690945315 [LOG] [2025-11-29T03:12:50.436Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.443Z | 4005697713369 [LOG] [2025-11-29T03:12:50.443Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.451Z | 4005706469641 [LOG] [2025-11-29T03:12:50.451Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.464Z | 4005718772184 [LOG] [2025-11-29T03:12:50.464Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.469Z | 4005723684862 [LOG] [2025-11-29T03:12:50.469Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.516Z | 4005770688839 [LOG] [2025-11-29T03:12:50.516Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:12:50.523Z | 4005777544267 [WARN] [2025-11-29T03:12:50.522Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_full.test.ts:205:19
+
+  console.log
+    2025-11-29T03:12:50.527Z | 4005781743290 [LOG] [2025-11-29T03:12:50.527Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.528Z | 4005783257344 [LOG] [2025-11-29T03:12:50.528Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.530Z | 4005784703720 [LOG] [2025-11-29T03:12:50.530Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.541Z | 4005796340521 [LOG] [2025-11-29T03:12:50.541Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.544Z | 4005798621380 [LOG] [2025-11-29T03:12:50.544Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.555Z | 4005810447246 [LOG] [2025-11-29T03:12:50.555Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.560Z | 4005815146415 [LOG] [2025-11-29T03:12:50.560Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.564Z | 4005819460260 [LOG] [2025-11-29T03:12:50.564Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.575Z | 4005830145591 [LOG] [2025-11-29T03:12:50.575Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.577Z | 4005831566964 [LOG] [2025-11-29T03:12:50.576Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.628Z | 4005882568258 [LOG] [2025-11-29T03:12:50.627Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.630Z | 4005885284168 [LOG] [2025-11-29T03:12:50.630Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.633Z | 4005888478781 [LOG] [2025-11-29T03:12:50.633Z] DEBUG: {"salt":"0fad9eccf2fcb56ae7df21487b2d059b6f154282b895edeb37d6f27845490513"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.635Z | 4005890136712 [LOG] [2025-11-29T03:12:50.635Z] DEBUG: {"hash":"hashed_12340fad9eccf2fcb56ae7df21487b2d059b6f154282b895edeb37d6f27845490513"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.637Z | 4005891850865 [LOG] [2025-11-29T03:12:50.637Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.638Z | 4005893401726 [LOG] [2025-11-29T03:12:50.638Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.640Z | 4005895275750 [LOG] [2025-11-29T03:12:50.640Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.644Z | 4005899224527 [LOG] [2025-11-29T03:12:50.644Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:12:50.646Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:12:50.648Z | 4005902956372 [LOG] [2025-11-29T03:12:50.648Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.668Z | 4005922892881 [LOG] [2025-11-29T03:12:50.668Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.670Z | 4005925440749 [LOG] [2025-11-29T03:12:50.670Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.686Z | 4005941500979 [LOG] [2025-11-29T03:12:50.686Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.694Z | 4005949535913 [LOG] [2025-11-29T03:12:50.694Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.701Z | 4005955717846 [LOG] [2025-11-29T03:12:50.701Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.711Z | 4005965776198 [LOG] [2025-11-29T03:12:50.711Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:50.714Z | 4005969064052 [LOG] [2025-11-29T03:12:50.714Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.error
+    2025-11-29T03:12:50.763Z | 4006018289940 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+  console.error
+    2025-11-29T03:12:50.833Z | 4006087572048 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+FAIL tmp/bisect_prefix/prefix_full.test.ts (8.797 s)
+  parentalStore
+    Initialization
+      ✓ initializes with default state (113 ms)
+      ✓ loads stored settings from AsyncStorage (89 ms)
+      ✓ loads safe zones from AsyncStorage (94 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (116 ms)
+      ✓ allows access when no PIN is set (first-time setup) (116 ms)
+      ✓ sets a new PIN with secure hashing (128 ms)
+      ✓ rejects invalid PINs during setup (173 ms)
+      ✕ authenticates with correct PIN (11 ms)
+      ✕ rejects incorrect PIN (9 ms)
+      ✕ implements rate limiting after multiple failed attempts (9 ms)
+      ✕ exits parent mode (19 ms)
+    Safe Zone Management
+      ✕ adds a new safe zone (8 ms)
+      ✕ updates an existing safe zone (9 ms)
+      ✕ deletes a safe zone (16 ms)
+    Check-In Requests
+      ✕ creates a new check-in request (9 ms)
+      ✕ creates urgent check-in requests (10 ms)
+      ✕ completes a check-in request (7 ms)
+    Emergency Contacts
+      ✕ adds an emergency contact (7 ms)
+      ✕ updates an emergency contact (8 ms)
+      ✕ deletes an emergency contact (9 ms)
+    Device Pings
+      ✕ sends a location ping (18 ms)
+      ✕ sends a ring ping (24 ms)
+      ✕ sends a message ping (9 ms)
+      ✕ acknowledges a ping (9 ms)
+    Dashboard Data
+      ✕ adds check-in to dashboard (8 ms)
+      ✕ updates last known location (10 ms)
+      ✕ keeps only the last 10 check-ins (8 ms)
+    Settings Management
+      ✕ saves updated settings (10 ms)
+    Security Features
+      ✕ resets auth attempts after successful authentication (9 ms)
+      ✕ persists auth attempts to storage (13 ms)
+
+  ● parentalStore › PIN Authentication › authenticates with correct PIN
+
+    Can't access .root on unmounted test renderer
+
+      264 |       });
+      265 |
+    > 266 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      267 |
+      268 |       await waitFor(() => {
+      269 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:266:36)
+
+  ● parentalStore › PIN Authentication › rejects incorrect PIN
+
+    Can't access .root on unmounted test renderer
+
+      291 |       });
+      292 |
+    > 293 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      294 |
+      295 |       await waitFor(() => {
+      296 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:293:36)
+
+  ● parentalStore › PIN Authentication › implements rate limiting after multiple failed attempts
+
+    Can't access .root on unmounted test renderer
+
+      318 |       });
+      319 |
+    > 320 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      321 |
+      322 |       await waitFor(() => {
+      323 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:320:36)
+
+  ● parentalStore › PIN Authentication › exits parent mode
+
+    Can't access .root on unmounted test renderer
+
+      347 |
+      348 |     it('exits parent mode', async () => {
+    > 349 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      350 |
+      351 |       await waitFor(() => {
+      352 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:349:36)
+
+  ● parentalStore › Safe Zone Management › adds a new safe zone
+
+    Can't access .root on unmounted test renderer
+
+      371 |   describe('Safe Zone Management', () => {
+      372 |     it('adds a new safe zone', async () => {
+    > 373 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      374 |
+      375 |       await waitFor(() => {
+      376 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:373:36)
+
+  ● parentalStore › Safe Zone Management › updates an existing safe zone
+
+    Can't access .root on unmounted test renderer
+
+      420 |       });
+      421 |
+    > 422 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      423 |
+      424 |       await waitFor(() => {
+      425 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:422:36)
+
+  ● parentalStore › Safe Zone Management › deletes a safe zone
+
+    Can't access .root on unmounted test renderer
+
+      465 |       });
+      466 |
+    > 467 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      468 |
+      469 |       await waitFor(() => {
+      470 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:467:36)
+
+  ● parentalStore › Check-In Requests › creates a new check-in request
+
+    Can't access .root on unmounted test renderer
+
+      484 |   describe('Check-In Requests', () => {
+      485 |     it('creates a new check-in request', async () => {
+    > 486 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      487 |
+      488 |       await waitFor(() => {
+      489 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:486:36)
+
+  ● parentalStore › Check-In Requests › creates urgent check-in requests
+
+    Can't access .root on unmounted test renderer
+
+      502 |
+      503 |     it('creates urgent check-in requests', async () => {
+    > 504 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      505 |
+      506 |       await waitFor(() => {
+      507 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:504:36)
+
+  ● parentalStore › Check-In Requests › completes a check-in request
+
+    Can't access .root on unmounted test renderer
+
+      533 |       });
+      534 |
+    > 535 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      536 |
+      537 |       await waitFor(() => {
+      538 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:535:36)
+
+  ● parentalStore › Emergency Contacts › adds an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      554 |   describe('Emergency Contacts', () => {
+      555 |     it('adds an emergency contact', async () => {
+    > 556 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      557 |
+      558 |       await waitFor(() => {
+      559 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:556:36)
+
+  ● parentalStore › Emergency Contacts › updates an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      605 |       });
+      606 |
+    > 607 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      608 |
+      609 |       await waitFor(() => {
+      610 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:607:36)
+
+  ● parentalStore › Emergency Contacts › deletes an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      656 |       });
+      657 |
+    > 658 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      659 |
+      660 |       await waitFor(() => {
+      661 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:658:36)
+
+  ● parentalStore › Device Pings › sends a location ping
+
+    Can't access .root on unmounted test renderer
+
+      675 |   describe('Device Pings', () => {
+      676 |     it('sends a location ping', async () => {
+    > 677 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      678 |
+      679 |       await waitFor(() => {
+      680 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:677:36)
+
+  ● parentalStore › Device Pings › sends a ring ping
+
+    Can't access .root on unmounted test renderer
+
+      693 |
+      694 |     it('sends a ring ping', async () => {
+    > 695 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      696 |
+      697 |       await waitFor(() => {
+      698 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:695:36)
+
+  ● parentalStore › Device Pings › sends a message ping
+
+    Can't access .root on unmounted test renderer
+
+      708 |
+      709 |     it('sends a message ping', async () => {
+    > 710 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      711 |
+      712 |       await waitFor(() => {
+      713 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:710:36)
+
+  ● parentalStore › Device Pings › acknowledges a ping
+
+    Can't access .root on unmounted test renderer
+
+      738 |       });
+      739 |
+    > 740 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      741 |
+      742 |       await waitFor(() => {
+      743 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:740:36)
+
+  ● parentalStore › Dashboard Data › adds check-in to dashboard
+
+    Can't access .root on unmounted test renderer
+
+      759 |   describe('Dashboard Data', () => {
+      760 |     it('adds check-in to dashboard', async () => {
+    > 761 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      762 |
+      763 |       await waitFor(() => {
+      764 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:761:36)
+
+  ● parentalStore › Dashboard Data › updates last known location
+
+    Can't access .root on unmounted test renderer
+
+      785 |
+      786 |     it('updates last known location', async () => {
+    > 787 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      788 |
+      789 |       await waitFor(() => {
+      790 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:787:36)
+
+  ● parentalStore › Dashboard Data › keeps only the last 10 check-ins
+
+    Can't access .root on unmounted test renderer
+
+      810 |
+      811 |     it('keeps only the last 10 check-ins', async () => {
+    > 812 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      813 |
+      814 |       await waitFor(() => {
+      815 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:812:36)
+
+  ● parentalStore › Settings Management › saves updated settings
+
+    Can't access .root on unmounted test renderer
+
+      835 |   describe('Settings Management', () => {
+      836 |     it('saves updated settings', async () => {
+    > 837 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      838 |
+      839 |       await waitFor(() => {
+      840 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:837:36)
+
+  ● parentalStore › Security Features › resets auth attempts after successful authentication
+
+    Can't access .root on unmounted test renderer
+
+      872 |       });
+      873 |
+    > 874 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      875 |
+      876 |       await waitFor(() => {
+      877 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:874:36)
+
+  ● parentalStore › Security Features › persists auth attempts to storage
+
+    Can't access .root on unmounted test renderer
+
+      907 |       });
+      908 |
+    > 909 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      910 |
+      911 |       await waitFor(() => {
+      912 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_full.test.ts:909:36)
+
+  console.warn
+    2025-11-29T03:12:51.509Z | 4006763969127 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:12:53.425Z | 4008679756915 [LOG] [2025-11-29T03:12:53.425Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.428Z | 4008682936093 [LOG] [2025-11-29T03:12:53.428Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.432Z | 4008686768512 [LOG] [2025-11-29T03:12:53.432Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.440Z | 4008694681293 [LOG] [2025-11-29T03:12:53.440Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.441Z | 4008696225868 [LOG] [2025-11-29T03:12:53.441Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.502Z | 4008756781401 [LOG] [2025-11-29T03:12:53.501Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.508Z | 4008762894749 [LOG] [2025-11-29T03:12:53.508Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.524Z | 4008779470283 [LOG] [2025-11-29T03:12:53.524Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.528Z | 4008783434077 [LOG] [2025-11-29T03:12:53.528Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.532Z | 4008787363438 [LOG] [2025-11-29T03:12:53.532Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.540Z | 4008794622978 [LOG] [2025-11-29T03:12:53.540Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.541Z | 4008796091914 [LOG] [2025-11-29T03:12:53.541Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.616Z | 4008871515252 [LOG] [2025-11-29T03:12:53.616Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.618Z | 4008873498930 [LOG] [2025-11-29T03:12:53.618Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.627Z | 4008882265470 [LOG] [2025-11-29T03:12:53.627Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.631Z | 4008885986210 [LOG] [2025-11-29T03:12:53.631Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.635Z | 4008889717217 [LOG] [2025-11-29T03:12:53.635Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.643Z | 4008897913770 [LOG] [2025-11-29T03:12:53.643Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.645Z | 4008899595028 [LOG] [2025-11-29T03:12:53.645Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.705Z | 4008959620313 [LOG] [2025-11-29T03:12:53.705Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:53.707Z | 4008962282375 [LOG] [2025-11-29T03:12:53.707Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_3.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (106 ms)
+      ✓ loads stored settings from AsyncStorage (106 ms)
+      ✓ loads safe zones from AsyncStorage (89 ms)
+    PIN Authentication
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  console.warn
+    2025-11-29T03:12:53.864Z | 4009118954787 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:12:55.331Z | 4010585833225 [LOG] [2025-11-29T03:12:55.331Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.334Z | 4010589379847 [LOG] [2025-11-29T03:12:55.334Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.338Z | 4010593475714 [LOG] [2025-11-29T03:12:55.338Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.346Z | 4010601404490 [LOG] [2025-11-29T03:12:55.346Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.348Z | 4010602715930 [LOG] [2025-11-29T03:12:55.348Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.408Z | 4010663329580 [LOG] [2025-11-29T03:12:55.408Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.410Z | 4010665411807 [LOG] [2025-11-29T03:12:55.410Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.427Z | 4010681580997 [LOG] [2025-11-29T03:12:55.427Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.430Z | 4010685223793 [LOG] [2025-11-29T03:12:55.430Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.434Z | 4010689309463 [LOG] [2025-11-29T03:12:55.434Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.446Z | 4010700649925 [LOG] [2025-11-29T03:12:55.446Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.449Z | 4010703929189 [LOG] [2025-11-29T03:12:55.449Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.506Z | 4010761369527 [LOG] [2025-11-29T03:12:55.506Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.508Z | 4010763502878 [LOG] [2025-11-29T03:12:55.508Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.521Z | 4010776501270 [LOG] [2025-11-29T03:12:55.521Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.526Z | 4010781432389 [LOG] [2025-11-29T03:12:55.526Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.531Z | 4010785735829 [LOG] [2025-11-29T03:12:55.531Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.538Z | 4010793129957 [LOG] [2025-11-29T03:12:55.538Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.540Z | 4010794827209 [LOG] [2025-11-29T03:12:55.540Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.598Z | 4010853260923 [LOG] [2025-11-29T03:12:55.598Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.601Z | 4010856232180 [LOG] [2025-11-29T03:12:55.601Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.616Z | 4010871203145 [LOG] [2025-11-29T03:12:55.616Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.625Z | 4010880396496 [LOG] [2025-11-29T03:12:55.625Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.631Z | 4010885562147 [LOG] [2025-11-29T03:12:55.630Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.639Z | 4010894523410 [LOG] [2025-11-29T03:12:55.639Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.641Z | 4010896389962 [LOG] [2025-11-29T03:12:55.641Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.693Z | 4010948109119 [LOG] [2025-11-29T03:12:55.693Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.698Z | 4010952583744 [LOG] [2025-11-29T03:12:55.698Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.700Z | 4010955204389 [LOG] [2025-11-29T03:12:55.700Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.702Z | 4010957527434 [LOG] [2025-11-29T03:12:55.702Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.718Z | 4010972793765 [LOG] [2025-11-29T03:12:55.718Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.720Z | 4010975185814 [LOG] [2025-11-29T03:12:55.720Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.730Z | 4010985153863 [LOG] [2025-11-29T03:12:55.730Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.734Z | 4010989163963 [LOG] [2025-11-29T03:12:55.734Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.741Z | 4010995756155 [LOG] [2025-11-29T03:12:55.741Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.752Z | 4011007175748 [LOG] [2025-11-29T03:12:55.752Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.754Z | 4011008596074 [LOG] [2025-11-29T03:12:55.754Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.807Z | 4011062461643 [LOG] [2025-11-29T03:12:55.807Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.warn
+    2025-11-29T03:12:55.812Z | 4011066826195 [WARN] [2025-11-29T03:12:55.812Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:344:16)
+      at tmp/bisect_prefix/prefix_15.test.ts:205:19
+
+  console.log
+    2025-11-29T03:12:55.815Z | 4011070076824 [LOG] [2025-11-29T03:12:55.815Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.817Z | 4011071605196 [LOG] [2025-11-29T03:12:55.817Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.818Z | 4011073117434 [LOG] [2025-11-29T03:12:55.818Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.828Z | 4011082944540 [LOG] [2025-11-29T03:12:55.828Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.832Z | 4011086894226 [LOG] [2025-11-29T03:12:55.832Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.850Z | 4011104718274 [LOG] [2025-11-29T03:12:55.850Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.854Z | 4011109227750 [LOG] [2025-11-29T03:12:55.854Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.858Z | 4011113349250 [LOG] [2025-11-29T03:12:55.858Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.866Z | 4011120715161 [LOG] [2025-11-29T03:12:55.866Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.868Z | 4011122543230 [LOG] [2025-11-29T03:12:55.867Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.918Z | 4011172669829 [LOG] [2025-11-29T03:12:55.918Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.919Z | 4011174164117 [LOG] [2025-11-29T03:12:55.919Z] DEBUG: [TestDebug] setParentPin start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.922Z | 4011177490525 [LOG] [2025-11-29T03:12:55.922Z] DEBUG: {"salt":"f5e700a086e7df8e4637928dad06510de735dd92c99402a4e56082dd699baaa5"}[TestDebug] generated salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.924Z | 4011178865941 [LOG] [2025-11-29T03:12:55.924Z] DEBUG: {"hash":"hashed_1234f5e700a086e7df8e4637928dad06510de735dd92c99402a4e56082dd699baaa5"}[TestDebug] generated hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.925Z | 4011180044051 [LOG] [2025-11-29T03:12:55.925Z] DEBUG: [TestDebug] stored hash
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.931Z | 4011186495301 [LOG] [2025-11-29T03:12:55.931Z] DEBUG: [TestDebug] stored salt
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.933Z | 4011187772797 [LOG] [2025-11-29T03:12:55.933Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.935Z | 4011190489686 [LOG] [2025-11-29T03:12:55.935Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.info
+    [2025-11-29T03:12:55.937Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    2025-11-29T03:12:55.939Z | 4011194021851 [LOG] [2025-11-29T03:12:55.939Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.950Z | 4011205159768 [LOG] [2025-11-29T03:12:55.950Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.952Z | 4011207108664 [LOG] [2025-11-29T03:12:55.952Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.960Z | 4011214720982 [LOG] [2025-11-29T03:12:55.960Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.964Z | 4011218792963 [LOG] [2025-11-29T03:12:55.964Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.969Z | 4011224137272 [LOG] [2025-11-29T03:12:55.969Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.977Z | 4011232534763 [LOG] [2025-11-29T03:12:55.977Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:55.980Z | 4011234797812 [LOG] [2025-11-29T03:12:55.980Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.error
+    2025-11-29T03:12:56.034Z | 4011288788472 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+  console.error
+    2025-11-29T03:12:56.129Z | 4011384328398 [ERR] You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one.
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.<anonymous> (.test-debug/jest-log-timestamps.cjs:68:7)
+      at console.apply (jest.setup.js:99:21)
+      at popActScope (node_modules/react/cjs/react.development.js:556:17)
+      at node_modules/react/cjs/react.development.js:868:17
+
+FAIL tmp/bisect_prefix/prefix_15.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (108 ms)
+      ✓ loads stored settings from AsyncStorage (96 ms)
+      ✓ loads safe zones from AsyncStorage (94 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (115 ms)
+      ✓ allows access when no PIN is set (first-time setup) (118 ms)
+      ✓ sets a new PIN with secure hashing (112 ms)
+      ✓ rejects invalid PINs during setup (188 ms)
+      ✕ authenticates with correct PIN (10 ms)
+      ✕ rejects incorrect PIN (8 ms)
+      ✕ implements rate limiting after multiple failed attempts (6 ms)
+      ✕ exits parent mode (9 ms)
+    Safe Zone Management
+      ✕ adds a new safe zone (8 ms)
+      ✕ updates an existing safe zone (8 ms)
+      ✕ deletes a safe zone (9 ms)
+    Check-In Requests
+      ✕ creates a new check-in request (16 ms)
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+  ● parentalStore › PIN Authentication › authenticates with correct PIN
+
+    Can't access .root on unmounted test renderer
+
+      264 |       });
+      265 |
+    > 266 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      267 |
+      268 |       await waitFor(() => {
+      269 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:266:36)
+
+  ● parentalStore › PIN Authentication › rejects incorrect PIN
+
+    Can't access .root on unmounted test renderer
+
+      291 |       });
+      292 |
+    > 293 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      294 |
+      295 |       await waitFor(() => {
+      296 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:293:36)
+
+  ● parentalStore › PIN Authentication › implements rate limiting after multiple failed attempts
+
+    Can't access .root on unmounted test renderer
+
+      318 |       });
+      319 |
+    > 320 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      321 |
+      322 |       await waitFor(() => {
+      323 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:320:36)
+
+  ● parentalStore › PIN Authentication › exits parent mode
+
+    Can't access .root on unmounted test renderer
+
+      347 |
+      348 |     it('exits parent mode', async () => {
+    > 349 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      350 |
+      351 |       await waitFor(() => {
+      352 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:349:36)
+
+  ● parentalStore › Safe Zone Management › adds a new safe zone
+
+    Can't access .root on unmounted test renderer
+
+      371 |   describe('Safe Zone Management', () => {
+      372 |     it('adds a new safe zone', async () => {
+    > 373 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      374 |
+      375 |       await waitFor(() => {
+      376 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:373:36)
+
+  ● parentalStore › Safe Zone Management › updates an existing safe zone
+
+    Can't access .root on unmounted test renderer
+
+      420 |       });
+      421 |
+    > 422 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      423 |
+      424 |       await waitFor(() => {
+      425 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:422:36)
+
+  ● parentalStore › Safe Zone Management › deletes a safe zone
+
+    Can't access .root on unmounted test renderer
+
+      465 |       });
+      466 |
+    > 467 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      468 |
+      469 |       await waitFor(() => {
+      470 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:467:36)
+
+  ● parentalStore › Check-In Requests › creates a new check-in request
+
+    Can't access .root on unmounted test renderer
+
+      484 |   describe('Check-In Requests', () => {
+      485 |     it('creates a new check-in request', async () => {
+    > 486 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      487 |
+      488 |       await waitFor(() => {
+      489 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (tmp/bisect_prefix/prefix_15.test.ts:486:36)
+
+  console.warn
+    2025-11-29T03:12:56.477Z | 4011731768566 [WARN] jest.setup: failed to load test-utils __DEV__ is not defined
+
+      66 |     const t = now();
+      67 |     try {
+    > 68 |       orig(`${t} [${level}]`, ...args);
+         |       ^
+      69 |     } catch (e) {
+      70 |       // if original logger throws for some reason, fallback
+      71 |       process.stdout.write(`${t} [${level}] ` + args.map(String).join(' ') + '\n');
+
+      at console.warn (.test-debug/jest-log-timestamps.cjs:68:7)
+      at Object.warn (jest.setup.js:8:11)
+
+  console.log
+    2025-11-29T03:12:57.744Z | 4012998918319 [LOG] [2025-11-29T03:12:57.744Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.747Z | 4013002537788 [LOG] [2025-11-29T03:12:57.747Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.751Z | 4013005872019 [LOG] [2025-11-29T03:12:57.751Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.758Z | 4013013130723 [LOG] [2025-11-29T03:12:57.758Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.759Z | 4013014324198 [LOG] [2025-11-29T03:12:57.759Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.821Z | 4013075638660 [LOG] [2025-11-29T03:12:57.821Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+  console.log
+    2025-11-29T03:12:57.823Z | 4013077654676 [LOG] [2025-11-29T03:12:57.823Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at console.log (.test-debug/jest-log-timestamps.cjs:68:7)
+
+PASS tmp/bisect_prefix/prefix_1.test.ts
+  parentalStore
+    Initialization
+      ✓ initializes with default state (102 ms)
+      ○ skipped loads stored settings from AsyncStorage
+      ○ skipped loads safe zones from AsyncStorage
+    PIN Authentication
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+Test Suites: 2 failed, 3 passed, 5 total
+Tests:       31 failed, 94 skipped, 25 passed, 150 total
+Snapshots:   0 total
+Time:        28.491 s
+Ran all test suites matching tmp/bisect_prefix/prefix_15.test.ts|tmp/bisect_prefix/prefix_1.test.ts|tmp/bisect_prefix/prefix_3.test.ts|tmp/bisect_prefix/prefix_7.test.ts|tmp/bisect_prefix/prefix_full.test.ts.
+time="2025-11-28T22:12:58-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container docker-postgres-1  Stopping
+ Container docker-redis-1  Stopping
+ Container docker-postgres-1  Stopped
+ Container docker-postgres-1  Removing
+ Container docker-postgres-1  Removed
+ Container docker-redis-1  Stopped
+ Container docker-redis-1  Removing
+ Container docker-redis-1  Removed
+ Network navikid-integration-net  Removing
+ Network navikid-integration-net  Removed

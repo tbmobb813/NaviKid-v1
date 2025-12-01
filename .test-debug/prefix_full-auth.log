@@ -1,0 +1,112 @@
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+Skipping backend/Docker setup (SKIP_START_BACKEND or MOCK_DOCKER_SETUP set)
+  console.log
+    [2025-11-29T13:36:22.317Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.415Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.420Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.437Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.439Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.484Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.490Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.492Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.info
+    [2025-11-29T13:36:22.494Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    [2025-11-29T13:36:22.497Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.507Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:36:22.509Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+PASS stores/__tests__/prefix_full.test.ts (11.942 s)
+  Test utilities
+    ○ skipped should export required testing utilities
+    ○ skipped should render a simple component
+  parentalStore
+    Initialization
+      ○ skipped initializes with default state
+      ○ skipped loads stored settings from AsyncStorage
+      ○ skipped loads safe zones from AsyncStorage
+    PIN Authentication
+      ✓ authenticates with correct PIN (228 ms)
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+Test Suites: 1 passed, 1 total
+Tests:       31 skipped, 1 passed, 32 total
+Snapshots:   0 total
+Time:        13.19 s, estimated 25 s
+Ran all test suites matching stores/__tests__/prefix_full.test.ts with tests matching "authenticates with correct PIN".

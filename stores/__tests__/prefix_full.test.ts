@@ -1,4 +1,4 @@
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, act, waitFor, cleanup } from '@testing-library/react-native';
 import { ParentalProvider, useParentalStore } from '../parentalStore';
 import React from 'react';
 import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
@@ -76,6 +76,21 @@ describe('parentalStore', () => {
       // Simple mock hash - in real tests we'd use a consistent hash
       return Promise.resolve(`hashed_${data}`);
     });
+  });
+
+  // Ensure each test fully unmounts any renderers to avoid leaked renderers
+  // which can cause "Can't access .root on unmounted test renderer" errors.
+  afterEach(() => {
+    cleanup();
+    // Clear any timers/tasks potentially left by store/provider to avoid
+    // cross-test interference and overlapping act() calls.
+    try {
+      jest.clearAllTimers();
+      // ensure timers are real after clearing
+      jest.useRealTimers();
+    } catch (e) {
+      // jest runtime might not expose these in some environments; ignore.
+    }
   });
 
   const wrapper = ({ children }: { children: React.ReactNode }) =>
@@ -239,17 +254,13 @@ describe('parentalStore', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      await expect(
-        act(async () => {
-          await result.current.setParentPin('12'); // Too short
-        }),
-      ).rejects.toThrow('PIN must be 4-6 digits');
+      // setParentPin rejects synchronously/asynchronously with validation errors.
+      // Don't wrap the call in act() when asserting it throws — calling the
+      // function directly avoids creating nested/overlapping act() calls which
+      // can leak into subsequent tests.
+      await expect(result.current.setParentPin('12')).rejects.toThrow('PIN must be 4-6 digits');
 
-      await expect(
-        act(async () => {
-          await result.current.setParentPin('abc123'); // Not all digits
-        }),
-      ).rejects.toThrow('PIN must be 4-6 digits');
+      await expect(result.current.setParentPin('abc123')).rejects.toThrow('PIN must be 4-6 digits');
     });
 
     it('authenticates with correct PIN', async () => {
@@ -323,26 +334,38 @@ describe('parentalStore', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      // Attempt 5 failed logins
+      // Attempt 5 failed logins. Call the auth function directly and handle
+      // rejections; wrapping thrown Promises inside act() inside expect(...)
+      // leads to overlapping act() usage and can leak into later tests.
       for (let i = 0; i < 5; i++) {
+        // Use awaited act to ensure state updates (authAttempts) flush before
+        // the next iteration. This avoids overlapping act() calls because the
+        // act() is awaited here and not wrapped inside expect(...).rejects.
         await act(async () => {
           try {
             await result.current.authenticateParentMode(wrongPin);
           } catch (e) {
-            // Expect lockout on 5th attempt
             if (i === 4) {
+              // on the 5th attempt the impl may throw to indicate lockout
               expect((e as Error).message).toContain('Too many failed attempts');
             }
           }
         });
       }
 
-      // 6th attempt should be blocked
-      await expect(
-        act(async () => {
+      // 6th attempt should be blocked — call inside an awaited act and assert
+      // that the call throws, which we capture inside the act to avoid the
+      // expect(act(...)).rejects anti-pattern.
+      let finalThrew = false;
+      await act(async () => {
+        try {
           await result.current.authenticateParentMode(wrongPin);
-        }),
-      ).rejects.toThrow('Too many failed attempts');
+        } catch (e) {
+          finalThrew = true;
+          expect((e as Error).message).toContain('Too many failed attempts');
+        }
+      });
+      expect(finalThrew).toBe(true);
     });
 
     it('exits parent mode', async () => {
@@ -359,8 +382,8 @@ describe('parentalStore', () => {
 
       expect(result.current.isParentMode).toBe(true);
 
-      // Then exit
-      act(() => {
+      // Then exit (use awaited act to avoid overlapping act calls / async side-effects)
+      await act(async () => {
         result.current.exitParentMode();
       });
 
@@ -771,11 +794,12 @@ describe('parentalStore', () => {
         location: { latitude: 40.7128, longitude: -74.006 },
       };
 
-      act(() => {
-        result.current.addCheckInToDashboard(checkIn);
+      // Use awaited act so any async side-effects settle before assertions
+      await act(async () => {
+        await result.current.addCheckInToDashboard(checkIn);
       });
 
-      // Wait for async storage save
+      // Wait for async storage save / state to settle
       await waitFor(() => {
         expect(result.current.dashboardData.recentCheckIns).toHaveLength(1);
       });
@@ -797,8 +821,8 @@ describe('parentalStore', () => {
         placeName: 'Central Park',
       };
 
-      act(() => {
-        result.current.updateLastKnownLocation(location);
+      await act(async () => {
+        await result.current.updateLastKnownLocation(location);
       });
 
       await waitFor(() => {
@@ -818,7 +842,7 @@ describe('parentalStore', () => {
       // Add 12 check-ins
       for (let i = 0; i < 12; i++) {
         await act(async () => {
-          result.current.addCheckInToDashboard({
+          await result.current.addCheckInToDashboard({
             id: `checkin${i}`,
             timestamp: Date.now() + i,
             placeName: `Location ${i}`,

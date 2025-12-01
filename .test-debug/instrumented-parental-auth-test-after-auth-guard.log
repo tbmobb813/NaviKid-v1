@@ -1,0 +1,78 @@
+
+> expo-app@1.0.0 test
+> BABEL_DISABLE_MODULE_RESOLVER=1 jest __tests__/parental-auth-security.test.ts --runInBand --silent
+
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+
+> navikid-backend@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> navikid-backend@1.0.0 postbuild
+> cp -R src/database/migrations dist/database/migrations && cp -R src/database/seeds dist/database/seeds || true
+
+time="2025-11-29T11:28:16-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network navikid-integration-net  Creating
+ Network navikid-integration-net  Created
+ Container docker-postgres-1  Creating
+ Container docker-redis-1  Creating
+ Container docker-postgres-1  Created
+ Container docker-redis-1  Created
+ Container docker-postgres-1  Starting
+ Container docker-redis-1  Starting
+ Container docker-postgres-1  Started
+ Container docker-redis-1  Started
+Running backend migrations (npm run migrate)...
+
+> navikid-backend@1.0.0 migrate
+> node ./dist/scripts/migrate.js || tsx ./src/scripts/migrate.ts
+
+{"level":30,"time":1764433698730,"env":"test","msg":"Starting database migrations..."}
+{"level":30,"time":1764433698798,"env":"test","migration":"001_initial_schema.sql","msg":"Migration already executed, skipping"}
+{"level":30,"time":1764433698798,"env":"test","msg":"All migrations completed successfully"}
+Running backend seeds (npm run seed)...
+
+> navikid-backend@1.0.0 seed
+> node dist/db/seed.js
+
+{"level":30,"time":1764433699262,"env":"test","count":1,"msg":"Running database seeds"}
+{"level":30,"time":1764433699284,"env":"test","msg":"Database connection pool created"}
+{"level":30,"time":1764433699337,"env":"test","seed":"001_demo_seed.sql","msg":"Seed executed"}
+{"level":30,"time":1764433699337,"env":"test","msg":"All seeds executed successfully"}
+Port 3000 appears to be in use; assuming backend already running. Skipping spawn.
+Backend started and healthy
+An update to %s inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act null
+[2025-11-29T16:28:33.676Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.730Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.730Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.730Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.730Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.730Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.795Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T16:28:33.979Z] ERROR: [Security] Authentication error: {}
+PASS __tests__/parental-auth-security.test.ts (12.955 s)
+
+Test Suites: 1 passed, 1 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        14.535 s, estimated 26 s
+time="2025-11-29T11:28:34-05:00" level=warning msg="/home/nixstation-remote/Projects/NaviKid-v1/docker/docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container docker-postgres-1  Stopping
+ Container docker-redis-1  Stopping
+ Container docker-redis-1  Stopped
+ Container docker-redis-1  Removing
+ Container docker-redis-1  Removed
+ Container docker-postgres-1  Stopped
+ Container docker-postgres-1  Removing
+ Container docker-postgres-1  Removed
+ Network navikid-integration-net  Removing
+ Network navikid-integration-net  Removed

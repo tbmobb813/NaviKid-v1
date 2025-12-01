@@ -1,6 +1,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { ParentalProvider, useParentalStore } from '../parentalStore';
 import React from 'react';
+const loggedAct = require('../../.test-debug/loggedAct.cjs');
 import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
 
 // Mock modules
@@ -240,13 +241,13 @@ describe('parentalStore', () => {
       });
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('12'); // Too short
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('abc123'); // Not all digits
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
@@ -360,7 +361,7 @@ describe('parentalStore', () => {
       expect(result.current.isParentMode).toBe(true);
 
       // Then exit
-      act(() => {
+      await loggedAct(() => {
         result.current.exitParentMode();
       });
 
@@ -771,7 +772,7 @@ describe('parentalStore', () => {
         location: { latitude: 40.7128, longitude: -74.006 },
       };
 
-      act(() => {
+      await loggedAct(() => {
         result.current.addCheckInToDashboard(checkIn);
       });
 
@@ -797,9 +798,7 @@ describe('parentalStore', () => {
         placeName: 'Central Park',
       };
 
-      act(() => {
-        result.current.updateLastKnownLocation(location);
-      });
+      await loggedAct(() => result.current.updateLastKnownLocation(location));
 
       await waitFor(() => {
         expect(result.current.dashboardData.lastKnownLocation).toBeDefined();

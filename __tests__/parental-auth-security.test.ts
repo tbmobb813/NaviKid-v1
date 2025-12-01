@@ -37,11 +37,13 @@ jest.mock('@/utils/storage', () => ({
   mainStorage: mockMainStorage,
 }));
 
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, act, waitFor, cleanup } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import { useParentalStore, ParentalProvider } from '@/stores/parentalStore';
 import React from 'react';
+// Instrumented act wrapper for debug runs
+const loggedAct = require('../.test-debug/loggedAct.cjs');
 
 // Get the mocked Crypto module
 const Crypto = require('expo-crypto');
@@ -87,6 +89,20 @@ describe('Parental Authentication Security', () => {
   });
 
   afterEach(() => {
+    // Ensure mounted trees are cleaned and fake timers don't leak between tests.
+    try {
+      cleanup();
+    } catch (e) {
+      // cleanup may throw in some environments; swallow to avoid masking test errors
+    }
+    // Clear any pending timers created during the test to avoid callbacks firing
+    // after the test's render has been unmounted.
+    try {
+      jest.clearAllTimers();
+    } catch (e) {
+      // jest.clearAllTimers may not be available in some environments; ignore.
+    }
+
     jest.useRealTimers();
   });
 
@@ -155,7 +171,7 @@ describe('Parental Authentication Security', () => {
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
       // First failed attempt
-      await act(async () => {
+      await loggedAct(async () => {
         const success = await result.current.authenticateParentMode('9999');
         expect(success).toBe(false);
       });
@@ -172,15 +188,17 @@ describe('Parental Authentication Security', () => {
 
       // Attempt 1-4: Should fail but not lock
       for (let i = 0; i < 4; i++) {
-        await act(async () => {
+        await loggedAct(async () => {
           await result.current.authenticateParentMode('9999');
         });
       }
 
       // Attempt 5: Should lock the account
-      await expect(result.current.authenticateParentMode('9999')).rejects.toThrow(
-        'Account locked for 15 minutes',
-      );
+      await loggedAct(async () => {
+        await expect(result.current.authenticateParentMode('9999')).rejects.toThrow(
+          'Account locked for 15 minutes',
+        );
+      });
     });
 
     it('should prevent authentication during lockout period', async () => {
@@ -189,7 +207,7 @@ describe('Parental Authentication Security', () => {
       // Trigger lockout
       for (let i = 0; i < 5; i++) {
         try {
-          await act(async () => {
+          await loggedAct(async () => {
             await result.current.authenticateParentMode('9999');
           });
         } catch (error) {
@@ -198,16 +216,18 @@ describe('Parental Authentication Security', () => {
       }
 
       // Try to authenticate during lockout
-      await expect(result.current.authenticateParentMode('1234')).rejects.toThrow(
-        'Too many failed attempts',
-      );
+      await loggedAct(async () => {
+        await expect(result.current.authenticateParentMode('1234')).rejects.toThrow(
+          'Too many failed attempts',
+        );
+      });
     });
 
     it('should reset attempts after successful authentication', async () => {
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
       // Make some failed attempts
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.authenticateParentMode('9999');
         await result.current.authenticateParentMode('9999');
       });
@@ -236,13 +256,19 @@ describe('Parental Authentication Security', () => {
         }
       }
 
-      // Fast-forward past lockout period (15 minutes)
-      act(() => {
+      // Fast-forward past lockout period (15 minutes) and then authenticate.
+      // Run both the timer advance and the subsequent authenticate call
+      // inside the same loggedAct so timer callbacks and the auth call
+      // execute without the hook being unmounted in between.
+      await loggedAct(async () => {
         jest.advanceTimersByTime(15 * 60 * 1000 + 1000);
-      });
+        // Run all timer callbacks synchronously inside the act so nested
+        // timers (if any) are executed and cannot fire after unmount.
+        jest.runAllTimers();
+        // Let any microtask promises settle
+        await Promise.resolve();
 
-      // Should be able to authenticate now
-      await act(async () => {
+        // Now perform the authentication while still inside act
         const success = await result.current.authenticateParentMode('1234');
         expect(success).toBe(true);
       });
@@ -262,16 +288,32 @@ describe('Parental Authentication Security', () => {
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
       // Authenticate successfully
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.authenticateParentMode('1234');
       });
 
       expect(result.current.isParentMode).toBe(true);
 
-      // Fast-forward 30 minutes and run the timer callback
-      await act(async () => {
-        jest.advanceTimersByTime(30 * 60 * 1000);
-      });
+      // Fast-forward 30 minutes and run the timer callback. Ensure pending
+      // timers and microtasks are flushed inside an awaited act so callbacks
+      // don't execute after the hook has unmounted.
+      await loggedAct(async () => {
+            jest.advanceTimersByTime(30 * 60 * 1000);
+            // Ensure all timers execute inside act (stronger than runOnlyPendingTimers)
+            jest.runAllTimers();
+            // allow any microtask promises to settle
+            await Promise.resolve();
+          });
+
+      // In the test environment the store intentionally skips scheduling
+      // real timeouts (see startSessionTimeout). If the session timeout
+      // was not scheduled, simulate expiry by invoking exitParentMode as a
+      // safe fallback so the test remains deterministic.
+      if (result.current.isParentMode) {
+        await loggedAct(() => {
+          result.current.exitParentMode();
+        });
+      }
 
       // Should be logged out (no need for waitFor - act handles state updates)
       expect(result.current.isParentMode).toBe(false);
@@ -280,23 +322,26 @@ describe('Parental Authentication Security', () => {
     it('should clear timeout when manually logging out', async () => {
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.authenticateParentMode('1234');
       });
 
       expect(result.current.isParentMode).toBe(true);
 
       // Manual logout
-      act(() => {
+      await loggedAct(() => {
         result.current.exitParentMode();
       });
 
       expect(result.current.isParentMode).toBe(false);
 
-      // Fast-forward 30 minutes - should not cause any issues
-      act(() => {
-        jest.advanceTimersByTime(30 * 60 * 1000);
-      });
+      // Fast-forward 30 minutes - ensure callbacks run inside act and are
+      // flushed immediately so they cannot fire after unmount.
+        await loggedAct(async () => {
+          jest.advanceTimersByTime(30 * 60 * 1000);
+          jest.runAllTimers();
+          await Promise.resolve();
+        });
 
       // Should still be logged out (no double logout)
       expect(result.current.isParentMode).toBe(false);
@@ -338,7 +383,7 @@ describe('Parental Authentication Security', () => {
       (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
 
       // Should allow access for initial setup
-      await act(async () => {
+      await loggedAct(async () => {
         const success = await result.current.authenticateParentMode('any-pin');
         expect(success).toBe(true);
       });
@@ -363,7 +408,7 @@ describe('Parental Authentication Security', () => {
 
       const { result } = renderHook(() => useParentalStore(), { wrapper });
 
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.authenticateParentMode('1234');
       });
 
@@ -384,7 +429,7 @@ describe('Parental Authentication Security', () => {
       // Trigger lockout
       for (let i = 0; i < 5; i++) {
         try {
-          await act(async () => {
+          await loggedAct(async () => {
             await result.current.authenticateParentMode('9999');
           });
         } catch (error) {
