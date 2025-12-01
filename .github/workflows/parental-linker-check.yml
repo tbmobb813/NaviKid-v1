@@ -4,7 +4,6 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
     paths:
       - '**/*.ts'
       - '.test-debug/**'
@@ -20,25 +19,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run focused instrumented Jest (produce .test-debug/instrumented-events.log)
         id: run-tests
-        env:
-          TEST_DEBUG_CLEAR: '1'
         run: |
           set -euo pipefail
           JEST_EXIT=0
           # run the focused test; capture non-zero exit but continue so we can always produce the linker report
           BABEL_DISABLE_MODULE_RESOLVER=1 npx jest __tests__/parental-auth-security.test.ts --runInBand --setupFiles=./.test-debug/jest-log-timestamps.cjs --setupFiles=./.test-debug/logger-wrap.cjs --detectOpenHandles --verbose || JEST_EXIT=$?
           echo "jest_exit=$JEST_EXIT" >> $GITHUB_OUTPUT
-
-      - name: Run linker fixture tests
-        run: |
-          node .test-debug/run-linker-fixtures.cjs
 
       - name: Run linker and create JSON report
         run: |

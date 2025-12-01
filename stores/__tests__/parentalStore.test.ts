@@ -1,6 +1,8 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { ParentalProvider, useParentalStore } from '../parentalStore';
 import React from 'react';
+// Instrumented act wrapper for test debugging (logs ACT-START/END)
+const loggedAct = require('../../.test-debug/loggedAct.cjs');
 import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
 
 // Mock modules
@@ -240,13 +242,13 @@ describe('parentalStore', () => {
       });
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('12'); // Too short
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('abc123'); // Not all digits
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
@@ -339,7 +341,7 @@ describe('parentalStore', () => {
 
       // 6th attempt should be blocked
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.authenticateParentMode(wrongPin);
         }),
       ).rejects.toThrow('Too many failed attempts');
@@ -360,7 +362,7 @@ describe('parentalStore', () => {
       expect(result.current.isParentMode).toBe(true);
 
       // Then exit
-      act(() => {
+      await loggedAct(() => {
         result.current.exitParentMode();
       });
 
@@ -771,7 +773,7 @@ describe('parentalStore', () => {
         location: { latitude: 40.7128, longitude: -74.006 },
       };
 
-      act(() => {
+      await loggedAct(() => {
         result.current.addCheckInToDashboard(checkIn);
       });
 
@@ -797,7 +799,7 @@ describe('parentalStore', () => {
         placeName: 'Central Park',
       };
 
-      act(() => {
+      await loggedAct(() => {
         result.current.updateLastKnownLocation(location);
       });
 

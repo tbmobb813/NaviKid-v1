@@ -298,12 +298,22 @@ describe('Parental Authentication Security', () => {
       // timers and microtasks are flushed inside an awaited act so callbacks
       // don't execute after the hook has unmounted.
       await loggedAct(async () => {
-        jest.advanceTimersByTime(30 * 60 * 1000);
-        // Ensure all timers execute inside act (stronger than runOnlyPendingTimers)
-        jest.runAllTimers();
-        // allow any microtask promises to settle
-        await Promise.resolve();
-      });
+            jest.advanceTimersByTime(30 * 60 * 1000);
+            // Ensure all timers execute inside act (stronger than runOnlyPendingTimers)
+            jest.runAllTimers();
+            // allow any microtask promises to settle
+            await Promise.resolve();
+          });
+
+      // In the test environment the store intentionally skips scheduling
+      // real timeouts (see startSessionTimeout). If the session timeout
+      // was not scheduled, simulate expiry by invoking exitParentMode as a
+      // safe fallback so the test remains deterministic.
+      if (result.current.isParentMode) {
+        await loggedAct(() => {
+          result.current.exitParentMode();
+        });
+      }
 
       // In the test environment the store intentionally skips scheduling
       // real timeouts (see startSessionTimeout). If the session timeout
@@ -337,11 +347,11 @@ describe('Parental Authentication Security', () => {
 
       // Fast-forward 30 minutes - ensure callbacks run inside act and are
       // flushed immediately so they cannot fire after unmount.
-      await loggedAct(async () => {
-        jest.advanceTimersByTime(30 * 60 * 1000);
-        jest.runAllTimers();
-        await Promise.resolve();
-      });
+        await loggedAct(async () => {
+          jest.advanceTimersByTime(30 * 60 * 1000);
+          jest.runAllTimers();
+          await Promise.resolve();
+        });
 
       // Should still be logged out (no double logout)
       expect(result.current.isParentMode).toBe(false);

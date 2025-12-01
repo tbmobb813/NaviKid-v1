@@ -1,5 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react-native';
-import { ParentalProvider, useParentalStore } from '../parentalStore';
+const loggedAct = require('../../.test-debug/loggedAct.cjs');
+import { ParentalProvider, useParentalStore } from '@/stores/parentalStore';
 import React from 'react';
 import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
 
@@ -183,7 +184,7 @@ describe('parentalStore', () => {
       });
 
       let success = false;
-      await act(async () => {
+      await loggedAct(async () => {
         success = await result.current.authenticateParentMode('1234');
       });
 
@@ -201,7 +202,7 @@ describe('parentalStore', () => {
       });
 
       let success = false;
-      await act(async () => {
+      await loggedAct(async () => {
         success = await result.current.authenticateParentMode('1234');
       });
 
@@ -216,7 +217,7 @@ describe('parentalStore', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.setParentPin('1234');
       });
 
@@ -240,13 +241,13 @@ describe('parentalStore', () => {
       });
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('12'); // Too short
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
 
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.setParentPin('abc123'); // Not all digits
         }),
       ).rejects.toThrow('PIN must be 4-6 digits');
@@ -270,7 +271,7 @@ describe('parentalStore', () => {
       });
 
       let success = false;
-      await act(async () => {
+      await loggedAct(async () => {
         success = await result.current.authenticateParentMode(pin);
       });
 
@@ -297,7 +298,7 @@ describe('parentalStore', () => {
       });
 
       let success = false;
-      await act(async () => {
+      await loggedAct(async () => {
         success = await result.current.authenticateParentMode(wrongPin);
       });
 
@@ -325,7 +326,7 @@ describe('parentalStore', () => {
 
       // Attempt 5 failed logins
       for (let i = 0; i < 5; i++) {
-        await act(async () => {
+        await loggedAct(async () => {
           try {
             await result.current.authenticateParentMode(wrongPin);
           } catch (e) {
@@ -339,7 +340,7 @@ describe('parentalStore', () => {
 
       // 6th attempt should be blocked
       await expect(
-        act(async () => {
+        loggedAct(async () => {
           await result.current.authenticateParentMode(wrongPin);
         }),
       ).rejects.toThrow('Too many failed attempts');
@@ -353,14 +354,14 @@ describe('parentalStore', () => {
       });
 
       // First authenticate
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.authenticateParentMode('1234');
       });
 
       expect(result.current.isParentMode).toBe(true);
 
       // Then exit
-      act(() => {
+      await loggedAct(async () => {
         result.current.exitParentMode();
       });
 
@@ -386,7 +387,7 @@ describe('parentalStore', () => {
       };
 
       let createdZone: SafeZone | undefined;
-      await act(async () => {
+      await loggedAct(async () => {
         createdZone = await result.current.addSafeZone(newSafeZone);
       });
 
@@ -425,7 +426,7 @@ describe('parentalStore', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.updateSafeZone('zone1', { name: 'Updated Home', radius: 150 });
       });
 
@@ -472,7 +473,7 @@ describe('parentalStore', () => {
 
       expect(result.current.safeZones).toHaveLength(2);
 
-      await act(async () => {
+      await loggedAct(async () => {
         await result.current.deleteSafeZone('zone1');
       });
 
@@ -544,7 +545,7 @@ describe('parentalStore', () => {
         await result.current.completeCheckIn('request1', location);
       });
 
-      const updated = result.current.checkInRequests.find((r) => r.id === 'request1');
+  const updated = result.current.checkInRequests.find((r: any) => r.id === 'request1');
       expect(updated?.status).toBe('completed');
       expect(updated?.location).toEqual(location);
       expect(updated?.completedAt).toBeDefined();
@@ -614,7 +615,7 @@ describe('parentalStore', () => {
         await result.current.updateEmergencyContact('contact1', { phone: '555-5678' });
       });
 
-      const updated = result.current.settings.emergencyContacts.find((c) => c.id === 'contact1');
+  const updated = result.current.settings.emergencyContacts.find((c: any) => c.id === 'contact1');
       expect(updated?.phone).toBe('555-5678');
     });
 
@@ -668,7 +669,7 @@ describe('parentalStore', () => {
       });
 
       expect(result.current.settings.emergencyContacts.length).toBe(initialCount - 1);
-      expect(result.current.settings.emergencyContacts.find((c) => c.id === 'contact1')).toBeUndefined();
+  expect(result.current.settings.emergencyContacts.find((c: any) => c.id === 'contact1')).toBeUndefined();
     });
   });
 
@@ -749,7 +750,7 @@ describe('parentalStore', () => {
         await result.current.acknowledgePing('ping1', location);
       });
 
-      const updated = result.current.devicePings.find((p) => p.id === 'ping1');
+  const updated = result.current.devicePings.find((p: any) => p.id === 'ping1');
       expect(updated?.status).toBe('acknowledged');
       expect(updated?.response?.location).toEqual(location);
       expect(updated?.response?.timestamp).toBeDefined();
@@ -771,7 +772,7 @@ describe('parentalStore', () => {
         location: { latitude: 40.7128, longitude: -74.006 },
       };
 
-      act(() => {
+      await loggedAct(async () => {
         result.current.addCheckInToDashboard(checkIn);
       });
 
@@ -797,7 +798,7 @@ describe('parentalStore', () => {
         placeName: 'Central Park',
       };
 
-      act(() => {
+      await loggedAct(async () => {
         result.current.updateLastKnownLocation(location);
       });
 
