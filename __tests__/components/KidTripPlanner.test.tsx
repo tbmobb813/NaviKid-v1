@@ -289,7 +289,7 @@ describe('KidTripPlanner', () => {
       );
 
       // Should show trip option cards
-      expect(screen.getAllByText(/minutes total/)[0]).toBeTruthy();
+      expect(screen.getByText(/minutes total/)).toBeTruthy();
     });
 
     it('should display multiple trip options with different modes', async () => {
@@ -375,7 +375,7 @@ describe('KidTripPlanner', () => {
       });
 
       // Should show segments with kid-friendly tips
-      expect(screen.getAllByText(/Kid Tip:/)[0]).toBeTruthy();
+      expect(screen.getByText(/Kid Tip:/)).toBeTruthy();
     });
 
     it('should display trip reminders for selected trip', async () => {
@@ -498,7 +498,7 @@ describe('KidTripPlanner', () => {
 
       await waitFor(
         () => {
-          expect(screen.getAllByText(/minutes total/)[0]).toBeTruthy();
+          expect(screen.getByText(/minutes total/)).toBeTruthy();
         },
         { timeout: 3000 },
       );
@@ -517,7 +517,7 @@ describe('KidTripPlanner', () => {
 
       await waitFor(
         () => {
-          expect(screen.getAllByText(/min walking/)[0]).toBeTruthy();
+          expect(screen.getByText(/min walking/)).toBeTruthy();
         },
         { timeout: 3000 },
       );
@@ -556,7 +556,7 @@ describe('KidTripPlanner', () => {
 
       await waitFor(
         () => {
-          expect(screen.getAllByText(/⏰/)[0]).toBeTruthy();
+          expect(screen.getByText(/⏰/)).toBeTruthy();
         },
         { timeout: 3000 },
       );
@@ -575,7 +575,7 @@ describe('KidTripPlanner', () => {
 
       await waitFor(
         () => {
-          expect(screen.getAllByText(/💰/)[0]).toBeTruthy();
+          expect(screen.getByText(/💰/)).toBeTruthy();
         },
         { timeout: 3000 },
       );
@@ -605,7 +605,7 @@ describe('KidTripPlanner', () => {
 
       await waitFor(() => {
         // Should show emoji indicators for walk, subway, etc.
-        expect(screen.getAllByText(/🚶|🚇|🚌/)[0]).toBeTruthy();
+        expect(screen.getByText(/🚶|🚇|🚌/)).toBeTruthy();
       });
     });
 
@@ -630,7 +630,7 @@ describe('KidTripPlanner', () => {
       fireEvent.press(screen.getAllByText('Select This Route')[0]);
 
       await waitFor(() => {
-        expect(screen.getAllByText(/💡 Kid Tip:/)[0]).toBeTruthy();
+        expect(screen.getByText(/💡 Kid Tip:/)).toBeTruthy();
       });
     });
 
@@ -685,7 +685,7 @@ describe('KidTripPlanner', () => {
       fireEvent.press(screen.getAllByText('Select This Route')[0]);
 
       await waitFor(() => {
-        expect(screen.getAllByText(/Wheelchair OK|Stroller OK/)[0]).toBeTruthy();
+        expect(screen.getByText(/Wheelchair OK|Stroller OK/)).toBeTruthy();
       });
     });
   });

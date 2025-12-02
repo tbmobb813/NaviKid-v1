@@ -219,7 +219,7 @@ describe('ParentDashboard', () => {
     it('should render exit button', () => {
       render(<ParentDashboard onExit={mockOnExit} />);
 
-      const exitButton = screen.getAllByTestId('lucide-icon')[0]; // LogOut icon
+      const exitButton = screen.getByTestId('lucide-icon'); // LogOut icon
       expect(exitButton).toBeTruthy();
     });
   });
@@ -573,13 +573,15 @@ describe('ParentDashboard', () => {
     });
 
     it('should open safe zone management when add button is pressed', () => {
-      // Test that the Manage Safe Zones section renders when Safe Zones tab is active
       render(<ParentDashboard onExit={mockOnExit} />);
 
       fireEvent.press(screen.getByText('Safe Zones'));
 
-      // Verify the safe zone management section is displayed
-      expect(screen.getByText('Manage Safe Zones')).toBeTruthy();
+      // Find and press the add button (Plus icon)
+      const addButton = screen.getByTestId('lucide-icon'); // Plus icon
+      fireEvent.press(addButton);
+
+      expect(screen.getByTestId('safe-zone-management')).toBeTruthy();
     });
 
     it('should open safe zone management from empty state', () => {
@@ -596,22 +598,27 @@ describe('ParentDashboard', () => {
 
       fireEvent.press(screen.getByText('Safe Zones'));
 
-      // Verify empty state is shown with create button
-      expect(screen.getByText('No Safe Zones')).toBeTruthy();
-      expect(screen.getByText('Create Safe Zone')).toBeTruthy();
+      const createButton = screen.getByText('Create Safe Zone');
+      fireEvent.press(createButton);
+
+      expect(screen.getByTestId('safe-zone-management')).toBeTruthy();
     });
 
     it('should close safe zone management when back is pressed', () => {
-      // Test that safe zone management can be opened and closed
       render(<ParentDashboard onExit={mockOnExit} />);
 
       fireEvent.press(screen.getByText('Safe Zones'));
 
-      // Verify initial safe zones view
-      expect(screen.getByText('Manage Safe Zones')).toBeTruthy();
+      // Open management
+      const addButton = screen.getByTestId('lucide-icon');
+      fireEvent.press(addButton);
 
-      // Just verify the component renders correctly
-      expect(screen.getByText('Safe Zone Status')).toBeTruthy();
+      // Close management
+      const backButton = screen.getByTestId('back-button');
+      fireEvent.press(backButton);
+
+      expect(screen.queryByTestId('safe-zone-management')).toBeNull();
+      expect(screen.getByText('Manage Safe Zones')).toBeTruthy();
     });
 
     it('should render safe zone status card', () => {
@@ -697,8 +704,8 @@ describe('ParentDashboard', () => {
     it('should call onExit when exit button is pressed', () => {
       render(<ParentDashboard onExit={mockOnExit} />);
 
-      // Find the exit button by testID
-      const exitButton = screen.getByTestId('exit-button');
+      // Find the exit button (LogOut icon in header)
+      const exitButton = screen.getByTestId('lucide-icon');
       fireEvent.press(exitButton);
 
       expect(mockOnExit).toHaveBeenCalled();
