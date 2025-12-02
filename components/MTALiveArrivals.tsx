@@ -327,13 +327,36 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
 
   return (
     <View style={styles.container}>
-      <StationHeader
-        stationName={stationName}
-        stationType={stationType}
-        lastUpdated={lastUpdated}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-      />
+      <View style={styles.header}>
+        <View style={styles.stationInfo}>
+          {stationType === 'subway' ? (
+            <Train size={24} color={Colors.primary} />
+          ) : (
+            <Bus size={24} color={Colors.primary} />
+          )}
+          <View style={styles.stationDetails}>
+            <Text style={styles.stationName}>{stationName}</Text>
+            <Text style={styles.stationType}>
+              {stationType === 'subway' ? 'Subway Station' : 'Bus Stop'}
+            </Text>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          testID="refresh-button"
+          style={styles.refreshButton}
+          onPress={onRefresh}
+          disabled={refreshing}
+        >
+          <RefreshCw
+            size={20}
+            color={refreshing ? '#CCCCCC' : Colors.primary}
+            style={refreshing ? { transform: [{ rotate: '180deg' }] } : {}}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.lastUpdated}>Last updated: {lastUpdated.toLocaleTimeString()}</Text>
 
       <ScrollView
         testID="arrivals-scroll-view"

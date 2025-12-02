@@ -15,23 +15,23 @@ const createIconComponent = (iconName) => {
 };
 
 const icons = {
-  Clock: createIconComponent('Clock'),
-  MapPin: createIconComponent('MapPin'),
-  AlertCircle: createIconComponent('AlertCircle'),
-  Bell: createIconComponent('Bell'),
-  Train: createIconComponent('Train'),
-  Bus: createIconComponent('Bus'),
-  Navigation: createIconComponent('Navigation'),
-  Bike: createIconComponent('Bike'),
-  Car: createIconComponent('Car'),
-  RefreshCw: createIconComponent('RefreshCw'),
-  AlertTriangle: createIconComponent('AlertTriangle'),
-  Info: createIconComponent('Info'),
-  Star: createIconComponent('Star'),
-  Accessibility: createIconComponent('Accessibility'),
-  Search: createIconComponent('Search'),
-  Filter: createIconComponent('Filter'),
-  // fallback that returns an icon component for any other icon
+  Clock: nullComponent,
+  MapPin: nullComponent,
+  AlertCircle: nullComponent,
+  Bell: nullComponent,
+  Train: nullComponent,
+  Bus: nullComponent,
+  Navigation: nullComponent,
+  Bike: nullComponent,
+  Car: nullComponent,
+  RefreshCw: nullComponent,
+  AlertTriangle: nullComponent,
+  Info: nullComponent,
+  Star: nullComponent,
+  Accessibility: nullComponent,
+  Search: nullComponent,
+  Filter: nullComponent,
+  // fallback that returns a null component for any other icon
 };
 
 // attach any additional property access to the fallback
