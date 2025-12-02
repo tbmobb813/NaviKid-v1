@@ -14,6 +14,12 @@ const icons = {
   Bike: nullComponent,
   Car: nullComponent,
   RefreshCw: nullComponent,
+  AlertTriangle: nullComponent,
+  Info: nullComponent,
+  Star: nullComponent,
+  Accessibility: nullComponent,
+  Search: nullComponent,
+  Filter: nullComponent,
   // fallback that returns a null component for any other icon
 };
 

@@ -373,7 +373,12 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
           </View>
         </View>
 
-        <TouchableOpacity style={styles.refreshButton} onPress={onRefresh} disabled={refreshing}>
+        <TouchableOpacity
+          testID="refresh-button"
+          style={styles.refreshButton}
+          onPress={onRefresh}
+          disabled={refreshing}
+        >
           <RefreshCw
             size={20}
             color={refreshing ? '#CCCCCC' : Colors.primary}
@@ -385,6 +390,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
       <Text style={styles.lastUpdated}>Last updated: {lastUpdated.toLocaleTimeString()}</Text>
 
       <ScrollView
+        testID="arrivals-scroll-view"
         style={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         showsVerticalScrollIndicator={false}
