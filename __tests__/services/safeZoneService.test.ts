@@ -4,15 +4,11 @@
  */
 
 // Mock Expo modules first
-jest.mock(
-  'expo-secure-store',
-  () => ({
-    getItemAsync: jest.fn(),
-    setItemAsync: jest.fn(),
-    deleteItemAsync: jest.fn(),
-  }),
-  { virtual: true },
-);
+jest.mock('expo-secure-store', () => ({
+  getItemAsync: jest.fn(),
+  setItemAsync: jest.fn(),
+  deleteItemAsync: jest.fn(),
+}), { virtual: true });
 
 jest.mock('react-native', () => ({
   Platform: { OS: 'ios' },
@@ -125,13 +121,7 @@ describe('SafeZoneService', () => {
       const result = await safeZoneService.createSafeZone('Home', 40.7128, -74.006, 100, 'home');
 
       expect(result).toEqual(mockSafeZone);
-      expect(apiClient.safeZones.create).toHaveBeenCalledWith(
-        'Home',
-        40.7128,
-        -74.006,
-        100,
-        'home',
-      );
+      expect(apiClient.safeZones.create).toHaveBeenCalledWith('Home', 40.7128, -74.006, 100, 'home');
     });
 
     it('should handle creation errors', async () => {
@@ -147,7 +137,7 @@ describe('SafeZoneService', () => {
         40.7128,
         -74.006,
         100,
-        'school',
+        'school'
       );
 
       expect(result).toBeNull();
@@ -324,7 +314,9 @@ describe('SafeZoneService', () => {
     });
 
     it('should fallback to local calculation on API error', async () => {
-      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(new Error('API error'));
+      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(
+        new Error('API error')
+      );
 
       // First create a zone to test local calculation
       (apiClient.safeZones.list as jest.Mock).mockResolvedValue({
@@ -352,7 +344,9 @@ describe('SafeZoneService', () => {
 
     it('should detect location inside safe zone radius', async () => {
       // Force API to fail for local calculation
-      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(new Error('API error'));
+      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(
+        new Error('API error')
+      );
 
       // Same coordinates as safe zone center
       const result = await safeZoneService.checkGeofence(40.7128, -74.006);
@@ -363,7 +357,9 @@ describe('SafeZoneService', () => {
 
     it('should detect location outside safe zone radius', async () => {
       // Force API to fail for local calculation
-      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(new Error('API error'));
+      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(
+        new Error('API error')
+      );
 
       // Location far from safe zone (different coordinates)
       const result = await safeZoneService.checkGeofence(41.0, -75.0);
@@ -373,7 +369,9 @@ describe('SafeZoneService', () => {
 
     it('should calculate distance correctly using haversine formula', async () => {
       // Force API to fail for local calculation
-      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(new Error('API error'));
+      (apiClient.safeZones.checkGeofence as jest.Mock).mockRejectedValue(
+        new Error('API error')
+      );
 
       // Test with a location very close to the zone center (should be inside 100m radius)
       const result = await safeZoneService.checkGeofence(40.71285, -74.00605);

@@ -528,7 +528,9 @@ describe('OTP2Service', () => {
     });
 
     it('should handle cache read failures gracefully', async () => {
-      (offlineStorage.getCachedResponse as jest.Mock).mockRejectedValue(new Error('Cache error'));
+      (offlineStorage.getCachedResponse as jest.Mock).mockRejectedValue(
+        new Error('Cache error')
+      );
 
       (fetch as jest.Mock).mockResolvedValue({
         ok: true,
@@ -546,7 +548,9 @@ describe('OTP2Service', () => {
     });
 
     it('should handle cache write failures gracefully', async () => {
-      (offlineStorage.cacheResponse as jest.Mock).mockRejectedValue(new Error('Cache write error'));
+      (offlineStorage.cacheResponse as jest.Mock).mockRejectedValue(
+        new Error('Cache write error')
+      );
 
       (fetch as jest.Mock).mockResolvedValue({
         ok: true,

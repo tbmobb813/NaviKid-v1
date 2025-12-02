@@ -4,36 +4,24 @@
  */
 
 // Mock Expo modules first
-jest.mock(
-  'expo-secure-store',
-  () => ({
-    getItemAsync: jest.fn(),
-    setItemAsync: jest.fn(),
-    deleteItemAsync: jest.fn(),
-  }),
-  { virtual: true },
-);
+jest.mock('expo-secure-store', () => ({
+  getItemAsync: jest.fn(),
+  setItemAsync: jest.fn(),
+  deleteItemAsync: jest.fn(),
+}), { virtual: true });
 
-jest.mock(
-  'expo-device',
-  () => ({
-    isDevice: true,
-  }),
-  { virtual: true },
-);
+jest.mock('expo-device', () => ({
+  isDevice: true,
+}), { virtual: true });
 
-jest.mock(
-  'expo-location',
-  () => ({
-    getForegroundPermissionsAsync: jest.fn(),
-    requestForegroundPermissionsAsync: jest.fn(),
-    requestBackgroundPermissionsAsync: jest.fn(),
-    getCurrentPositionAsync: jest.fn(),
-    watchPositionAsync: jest.fn(),
-    Accuracy: { High: 4 },
-  }),
-  { virtual: true },
-);
+jest.mock('expo-location', () => ({
+  getForegroundPermissionsAsync: jest.fn(),
+  requestForegroundPermissionsAsync: jest.fn(),
+  requestBackgroundPermissionsAsync: jest.fn(),
+  getCurrentPositionAsync: jest.fn(),
+  watchPositionAsync: jest.fn(),
+  Accuracy: { High: 4 },
+}), { virtual: true });
 
 jest.mock('react-native', () => ({
   Platform: { OS: 'ios' },
@@ -75,10 +63,6 @@ describe('EmergencyService', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-
-    // Mock locationService methods
-    (locationService.getLastLocation as jest.Mock) = jest.fn();
-    (locationService.getCurrentLocation as jest.Mock) = jest.fn();
 
     // Clear the service's internal state by fetching empty contacts
     (apiClient.emergency.listContacts as jest.Mock).mockResolvedValue({
@@ -125,7 +109,9 @@ describe('EmergencyService', () => {
     });
 
     it('should handle API exceptions', async () => {
-      (apiClient.emergency.listContacts as jest.Mock).mockRejectedValue(new Error('API exception'));
+      (apiClient.emergency.listContacts as jest.Mock).mockRejectedValue(
+        new Error('API exception')
+      );
 
       const contacts = await emergencyService.fetchContacts();
 
@@ -162,7 +148,7 @@ describe('EmergencyService', () => {
         'John Doe',
         '+1234567890',
         'john@example.com',
-        'Parent',
+        'Parent'
       );
 
       expect(result).toEqual(mockContact);
@@ -170,7 +156,7 @@ describe('EmergencyService', () => {
         'John Doe',
         '+1234567890',
         'john@example.com',
-        'Parent',
+        'Parent'
       );
     });
 
@@ -186,7 +172,7 @@ describe('EmergencyService', () => {
         'Jane Doe',
         'invalid',
         'jane@example.com',
-        'Parent',
+        'Parent'
       );
 
       expect(result).toBeNull();
@@ -203,7 +189,12 @@ describe('EmergencyService', () => {
       const listener = jest.fn();
       emergencyService.addContactListener(listener);
 
-      await emergencyService.addContact('John Doe', '+1234567890', 'john@example.com', 'Parent');
+      await emergencyService.addContact(
+        'John Doe',
+        '+1234567890',
+        'john@example.com',
+        'Parent'
+      );
 
       expect(listener).toHaveBeenCalled();
     });
@@ -224,7 +215,12 @@ describe('EmergencyService', () => {
         success: true,
         data: mockContact,
       });
-      await emergencyService.addContact('John Doe', '+1234567890', 'john@example.com', 'Parent');
+      await emergencyService.addContact(
+        'John Doe',
+        '+1234567890',
+        'john@example.com',
+        'Parent'
+      );
 
       const result = await emergencyService.updateContact('1', { phoneNumber: '+9876543210' });
 
