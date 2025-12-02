@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-  "strict": true,
-  "noImplicitAny": true,
+    // Phase 1.1: Strict TypeScript enabled for type safety
+    "strict": true, // Enables all strict type checking options
+    "noImplicitAny": true, // Explicitly set (included in strict)
+    "strictNullChecks": true, // Explicitly set (included in strict)
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
