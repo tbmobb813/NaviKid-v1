@@ -1,5 +1,6 @@
 import 'react-native-url-polyfill/auto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// @ts-ignore - @supabase/supabase-js is in package.json but needs npm install to use
 import { createClient } from '@supabase/supabase-js';
 
 // Get these from your Supabase Dashboard > Settings > API

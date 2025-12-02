@@ -4,6 +4,8 @@ import MapViewWrapper from '@/components/MapViewWrapper';
 import { useRouteORS } from '@/hooks/useRouteORS';
 import { Geometry } from 'geojson';
 import Config from '@/utils/config';
+import { Place } from '@/types/navigation';
+import { UnifiedRoute } from '@/utils/unifiedRoutingService';
 
 interface MapViewProps {
   origin: Place | null;
