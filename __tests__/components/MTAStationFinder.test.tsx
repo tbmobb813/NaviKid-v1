@@ -99,11 +99,12 @@ const mockStations: StationInfo[] = [
     type: 'subway',
     lines: ['1', '2', '3', '7', 'N', 'Q', 'R', 'W'],
     borough: 'Manhattan',
-    coordinates: { latitude: 40.7589, longitude: -73.9851 },
+    coordinates: { lat: 40.7589, lng: -73.9851 },
     distance: 100,
     accessibility: {
       wheelchairAccessible: true,
-      elevatorStatus: 'operational',
+      elevators: ['operational'],
+      escalators: true,
     },
     kidFriendlyInfo: {
       nickname: 'The Bright Lights Station',
@@ -112,6 +113,7 @@ const mockStations: StationInfo[] = [
       whatToSee: ['Times Square', 'Broadway Theaters', 'M&M Store'],
       safetyNote: 'Stay close to your family - it gets very crowded here!',
     },
+    exits: [],
   },
   {
     id: 'station-2',
@@ -119,19 +121,20 @@ const mockStations: StationInfo[] = [
     type: 'subway',
     lines: ['4', '5', '6', '7'],
     borough: 'Manhattan',
-    coordinates: { latitude: 40.7527, longitude: -73.9772 },
+    coordinates: { lat: 40.7527, lng: -73.9772 },
     distance: 500,
     accessibility: {
       wheelchairAccessible: true,
-      elevatorStatus: 'operational',
+      elevators: ['operational'],
+      escalators: true,
     },
     kidFriendlyInfo: {
       nickname: 'The Beautiful Station',
       tip: 'Look up at the ceiling - it shows the constellations!',
       funFact: 'Grand Central has a secret tennis court on the 4th floor',
       whatToSee: ['Grand Central Terminal', 'The Whispering Gallery'],
-      safetyNote: null,
     },
+    exits: [],
   },
   {
     id: 'station-3',
@@ -139,11 +142,11 @@ const mockStations: StationInfo[] = [
     type: 'subway',
     lines: ['D', 'F', 'N', 'Q'],
     borough: 'Brooklyn',
-    coordinates: { latitude: 40.5774, longitude: -73.9812 },
+    coordinates: { lat: 40.5774, lng: -73.9812 },
     distance: 15000,
     accessibility: {
       wheelchairAccessible: false,
-      elevatorStatus: 'out-of-service',
+      escalators: false,
     },
     kidFriendlyInfo: {
       nickname: 'The Beach Station',
@@ -152,6 +155,7 @@ const mockStations: StationInfo[] = [
       whatToSee: ['Coney Island Beach', 'Luna Park', 'New York Aquarium', 'Wonder Wheel'],
       safetyNote: 'Apply sunscreen before going to the beach!',
     },
+    exits: [],
   },
   {
     id: 'station-4',
@@ -159,19 +163,19 @@ const mockStations: StationInfo[] = [
     type: 'bus',
     lines: ['M42'],
     borough: 'Manhattan',
-    coordinates: { latitude: 40.7567, longitude: -73.9864 },
+    coordinates: { lat: 40.7567, lng: -73.9864 },
     distance: 200,
     accessibility: {
       wheelchairAccessible: true,
-      elevatorStatus: null,
+      escalators: false,
     },
     kidFriendlyInfo: {
       nickname: 'The Crosstown Bus',
       tip: 'This bus goes all the way across Manhattan!',
       funFact: 'The M42 is one of the busiest crosstown bus routes',
       whatToSee: ['United Nations', 'Port Authority'],
-      safetyNote: null,
     },
+    exits: [],
   },
 ];
 
@@ -530,7 +534,7 @@ describe('MTAStationFinder Component', () => {
 
   describe('User Location Sorting', () => {
     it('should sort stations by distance when user location is provided', async () => {
-      const userLocation = { latitude: 40.7589, longitude: -73.9851 };
+      const userLocation = { lat: 40.7589, lng: -73.9851 };
       const { getAllByTestId } = render(<MTAStationFinder userLocation={userLocation} />);
 
       await waitFor(() => {
