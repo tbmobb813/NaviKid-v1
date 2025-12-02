@@ -208,6 +208,19 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
     return `${minutes} min`;
   };
 
+  const getAlertStyle = (severity: 'low' | 'medium' | 'high') => {
+    switch (severity) {
+      case 'high':
+        return styles.alertHigh;
+      case 'medium':
+        return styles.alertMedium;
+      case 'low':
+        return styles.alertLow;
+      default:
+        return {};
+    }
+  };
+
   const renderArrivalCard = (arrival: ArrivalInfo) => (
     <View key={arrival.id} style={styles.arrivalCard}>
       <View style={styles.arrivalHeader}>

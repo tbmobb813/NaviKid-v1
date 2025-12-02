@@ -238,6 +238,144 @@ const KidTripPlanner: React.FC<KidTripPlannerProps> = ({ onTripReady, userLocati
     }
   };
 
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        size={16}
+        color={i < rating ? '#FFB300' : '#E0E0E0'}
+        fill={i < rating ? '#FFB300' : 'transparent'}
+      />
+    ));
+  };
+
+  const renderTripOption = (trip: TripPlan) => (
+    <View key={trip.id} style={styles.tripCard}>
+      <View style={styles.tripHeader}>
+        <View style={styles.tripInfo}>
+          <Text style={styles.tripDuration}>{trip.totalDuration} minutes total</Text>
+          <Text style={styles.walkingTime}>{trip.totalWalkingTime} min walking</Text>
+        </View>
+        <View style={styles.tripRating}>
+          <View style={styles.starsContainer}>{renderStars(trip.kidFriendlyRating)}</View>
+          <View
+            style={[
+              styles.difficultyBadge,
+              {
+                backgroundColor:
+                  trip.difficulty === 'Easy'
+                    ? '#4CAF50'
+                    : trip.difficulty === 'Medium'
+                      ? '#FF9800'
+                      : '#F44336',
+              },
+            ]}
+          >
+            <Text style={styles.difficultyText}>{trip.difficulty}</Text>
+          </View>
+        </View>
+      </View>
+
+      <Text style={styles.bestTime}>⏰ {trip.bestTimeToGo}</Text>
+
+      <View style={styles.costContainer}>
+        <Text style={styles.costText}>
+          💰 ${trip.estimatedCost.adult.toFixed(2)} per adult
+          {trip.estimatedCost.child === 0 ? ' • Kids ride free!' : ''}
+        </Text>
+      </View>
+
+      <TouchableOpacity style={styles.selectTripButton} onPress={() => selectTrip(trip)}>
+        <Play size={16} color="#FFFFFF" />
+        <Text style={styles.selectTripText}>Select This Route</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderSegment = (segment: TripSegment) => {
+    const getSegmentIcon = () => {
+      switch (segment.type) {
+        case 'walk':
+          return <MapPin size={20} color={Colors.primary} />;
+        case 'subway':
+          return <Train size={20} color={Colors.primary} />;
+        case 'bus':
+          return <Bus size={20} color={Colors.primary} />;
+        case 'transfer':
+          return <Navigation size={20} color={Colors.primary} />;
+        default:
+          return <MapPin size={20} color={Colors.primary} />;
+      }
+    };
+
+    return (
+      <View key={segment.id} style={styles.segmentCard}>
+        <View style={styles.segmentHeader}>
+          <View style={styles.segmentIcon}>{getSegmentIcon()}</View>
+          <View style={styles.segmentDetails}>
+            <Text style={styles.segmentTitle}>
+              {segment.type === 'walk' ? '🚶 Walk' : segment.type === 'subway' ? '🚇 Subway' : segment.type === 'bus' ? '🚌 Bus' : '🔄 Transfer'}
+              {segment.line ? ` - ${segment.line} Train` : ''}
+            </Text>
+            <Text style={styles.segmentRoute}>
+              {segment.from} → {segment.to}
+            </Text>
+            <Text style={styles.segmentDuration}>⏱️ {segment.duration} minutes</Text>
+          </View>
+        </View>
+
+        <Text style={styles.segmentInstructions}>{segment.instructions}</Text>
+
+        <View style={styles.kidTipContainer}>
+          <Text style={styles.kidTip}>💡 Kid Tip: {segment.kidFriendlyTip}</Text>
+        </View>
+
+        {segment.safetyNote && (
+          <View style={styles.safetyContainer}>
+            <AlertTriangle size={14} color="#E65100" />
+            <Text style={styles.safetyNote}>{segment.safetyNote}</Text>
+          </View>
+        )}
+
+        {segment.funThingsToSee && segment.funThingsToSee.length > 0 && (
+          <View style={styles.funThingsContainer}>
+            <Text style={styles.funThingsTitle}>👀 Look for:</Text>
+            {segment.funThingsToSee.map((thing, index) => (
+              <Text key={index} style={styles.funThing}>
+                • {thing}
+              </Text>
+            ))}
+          </View>
+        )}
+
+        <View style={styles.accessibilityContainer}>
+          {segment.accessibility.wheelchairAccessible && (
+            <View style={styles.accessibilityItem}>
+              <Shield size={12} color="#4CAF50" />
+              <Text style={[styles.accessibilityText, { color: '#4CAF50' }]}>
+                Wheelchair OK
+              </Text>
+            </View>
+          )}
+          {segment.accessibility.strollerFriendly && (
+            <View style={styles.accessibilityItem}>
+              <Heart size={12} color="#4CAF50" />
+              <Text style={[styles.accessibilityText, { color: '#4CAF50' }]}>Stroller OK</Text>
+            </View>
+          )}
+          {segment.accessibility.elevatorRequired && (
+            <View style={styles.accessibilityItem}>
+              <AlertTriangle size={12} color="#FF9800" />
+              <Text style={[styles.accessibilityText, { color: '#FF9800' }]}>
+                Elevator Needed
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
