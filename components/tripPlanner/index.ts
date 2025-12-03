@@ -10,3 +10,10 @@ export { LocationInputs } from './LocationInputs';
 export { GroupSizeControls } from './GroupSizeControls';
 export { AccessibilityOptions } from './AccessibilityOptions';
 export { PlanTripButton } from './PlanTripButton';
+
+// Segment sub-components
+export { SegmentHeader } from './SegmentHeader';
+export { KidTipBox } from './KidTipBox';
+export { SafetyNote } from './SafetyNote';
+export { FunThingsList } from './FunThingsList';
+export { AccessibilityBadges } from './AccessibilityBadges';
