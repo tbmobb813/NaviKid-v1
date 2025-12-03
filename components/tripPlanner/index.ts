@@ -24,3 +24,10 @@ export { RouteHeader } from './RouteHeader';
 export { ThingsToRemember } from './ThingsToRemember';
 export { FunActivitiesList } from './FunActivitiesList';
 export { EmergencyInfo } from './EmergencyInfo';
+
+// Route card sub-components
+export { DifficultyBadge } from './DifficultyBadge';
+export { TripDurationInfo } from './TripDurationInfo';
+export { BestTimeDisplay } from './BestTimeDisplay';
+export { TripCostInfo } from './TripCostInfo';
+export { SelectRouteButton } from './SelectRouteButton';
