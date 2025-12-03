@@ -9,7 +9,9 @@ type StatusCardProps = {
 
 export const StatusCard: React.FC<StatusCardProps> = ({ isInZone, zoneName }) => (
   <View style={[styles.statusCard, { backgroundColor: isInZone ? '#E3F2FD' : '#F3E5F5' }]}>
-    <View style={[styles.statusIndicator, { backgroundColor: isInZone ? '#2196F3' : '#9C27B0' }]} />
+    <View
+      style={[styles.statusIndicator, { backgroundColor: isInZone ? '#2196F3' : '#9C27B0' }]}
+    />
     <Text style={styles.statusText}>
       {isInZone ? `🎯 You're exploring ${zoneName}!` : '🗺️ New area to discover!'}
     </Text>

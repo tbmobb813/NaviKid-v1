@@ -2,7 +2,10 @@ import { Alert } from 'react-native';
 import { CustomCategory } from '@/types/navigation';
 import { useCategoryManagement } from '@/stores/categoryStore';
 
-export const useCategoryActions = (userMode: 'parent' | 'child', onSuccess: () => void) => {
+export const useCategoryActions = (
+  userMode: 'parent' | 'child',
+  onSuccess: () => void,
+) => {
   const {
     settings,
     addCategory,

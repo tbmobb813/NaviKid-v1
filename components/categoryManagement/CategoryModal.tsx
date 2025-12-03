@@ -1,7 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Pressable, TextInput, Modal } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Pressable,
+  TextInput,
+  Modal,
+} from 'react-native';
 import { Check, X } from 'lucide-react-native';
 import Colors from '@/constants/colors';
+import { CustomCategory } from '@/types/navigation';
 import CategoryButton from '../CategoryButton';
 
 type CategoryModalProps = {

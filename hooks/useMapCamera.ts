@@ -2,13 +2,19 @@ import { useState } from 'react';
 import * as Location from 'expo-location';
 import { RoutePoint } from '@/components/KidFriendlyMap';
 
-export const useMapCamera = (mapRef: React.RefObject<any>, mapLibreModule: any) => {
+export const useMapCamera = (
+  mapRef: React.RefObject<any>,
+  mapLibreModule: any,
+) => {
   const [currentRegion, setCurrentRegion] = useState<any>(undefined);
 
   const centerOnUser = (userLocation: Location.LocationObject | null) => {
     if (!userLocation) return;
 
-    const lngLat: [number, number] = [userLocation.coords.longitude, userLocation.coords.latitude];
+    const lngLat: [number, number] = [
+      userLocation.coords.longitude,
+      userLocation.coords.latitude,
+    ];
 
     // If MapLibre Camera ref or API is available, call it
     try {

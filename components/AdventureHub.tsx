@@ -1,24 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import Colors from '@/constants/colors';
-import { logger } from '@/utils/logger';
-import {
-  Compass,
-  Camera,
-  MapPin,
-  Phone,
-  MessageCircle,
-  Clock,
-  CheckCircle,
-  Sparkles,
-  Users,
-  Settings,
-  ArrowRight,
-  Map,
-  Star,
-} from 'lucide-react-native';
-import { useParentalStore } from '@/stores/parentalStore';
-import { useNavigationStore } from '@/stores/navigationStore';
+import { Compass, Settings } from 'lucide-react-native';
 import { useSafeZoneMonitor } from '@/hooks/useSafeZoneMonitor';
 import { useAdventureStats } from '@/hooks/useAdventureStats';
 import { useAdventureActions } from '@/hooks/useAdventureActions';
@@ -54,89 +37,19 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
   const [showQuickActions, setShowQuickActions] = useState(true);
 
   // Get adventure stats
-  const { recentMemories, discoveredZones, pendingUpdates, adventureBuddies } = useAdventureStats();
+  const { recentMemories, discoveredZones, pendingUpdates, adventureBuddies } =
+    useAdventureStats();
 
-  const handleGetHelp = () => {
-    Alert.alert('Need Help?', 'Choose who to contact:', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Call 911',
-        style: 'destructive',
-        onPress: () => logger.info('Emergency call initiated', { type: '911', context: 'AdventureHub' })
-      },
-      {
-        text: 'Call My Crew',
-        onPress: () => logger.info('Emergency call initiated', { type: 'crew', context: 'AdventureHub' })
-      },
-    ]);
-  };
-
-  const handleShareUpdate = () => {
-    Alert.alert('Share Update', "Let your crew know you're having fun?", [
-      { text: 'Not now', style: 'cancel' },
-      {
-        text: "I'm Having Fun!",
-        onPress: () => logger.info('Fun update sent to crew', { timestamp: Date.now() })
-      },
-    ]);
-  };
-
-  const AdventureStatCard = ({
-    icon,
-    title,
-    value,
-    subtitle,
-    color = Colors.primary,
-    onPress,
-  }: {
-    icon: React.ReactNode;
-    title: string;
-    value: string | number;
-    subtitle: string;
-    color?: string;
-    onPress?: () => void;
-  }) => (
-    <Pressable style={[styles.statCard, onPress && styles.pressableCard]} onPress={onPress}>
-      <View style={[styles.statIcon, { backgroundColor: `${color}20` }]}>
-        {React.cloneElement(
-          icon as React.ReactElement,
-          {
-            size: 20,
-            color,
-          } as any,
-        )}
-      </View>
-      <View style={styles.statContent}>
-        <Text style={styles.statValue}>{value}</Text>
-        <Text style={styles.statTitle}>{title}</Text>
-        <Text style={styles.statSubtitle}>{subtitle}</Text>
-      </View>
-      {onPress && <ArrowRight size={16} color={Colors.textLight} />}
-    </Pressable>
-  );
-
-  const QuickActionButton = ({
-    icon,
-    title,
-    onPress,
-    color = Colors.primary,
-  }: {
-    icon: React.ReactNode;
-    title: string;
-    onPress: () => void;
-    color?: string;
-  }) => (
-    <Pressable style={[styles.quickActionButton, { backgroundColor: color }]} onPress={onPress}>
-      {React.cloneElement(
-        icon as React.ReactElement,
-        {
-          size: 20,
-          color: '#FFFFFF',
-        } as any,
-      )}
-      <Text style={styles.quickActionText}>{title}</Text>
-    </Pressable>
-  );
+  // Get adventure actions
+  const {
+    handleGetHelp,
+    handleShareUpdate,
+    handleCaptureMemory,
+    handleShareAdventure,
+    handleNavigateToZones,
+    handleNavigateToMemories,
+    handleNavigateToCrew,
+  } = useAdventureActions();
 
   return (
     <View style={styles.container}>
@@ -176,39 +89,12 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
               </Pressable>
             </View>
 
-            <View style={styles.quickActionsGrid}>
-              <QuickActionButton
-                icon={<Camera />}
-                title="Capture Moment"
-                onPress={() => logger.info('Photo memory capture triggered', {
-                  place: currentPlace?.name
-                })}
-                color="#4CAF50"
-              />
-
-              <QuickActionButton
-                icon={<MessageCircle />}
-                title="Share Update"
-                onPress={handleShareUpdate}
-                color="#2196F3"
-              />
-
-              <QuickActionButton
-                icon={<MapPin />}
-                title="Share Adventure"
-                onPress={() => logger.info('Share adventure location triggered', {
-                  location: currentLocation
-                })}
-                color="#9C27B0"
-              />
-
-              <QuickActionButton
-                icon={<Phone />}
-                title="Need Help"
-                onPress={handleGetHelp}
-                color="#FF9800"
-              />
-            </View>
+            <QuickActionsGrid
+              onCaptureMemory={() => handleCaptureMemory(currentPlace?.name)}
+              onShareUpdate={handleShareUpdate}
+              onShareAdventure={() => handleShareAdventure(currentLocation)}
+              onGetHelp={handleGetHelp}
+            />
           </View>
         )}
 
@@ -224,50 +110,15 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Adventure Overview</Text>
 
-          <View style={styles.statsGrid}>
-            <AdventureStatCard
-              icon={<Map />}
-              title="Discovered"
-              value={discoveredZones}
-              subtitle="Zones explored"
-              color="#2196F3"
-              onPress={() => logger.info('Navigate to exploration zones requested', {
-                zonesCount: discoveredZones
-              })}
-            />
-
-            <AdventureStatCard
-              icon={<Camera />}
-              title="Memories"
-              value={recentMemories.length}
-              subtitle="Recent"
-              color="#4CAF50"
-              onPress={() => logger.info('Navigate to memory gallery requested', {
-                memoriesCount: recentMemories.length
-              })}
-            />
-          </View>
-
-          <View style={styles.statsGrid}>
-            <AdventureStatCard
-              icon={<Star />}
-              title="Updates"
-              value={pendingUpdates}
-              subtitle="New"
-              color={pendingUpdates > 0 ? '#FF9800' : '#9E9E9E'}
-            />
-
-            <AdventureStatCard
-              icon={<Users />}
-              title="Crew"
-              value={adventureBuddies}
-              subtitle="Adventure buddies"
-              color="#9C27B0"
-              onPress={() => logger.info('Navigate to adventure crew requested', {
-                crewCount: adventureBuddies
-              })}
-            />
-          </View>
+          <AdventureStatsSection
+            discoveredZones={discoveredZones}
+            memoriesCount={recentMemories.length}
+            pendingUpdates={pendingUpdates}
+            adventureBuddies={adventureBuddies}
+            onNavigateToZones={() => handleNavigateToZones(discoveredZones)}
+            onNavigateToMemories={() => handleNavigateToMemories(recentMemories.length)}
+            onNavigateToCrew={() => handleNavigateToCrew(adventureBuddies)}
+          />
         </View>
 
         {/* Recent Memories */}
