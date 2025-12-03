@@ -6,7 +6,6 @@ import {
   Camera,
   Phone,
   Settings,
-  Plus,
   Eye,
   LogOut,
 } from 'lucide-react-native';
@@ -23,6 +22,10 @@ import {
   AlertsSection,
   LastKnownLocation,
   RecentCheckIns,
+  SafeZoneManagementSection,
+  CategorySettings,
+  SafetySettings,
+  EmergencyContactsList,
 } from '@/components/parentDashboard';
 
 type ParentDashboardProps = {
@@ -338,82 +341,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.text,
     marginBottom: 16,
-  },
-  addButton: {
-    padding: 8,
-  },
-  safeZoneCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  safeZoneContent: {
-    flex: 1,
-  },
-  safeZoneTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  safeZoneSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-  },
-  activityCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  activityIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  activityContent: {
-    flex: 1,
-  },
-  activityTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  activityTime: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  settingCard: {
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  settingTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 8,
-  },
-  settingSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-    marginBottom: 4,
-  },
-  emptyText: {
-    fontSize: 14,
-    color: Colors.textLight,
-    textAlign: 'center',
-    fontStyle: 'italic',
-    paddingVertical: 20,
   },
   safeZonesContent: {
     flex: 1,
