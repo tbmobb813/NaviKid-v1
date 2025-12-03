@@ -17,13 +17,10 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
 }) => {
   return (
     <Pressable style={[styles.quickActionButton, { backgroundColor: color }]} onPress={onPress}>
-      {React.cloneElement(
-        icon as React.ReactElement,
-        {
-          size: 20,
-          color: '#FFFFFF',
-        } as any,
-      )}
+      {React.cloneElement(icon as React.ReactElement, {
+        size: 20,
+        color: '#FFFFFF',
+      } as any)}
       <Text style={styles.quickActionText}>{title}</Text>
     </Pressable>
   );

@@ -2,19 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
 import { logger } from '@/utils/logger';
-import {
-  Shield,
-  Camera,
-  MapPin,
-  Phone,
-  MessageCircle,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  Users,
-  Settings,
-  ArrowRight,
-} from 'lucide-react-native';
+import { Shield, Settings } from 'lucide-react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useNavigationStore } from '@/stores/navigationStore';
 import { useSafeZoneMonitor } from '@/hooks/useSafeZoneMonitor';
@@ -62,11 +50,11 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
       {
         text: 'Call 911',
         style: 'destructive',
-        onPress: () => logger.info('Emergency call initiated', { type: '911' })
+        onPress: () => logger.info('Emergency call initiated', { type: '911' }),
       },
       {
         text: 'Call Parent',
-        onPress: () => logger.info('Emergency call initiated', { type: 'parent' })
+        onPress: () => logger.info('Emergency call initiated', { type: 'parent' }),
       },
     ]);
   };
@@ -75,8 +63,8 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
     Alert.alert('Quick Check-in', "Let your family know you're okay?", [
       { text: 'Not now', style: 'cancel' },
       {
-        text: 'I&apos;m OK!',
-        onPress: () => logger.info('Quick check-in sent', { timestamp: Date.now() })
+        text: "I'm OK!",
+        onPress: () => logger.info('Quick check-in sent', { timestamp: Date.now() }),
       },
     ]);
   };
@@ -119,53 +107,6 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
           onPhotoCheckIn={handlePhotoCheckInAction}
         />
 
-        {/* Quick Actions */}
-        {showQuickActions && (
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Quick Actions</Text>
-              <Pressable onPress={() => setShowQuickActions(false)}>
-                <Text style={styles.hideButton}>Hide</Text>
-              </Pressable>
-            </View>
-
-            <View style={styles.quickActionsGrid}>
-              <QuickActionButton
-                icon={<Phone />}
-                title="Emergency"
-                onPress={handleEmergencyCall}
-                color="#FF3B30"
-              />
-
-              <QuickActionButton
-                icon={<MessageCircle />}
-                title="I'm OK!"
-                onPress={handleQuickCheckIn}
-                color={Colors.success}
-              />
-
-              <QuickActionButton
-                icon={<MapPin />}
-                title="Share Location"
-                onPress={() => logger.info('Share location action triggered', {
-                  location: currentLocation
-                })}
-                color={Colors.primary}
-              />
-
-              <QuickActionButton
-                icon={<Camera />}
-                title="Photo Check-in"
-                onPress={() => logger.info('Photo check-in action triggered', {
-                  place: currentPlace?.name
-                })}
-                color={Colors.secondary}
-              />
-            </View>
-          </View>
-        )}
-
-        {/* Photo Check-in */}
         {currentPlace && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Check-in at Current Location</Text>
@@ -180,94 +121,9 @@ const SafetyDashboard: React.FC<SafetyDashboardProps> = ({
           emergencyContacts={emergencyContacts}
         />
 
-          <View style={styles.statsGrid}>
-            <SafetyStatCard
-              icon={<Shield />}
-              title="Safe Zones"
-              value={activeSafeZones}
-              subtitle="Active zones"
-              onPress={() => logger.info('Navigate to safe zones requested', {
-                activeZones: activeSafeZones
-              })}
-            />
+        <RecentActivitySection recentCheckIns={recentCheckIns} />
 
-            <SafetyStatCard
-              icon={<Camera />}
-              title="Check-ins"
-              value={recentCheckIns.length}
-              subtitle="Recent"
-              color={Colors.secondary}
-              onPress={() => logger.info('Navigate to check-in history requested', {
-                recentCount: recentCheckIns.length
-              })}
-            />
-          </View>
-
-          <View style={styles.statsGrid}>
-            <SafetyStatCard
-              icon={<Clock />}
-              title="Requests"
-              value={pendingCheckInRequests}
-              subtitle="Pending"
-              color={pendingCheckInRequests > 0 ? Colors.warning : Colors.success}
-            />
-
-            <SafetyStatCard
-              icon={<Users />}
-              title="Contacts"
-              value={emergencyContacts}
-              subtitle="Emergency"
-              color="#9C27B0"
-              onPress={() => logger.info('Navigate to emergency contacts requested', {
-                contactsCount: emergencyContacts
-              })}
-            />
-          </View>
-        </View>
-
-        {/* Recent Activity */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recent Activity</Text>
-
-          {recentCheckIns.length > 0 ? (
-            recentCheckIns.map((checkIn, index) => (
-              <View key={index} style={styles.activityItem}>
-                <CheckCircle size={16} color={Colors.success} />
-                <View style={styles.activityContent}>
-                  <Text style={styles.activityTitle}>Checked in at {checkIn.placeName}</Text>
-                  <Text style={styles.activityTime}>
-                    {new Date(checkIn.timestamp).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </Text>
-                </View>
-              </View>
-            ))
-          ) : (
-            <View style={styles.emptyActivity}>
-              <Camera size={32} color={Colors.textLight} />
-              <Text style={styles.emptyActivityText}>No recent check-ins</Text>
-              <Text style={styles.emptyActivitySubtext}>
-                Take a photo when you arrive somewhere to let your family know you&apos;re safe
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Safety Tips */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Safety Reminder</Text>
-          <View style={styles.tipCard}>
-            <AlertTriangle size={20} color={Colors.warning} />
-            <View style={styles.tipContent}>
-              <Text style={styles.tipTitle}>Stay Safe Out There!</Text>
-              <Text style={styles.tipText}>
-                Always let someone know where you&apos;re going and check in when you arrive safely.
-              </Text>
-            </View>
-          </View>
-        </View>
+        <SafetyTipSection />
       </ScrollView>
     </View>
   );
