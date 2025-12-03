@@ -26,7 +26,7 @@ export const SafeZoneList: React.FC<SafeZoneListProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={onBack}>
+        <Pressable style={styles.backButton} onPress={onBack} testID="back-button">
           <ArrowLeft size={24} color={Colors.primary} />
         </Pressable>
         <Text style={styles.headerTitle}>Safe Zones</Text>
