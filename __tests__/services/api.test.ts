@@ -4,9 +4,16 @@
  */
 
 // Mock expo modules FIRST before any imports
-jest.mock(
-  'expo-constants',
-  () => ({
+jest.mock('expo-constants', () => ({
+  expoConfig: {
+    extra: {
+      api: {
+        baseUrl: 'http://test-api.example.com/api',
+        timeout: 5000,
+      },
+    },
+  },
+  default: {
     expoConfig: {
       extra: {
         api: {
@@ -15,29 +22,14 @@ jest.mock(
         },
       },
     },
-    default: {
-      expoConfig: {
-        extra: {
-          api: {
-            baseUrl: 'http://test-api.example.com/api',
-            timeout: 5000,
-          },
-        },
-      },
-    },
-  }),
-  { virtual: true },
-);
+  },
+}), { virtual: true });
 
-jest.mock(
-  'expo-secure-store',
-  () => ({
-    getItemAsync: jest.fn(),
-    setItemAsync: jest.fn(),
-    deleteItemAsync: jest.fn(),
-  }),
-  { virtual: true },
-);
+jest.mock('expo-secure-store', () => ({
+  getItemAsync: jest.fn(),
+  setItemAsync: jest.fn(),
+  deleteItemAsync: jest.fn(),
+}), { virtual: true });
 
 jest.mock('react-native', () => ({
   Platform: { OS: 'ios' },
@@ -56,14 +48,8 @@ jest.mock('@/utils/logger', () => ({
 global.fetch = jest.fn();
 
 import * as SecureStore from 'expo-secure-store';
-import type {
-  ApiResponse,
-  AuthTokens,
-  User,
-  Location,
-  SafeZone,
-  EmergencyContact,
-} from '@/services/api';
+import { NaviKidApiClient } from '@/services/api';
+import type { ApiResponse, AuthTokens, User, Location, SafeZone, EmergencyContact } from '@/services/api';
 
 describe('NaviKidApiClient', () => {
   let apiClient: any;
@@ -102,16 +88,12 @@ describe('NaviKidApiClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
+    (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
 
-    // Reset all SecureStore mocks but keep the implementation
-    (SecureStore.getItemAsync as jest.Mock).mockReset().mockResolvedValue(null);
-    (SecureStore.setItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
-    (SecureStore.deleteItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
-
-    // Create fresh instance without resetting modules (keeps mocks intact)
-    // We already have the NaviKidApiClient imported at the top
-    const { NaviKidApiClient } = require('@/services/api');
-    apiClient = new NaviKidApiClient({
+    // Import fresh instance for each test
+    jest.resetModules();
+    const apiModule = require('@/services/api');
+    apiClient = new apiModule.NaviKidApiClient({
       baseUrl: 'http://test-api.example.com/api',
       timeout: 5000,
       retryAttempts: 3,
@@ -132,24 +114,16 @@ describe('NaviKidApiClient', () => {
     });
 
     it('should load tokens on initialization', async () => {
-      // Setup mock BEFORE importing
       (SecureStore.getItemAsync as jest.Mock).mockImplementation((key: string) => {
         if (key === 'access_token') return Promise.resolve(mockAccessToken);
         if (key === 'refresh_token') return Promise.resolve(mockRefreshToken);
         return Promise.resolve(null);
       });
 
-      // Use the already-mocked SecureStore
-      const { NaviKidApiClient } = require('@/services/api');
-      const testClient = new NaviKidApiClient({
-        baseUrl: 'http://test-api.example.com/api',
-        timeout: 5000,
-        retryAttempts: 3,
-        retryDelay: 100,
-      });
+      const newClient = new (require('@/services/api').NaviKidApiClient)();
 
       // Give time for async loadTokens to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, 10));
 
       expect(SecureStore.getItemAsync).toHaveBeenCalledWith('access_token');
       expect(SecureStore.getItemAsync).toHaveBeenCalledWith('refresh_token');
@@ -223,7 +197,7 @@ describe('NaviKidApiClient', () => {
           'http://test-api.example.com/api/test',
           expect.objectContaining({
             method: 'GET',
-          }),
+          })
         );
         expect(response.success).toBe(true);
         expect(response.data).toEqual(mockData);
@@ -245,7 +219,7 @@ describe('NaviKidApiClient', () => {
             headers: expect.objectContaining({
               Authorization: `Bearer ${mockAccessToken}`,
             }),
-          }),
+          })
         );
       });
 
@@ -264,16 +238,14 @@ describe('NaviKidApiClient', () => {
       });
 
       it('should handle timeout errors', async () => {
-        (global.fetch as jest.Mock).mockImplementation(
-          () =>
-            new Promise((_, reject) => {
-              setTimeout(() => reject(new DOMException('Aborted', 'AbortError')), 100);
-            }),
+        (global.fetch as jest.Mock).mockImplementation(() =>
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new DOMException('Aborted', 'AbortError')), 100);
+          })
         );
 
-        await expect(apiClient['request']('/test', { method: 'GET' })).rejects.toThrow(
-          'Request timeout',
-        );
+        await expect(apiClient['request']('/test', { method: 'GET' }))
+          .rejects.toThrow('Request timeout');
       });
 
       it('should handle 401 errors and attempt token refresh', async () => {
@@ -298,7 +270,7 @@ describe('NaviKidApiClient', () => {
             json: async () => mockSuccessResponse({ data: 'success' }),
           });
 
-        await apiClient['request']('/test', { method: 'GET' });
+        const response = await apiClient['request']('/test', { method: 'GET' });
 
         // Should have called fetch 3 times: original, refresh, retry
         expect(global.fetch).toHaveBeenCalledTimes(3);
@@ -321,9 +293,8 @@ describe('NaviKidApiClient', () => {
             json: async () => ({ error: { message: 'Invalid refresh token' } }),
           });
 
-        await expect(apiClient['request']('/test', { method: 'GET' })).rejects.toThrow(
-          'Session expired. Please login again.',
-        );
+        await expect(apiClient['request']('/test', { method: 'GET' }))
+          .rejects.toThrow('Session expired. Please login again.');
 
         expect(apiClient['accessToken']).toBeNull();
         expect(apiClient['refreshToken']).toBeNull();
@@ -336,9 +307,8 @@ describe('NaviKidApiClient', () => {
           json: async () => mockErrorResponse('Internal server error'),
         });
 
-        await expect(apiClient['request']('/test', { method: 'GET' })).rejects.toThrow(
-          'Internal server error',
-        );
+        await expect(apiClient['request']('/test', { method: 'GET' }))
+          .rejects.toThrow('Internal server error');
       });
 
       it('should include Content-Type header only when body is provided', async () => {
@@ -351,20 +321,18 @@ describe('NaviKidApiClient', () => {
         // With body
         await apiClient['request']('/test', {
           method: 'POST',
-          body: JSON.stringify({ key: 'value' }),
+          body: JSON.stringify({ key: 'value' })
         });
 
-        expect((global.fetch as jest.Mock).mock.calls[0][1].headers['Content-Type']).toBe(
-          'application/json',
-        );
+        expect((global.fetch as jest.Mock).mock.calls[0][1].headers['Content-Type'])
+          .toBe('application/json');
 
         // Without body
         (global.fetch as jest.Mock).mockClear();
         await apiClient['request']('/test', { method: 'POST' });
 
-        expect(
-          (global.fetch as jest.Mock).mock.calls[0][1].headers['Content-Type'],
-        ).toBeUndefined();
+        expect((global.fetch as jest.Mock).mock.calls[0][1].headers['Content-Type'])
+          .toBeUndefined();
       });
     });
 
@@ -388,9 +356,8 @@ describe('NaviKidApiClient', () => {
       it('should not retry on 4xx errors', async () => {
         (global.fetch as jest.Mock).mockRejectedValue(new Error('400 Bad Request'));
 
-        await expect(apiClient['requestWithRetry']('/test', { method: 'GET' })).rejects.toThrow(
-          '400 Bad Request',
-        );
+        await expect(apiClient['requestWithRetry']('/test', { method: 'GET' }))
+          .rejects.toThrow('400 Bad Request');
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
       });
@@ -416,9 +383,8 @@ describe('NaviKidApiClient', () => {
       it('should throw last error after all retries exhausted', async () => {
         (global.fetch as jest.Mock).mockRejectedValue(new Error('Persistent network error'));
 
-        await expect(apiClient['requestWithRetry']('/test', { method: 'GET' })).rejects.toThrow(
-          'Persistent network error',
-        );
+        await expect(apiClient['requestWithRetry']('/test', { method: 'GET' }))
+          .rejects.toThrow('Persistent network error');
 
         expect(global.fetch).toHaveBeenCalledTimes(3);
       });
@@ -552,10 +518,7 @@ describe('NaviKidApiClient', () => {
 
         expect(response.success).toBe(true);
         expect(apiClient['accessToken']).toBe(newTokens.accessToken);
-        expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-          'access_token',
-          newTokens.accessToken,
-        );
+        expect(SecureStore.setItemAsync).toHaveBeenCalledWith('access_token', newTokens.accessToken);
       });
 
       it('should handle response with only accessToken (no refreshToken)', async () => {
@@ -564,11 +527,10 @@ describe('NaviKidApiClient', () => {
         (global.fetch as jest.Mock).mockResolvedValue({
           ok: true,
           status: 200,
-          json: async () =>
-            mockSuccessResponse({
-              accessToken: 'new-access-only',
-              expiresIn: 3600,
-            }),
+          json: async () => mockSuccessResponse({
+            accessToken: 'new-access-only',
+            expiresIn: 3600,
+          }),
         });
 
         const response = await apiClient.auth.refreshToken();
@@ -581,7 +543,8 @@ describe('NaviKidApiClient', () => {
       it('should throw error if no refresh token available', async () => {
         apiClient['refreshToken'] = null;
 
-        await expect(apiClient.auth.refreshToken()).rejects.toThrow('No refresh token available');
+        await expect(apiClient.auth.refreshToken())
+          .rejects.toThrow('No refresh token available');
       });
     });
 
@@ -615,7 +578,7 @@ describe('NaviKidApiClient', () => {
           expect.stringContaining('/auth/change-password'),
           expect.objectContaining({
             method: 'POST',
-          }),
+          })
         );
       });
     });
@@ -677,7 +640,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/locations/history?startDate=2025-01-01&endDate=2025-01-31'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
 
@@ -686,7 +649,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/locations/history'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
     });
@@ -698,7 +661,7 @@ describe('NaviKidApiClient', () => {
         expect(response.success).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/locations/current'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
     });
@@ -715,7 +678,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/locations/loc-123'),
-          expect.objectContaining({ method: 'DELETE' }),
+          expect.objectContaining({ method: 'DELETE' })
         );
       });
     });
@@ -755,7 +718,7 @@ describe('NaviKidApiClient', () => {
         expect(response.success).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/safe-zones'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
     });
@@ -780,7 +743,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/safe-zones/zone-123'),
-          expect.objectContaining({ method: 'PUT' }),
+          expect.objectContaining({ method: 'PUT' })
         );
       });
     });
@@ -797,7 +760,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/safe-zones/zone-123'),
-          expect.objectContaining({ method: 'DELETE' }),
+          expect.objectContaining({ method: 'DELETE' })
         );
       });
     });
@@ -807,11 +770,10 @@ describe('NaviKidApiClient', () => {
         (global.fetch as jest.Mock).mockResolvedValue({
           ok: true,
           status: 200,
-          json: async () =>
-            mockSuccessResponse({
-              insideSafeZone: true,
-              safeZone: mockSafeZone,
-            }),
+          json: async () => mockSuccessResponse({
+            insideSafeZone: true,
+            safeZone: mockSafeZone,
+          }),
         });
 
         const response = await apiClient.safeZones.checkGeofence(40.7128, -74.006);
@@ -820,7 +782,7 @@ describe('NaviKidApiClient', () => {
         expect(response.data?.insideSafeZone).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/safe-zones/check?latitude=40.7128&longitude=-74.006'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
     });
@@ -858,19 +820,14 @@ describe('NaviKidApiClient', () => {
         expect(response.success).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/emergency-contacts'),
-          expect.any(Object),
+          expect.any(Object)
         );
       });
     });
 
     describe('addContact', () => {
       it('should add emergency contact', async () => {
-        await apiClient.emergency.addContact(
-          'John Doe',
-          '+1234567890',
-          'john@example.com',
-          'Father',
-        );
+        await apiClient.emergency.addContact('John Doe', '+1234567890', 'john@example.com', 'Father');
 
         const callBody = JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body);
         expect(callBody.name).toBe('John Doe');
@@ -887,7 +844,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/emergency-contacts/contact-123'),
-          expect.objectContaining({ method: 'PUT' }),
+          expect.objectContaining({ method: 'PUT' })
         );
       });
     });
@@ -904,7 +861,7 @@ describe('NaviKidApiClient', () => {
 
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/emergency-contacts/contact-123'),
-          expect.objectContaining({ method: 'DELETE' }),
+          expect.objectContaining({ method: 'DELETE' })
         );
       });
     });
@@ -934,7 +891,7 @@ describe('NaviKidApiClient', () => {
         expect(response.success).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
           expect.stringContaining('/emergency/alert'),
-          expect.objectContaining({ method: 'POST' }),
+          expect.objectContaining({ method: 'POST' })
         );
       });
     });
@@ -963,7 +920,7 @@ describe('NaviKidApiClient', () => {
       expect(response.data?.syncedCount).toBe(1);
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('/offline-actions/sync'),
-        expect.objectContaining({ method: 'POST' }),
+        expect.objectContaining({ method: 'POST' })
       );
     });
   });

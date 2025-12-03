@@ -4,9 +4,15 @@
  */
 
 // Mock modules FIRST before any imports
-jest.mock(
-  'expo-constants',
-  () => ({
+jest.mock('expo-constants', () => ({
+  expoConfig: {
+    extra: {
+      api: {
+        baseUrl: 'http://test-api.example.com',
+      },
+    },
+  },
+  default: {
     expoConfig: {
       extra: {
         api: {
@@ -14,18 +20,8 @@ jest.mock(
         },
       },
     },
-    default: {
-      expoConfig: {
-        extra: {
-          api: {
-            baseUrl: 'http://test-api.example.com',
-          },
-        },
-      },
-    },
-  }),
-  { virtual: true },
-);
+  },
+}), { virtual: true });
 
 jest.mock('@/utils/logger', () => ({
   log: {
@@ -91,12 +87,8 @@ class MockWebSocket {
   }
 }
 
-// Replace global WebSocket with mock and ensure constants are available
+// Replace global WebSocket with mock
 (global as any).WebSocket = MockWebSocket;
-(global as any).WebSocket.CONNECTING = MockWebSocket.CONNECTING;
-(global as any).WebSocket.OPEN = MockWebSocket.OPEN;
-(global as any).WebSocket.CLOSING = MockWebSocket.CLOSING;
-(global as any).WebSocket.CLOSED = MockWebSocket.CLOSED;
 
 describe('NaviKidWebSocketClient', () => {
   let wsClient: any;
@@ -161,32 +153,17 @@ describe('NaviKidWebSocketClient', () => {
         const newClient = new (require('@/services/websocket').NaviKidWebSocketClient)();
         newClient.connect('test-token-123');
 
-        // Should include the token in URL
-        expect(newClient['ws'].url).toContain('token=test-token-123');
-        expect(newClient['ws'].url).toMatch(/wss?:\/\/.*\/ws\/locations\?token=test-token-123/);
+        const expectedUrl = 'ws://test-api.example.com/ws/locations?token=test-token-123';
+        expect(newClient['ws'].url).toBe(expectedUrl);
       });
 
       it('should not reconnect if already connected', () => {
-        // Mock the connect method to spy on its internal logic
-        const originalConnect = wsClient.connect;
-        const connectSpy = jest.spyOn(wsClient, 'connect');
+        const createSpy = jest.spyOn(global as any, 'WebSocket');
+        const callCountBefore = createSpy.mock.calls.length;
 
-        // Set up the WebSocket to be in connected state
-        mockWs.readyState = MockWebSocket.OPEN;
-
-        // Mock isConnected to return true (simulating connected state)
-        const isConnectedSpy = jest.spyOn(wsClient, 'isConnected');
-        isConnectedSpy.mockReturnValue(true);
-
-        // Call connect - should return early due to already connected
         wsClient.connect();
 
-        // Verify connect was called but returned early (no new WebSocket created)
-        expect(connectSpy).toHaveBeenCalled();
-
-        // Clean up
-        isConnectedSpy.mockRestore();
-        connectSpy.mockRestore();
+        expect(createSpy).toHaveBeenCalledTimes(callCountBefore);
       });
 
       it('should not connect if connection is in progress', () => {
@@ -258,11 +235,8 @@ describe('NaviKidWebSocketClient', () => {
       });
 
       it('should emit connection status', (done) => {
-        let disconnectEventReceived = false;
-
         wsClient.on('connection_status', (status: ConnectionStatus) => {
-          if (!status.connected && !status.reconnecting && !disconnectEventReceived) {
-            disconnectEventReceived = true;
+          if (!status.connected && !status.reconnecting) {
             done();
           }
         });
@@ -314,12 +288,15 @@ describe('NaviKidWebSocketClient', () => {
 
       it('should stop reconnecting after max attempts', () => {
         wsClient['isIntentionallyClosed'] = false;
-        wsClient['reconnectAttempts'] = 5; // At max attempts
+        wsClient['reconnectAttempts'] = 4; // maxReconnectAttempts = 5
 
-        // Clear any existing timer
-        wsClient['clearReconnectTimer']();
+        // Trigger reconnect attempt
+        mockWs.close(1006, 'Connection lost');
 
-        // This should not set a timer since we're at max attempts
+        // Advance time for reconnect
+        jest.advanceTimersByTime(16000); // 2^4 * 1000 = 16000ms
+
+        wsClient['reconnectAttempts'] = 5;
         wsClient['scheduleReconnect']();
 
         expect(wsClient['reconnectTimer']).toBeNull();
@@ -630,14 +607,9 @@ describe('NaviKidWebSocketClient', () => {
       });
 
       it('should support onConnectionStatus', (done) => {
-        let statusReceived = false;
-
         wsClient.onConnectionStatus((status: ConnectionStatus) => {
-          if (!statusReceived) {
-            statusReceived = true;
-            expect(status.connected).toBeDefined();
-            done();
-          }
+          expect(status.connected).toBeDefined();
+          done();
         });
 
         wsClient.disconnect();
