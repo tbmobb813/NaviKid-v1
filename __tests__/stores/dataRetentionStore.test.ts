@@ -187,11 +187,21 @@ describe('Data Retention Store', () => {
     it('should handle edge case at exactly 24 hours', () => {
       const { setLastCleanupTime, shouldRunCleanup } = useDataRetentionStore.getState();
 
-      // Set cleanup time to exactly 24 hours ago
-      setLastCleanupTime(Date.now() - 24 * 60 * 60 * 1000);
+      // Use a fixed baseline time to avoid timing issues
+      const baseTime = 1000000000000; // Fixed baseline
+      const now = baseTime + 24 * 60 * 60 * 1000; // Exactly 24 hours later
+
+      // Mock Date.now() during the test
+      const realNow = Date.now;
+      Date.now = jest.fn(() => now);
+
+      setLastCleanupTime(baseTime);
 
       // At exactly 24 hours, should not run (needs to be > 24 hours)
       expect(shouldRunCleanup()).toBe(false);
+
+      // Restore Date.now
+      Date.now = realNow;
     });
   });
 

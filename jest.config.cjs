@@ -3,7 +3,7 @@ module.exports = {
   // Ignore helper module that lives inside __tests__ but isn't a test file
   testPathIgnorePatterns: ['/node_modules/', '/server/__tests__/', '/__tests__/test-utils\.(ts|tsx|js)$'],
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|expo-router|@expo/vector-icons|react-native-svg|react-native-reanimated|@react-navigation|lucide-react-native|@react-native-async-storage|@nkzw)/)',
+    'node_modules/(?!(react-native|@react-native|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|expo-router|@expo/vector-icons|react-native-svg|react-native-reanimated|@react-navigation|lucide-react-native|@react-native-async-storage|@nkzw|react-native-mmkv|expo-crypto|expo-secure-store)/)',
   ],
   testMatch: ['**/__tests__/**/*.(ts|tsx|js)', '**/*.(test|spec).(ts|tsx|js)'],
   collectCoverageFrom: [
@@ -16,10 +16,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: 5,
-      functions: 5,
-      lines: 5,
-      statements: 5,
+      branches: 30,
+      functions: 30,
+      lines: 30,
+      statements: 30,
     },
   },
   moduleNameMapper: {
@@ -28,9 +28,12 @@ module.exports = {
   '^react-native/jest/mock$': '<rootDir>/__mocks__/react-native-jest-mock.js',
   '^react-native/jest/setup$': '<rootDir>/__mocks__/react-native-jest-setup.js',
     '^expo-constants$': '<rootDir>/__mocks__/expo-constants.js',
+    '^expo-crypto$': '<rootDir>/__mocks__/expo-crypto.js',
+    '^expo-secure-store$': '<rootDir>/__mocks__/expo-secure-store.js',
     '^lucide-react-native$': '<rootDir>/__mocks__/lucide-react-native.js',
     '^react-native-svg$': '<rootDir>/__mocks__/react-native-svg.js',
     '^@sentry/react-native$': '<rootDir>/__mocks__/@sentry/react-native.js',
+    '^react-native-mmkv$': '<rootDir>/__mocks__/react-native-mmkv.js',
     // Prefer TypeScript source when both .ts and .js exist
     '^utils/(.*)$': '<rootDir>/utils/$1.ts',
   },

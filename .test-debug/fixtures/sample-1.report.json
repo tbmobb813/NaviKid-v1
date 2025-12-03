@@ -1,6 +1,6 @@
 {
-  "source": ".test-debug/fixtures/sample-1.log",
-  "generatedAt": "2025-11-29T18:40:32.672Z",
+  "source": "/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/fixtures/sample-1.log",
+  "generatedAt": "2025-12-01T23:55:49.019Z",
   "instances": [
     {
       "instanceId": "1",
