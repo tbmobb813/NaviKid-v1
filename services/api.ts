@@ -691,4 +691,5 @@ class NaviKidApiClient {
 // ============================================================================
 
 export const apiClient = new NaviKidApiClient();
+export { NaviKidApiClient };
 export default apiClient;

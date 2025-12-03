@@ -221,7 +221,7 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
           <Shield size={24} color={Colors.primary} />
           <Text style={styles.headerTitle}>Parent Dashboard</Text>
         </View>
-        <Pressable style={styles.exitButton} onPress={onExit}>
+        <Pressable style={styles.exitButton} onPress={onExit} testID="exit-button">
           <LogOut size={20} color={Colors.textLight} />
         </Pressable>
       </View>

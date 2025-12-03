@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useSafeZoneForm } from '@/hooks/useSafeZoneForm';
 import { SafeZoneForm, SafeZoneList } from '@/components/safeZoneManagement';
@@ -39,14 +40,16 @@ const SafeZoneManagement: React.FC<SafeZoneManagementProps> = ({ onBack }) => {
   }
 
   return (
-    <SafeZoneList
-      safeZones={safeZones}
-      onBack={onBack}
-      onAddNew={openAddForm}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      onToggleActive={handleToggleActive}
-    />
+    <View testID="safe-zone-management">
+      <SafeZoneList
+        safeZones={safeZones}
+        onBack={onBack}
+        onAddNew={openAddForm}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onToggleActive={handleToggleActive}
+      />
+    </View>
   );
 };
 

@@ -706,8 +706,8 @@ describe('ParentDashboard', () => {
     it('should call onExit when exit button is pressed', () => {
       render(<ParentDashboard onExit={mockOnExit} />);
 
-      // Find the exit button (LogOut icon in header)
-      const exitButton = screen.getAllByTestId('lucide-icon')[0];
+      // Find the exit button by testID
+      const exitButton = screen.getByTestId('exit-button');
       fireEvent.press(exitButton);
 
       expect(mockOnExit).toHaveBeenCalled();
