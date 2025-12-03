@@ -17,3 +17,10 @@ export { KidTipBox } from './KidTipBox';
 export { SafetyNote } from './SafetyNote';
 export { FunThingsList } from './FunThingsList';
 export { AccessibilityBadges } from './AccessibilityBadges';
+
+// Route details sub-components
+export { StarRating } from './StarRating';
+export { RouteHeader } from './RouteHeader';
+export { ThingsToRemember } from './ThingsToRemember';
+export { FunActivitiesList } from './FunActivitiesList';
+export { EmergencyInfo } from './EmergencyInfo';
