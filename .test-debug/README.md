@@ -77,7 +77,8 @@ node .test-debug/translate_instrumented_to_parser_input.cjs .test-debug/instrume
 
 1. **Instrumentation**: `stores/parentalStore.ts` calls `emitTestDebug(obj)` during test runs to write per-line JSON to the sink and stdout.
 2. **Events**: Each line is `ISO | hr { "op": "...", "instanceId": ..., ... }` (e.g., `authenticate.entry`, `activeOps.increment`, `activeOps.decrement`, `unmount.entry`).
-3. **Linker**: Reads the sink, groups events by `instanceId`, sorts by `hr`, and buckets activeOps ops under the nearest prior `authenticate.entry`. Outputs JSON with per-bucket increments/decrements and `isMounted` state.
+3. **Linker**: Reads the sink, groups events by `instanceId`, sorts by `hr`, and buckets activeOps ops under the nearest prior `authenticate.entry`. Outputs JSON with per-bucket increments/decrements
+    and `isMounted` state.
 4. **CI Assertion**: Fail if any bucket shows decrements while `isMounted==false`.
 
 ## Troubleshooting
