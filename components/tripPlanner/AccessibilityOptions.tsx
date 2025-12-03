@@ -25,7 +25,10 @@ export const AccessibilityOptions: React.FC<AccessibilityOptionsProps> = ({
         ]}
         onPress={onToggleWheelchair}
       >
-        <Shield size={16} color={accessibilityNeeds.wheelchair ? '#FFFFFF' : Colors.primary} />
+        <Shield
+          size={16}
+          color={accessibilityNeeds.wheelchair ? '#FFFFFF' : Colors.primary}
+        />
         <Text
           style={[
             styles.accessibilityOptionText,

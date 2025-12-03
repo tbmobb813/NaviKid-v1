@@ -4,3 +4,9 @@ export { TripPlannerRouteList } from './TripPlannerRouteList';
 export { TripPlannerRouteCard } from './TripPlannerRouteCard';
 export { TripPlannerRouteDetails } from './TripPlannerRouteDetails';
 export { TripSegmentCard } from './TripSegmentCard';
+
+// Form sub-components
+export { LocationInputs } from './LocationInputs';
+export { GroupSizeControls } from './GroupSizeControls';
+export { AccessibilityOptions } from './AccessibilityOptions';
+export { PlanTripButton } from './PlanTripButton';
