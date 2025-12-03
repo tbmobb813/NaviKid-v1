@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Pressable, Alert, Image } from 'react-native';
-import globalStyles from '../styles';
+import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
 import {
   Shield,
-  MapPin,
   Camera,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
   Phone,
   Settings,
   Plus,
   Eye,
   LogOut,
-  MessageCircle,
 } from 'lucide-react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useCategoryStore } from '@/stores/categoryStore';
@@ -24,6 +18,12 @@ import { SafeZoneStatusCard } from '@/components/SafeZoneStatusCard';
 import { SafeZoneActivityLog } from '@/components/SafeZoneActivityLog';
 import DevicePingHistory from '@/components/DevicePingHistory';
 import { useGeofenceEvents } from '@/hooks/useGeofenceEvents';
+import {
+  QuickActions,
+  AlertsSection,
+  LastKnownLocation,
+  RecentCheckIns,
+} from '@/components/parentDashboard';
 
 type ParentDashboardProps = {
   onExit: () => void;
@@ -133,140 +133,47 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
 
   const renderOverview = () => (
     <View style={styles.tabContent}>
-      {/* Quick Actions */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
-        <View style={styles.quickActionsGrid}>
-          <Pressable style={styles.quickActionButton} onPress={handleRequestCheckIn}>
-            <CheckCircle size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Request Check-in</Text>
-          </Pressable>
+      <QuickActions
+        onRequestCheckIn={handleRequestCheckIn}
+        onGetLocation={() => handleDevicePing('location')}
+        onRingDevice={() => handleDevicePing('ring')}
+        onSendMessage={handleSendMessage}
+      />
 
-          <Pressable style={styles.quickActionButton} onPress={() => handleDevicePing('location')}>
-            <MapPin size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Get Location</Text>
-          </Pressable>
+      <AlertsSection
+        pendingCheckIns={pendingCheckIns}
+        pendingCategories={pendingCategories}
+        onApproveCategory={handleApproveCategory}
+        formatTime={formatTime}
+      />
 
-          <Pressable style={styles.quickActionButton} onPress={() => handleDevicePing('ring')}>
-            <Phone size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Ring Device</Text>
-          </Pressable>
-
-          <Pressable style={styles.quickActionButton} onPress={() => handleSendMessage()}>
-            <MessageCircle size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Send Message</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      {/* Alerts */}
-      {(pendingCheckIns.length > 0 || pendingCategories.length > 0) && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Alerts</Text>
-
-          {pendingCheckIns.map((request) => (
-            <View key={request.id} style={styles.alertCard}>
-              <AlertTriangle size={20} color={Colors.warning} />
-              <View style={styles.alertContent}>
-                <Text style={styles.alertTitle}>Pending Check-in Request</Text>
-                <Text style={styles.alertSubtitle}>
-                  Sent {formatTime(request.requestedAt)} - {request.message}
-                </Text>
-              </View>
-            </View>
-          ))}
-
-          {pendingCategories.map((category) => (
-            <View key={category.id} style={styles.alertCard}>
-              <View style={styles.alertContent}>
-                <Text style={styles.alertTitle}>Category Approval Needed</Text>
-                <Text style={styles.alertSubtitle}>
-                  Child wants to add &quot;{category.name}&quot; category
-                </Text>
-              </View>
-              <Pressable
-                style={styles.approveButton}
-                onPress={() => handleApproveCategory(category.id)}
-              >
-                <Text style={styles.approveButtonText}>Approve</Text>
-              </Pressable>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {/* Last Known Location */}
       {dashboardData.lastKnownLocation && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Last Known Location</Text>
-          <View style={styles.locationCard}>
-            <MapPin size={20} color={Colors.primary} />
-            <View style={styles.locationContent}>
-              <Text style={styles.locationTitle}>
-                {dashboardData.lastKnownLocation.placeName || 'Unknown Location'}
-              </Text>
-              <Text style={styles.locationSubtitle}>
-                {formatTime(dashboardData.lastKnownLocation.timestamp)} on{' '}
-                {formatDate(dashboardData.lastKnownLocation.timestamp)}
-              </Text>
-            </View>
-          </View>
-        </View>
+        <LastKnownLocation
+          placeName={dashboardData.lastKnownLocation.placeName}
+          timestamp={dashboardData.lastKnownLocation.timestamp}
+          formatTime={formatTime}
+          formatDate={formatDate}
+        />
       )}
 
-      {/* Recent Check-ins */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recent Check-ins</Text>
-        {dashboardData.recentCheckIns.length === 0 ? (
-          <Text style={styles.emptyText}>No recent check-ins</Text>
-        ) : (
-          dashboardData.recentCheckIns.slice(0, 3).map((checkIn) => (
-            <View key={checkIn.id} style={styles.checkInCard}>
-              <Camera size={20} color={Colors.primary} />
-              <View style={styles.checkInContent}>
-                <Text style={styles.checkInTitle}>{checkIn.placeName}</Text>
-                <Text style={styles.checkInTime}>
-                  {formatTime(checkIn.timestamp)} on {formatDate(checkIn.timestamp)}
-                </Text>
-              </View>
-              {checkIn.photoUrl && (
-                <Image source={{ uri: checkIn.photoUrl }} style={styles.checkInPhoto} />
-              )}
-            </View>
-          ))
-        )}
-      </View>
+      <RecentCheckIns
+        checkIns={dashboardData.recentCheckIns}
+        formatTime={formatTime}
+        formatDate={formatDate}
+        limit={3}
+      />
     </View>
   );
 
   const renderCheckIns = () => (
     <View style={styles.tabContent}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>All Check-ins</Text>
-        {dashboardData.recentCheckIns.length === 0 ? (
-          <Text style={styles.emptyText}>No check-ins yet</Text>
-        ) : (
-          dashboardData.recentCheckIns.map((checkIn) => (
-            <View key={checkIn.id} style={styles.checkInCard}>
-              <Camera size={20} color={Colors.primary} />
-              <View style={styles.checkInContent}>
-                <Text style={styles.checkInTitle}>{checkIn.placeName}</Text>
-                <Text style={styles.checkInTime}>
-                  {formatTime(checkIn.timestamp)} on {formatDate(checkIn.timestamp)}
-                </Text>
-                {checkIn.location && (
-                  <Text style={styles.checkInLocation}>
-                    {checkIn.location.latitude.toFixed(4)}, {checkIn.location.longitude.toFixed(4)}
-                  </Text>
-                )}
-              </View>
-              {checkIn.photoUrl && (
-                <Image source={{ uri: checkIn.photoUrl }} style={styles.checkInPhoto} />
-              )}
-            </View>
-          ))
-        )}
-      </View>
+      <Text style={styles.sectionTitle}>All Check-ins</Text>
+      <RecentCheckIns
+        checkIns={dashboardData.recentCheckIns}
+        formatTime={formatTime}
+        formatDate={formatDate}
+        showTitle={false}
+      />
     </View>
   );
 
@@ -499,111 +406,6 @@ const styles = StyleSheet.create({
   },
   addButton: {
     padding: 8,
-  },
-  quickActionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  quickActionButton: {
-    width: '48%',
-    backgroundColor: Colors.primary,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    gap: 8,
-  },
-  quickActionText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  alertCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF9E6',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  alertContent: {
-    flex: 1,
-  },
-  alertTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  alertSubtitle: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  approveButton: {
-    backgroundColor: Colors.success,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  approveButtonText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  locationCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    gap: 12,
-  },
-  locationContent: {
-    flex: 1,
-  },
-  locationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  locationSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-  },
-  checkInCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  checkInContent: {
-    flex: 1,
-  },
-  checkInTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  checkInTime: {
-    fontSize: 14,
-    color: Colors.textLight,
-    marginBottom: 2,
-  },
-  checkInLocation: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  checkInPhoto: {
-    width: 50,
-    height: 50,
-    borderRadius: 8,
   },
   safeZoneCard: {
     flexDirection: 'row',
