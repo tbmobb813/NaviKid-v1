@@ -28,6 +28,7 @@ import {
 } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { useNavigationStore } from '@/stores/enhancedNavigationStore';
+import { SettingRow, NumberInput } from '@/components/routingPreferences';
 
 interface RoutingPreferencesProps {
   visible: boolean;
@@ -63,73 +64,6 @@ const RoutingPreferences: React.FC<RoutingPreferencesProps> = ({ visible, onClos
 
     updateAccessibilitySettings(localAccessibility);
     onClose();
-  };
-
-  const SettingRow: React.FC<{
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    value: boolean;
-    onValueChange: (value: boolean) => void;
-    disabled?: boolean;
-  }> = ({ icon, title, description, value, onValueChange, disabled = false }) => (
-    <View style={styles.settingRow}>
-      <View style={styles.settingIcon}>{icon}</View>
-      <View style={styles.settingContent}>
-        <Text style={[styles.settingTitle, disabled && styles.disabledText]}>{title}</Text>
-        <Text style={[styles.settingDescription, disabled && styles.disabledText]}>
-          {description}
-        </Text>
-      </View>
-      <Switch
-        value={value}
-        onValueChange={onValueChange}
-        disabled={disabled}
-        trackColor={{ false: Colors.border, true: Colors.primary + '50' }}
-        thumbColor={value ? Colors.primary : Colors.textLight}
-      />
-    </View>
-  );
-
-  const NumberInput: React.FC<{
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    value: number;
-    onValueChange: (value: number) => void;
-    unit: string;
-    min: number;
-    max: number;
-  }> = ({ icon, title, description, value, onValueChange, unit, min, max }) => {
-    const [localValue, setLocalValue] = useState(value.toString());
-
-    const handleChange = (text: string) => {
-      setLocalValue(text);
-      const num = parseInt(text);
-      if (!isNaN(num) && num >= min && num <= max) {
-        onValueChange(num);
-      }
-    };
-
-    return (
-      <View style={styles.settingRow}>
-        <View style={styles.settingIcon}>{icon}</View>
-        <View style={styles.settingContent}>
-          <Text style={styles.settingTitle}>{title}</Text>
-          <Text style={styles.settingDescription}>{description}</Text>
-        </View>
-        <View style={styles.numberInputContainer}>
-          <TextInput
-            style={styles.numberInput}
-            value={localValue}
-            onChangeText={handleChange}
-            keyboardType="numeric"
-            placeholder={min.toString()}
-          />
-          <Text style={styles.unitText}>{unit}</Text>
-        </View>
-      </View>
-    );
   };
 
   return (
