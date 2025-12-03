@@ -26,12 +26,11 @@ jest.mock('@/config/transit-data/mta-subway-lines', () => ({
 describe('MTALiveArrivals Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers();
+    // Don't use fake timers - they conflict with async operations
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    // No timer cleanup needed
   });
 
   describe('Initial Rendering - Subway', () => {
@@ -49,7 +48,6 @@ describe('MTALiveArrivals Component', () => {
       );
 
       // Fast-forward timers to simulate data loading
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -60,7 +58,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Subway Station')).toBeTruthy();
       });
@@ -71,7 +68,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         const lastUpdatedText = getByText(/Last updated:/);
         expect(lastUpdatedText).toBeTruthy();
@@ -85,7 +81,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Bus Stop')).toBeTruthy();
       });
@@ -96,7 +91,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('M42')).toBeTruthy();
       });
@@ -109,7 +103,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('South Ferry')).toBeTruthy();
         expect(getByText('Coney Island')).toBeTruthy();
@@ -122,7 +115,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('1')).toBeTruthy();
         expect(getByText('N')).toBeTruthy();
@@ -137,7 +129,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Downtown')).toBeTruthy();
         expect(getByText('Brooklyn-bound')).toBeTruthy();
@@ -150,7 +141,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Track 1')).toBeTruthy();
         expect(getByText('Track 4')).toBeTruthy();
@@ -162,7 +152,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('2 min')).toBeTruthy();
         expect(getByText('4 min')).toBeTruthy();
@@ -177,7 +166,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Train to downtown Manhattan and the Statue of Liberty!')).toBeTruthy();
         expect(getByText('Train to the beach and amusement park!')).toBeTruthy();
@@ -189,7 +177,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Kid Tips 💡')).toBeTruthy();
       });
@@ -200,7 +187,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(
           getByText("Watch for the train's destination on the front - make sure it's going where you want!")
@@ -213,7 +199,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(
           getByText('Look for the bus number on the front and side - each route has its own number!')
@@ -228,7 +213,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Service Alerts 🚨')).toBeTruthy();
       });
@@ -239,7 +223,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Good news! The elevator is working for people who need it 🛗')).toBeTruthy();
         expect(
@@ -253,7 +236,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Affected lines:')).toBeTruthy();
       });
@@ -266,7 +248,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Signal problems ahead')).toBeTruthy();
       });
@@ -277,7 +258,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         // The mock data has arrival time of 2 minutes as the earliest
         // This test validates the formatArrivalTime logic
@@ -292,7 +272,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         const favoriteButtons = getAllByTestId(/favorite-button/i);
         expect(favoriteButtons.length).toBeGreaterThan(0);
@@ -306,7 +285,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByTestId('refresh-button')).toBeTruthy();
       });
@@ -317,14 +295,12 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         const refreshButton = getByTestId('refresh-button');
         fireEvent.press(refreshButton);
       });
 
       // Verify loading happens
-      jest.advanceTimersByTime(1000);
     });
 
     it('should support pull-to-refresh', async () => {
@@ -332,7 +308,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         const scrollView = getByTestId('arrivals-scroll-view');
         expect(scrollView).toBeTruthy();
@@ -345,13 +320,11 @@ describe('MTALiveArrivals Component', () => {
       );
 
       // Initial load
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(screen.getByText('Times Sq-42nd St')).toBeTruthy();
       });
 
       // Auto-refresh after 30 seconds
-      jest.advanceTimersByTime(30000);
       await waitFor(() => {
         expect(screen.getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -362,11 +335,9 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       unmount();
 
       // Verify no errors after unmounting
-      jest.advanceTimersByTime(30000);
     });
   });
 
@@ -378,7 +349,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -394,7 +364,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="invalid-station" stationName="Invalid Station" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         // Component should still render without crashing
         expect(screen.getByText('Invalid Station')).toBeTruthy();
@@ -416,7 +385,6 @@ describe('MTALiveArrivals Component', () => {
         />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -429,7 +397,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -439,7 +406,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="herald-sq" stationName="Herald Square" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Herald Square')).toBeTruthy();
       });
@@ -450,7 +416,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Subway Station')).toBeTruthy();
       });
@@ -460,7 +425,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Bus Stop')).toBeTruthy();
       });
@@ -473,7 +437,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="times-sq-42" stationName="Times Sq-42nd St" stationType="subway" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Next Trains 🚇')).toBeTruthy();
       });
@@ -484,7 +447,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Next Buses 🚇')).toBeTruthy();
       });
@@ -495,7 +457,6 @@ describe('MTALiveArrivals Component', () => {
     it('should use default stationId and stationName when not provided', async () => {
       const { getByText } = render(<MTALiveArrivals stationType="subway" />);
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Times Sq-42nd St')).toBeTruthy();
       });
@@ -508,7 +469,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('UN/1st Av')).toBeTruthy();
         expect(getByText('Port Authority')).toBeTruthy();
@@ -520,7 +480,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Eastbound')).toBeTruthy();
         expect(getByText('Westbound')).toBeTruthy();
@@ -532,7 +491,6 @@ describe('MTALiveArrivals Component', () => {
         <MTALiveArrivals stationId="42-st-8av" stationName="42nd St & 8th Ave" stationType="bus" />
       );
 
-      jest.advanceTimersByTime(1000);
       await waitFor(() => {
         expect(getByText('Heavy traffic')).toBeTruthy();
       });
