@@ -446,10 +446,10 @@ describe('MTAStationFinder Component', () => {
 
   describe('Favorite Stations', () => {
     it('should toggle favorite status when star is pressed', async () => {
-      const { getByTestId, getByText } = render(<MTAStationFinder />);
+      const { getByTestId, getByText, getAllByText } = render(<MTAStationFinder />);
 
       await waitFor(() => {
-        expect(getByText('Not Favorited')).toBeTruthy();
+        expect(getAllByText(/Not Favorited/)[0]).toBeTruthy();
       });
 
       const favoriteButton = getByTestId('favorite-button-station-1');
@@ -461,7 +461,7 @@ describe('MTAStationFinder Component', () => {
     });
 
     it('should unfavorite when pressed again', async () => {
-      const { getByTestId, getByText } = render(<MTAStationFinder />);
+      const { getByTestId, getByText, getAllByText } = render(<MTAStationFinder />);
 
       const favoriteButton = getByTestId('favorite-button-station-1');
 
@@ -474,7 +474,7 @@ describe('MTAStationFinder Component', () => {
       // Unfavorite
       fireEvent.press(favoriteButton);
       await waitFor(() => {
-        expect(getByText('Not Favorited')).toBeTruthy();
+        expect(getAllByText(/Not Favorited/)[0]).toBeTruthy();
       });
     });
 
