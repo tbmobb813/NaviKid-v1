@@ -8,7 +8,7 @@ import { TripPlan, TripSegment, AccessibilityNeeds } from '@/hooks/tripPlanner/t
  */
 export const calculateKidFriendlyScore = (
   trip: TripPlan,
-  accessibilityNeeds?: AccessibilityNeeds,
+  accessibilityNeeds?: AccessibilityNeeds
 ): number => {
   let score = 5; // Start with perfect score
 
@@ -88,7 +88,7 @@ export const calculateDifficulty = (trip: TripPlan): 'Easy' | 'Medium' | 'Hard' 
  */
 export const meetsAccessibilityRequirements = (
   segment: TripSegment,
-  needs: AccessibilityNeeds,
+  needs: AccessibilityNeeds
 ): boolean => {
   if (needs.wheelchair && !segment.accessibility.wheelchairAccessible) {
     return false;
@@ -104,9 +104,12 @@ export const meetsAccessibilityRequirements = (
 /**
  * Filters trip options based on accessibility needs
  */
-export const filterByAccessibility = (trips: TripPlan[], needs: AccessibilityNeeds): TripPlan[] => {
+export const filterByAccessibility = (
+  trips: TripPlan[],
+  needs: AccessibilityNeeds
+): TripPlan[] => {
   return trips.filter((trip) =>
-    trip.segments.every((segment) => meetsAccessibilityRequirements(segment, needs)),
+    trip.segments.every((segment) => meetsAccessibilityRequirements(segment, needs))
   );
 };
 
