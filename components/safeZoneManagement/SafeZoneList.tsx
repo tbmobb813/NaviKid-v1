@@ -26,11 +26,11 @@ export const SafeZoneList: React.FC<SafeZoneListProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={onBack} testID="back-button">
+        <Pressable style={styles.backButton} onPress={onBack}>
           <ArrowLeft size={24} color={Colors.primary} />
         </Pressable>
         <Text style={styles.headerTitle}>Safe Zones</Text>
-        <Pressable style={styles.addButton} onPress={onAddNew} testID="add-safe-zone-button">
+        <Pressable style={styles.addButton} onPress={onAddNew}>
           <Plus size={24} color={Colors.primary} />
         </Pressable>
       </View>

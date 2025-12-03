@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigationStore } from '@/stores/navigationStore';
 import { useParentalStore } from '@/stores/parentalStore';
 import { formatDistance, getLocationAccuracyDescription } from '@/utils/locationUtils';
-import { validateLocation, validatePhotoCheckIn } from '@/utils/validation';
+import { validateLocation, validatePhotoCheckIn, logValidationResult } from '@/utils/validation';
 import {
   withRetry,
   handleCameraError,
@@ -30,10 +30,7 @@ export const usePhotoCheckIn = () => {
   const [isPhotoLoading, setIsPhotoLoading] = useState(false);
   const { showToast } = useToast();
 
-  const handlePhotoCheckIn = async (
-    currentPlace: Place | null | undefined,
-    currentLocation: Location | undefined,
-  ) => {
+  const handlePhotoCheckIn = async (currentPlace: Place | null | undefined, currentLocation: Location | undefined) => {
     try {
       if (!currentPlace) {
         showToast('Please select a destination first', 'warning');
@@ -209,11 +206,7 @@ export const usePhotoCheckIn = () => {
     }
   };
 
-  const processCheckIn = async (
-    photoUri: string,
-    currentPlace: Place,
-    currentLocation: Location,
-  ) => {
+  const processCheckIn = async (photoUri: string, currentPlace: Place, currentLocation: Location) => {
     const checkInData = {
       placeId: currentPlace.id,
       placeName: currentPlace.name,
@@ -254,11 +247,7 @@ export const usePhotoCheckIn = () => {
     showVerificationResult(verification, currentPlace.name);
   };
 
-  const saveCheckInToDashboard = async (
-    photoUri: string,
-    currentPlace: Place,
-    currentLocation: Location,
-  ) => {
+  const saveCheckInToDashboard = async (photoUri: string, currentPlace: Place, currentLocation: Location) => {
     try {
       await withRetry(
         () =>

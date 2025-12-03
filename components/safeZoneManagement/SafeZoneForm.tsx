@@ -99,7 +99,10 @@ export const SafeZoneForm: React.FC<SafeZoneFormProps> = ({
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Notifications</Text>
 
-            <Pressable style={styles.toggleRow} onPress={() => onToggleNotification('onEntry')}>
+            <Pressable
+              style={styles.toggleRow}
+              onPress={() => onToggleNotification('onEntry')}
+            >
               <Text style={styles.toggleLabel}>Notify on entry</Text>
               {formData.notifications.onEntry ? (
                 <ToggleRight size={24} color={Colors.primary} />
@@ -108,7 +111,10 @@ export const SafeZoneForm: React.FC<SafeZoneFormProps> = ({
               )}
             </Pressable>
 
-            <Pressable style={styles.toggleRow} onPress={() => onToggleNotification('onExit')}>
+            <Pressable
+              style={styles.toggleRow}
+              onPress={() => onToggleNotification('onExit')}
+            >
               <Text style={styles.toggleLabel}>Notify on exit</Text>
               {formData.notifications.onExit ? (
                 <ToggleRight size={24} color={Colors.primary} />
