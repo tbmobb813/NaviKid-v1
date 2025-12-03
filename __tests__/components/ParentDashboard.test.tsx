@@ -219,7 +219,7 @@ describe('ParentDashboard', () => {
     it('should render exit button', () => {
       render(<ParentDashboard onExit={mockOnExit} />);
 
-      const exitButton = screen.getByTestId('lucide-icon'); // LogOut icon
+      const exitButton = screen.getAllByTestId('lucide-icon')[0]; // LogOut icon
       expect(exitButton).toBeTruthy();
     });
   });
@@ -578,7 +578,8 @@ describe('ParentDashboard', () => {
       fireEvent.press(screen.getByText('Safe Zones'));
 
       // Find and press the add button (Plus icon)
-      const addButton = screen.getByTestId('lucide-icon'); // Plus icon
+      const icons = screen.getAllByTestId('lucide-icon');
+      const addButton = icons[icons.length - 1]; // Plus icon typically last
       fireEvent.press(addButton);
 
       expect(screen.getByTestId('safe-zone-management')).toBeTruthy();
@@ -610,7 +611,8 @@ describe('ParentDashboard', () => {
       fireEvent.press(screen.getByText('Safe Zones'));
 
       // Open management
-      const addButton = screen.getByTestId('lucide-icon');
+      const icons = screen.getAllByTestId('lucide-icon');
+      const addButton = icons[icons.length - 1]; // Plus icon
       fireEvent.press(addButton);
 
       // Close management
@@ -705,7 +707,7 @@ describe('ParentDashboard', () => {
       render(<ParentDashboard onExit={mockOnExit} />);
 
       // Find the exit button (LogOut icon in header)
-      const exitButton = screen.getByTestId('lucide-icon');
+      const exitButton = screen.getAllByTestId('lucide-icon')[0];
       fireEvent.press(exitButton);
 
       expect(mockOnExit).toHaveBeenCalled();

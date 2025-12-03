@@ -23,6 +23,8 @@
     "test:routing": "jest __tests__/routing-integration.test.ts",
     "test:offline": "jest __tests__/offline-validation.test.ts",
     "test:monitoring": "jest __tests__/monitoring.test.ts",
+    "parental-link-check": "TEST_DEBUG_CLEAR=1 BABEL_DISABLE_MODULE_RESOLVER=1 npx jest __tests__/parental-auth-security.test.ts --runInBand --setupFiles=./.test-debug/jest-log-timestamps.cjs --setupFiles=./.test-debug/logger-wrap.cjs --detectOpenHandles --verbose && node .test-debug/link_active_ops_to_auth.cjs .test-debug/instrumented-events.log .test-debug/link_report.json json",
+    "parental-link-fixtures": "node .test-debug/run-linker-fixtures.cjs",
     "dev:backend": "cd backend && npm run dev",
     "test:server": "jest --config=jest.server.config.cjs",
     "test:all": "npm test && npm run test:server",
