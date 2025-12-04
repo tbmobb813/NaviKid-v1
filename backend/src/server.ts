@@ -34,7 +34,7 @@ export async function buildServer() {
   }
 
   const server = Fastify({
-    logger: logger,
+    loggerInstance: logger,
     trustProxy: true,
     requestIdLogLabel: 'reqId',
     disableRequestLogging: false,
