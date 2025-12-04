@@ -48,8 +48,14 @@ jest.mock('@/utils/logger', () => ({
 global.fetch = jest.fn();
 
 import * as SecureStore from 'expo-secure-store';
-import { NaviKidApiClient } from '@/services/api';
-import type { ApiResponse, AuthTokens, User, Location, SafeZone, EmergencyContact } from '@/services/api';
+import type {
+  ApiResponse,
+  AuthTokens,
+  User,
+  Location,
+  SafeZone,
+  EmergencyContact,
+} from '@/services/api';
 
 describe('NaviKidApiClient', () => {
   let apiClient: any;
