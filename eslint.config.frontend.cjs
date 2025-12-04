@@ -2,13 +2,27 @@
 module.exports = [
   {
     ignores: [
+      'android/**',
+      'android_backup/**',
+      'ios/**',
+      'backend/**',
       'dist/**',
       'docs/**',
       'templates/**',
-      'docker/postgres-data/**',
+      'docker/**',
       'coverage/**',
       'node_modules/**',
+      '.expo/**',
+      '.expo-shared/**',
+      '.cache/**',
+      '.eslintcache',
+      'perf-artifacts-*/**',
+      'perf-artifacts*/**',
+      '**/*.js',
+      '**/*.jsx',
       '*.lock',
+      '*.log',
+      '.git/**',
     ],
   },
   {
@@ -28,7 +42,8 @@ module.exports = [
       prettier: require('eslint-plugin-prettier'),
     },
     rules: {
-      'prettier/prettier': 'error',
+      // Note: 'prettier/prettier' rule disabled due to performance issues (causes ESLint to hang)
+      // Use npm run format:check instead to verify code formatting
       'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
       '@typescript-eslint/explicit-function-return-type': 'off',
       'import/prefer-default-export': 'off',
