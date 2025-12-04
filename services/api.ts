@@ -275,7 +275,6 @@ class NaviKidApiClient {
       log.debug('API Response', { success: data.success, endpoint });
       return data;
     } catch (error) {
-
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error('Request timeout');
