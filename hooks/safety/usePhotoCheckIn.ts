@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Platform, Linking } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigationStore } from '@/stores/navigationStore';
 import { useParentalStore } from '@/stores/parentalStore';
