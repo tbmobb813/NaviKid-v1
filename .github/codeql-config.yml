@@ -1,0 +1,28 @@
+name: "CodeQL Config"
+description: "Configuration for CodeQL analysis"
+
+# Specify which queries to run
+queries:
+  - uses: security-and-quality
+  
+# Exclude paths that don't need analysis
+paths-ignore:
+  - node_modules
+  - backend/node_modules
+  - server/node_modules
+  - coverage
+  - dist
+  - build
+  - .next
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/*.spec.tsx"
+  - "__tests__"
+  - "**/__mocks__"
+
+# Disable specific rules that generate too many false positives
+disable-default-queries: false
+
+# Set analysis timeout
+max-toplevel-statements: 5000000
