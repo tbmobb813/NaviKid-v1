@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logger } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 const API_BASE_URL = __DEV__ ? 'http://localhost:3000/api' : 'https://your-production-api.com/api';
 
@@ -56,6 +57,7 @@ class ApiClient {
       const data = await response.json();
       return data;
     } catch (error) {
+
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error('Request timeout');

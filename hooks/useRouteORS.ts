@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry } from 'geojson';
 import Config from '@/utils/config';
 import { logger } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 export type RouteGeoJSON = FeatureCollection<Geometry>;
 
@@ -118,16 +119,6 @@ export function useRouteORS(
         },
         signal: timeoutSignal(DEFAULT_TIMEOUT),
       });
-      // If the controller was aborted while the mocked fetch resolved, ignore the result.
-      logger.debug('useRouteORS fetch resolved', {
-        aborted: (controller.signal as any).aborted
-      });
-      if (controller.signal && (controller.signal as any).aborted) {
-        // Treat as aborted
-        const abortErr: any = new Error('Aborted');
-        abortErr.name = 'AbortError';
-        throw abortErr;
-      }
 
       if (!response.ok) {
         const message = await response.text();
