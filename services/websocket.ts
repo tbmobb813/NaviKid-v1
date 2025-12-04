@@ -358,4 +358,5 @@ class NaviKidWebSocketClient {
 // ============================================================================
 
 export const wsClient = new NaviKidWebSocketClient();
+export { NaviKidWebSocketClient };
 export default wsClient;
