@@ -30,7 +30,7 @@ export const SafeZoneList: React.FC<SafeZoneListProps> = ({
           <ArrowLeft size={24} color={Colors.primary} />
         </Pressable>
         <Text style={styles.headerTitle}>Safe Zones</Text>
-        <Pressable style={styles.addButton} onPress={onAddNew}>
+        <Pressable style={styles.addButton} onPress={onAddNew} testID="add-safe-zone-button">
           <Plus size={24} color={Colors.primary} />
         </Pressable>
       </View>
