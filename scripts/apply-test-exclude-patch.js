@@ -201,9 +201,18 @@ function apply() {
       console.log('test-exclude not present in node_modules; skipping patch');
       return;
     }
-    // make a backup if not exists
+    if (!fs.existsSync(patchFile)) {
+      console.error('patch-content.txt not found; cannot apply patch');
+      process.exit(1);
+    }
+    const patchedContent = fs.readFileSync(patchFile, 'utf8');
+    // make a backup if not exists (check again to prevent race condition)
     if (!fs.existsSync(backup)) {
-      fs.copyFileSync(target, backup);
+      try {
+        fs.copyFileSync(target, backup);
+      } catch (backupErr) {
+        console.warn('Failed to create backup:', backupErr);
+      }
     }
     fs.writeFileSync(target, patched, 'utf8');
     console.log('Applied test-exclude compatibility patch');
