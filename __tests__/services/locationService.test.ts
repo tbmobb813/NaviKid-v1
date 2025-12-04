@@ -44,7 +44,6 @@ jest.mock('@/utils/logger');
 
 import locationService, { LocationUpdate } from '@/services/locationService';
 import * as Location from 'expo-location';
-import * as Device from 'expo-device';
 import apiClient from '@/services/api';
 import { offlineQueue } from '@/services/offlineQueue';
 
