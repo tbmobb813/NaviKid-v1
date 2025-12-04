@@ -163,7 +163,7 @@ jobs:
       - name: Check for build errors
         run: |
           echo "Checking for common build issues..."
-          npx expo-doctor || echo "expo-doctor check completed with non-zero exit"
+          npx expo-doctor || echo "expo-doctor exited with code $?"
 
   eas-build-preview:
     name: EAS Build (Preview)
