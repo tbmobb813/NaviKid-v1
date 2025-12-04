@@ -270,7 +270,7 @@ describe('NaviKidApiClient', () => {
             json: async () => mockSuccessResponse({ data: 'success' }),
           });
 
-        const response = await apiClient['request']('/test', { method: 'GET' });
+        await apiClient['request']('/test', { method: 'GET' });
 
         // Should have called fetch 3 times: original, refresh, retry
         expect(global.fetch).toHaveBeenCalledTimes(3);
