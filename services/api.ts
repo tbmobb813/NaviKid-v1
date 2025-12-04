@@ -15,6 +15,7 @@ if (typeof fetch === 'undefined') {
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { log } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 // ============================================================================
 // Types & Interfaces
@@ -238,20 +239,14 @@ class NaviKidApiClient {
       headers['Authorization'] = `Bearer ${this.accessToken}`;
     }
 
-    // Create abort controller for timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
-
     try {
       log.debug('API Request', { method: options.method || 'GET', endpoint });
 
       const response = await fetch(url, {
         ...options,
         headers,
-        signal: controller.signal,
+        signal: timeoutSignal(this.config.timeout),
       });
-
-      clearTimeout(timeoutId);
 
       const data = await response.json();
 
@@ -280,7 +275,6 @@ class NaviKidApiClient {
       log.debug('API Response', { success: data.success, endpoint });
       return data;
     } catch (error) {
-      clearTimeout(timeoutId);
 
       if (error instanceof Error) {
         if (error.name === 'AbortError') {

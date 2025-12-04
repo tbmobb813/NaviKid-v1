@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logger } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 const API_BASE_URL = __DEV__ ? 'http://localhost:3000/api' : 'https://your-production-api.com/api';
 
@@ -42,17 +43,12 @@ class ApiClient {
       headers.Authorization = `Bearer ${this.authToken}`;
     }
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
     try {
       const response = await fetch(url, {
         ...options,
         headers,
-        signal: controller.signal,
+        signal: timeoutSignal(this.timeout),
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -61,7 +57,6 @@ class ApiClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      clearTimeout(timeoutId);
 
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
