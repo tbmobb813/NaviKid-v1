@@ -206,7 +206,7 @@ describe('UnifiedRoutingService', () => {
         },
       };
 
-      const routes = await unifiedRoutingService.getRoutes(request);
+      await unifiedRoutingService.getRoutes(request);
 
       expect(orsService.getAccessibleRoute).toHaveBeenCalled();
       expect(otp2Service.getAccessibleTrip).toHaveBeenCalled();
