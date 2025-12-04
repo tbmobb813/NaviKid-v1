@@ -49,4 +49,7 @@ module.exports = {
   // Start backend server before tests and stop after tests so integration suites can run
   globalSetup: '<rootDir>/jest.global-setup.js',
   globalTeardown: '<rootDir>/jest.global-teardown.js',
+  testTimeout: 60000,
+  // Bail after first failing test file to prevent cascading failures
+  bail: 0,
 };

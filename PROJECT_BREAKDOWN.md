@@ -2,9 +2,11 @@
 
 ## 📊 Project Overview
 
-**NaviKid** is a React Native (Expo) application designed for child safety and transit navigation. The project implements real-time location tracking, emergency services integration, geofencing, MTA transit information, and comprehensive parental controls.
+**NaviKid** is a React Native (Expo) application designed for child safety and transit navigation. The project implements real-time location tracking, emergency services integration, geofencing, MTA 
+transit information, and comprehensive parental controls.
 
 ### Key Statistics
+
 - **Total Source Files**: 196 (118 components, 18 stores, 9 services, 18 hooks, 33 utilities)
 - **Test Files**: 46 test suites
 - **Total Lines of Code**: ~35,642+ (excluding tests, node_modules, build artifacts)
@@ -16,6 +18,7 @@
 ## 🏗️ Architecture Overview
 
 ### Tech Stack
+
 | Layer | Technology |
 |-------|-----------|
 | **Runtime** | Expo 54.0.25, React Native |
@@ -29,6 +32,7 @@
 | **Build** | Metro, Babel, EAS Build |
 
 ### Deployment
+
 - **CI/CD**: GitHub Actions with Docker Compose
 - **Platforms**: iOS (EAS), Android (APK generation)
 - **Docker**: Multi-stage test environment with Chrome for E2E tests
@@ -40,6 +44,7 @@
 ### 1. Components (118 files, ~18,623 lines)
 
 **Largest Components** (Top 15 by size - Updated 2025-12-03):
+
 1. `AdventureHub.tsx` (529 lines) - Adventure/activity tracking
 2. `CategoryManagement.tsx` (507 lines) - Location category settings
 3. `RoutingPreferences.tsx` (501 lines) - Trip routing configuration ✅ REFACTORED
@@ -57,6 +62,7 @@
 15. `SafetyPanel.tsx` (128 lines) - Safety and emergency features ✅ REFACTORED
 
 **Recently Refactored** (Phase 3 Complete - 7 Components):
+
 - `KidTripPlanner.tsx`: 1,066 → **79 lines** (-93%) ✅
 - `ParentDashboard.tsx`: 727 → **351 lines** (-52%) ✅
 - `MTALiveArrivals.tsx`: 716 → **293 lines** (-59%) ✅
@@ -66,8 +72,9 @@
 - `RoutingPreferences.tsx`: 567 → **501 lines** (-12%) ✅
 
 **Component Categories**:
+
 - **Core**: App.tsx, RootNavigator.tsx, splash screens
-- **Features**: 
+- **Features**:
   - Trip Planning: KidTripPlanner, RoutingPreferences, RouteDisplay
   - Safety: SafetyPanel, SafetyDashboard, EmergencySOS, GeofenceRealtime
   - Transit: MTALiveArrivals, MTAStationFinder, TransitCard
@@ -80,6 +87,7 @@
 ### 2. State Management - Zustand Stores (18 files, ~2,543 lines)
 
 **Core Stores** (8):
+
 1. **parental Store** (888 lines)
    - Parental control settings (screen time, features, auth)
    - PIN management, activity logging
@@ -121,6 +129,7 @@
    - Locale management
 
 **Store Features**:
+
 - Persistent state with AsyncStorage
 - Type-safe selectors
 - Computed properties
@@ -130,6 +139,7 @@
 ### 3. Services Layer (9 files, ~2,905 lines)
 
 **Core Services**:
+
 1. **api.ts** (694 lines)
    - Central API client with axios/interceptors
    - Request/response transformation
@@ -177,6 +187,7 @@
 9. **unifiedRoutingService.ts** - Route aggregation and scoring
 
 **Service Architecture**:
+
 - Singleton pattern with cleanup methods
 - Dependency injection ready
 - Error recovery mechanisms
@@ -186,6 +197,7 @@
 ### 4. Custom Hooks (18 files, ~1,589 lines)
 
 **Key Hooks**:
+
 1. **useSafeZoneMonitor.ts** (356 lines)
    - Geofence entry/exit detection
    - Zone state management
@@ -218,6 +230,7 @@
 10. **useSafeZoneAlert.ts** - Zone alert system
 
 **Hook Patterns**:
+
 - Custom error boundaries
 - Automatic cleanup
 - Dependency optimization
@@ -251,6 +264,7 @@
 | **regionUtils.ts** | 111 | Regional utilities |
 
 **Utility Patterns**:
+
 - Singleton pattern for services
 - Factory functions
 - Decorator pattern for error handling
@@ -264,6 +278,7 @@
 ### Test Suites (46 files)
 
 **Test Organization**:
+
 ```
 __tests__/
 ├── components/        (4 files, 1,137 tests)
@@ -307,6 +322,7 @@ __tests__/
 ### Test Results Summary
 
 **Overall Statistics**:
+
 - ✅ **Passing**: 378/410 (92.2%)
 - ⏭️ **Skipped**: 46 (11.2%)
 - ❌ **Failing**: 3 (0.7% - non-critical)
@@ -324,6 +340,7 @@ __tests__/
 | **2.6** | E2E Tests | ⏳ Pending | Browser-based |
 
 **Coverage Metrics**:
+
 - **Line Coverage**: ~45-50%
 - **Branch Coverage**: ~35-40%
 - **Function Coverage**: ~50-55%
@@ -332,6 +349,7 @@ __tests__/
 ### Test Infrastructure
 
 **Jest Configuration**:
+
 - TypeScript transformation with ts-jest
 - Module name mapping for package aliases
 - Transform ignore patterns for ES modules
@@ -339,6 +357,7 @@ __tests__/
 - Timeout: 60000ms (extended for integration tests)
 
 **Mock Setup**:
+
 - React Native Navigation mocks
 - Expo module mocks (Location, Notifications, SecureStore)
 - Supabase client mocks
@@ -346,6 +365,7 @@ __tests__/
 - WebSocket mock server
 
 **Test Utilities**:
+
 - Custom render function with theme/navigation providers
 - API response factories
 - Mock data generators
@@ -359,18 +379,21 @@ __tests__/
 ### Completed Milestones
 
 ✅ **Type Safety (Phase 1)**
+
 - Full TypeScript strict mode
 - Zero type errors in production code
 - Type-safe store selectors
 - Generic component props
 
 ✅ **State Management Tests (Phase 2.2)**
+
 - 152/152 store tests passing
 - All 8 Zustand stores validated
 - Persistence testing
 - State update verification
 
 ✅ **Component Tests (Phase 2.3)**
+
 - 4 major components fully tested
 - 129/137 tests passing (94.2%)
 - User interaction testing
@@ -378,6 +401,7 @@ __tests__/
 - Accessibility testing
 
 ✅ **Service Layer Tests (Phase 2.4-2.5)**
+
 - 6 core services tested
 - 88/99 tests passing (88.8%)
 - API integration testing
@@ -387,12 +411,14 @@ __tests__/
 ### In-Progress Work
 
 ⏳ **Integration Tests (Phase 2.5)**
+
 - Backend API integration
 - Navigation flow testing
 - Data persistence verification
 - Real-time updates
 
 ⏳ **E2E Tests (Phase 2.6)**
+
 - Full app workflow testing
 - Cross-platform validation
 - Performance profiling
@@ -422,6 +448,7 @@ __tests__/
 ### Recently Refactored Components ✅ (Phase 3 Complete)
 
 **Original Plan (Completed):**
+
 1. **KidTripPlanner**: 1,066 lines → **79 lines** (-93%) ✅
    - Extracted 25+ sub-components into `components/tripPlanner/`
    - Created hooks: `useTripPlanner`, `useKidFriendlyFilters`
@@ -432,7 +459,9 @@ __tests__/
 
 **High-Priority Safety Components (Completed):**
 4. **SafetyPanel**: 600 lines → **128 lines** (-79%) ✅
-   - Extracted 4 hooks + 2 UI components into `components/safetyPanel/`
+
+- Extracted 4 hooks + 2 UI components into `components/safetyPanel/`
+
 5. **SafeZoneManagement**: 552 lines → **53 lines** (-90%) ✅
    - Extracted 1 hook + 4 UI components into `components/safeZoneManagement/`
 6. **SafetyDashboard**: 530 lines → **174 lines** (-67%) ✅
@@ -440,23 +469,27 @@ __tests__/
 
 **Medium-Priority Components (In Progress):**
 7. **RoutingPreferences**: 567 lines → **501 lines** (-12%) ✅
-   - Extracted 2 reusable components into `components/routingPreferences/`
+
+- Extracted 2 reusable components into `components/routingPreferences/`
 
 **Total Refactored**: 4,738 lines → 1,579 lines (-67% / 3,159 lines removed)
 
 ### Remaining Large Components (Optional Future Work)
+
 1. AdventureHub: 529 lines
 2. CategoryManagement: 507 lines
 3. CityManagement: 497 lines
 4. KidFriendlyMap: 474 lines
 
 ### Code Complexity
+
 - **Average Component Size**: ~158 lines
 - **Average Hook Size**: ~88 lines
 - **Average Service Size**: ~322 lines
 - **Average Utility Size**: ~197 lines
 
 ### Dependency Health
+
 - **Zero Dependency Conflicts**: ✅
 - **Security Vulnerabilities**: ✅ None (audited)
 - **Outdated Packages**: ✅ All current
@@ -467,18 +500,21 @@ __tests__/
 ## 🚀 Performance Baseline
 
 ### Build Metrics
+
 - **Bundle Size**: ~850KB (optimized)
 - **Metro Build Time**: ~8-12 seconds
 - **TypeScript Check**: ~2-3 seconds
 - **Test Execution**: ~45-60 seconds
 
 ### Runtime Metrics
+
 - **App Startup**: ~3-4 seconds (cold)
 - **Initial Location Fix**: ~2-5 seconds
 - **Map Render**: ~800-1200ms
 - **Route Calculation**: ~1-3 seconds
 
 ### Memory Usage
+
 - **Idle State**: ~180-220 MB
 - **Active Tracking**: ~250-300 MB
 - **Route Calculation**: Peak 350-400 MB
@@ -488,24 +524,28 @@ __tests__/
 ## 🔒 Security Features
 
 ✅ **Authentication**
+
 - Token-based auth with Supabase
 - Secure credential storage
 - PIN-based parental controls
 - Session timeout
 
 ✅ **Data Protection**
+
 - Encrypted location data
 - Secure WebSocket connections (WSS)
 - AsyncStorage encryption
 - Secure device storage (SecureStore)
 
 ✅ **Privacy**
+
 - User consent tracking
 - Data retention policies
 - GDPR compliance
 - Offline-first architecture
 
 ✅ **Error Handling**
+
 - Sentry integration
 - Graceful error recovery
 - User-friendly error messages
@@ -516,18 +556,21 @@ __tests__/
 ## 📋 Deployment Status
 
 ### iOS Build
+
 - ✅ EAS Build configured
 - ✅ App Store release ready
 - ✅ Code signing setup
 - ⏳ App Review process
 
 ### Android Build
+
 - ✅ APK generation configured
 - ✅ Gradle build system
 - ✅ Google Play release ready
 - ⏳ Play Store review
 
 ### Backend
+
 - ✅ Supabase database configured
 - ✅ API endpoints implemented
 - ✅ WebSocket server ready
@@ -538,23 +581,27 @@ __tests__/
 ## 📝 Next Steps
 
 ### Immediate (Week 1)
+
 - [ ] Fix 3 ParentDashboard state tests
 - [ ] Complete integration test suite
 - [ ] Set up E2E test automation
 
 ### Short-term (Month 1)
+
 - [ ] Increase test coverage to 60%+
 - [ ] Refactor large components (>600 lines)
 - [ ] Add performance monitoring
 - [ ] Beta testing with users
 
 ### Medium-term (Quarter 1)
+
 - [ ] App Store/Play Store submission
 - [ ] Production deployment
 - [ ] User feedback iteration
 - [ ] Performance optimization
 
 ### Long-term (Year 1)
+
 - [ ] Additional platform support (web)
 - [ ] Advanced analytics
 - [ ] Machine learning routing
