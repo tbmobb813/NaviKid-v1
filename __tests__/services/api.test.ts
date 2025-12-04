@@ -120,7 +120,7 @@ describe('NaviKidApiClient', () => {
         return Promise.resolve(null);
       });
 
-      const newClient = new (require('@/services/api').NaviKidApiClient)();
+      new (require('@/services/api').NaviKidApiClient)();
 
       // Give time for async loadTokens to complete
       await new Promise(resolve => setTimeout(resolve, 10));
