@@ -78,16 +78,20 @@ async function buildServer() {
       },
       'Incoming request'
     );
+    // Store start time in request for response logging
+    (request as any).startTime = Date.now();
   });
 
   // Response logging
   fastify.addHook('onResponse', async (request, reply) => {
+    const startTime = (request as any).startTime as number | undefined;
+    const responseTime = startTime ? Date.now() - startTime : 0;
     logger.info(
       {
         method: request.method,
         url: request.url,
         statusCode: reply.statusCode,
-        responseTime: reply.getResponseTime(),
+        responseTime,
         requestId: request.id,
       },
       'Request completed'
