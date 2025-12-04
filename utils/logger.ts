@@ -59,7 +59,6 @@ class Logger {
     if (Config.isDev) {
       const formattedMessage = this.formatMessage(level, message, context);
 
-      // eslint-disable-next-line no-console -- Logger implementation requires console
       switch (level) {
         case LogLevel.DEBUG:
           console.log(formattedMessage);
@@ -116,9 +115,7 @@ class Logger {
       }
     } catch (e) {
       // Fallback to console if Sentry fails
-      // eslint-disable-next-line no-console -- Fallback when crash reporting fails
       console.error('Failed to send crash report:', e);
-      // eslint-disable-next-line no-console -- Fallback when crash reporting fails
       console.error('Original error:', logEntry, error);
     }
   }
@@ -140,12 +137,10 @@ class Logger {
   }
 
   time(label: string) {
-    // eslint-disable-next-line no-console -- Performance timing in development
     if (Config.isDev) console.time(label);
   }
 
   timeEnd(label: string) {
-    // eslint-disable-next-line no-console -- Performance timing in development
     if (Config.isDev) console.timeEnd(label);
   }
 
