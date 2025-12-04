@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Alert } from 'react-native';
 import MTAStationFinder from '@/components/MTAStationFinder';
 import { generateMockStations } from '@/services/mockStationData';
