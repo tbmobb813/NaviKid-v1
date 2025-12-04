@@ -119,8 +119,8 @@ class Logger {
       }
     } catch (e) {
       // Fallback to console if Sentry fails
-      console.error('Failed to send crash report:', e);
-      console.error('Original error:', logEntry, error);
+      console.error('[Logger] Failed to send crash report');
+      console.error('[Logger] Original error:', logEntry, error);
     }
   }
 

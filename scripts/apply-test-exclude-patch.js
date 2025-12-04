@@ -22,9 +22,13 @@ function apply() {
       process.exit(1);
     }
     const patchedContent = fs.readFileSync(patchFile, 'utf8');
-    // make a backup if not exists
+    // make a backup if not exists (check again to prevent race condition)
     if (!fs.existsSync(backup)) {
-      fs.copyFileSync(target, backup);
+      try {
+        fs.copyFileSync(target, backup);
+      } catch (backupErr) {
+        console.warn('Failed to create backup:', backupErr);
+      }
     }
     fs.writeFileSync(target, patchedContent, 'utf8');
     console.log('Applied test-exclude compatibility patch from patch-content.txt');
