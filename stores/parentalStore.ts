@@ -242,7 +242,6 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     }
 
     // Normal path when still mounted: decrement and log the change.
-    const prev = activeOpsRef.current;
     activeOpsRef.current = Math.max(0, activeOpsRef.current - 1);
     logger.debug('[TestDebug] parentalStore activeOps decrement', {
       activeOps: activeOpsRef.current,
