@@ -1,14 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {
-  Navigation,
-  Train,
-  Bus,
-  Clock,
-  AlertTriangle,
-  Shield,
-  Heart,
-} from 'lucide-react-native';
+import { Navigation, Train, Bus, Clock, AlertTriangle, Shield, Heart } from 'lucide-react-native';
 import Colors from '@/constants/colors';
 import { subwayLineColors } from '@/config/transit-data/mta-subway-lines';
 import { TripSegment as TripSegmentType } from '@/types/trip';
@@ -26,9 +18,7 @@ export const TripSegment: React.FC<TripSegmentProps> = ({ segment }) => {
         return (
           <Train
             size={20}
-            color={
-              segment.line ? subwayLineColors[segment.line] || Colors.primary : Colors.primary
-            }
+            color={segment.line ? subwayLineColors[segment.line] || Colors.primary : Colors.primary}
           />
         );
       case 'bus':

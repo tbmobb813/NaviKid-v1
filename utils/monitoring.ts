@@ -253,7 +253,7 @@ class ApplicationMonitoring {
       // Lazy import to avoid crashes if not installed
       const Sentry = require('@sentry/react-native');
 
-  const integrations: unknown[] = [];
+      const integrations: unknown[] = [];
 
       if (Sentry.ReactNativeTracing) {
         try {

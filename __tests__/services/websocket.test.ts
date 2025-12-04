@@ -4,15 +4,9 @@
  */
 
 // Mock modules FIRST before any imports
-jest.mock('expo-constants', () => ({
-  expoConfig: {
-    extra: {
-      api: {
-        baseUrl: 'http://test-api.example.com',
-      },
-    },
-  },
-  default: {
+jest.mock(
+  'expo-constants',
+  () => ({
     expoConfig: {
       extra: {
         api: {
@@ -20,8 +14,18 @@ jest.mock('expo-constants', () => ({
         },
       },
     },
-  },
-}), { virtual: true });
+    default: {
+      expoConfig: {
+        extra: {
+          api: {
+            baseUrl: 'http://test-api.example.com',
+          },
+        },
+      },
+    },
+  }),
+  { virtual: true },
+);
 
 jest.mock('@/utils/logger', () => ({
   log: {

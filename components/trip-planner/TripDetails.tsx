@@ -62,9 +62,7 @@ export const TripDetails: React.FC<TripDetailsProps> = ({ trip }) => {
       {/* Emergency Information */}
       <View style={styles.emergencyContainer}>
         <Text style={styles.emergencyTitle}>🚨 Emergency Information</Text>
-        <Text style={styles.emergencyItem}>
-          🏥 Hospital: {trip.emergencyInfo.nearestHospital}
-        </Text>
+        <Text style={styles.emergencyItem}>🏥 Hospital: {trip.emergencyInfo.nearestHospital}</Text>
         <Text style={styles.emergencyItem}>
           👮 Transit Police: {trip.emergencyInfo.transitPolice}
         </Text>

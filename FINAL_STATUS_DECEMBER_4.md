@@ -29,13 +29,13 @@ Command: npx tsc --noEmit
 
 #### Critical Component & Store Tests
 
-| Component/Store | Tests | Status |
-|---|---|---|
-| KidTripPlanner | 39/39 | ✅ 100% |
-| MTAStationFinder | 41/41 | ✅ 100% |
-| ParentDashboard | 48/48 | ✅ 100% |
-| Store Tests (8 stores) | 179/179 | ✅ 100% |
-| **CRITICAL TOTAL** | **307/307** | **✅ 100%** |
+| Component/Store        | Tests       | Status      |
+| ---------------------- | ----------- | ----------- |
+| KidTripPlanner         | 39/39       | ✅ 100%     |
+| MTAStationFinder       | 41/41       | ✅ 100%     |
+| ParentDashboard        | 48/48       | ✅ 100%     |
+| Store Tests (8 stores) | 179/179     | ✅ 100%     |
+| **CRITICAL TOTAL**     | **307/307** | **✅ 100%** |
 
 **Breakdown of store tests:**
 
@@ -49,12 +49,12 @@ Command: npx tsc --noEmit
 
 ### 3. Service Tests (Critical Services)
 
-| Service | Tests | Status |
-|---|---|---|
-| SafeZoneService | 31/31 | ✅ 100% |
-| EmergencyService | 28/28 | ✅ 100% |
-| LocationService | 29/34 | ✅ 85% (5 skipped, not critical) |
-| **CRITICAL SERVICES TOTAL** | **88/93** | **✅ 95%** |
+| Service                     | Tests     | Status                           |
+| --------------------------- | --------- | -------------------------------- |
+| SafeZoneService             | 31/31     | ✅ 100%                          |
+| EmergencyService            | 28/28     | ✅ 100%                          |
+| LocationService             | 29/34     | ✅ 85% (5 skipped, not critical) |
+| **CRITICAL SERVICES TOTAL** | **88/93** | **✅ 95%**                       |
 
 ---
 
@@ -100,22 +100,22 @@ Command: npx tsc --noEmit
 
 ### Before Refactoring
 
-| Component | Lines | Status |
-|---|---|---|
-| KidTripPlanner | 1,066 | Monolithic |
-| ParentDashboard | 727 | Monolithic |
-| MTALiveArrivals | 716 | Monolithic |
-| RoutingPreferences | 567 | Monolithic |
+| Component          | Lines | Status     |
+| ------------------ | ----- | ---------- |
+| KidTripPlanner     | 1,066 | Monolithic |
+| ParentDashboard    | 727   | Monolithic |
+| MTALiveArrivals    | 716   | Monolithic |
+| RoutingPreferences | 567   | Monolithic |
 
 ### After Refactoring
 
-| Component | Main Lines | Sub-components | Status |
-|---|---|---|---|
-| KidTripPlanner | 79 | 7 components | ✅ Split |
-| ParentDashboard | 351 | Multiple sections | ✅ Split |
-| MTALiveArrivals | 297 | Modular | ✅ Split |
-| RoutingPreferences | 501 | Optimized | ✅ Optimized |
-| **Total Components** | - | **175 total** | **All <500 lines** |
+| Component            | Main Lines | Sub-components    | Status             |
+| -------------------- | ---------- | ----------------- | ------------------ |
+| KidTripPlanner       | 79         | 7 components      | ✅ Split           |
+| ParentDashboard      | 351        | Multiple sections | ✅ Split           |
+| MTALiveArrivals      | 297        | Modular           | ✅ Split           |
+| RoutingPreferences   | 501        | Optimized         | ✅ Optimized       |
+| **Total Components** | -          | **175 total**     | **All <500 lines** |
 
 ---
 
@@ -225,6 +225,6 @@ All critical functionality tested and working at 100% on user-facing features. T
 
 ---
 
-*Generated: December 4, 2025*  
-*Test Run Time: 65.307 seconds*  
-*Final Verification: All systems nominal*
+_Generated: December 4, 2025_  
+_Test Run Time: 65.307 seconds_  
+_Final Verification: All systems nominal_

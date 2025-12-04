@@ -22,7 +22,9 @@ export const TipsSection: React.FC<TipsSectionProps> = ({ expandedCard, onCardTo
         onToggle={onCardToggle}
         content={
           <View>
-            <Text style={styles.explanationText}>{subwayEducationalContent.payment.explanation}</Text>
+            <Text style={styles.explanationText}>
+              {subwayEducationalContent.payment.explanation}
+            </Text>
             <View style={styles.tipBox}>
               <Lightbulb size={16} color="#FFA726" />
               <Text style={styles.tipText}>{subwayEducationalContent.payment.kidTip}</Text>

@@ -8,11 +8,13 @@ export const useAdventureActions = () => {
       {
         text: 'Call 911',
         style: 'destructive',
-        onPress: () => logger.info('Emergency call initiated', { type: '911', context: 'AdventureHub' })
+        onPress: () =>
+          logger.info('Emergency call initiated', { type: '911', context: 'AdventureHub' }),
       },
       {
         text: 'Call My Crew',
-        onPress: () => logger.info('Emergency call initiated', { type: 'crew', context: 'AdventureHub' })
+        onPress: () =>
+          logger.info('Emergency call initiated', { type: 'crew', context: 'AdventureHub' }),
       },
     ]);
   };
@@ -22,7 +24,7 @@ export const useAdventureActions = () => {
       { text: 'Not now', style: 'cancel' },
       {
         text: "I'm Having Fun!",
-        onPress: () => logger.info('Fun update sent to crew', { timestamp: Date.now() })
+        onPress: () => logger.info('Fun update sent to crew', { timestamp: Date.now() }),
       },
     ]);
   };

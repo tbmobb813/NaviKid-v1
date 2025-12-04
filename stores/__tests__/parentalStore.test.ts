@@ -3,7 +3,12 @@ import { ParentalProvider, useParentalStore } from '../parentalStore';
 import React from 'react';
 // Instrumented act wrapper for test debugging (logs ACT-START/END)
 const loggedAct = require('../../.test-debug/loggedAct.cjs');
-import type { SafeZone, CheckInRequest, EmergencyContact, DevicePingRequest } from '@/types/parental';
+import type {
+  SafeZone,
+  CheckInRequest,
+  EmergencyContact,
+  DevicePingRequest,
+} from '@/types/parental';
 
 // Mock modules
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -224,14 +229,8 @@ describe('parentalStore', () => {
 
       expect(Crypto.getRandomBytesAsync).toHaveBeenCalledWith(32);
       expect(Crypto.digestStringAsync).toHaveBeenCalled();
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_hash',
-        expect.any(String),
-      );
-      expect(SecureStore.setItemAsync).toHaveBeenCalledWith(
-        'kidmap_pin_salt',
-        expect.any(String),
-      );
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_hash', expect.any(String));
+      expect(SecureStore.setItemAsync).toHaveBeenCalledWith('kidmap_pin_salt', expect.any(String));
     });
 
     it('rejects invalid PINs during setup', async () => {
@@ -396,10 +395,7 @@ describe('parentalStore', () => {
       expect(createdZone?.name).toBe('School');
       expect(createdZone?.id).toBeDefined();
       expect(result.current.safeZones).toHaveLength(1);
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-        'kidmap_safe_zones',
-        expect.any(String),
-      );
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('kidmap_safe_zones', expect.any(String));
     });
 
     it('updates an existing safe zone', async () => {
@@ -670,7 +666,9 @@ describe('parentalStore', () => {
       });
 
       expect(result.current.settings.emergencyContacts.length).toBe(initialCount - 1);
-      expect(result.current.settings.emergencyContacts.find((c) => c.id === 'contact1')).toBeUndefined();
+      expect(
+        result.current.settings.emergencyContacts.find((c) => c.id === 'contact1'),
+      ).toBeUndefined();
     });
   });
 

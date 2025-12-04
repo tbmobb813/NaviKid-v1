@@ -10,7 +10,12 @@ interface MapOverlayProps {
   onToggleAccessibility: () => void;
 }
 
-export default function MapOverlay({ mapImplementation, onRecenter, onHelp, onToggleAccessibility }: MapOverlayProps) {
+export default function MapOverlay({
+  mapImplementation,
+  onRecenter,
+  onHelp,
+  onToggleAccessibility,
+}: MapOverlayProps) {
   const router = useRouter();
 
   return (

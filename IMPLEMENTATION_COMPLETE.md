@@ -56,7 +56,7 @@ All three major features have been successfully implemented and are ready to use
    - Implementation summary
 
 5. **`NEW_FEATURES.md`** (120 lines)
-    - Quick overview for developers
+   - Quick overview for developers
 
 ## 🚀 Quick Start
 

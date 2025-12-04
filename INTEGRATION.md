@@ -7,44 +7,44 @@ This document describes the complete frontend-backend integration for NaviKid, i
 ## Architecture
 
 ┌─────────────────────────────────────────────────────────────┐
-│                     React Native App                         │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │   Services   │  │    Stores    │  │   Screens    │     │
-│  │              │  │              │  │              │     │
-│  │ • API Client │  │ • Auth Store │  │ • Auth       │     │
-│  │ • WebSocket  │  │ • Location   │  │ • Map        │     │
-│  │ • Location   │  │ • SafeZones  │  │ • Settings   │     │
-│  │ • SafeZones  │  │ • Emergency  │  │              │     │
-│  │ • Emergency  │  │              │  │              │     │
-│  │ • Offline    │  │              │  │              │     │
-│  └──────┬───────┘  └──────────────┘  └──────────────┘     │
-│         │                                                   │
+│ React Native App │
+│ │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │ Services │ │ Stores │ │ Screens │ │
+│ │ │ │ │ │ │ │
+│ │ • API Client │ │ • Auth Store │ │ • Auth │ │
+│ │ • WebSocket │ │ • Location │ │ • Map │ │
+│ │ • Location │ │ • SafeZones │ │ • Settings │ │
+│ │ • SafeZones │ │ • Emergency │ │ │ │
+│ │ • Emergency │ │ │ │ │ │
+│ │ • Offline │ │ │ │ │ │
+│ └──────┬───────┘ └──────────────┘ └──────────────┘ │
+│ │ │
 └─────────┼───────────────────────────────────────────────────┘
-          │
-          │ HTTP/REST                  WebSocket
-          │ (JWT Auth)                 (Real-time)
-          │
-          ▼
+│
+│ HTTP/REST WebSocket
+│ (JWT Auth) (Real-time)
+│
+▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    Fastify Backend                           │
-│                                                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │    Routes    │  │   Services   │  │  Database    │     │
-│  │              │  │              │  │              │     │
-│  │ • Auth       │  │ • Auth       │  │ PostgreSQL   │     │
-│  │ • Locations  │  │ • Location   │  │              │     │
-│  │ • SafeZones  │  │ • SafeZone   │  │ • Users      │     │
-│  │ • Emergency  │  │ • Emergency  │  │ • Locations  │     │
-│  │ • Offline    │  │ • Offline    │  │ • SafeZones  │     │
-│  │              │  │              │  │ • Contacts   │     │
-│  └──────────────┘  └──────────────┘  └──────┬───────┘     │
-│                                               │             │
-│                                               ▼             │
-│                                        ┌──────────────┐     │
-│                                        │    Redis     │     │
-│                                        │  (Sessions)  │     │
-│                                        └──────────────┘     │
+│ Fastify Backend │
+│ │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │ Routes │ │ Services │ │ Database │ │
+│ │ │ │ │ │ │ │
+│ │ • Auth │ │ • Auth │ │ PostgreSQL │ │
+│ │ • Locations │ │ • Location │ │ │ │
+│ │ • SafeZones │ │ • SafeZone │ │ • Users │ │
+│ │ • Emergency │ │ • Emergency │ │ • Locations │ │
+│ │ • Offline │ │ • Offline │ │ • SafeZones │ │
+│ │ │ │ │ │ • Contacts │ │
+│ └──────────────┘ └──────────────┘ └──────┬───────┘ │
+│ │ │
+│ ▼ │
+│ ┌──────────────┐ │
+│ │ Redis │ │
+│ │ (Sessions) │ │
+│ └──────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 
 ## Setup Instructions

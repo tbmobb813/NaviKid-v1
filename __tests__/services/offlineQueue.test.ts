@@ -4,17 +4,25 @@
  */
 
 // Mock modules FIRST before any imports
-jest.mock('@react-native-community/netinfo', () => ({
-  addEventListener: jest.fn(),
-  fetch: jest.fn(),
-}), { virtual: true });
+jest.mock(
+  '@react-native-community/netinfo',
+  () => ({
+    addEventListener: jest.fn(),
+    fetch: jest.fn(),
+  }),
+  { virtual: true },
+);
 
-jest.mock('@react-native-async-storage/async-storage', () => ({
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-}), { virtual: true });
+jest.mock(
+  '@react-native-async-storage/async-storage',
+  () => ({
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn(),
+  }),
+  { virtual: true },
+);
 
 jest.mock('@/services/api', () => ({
   offline: {
@@ -78,7 +86,7 @@ describe('OfflineQueueService', () => {
     offlineQueue = offlineQueueModule.offlineQueue;
 
     // Wait for initialization to complete
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
     jest.runAllTimers();
   });
 
@@ -115,7 +123,7 @@ describe('OfflineQueueService', () => {
       const newModule = require('@/services/offlineQueue');
       const newInstance = newModule.OfflineQueueService.getInstance();
 
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(AsyncStorage.getItem).toHaveBeenCalledWith('offline_queue');
       expect(newInstance.getQueueSize()).toBe(1);
@@ -128,7 +136,7 @@ describe('OfflineQueueService', () => {
       const newModule = require('@/services/offlineQueue');
       const newInstance = newModule.OfflineQueueService.getInstance();
 
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(newInstance.getQueueSize()).toBe(0);
     });
@@ -149,10 +157,7 @@ describe('OfflineQueueService', () => {
         await offlineQueue.addAction(mockAction);
 
         expect(offlineQueue.getQueueSize()).toBe(1);
-        expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-          'offline_queue',
-          expect.any(String)
-        );
+        expect(AsyncStorage.setItem).toHaveBeenCalledWith('offline_queue', expect.any(String));
       });
 
       it('should generate unique IDs for actions', async () => {
@@ -380,9 +385,7 @@ describe('OfflineQueueService', () => {
         await offlineQueue.addAction(mockAction);
 
         offlineQueue['isOnline'] = true;
-        (apiClient.offline.syncActions as jest.Mock).mockRejectedValue(
-          new Error('Sync failed')
-        );
+        (apiClient.offline.syncActions as jest.Mock).mockRejectedValue(new Error('Sync failed'));
 
         await offlineQueue.syncQueue();
 
@@ -577,7 +580,7 @@ describe('OfflineQueueService', () => {
         expect(listener).toHaveBeenCalledWith(
           expect.objectContaining({
             queueSize: 1,
-          })
+          }),
         );
       });
 
@@ -643,7 +646,7 @@ describe('OfflineQueueService', () => {
 
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         'offline_queue',
-        expect.stringContaining('location_update')
+        expect.stringContaining('location_update'),
       );
     });
 

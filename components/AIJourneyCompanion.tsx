@@ -118,7 +118,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
       }
     } catch (error) {
       logger.error('AI companion error', error as Error, {
-        destination: destination.name
+        destination: destination.name,
       });
       // Fallback to route-aware message if available
       let fallbackText = `Great choice going to ${destination.name}! I bet you'll discover something amazing there. Stay safe and enjoy your adventure! 🌟`;
@@ -232,7 +232,7 @@ const AIJourneyCompanion: React.FC<AIJourneyCompanionProps> = ({
       }
     } catch (error) {
       logger.error('Route insight error', error as Error, {
-        routeName: selectedRoute.name
+        routeName: selectedRoute.name,
       });
       // Fallback route insight
       const fallbackInsight: CompanionMessage = {

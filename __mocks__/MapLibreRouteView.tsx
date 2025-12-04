@@ -6,9 +6,7 @@ const MapLibreRouteView = (props: any) => {
 
   return (
     <div data-testid={(testID as string) || 'mock-maplibre-route-view'} {...rest}>
-      {origin && (
-        <div data-testid="origin-marker" data-coords={JSON.stringify(origin)} />
-      )}
+      {origin && <div data-testid="origin-marker" data-coords={JSON.stringify(origin)} />}
       {destination && (
         <div data-testid="destination-marker" data-coords={JSON.stringify(destination)} />
       )}

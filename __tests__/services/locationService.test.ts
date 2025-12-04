@@ -4,28 +4,40 @@
  */
 
 // Mock expo modules FIRST before any imports
-jest.mock('expo-secure-store', () => ({
-  getItemAsync: jest.fn(),
-  setItemAsync: jest.fn(),
-  deleteItemAsync: jest.fn(),
-}), { virtual: true });
+jest.mock(
+  'expo-secure-store',
+  () => ({
+    getItemAsync: jest.fn(),
+    setItemAsync: jest.fn(),
+    deleteItemAsync: jest.fn(),
+  }),
+  { virtual: true },
+);
 
-jest.mock('expo-battery', () => ({
-  getBatteryLevelAsync: jest.fn().mockResolvedValue(0.75),
-}), { virtual: true });
+jest.mock(
+  'expo-battery',
+  () => ({
+    getBatteryLevelAsync: jest.fn().mockResolvedValue(0.75),
+  }),
+  { virtual: true },
+);
 
 // We'll set up the actual mock implementations after module import
-jest.mock('expo-location', () => {
-  const actualJest = require('jest-mock');
-  return {
-    getForegroundPermissionsAsync: actualJest.fn(),
-    requestForegroundPermissionsAsync: actualJest.fn(),
-    requestBackgroundPermissionsAsync: actualJest.fn(),
-    getCurrentPositionAsync: actualJest.fn(),
-    watchPositionAsync: actualJest.fn(),
-    Accuracy: { High: 4 },
-  };
-}, { virtual: true });
+jest.mock(
+  'expo-location',
+  () => {
+    const actualJest = require('jest-mock');
+    return {
+      getForegroundPermissionsAsync: actualJest.fn(),
+      requestForegroundPermissionsAsync: actualJest.fn(),
+      requestBackgroundPermissionsAsync: actualJest.fn(),
+      getCurrentPositionAsync: actualJest.fn(),
+      watchPositionAsync: actualJest.fn(),
+      Accuracy: { High: 4 },
+    };
+  },
+  { virtual: true },
+);
 
 // Create a mutable mock for expo-device
 const mockDeviceModule = {
@@ -67,23 +79,21 @@ describe('LocationService', () => {
     timestamp: Date.now(),
   };
 
-
-
   beforeEach(() => {
     jest.clearAllMocks();
     mockDeviceModule.isDevice = true;
-    
+
     // Reset all Location API mocks to return undefined by default
     (Location.requestForegroundPermissionsAsync as jest.Mock).mockReset();
     (Location.requestBackgroundPermissionsAsync as jest.Mock).mockReset();
     (Location.getForegroundPermissionsAsync as jest.Mock).mockReset();
     (Location.watchPositionAsync as jest.Mock).mockReset();
     (Location.getCurrentPositionAsync as jest.Mock).mockReset();
-    
+
     // Reset apiClient mocks
     (apiClient.locations.sendLocation as jest.Mock).mockReset();
     (apiClient.locations.getHistory as jest.Mock).mockReset();
-    
+
     // Reset offlineQueue mocks
     (offlineQueue.addAction as jest.Mock).mockReset();
   });
@@ -160,7 +170,7 @@ describe('LocationService', () => {
 
       it('should handle permission request errors', async () => {
         (Location.requestForegroundPermissionsAsync as jest.Mock).mockRejectedValue(
-          new Error('Permission error')
+          new Error('Permission error'),
         );
 
         const result = await locationService.requestPermissions();
@@ -192,7 +202,7 @@ describe('LocationService', () => {
 
       it('should handle permission check errors', async () => {
         (Location.getForegroundPermissionsAsync as jest.Mock).mockRejectedValue(
-          new Error('Check error')
+          new Error('Check error'),
         );
 
         const result = await locationService.hasPermissions();
@@ -224,7 +234,7 @@ describe('LocationService', () => {
             timeInterval: 30000,
             distanceInterval: 50,
           }),
-          expect.any(Function)
+          expect.any(Function),
         );
       });
 
@@ -286,9 +296,7 @@ describe('LocationService', () => {
         (Location.getForegroundPermissionsAsync as jest.Mock).mockResolvedValue({
           status: 'granted',
         });
-        (Location.watchPositionAsync as jest.Mock).mockRejectedValue(
-          new Error('Tracking error')
-        );
+        (Location.watchPositionAsync as jest.Mock).mockRejectedValue(new Error('Tracking error'));
 
         const result = await locationService.startTracking();
 
@@ -394,7 +402,7 @@ describe('LocationService', () => {
         status: 'granted',
       });
       (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValue(
-        new Error('Location error')
+        new Error('Location error'),
       );
 
       const result = await locationService.getCurrentLocation();
@@ -440,16 +448,10 @@ describe('LocationService', () => {
         data: mockHistory,
       });
 
-      const result = await locationService.getLocationHistory(
-        '2024-01-01',
-        '2024-12-31'
-      );
+      const result = await locationService.getLocationHistory('2024-01-01', '2024-12-31');
 
       expect(result).toEqual(mockHistory);
-      expect(apiClient.locations.getHistory).toHaveBeenCalledWith(
-        '2024-01-01',
-        '2024-12-31'
-      );
+      expect(apiClient.locations.getHistory).toHaveBeenCalledWith('2024-01-01', '2024-12-31');
     });
 
     it('should return empty array on error', async () => {
@@ -517,14 +519,12 @@ describe('LocationService', () => {
       });
 
       let locationCallback: any;
-      (Location.watchPositionAsync as jest.Mock).mockImplementation(
-        (options, callback) => {
-          locationCallback = callback;
-          return Promise.resolve({
-            remove: jest.fn(),
-          });
-        }
-      );
+      (Location.watchPositionAsync as jest.Mock).mockImplementation((options, callback) => {
+        locationCallback = callback;
+        return Promise.resolve({
+          remove: jest.fn(),
+        });
+      });
 
       (apiClient.locations.sendLocation as jest.Mock).mockResolvedValue({
         success: true,
@@ -556,14 +556,12 @@ describe('LocationService', () => {
       });
 
       let locationCallback: any;
-      (Location.watchPositionAsync as jest.Mock).mockImplementation(
-        (options, callback) => {
-          locationCallback = callback;
-          return Promise.resolve({
-            remove: jest.fn(),
-          });
-        }
-      );
+      (Location.watchPositionAsync as jest.Mock).mockImplementation((options, callback) => {
+        locationCallback = callback;
+        return Promise.resolve({
+          remove: jest.fn(),
+        });
+      });
 
       (apiClient.locations.sendLocation as jest.Mock).mockResolvedValue({
         success: true,
@@ -586,14 +584,12 @@ describe('LocationService', () => {
       });
 
       let locationCallback: any;
-      (Location.watchPositionAsync as jest.Mock).mockImplementation(
-        (options, callback) => {
-          locationCallback = callback;
-          return Promise.resolve({
-            remove: jest.fn(),
-          });
-        }
-      );
+      (Location.watchPositionAsync as jest.Mock).mockImplementation((options, callback) => {
+        locationCallback = callback;
+        return Promise.resolve({
+          remove: jest.fn(),
+        });
+      });
 
       (apiClient.locations.sendLocation as jest.Mock).mockResolvedValue({
         success: true,
@@ -615,7 +611,7 @@ describe('LocationService', () => {
         expect.objectContaining({
           latitude: mockLocation.coords.latitude,
           longitude: mockLocation.coords.longitude,
-        })
+        }),
       );
     });
 
@@ -625,18 +621,14 @@ describe('LocationService', () => {
       });
 
       let locationCallback: any;
-      (Location.watchPositionAsync as jest.Mock).mockImplementation(
-        (options, callback) => {
-          locationCallback = callback;
-          return Promise.resolve({
-            remove: jest.fn(),
-          });
-        }
-      );
+      (Location.watchPositionAsync as jest.Mock).mockImplementation((options, callback) => {
+        locationCallback = callback;
+        return Promise.resolve({
+          remove: jest.fn(),
+        });
+      });
 
-      (apiClient.locations.sendLocation as jest.Mock).mockRejectedValue(
-        new Error('Network error')
-      );
+      (apiClient.locations.sendLocation as jest.Mock).mockRejectedValue(new Error('Network error'));
 
       await locationService.startTracking();
 
@@ -652,7 +644,7 @@ describe('LocationService', () => {
       expect(offlineQueue.addAction).toHaveBeenCalledWith(
         expect.objectContaining({
           actionType: 'location_update',
-        })
+        }),
       );
     });
   });

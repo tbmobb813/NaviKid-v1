@@ -18,13 +18,13 @@ jest.mock('@/config/transit-data/mta-subway-lines', () => ({
     '5': '#00933C',
     '6': '#00933C',
     '7': '#B933AD',
-    'A': '#0039A6',
-    'C': '#0039A6',
-    'E': '#0039A6',
-    'N': '#FCCC0A',
-    'Q': '#FCCC0A',
-    'R': '#FCCC0A',
-    'W': '#FCCC0A',
+    A: '#0039A6',
+    C: '#0039A6',
+    E: '#0039A6',
+    N: '#FCCC0A',
+    Q: '#FCCC0A',
+    R: '#FCCC0A',
+    W: '#FCCC0A',
   },
 }));
 
@@ -308,7 +308,7 @@ describe('MTAStationFinder Component', () => {
       await waitFor(() => {
         expect(getByText('No stations found matching your search')).toBeTruthy();
         expect(
-          getByText('Try searching for a different station name, line, or neighborhood')
+          getByText('Try searching for a different station name, line, or neighborhood'),
         ).toBeTruthy();
       });
     });
@@ -527,7 +527,7 @@ describe('MTAStationFinder Component', () => {
       expect(Alert.alert).toHaveBeenCalledWith(
         'The Bright Lights Station',
         expect.stringContaining('This is the busiest subway station in NYC!'),
-        [{ text: 'Cool!', style: 'default' }]
+        [{ text: 'Cool!', style: 'default' }],
       );
     });
   });
@@ -570,7 +570,7 @@ describe('MTAStationFinder Component', () => {
 
       await waitFor(() => {
         expect(
-          getByText('Try searching for a different station name, line, or neighborhood')
+          getByText('Try searching for a different station name, line, or neighborhood'),
         ).toBeTruthy();
       });
     });

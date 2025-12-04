@@ -26,18 +26,14 @@ export const LocationInputs: React.FC<LocationInputsProps> = ({
           style={styles.input}
           placeholder="Latitude"
           value={location.lat.toString()}
-          onChangeText={(text) =>
-            onLocationChange({ ...location, lat: parseFloat(text) || 0 })
-          }
+          onChangeText={(text) => onLocationChange({ ...location, lat: parseFloat(text) || 0 })}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Longitude"
           value={location.lng.toString()}
-          onChangeText={(text) =>
-            onLocationChange({ ...location, lng: parseFloat(text) || 0 })
-          }
+          onChangeText={(text) => onLocationChange({ ...location, lng: parseFloat(text) || 0 })}
           keyboardType="numeric"
         />
       </View>

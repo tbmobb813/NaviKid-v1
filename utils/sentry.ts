@@ -37,7 +37,7 @@ export function initSentry(config: SentryConfig) {
   if (!config.dsn || config.dsn.trim() === '') {
     if (config.environment === 'development') {
       logger.info('Sentry disabled: DSN not configured', {
-        environment: config.environment
+        environment: config.environment,
       });
     }
     return createFallbackSentry();
@@ -163,7 +163,7 @@ export function initSentry(config: SentryConfig) {
     if (config.environment === 'development') {
       logger.warn('Sentry failed to initialize', {
         error: err,
-        environment: config.environment
+        environment: config.environment,
       });
     }
     return createFallbackSentry();

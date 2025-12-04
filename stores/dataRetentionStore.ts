@@ -100,7 +100,7 @@ export async function initializeDataRetention() {
     const hoursSince = Math.round(timeSince / (60 * 60 * 1000));
     logger.info('Data retention initialized without cleanup', {
       hoursSinceLastCleanup: hoursSince,
-      hoursUntilNextCleanup: hoursLeft
+      hoursUntilNextCleanup: hoursLeft,
     });
   }
 }

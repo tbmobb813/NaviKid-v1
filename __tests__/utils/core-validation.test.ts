@@ -32,7 +32,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
         { latitude: 0, longitude: -181 }, // lon too low
       ];
 
-  invalidLocations.forEach((location: { latitude: number; longitude: number }) => {
+      invalidLocations.forEach((location: { latitude: number; longitude: number }) => {
         const isValidLat = location.latitude >= -90 && location.latitude <= 90;
         const isValidLon = location.longitude >= -180 && location.longitude <= 180;
 
@@ -47,7 +47,7 @@ describe('Validation Utils - Pure Logic Tests', () => {
         { latitude: 0, longitude: 0 }, // zero values
       ];
 
-  edgeCases.forEach((location: { latitude: number; longitude: number }) => {
+      edgeCases.forEach((location: { latitude: number; longitude: number }) => {
         const isValidLat = location.latitude >= -90 && location.latitude <= 90;
         const isValidLon = location.longitude >= -180 && location.longitude <= 180;
 
@@ -118,7 +118,12 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
   describe('Distance Calculations', () => {
     test('should calculate distance between coordinates', () => {
-  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+      const calculateDistance = (
+        lat1: number,
+        lon1: number,
+        lat2: number,
+        lon2: number,
+      ): number => {
         const R = 6371; // Earth's radius in km
         const dLat = ((lat2 - lat1) * Math.PI) / 180;
         const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -156,7 +161,12 @@ describe('Validation Utils - Pure Logic Tests', () => {
 
   describe('Safe Zone Validation', () => {
     test('should validate safe zone properties', () => {
-      const validateSafeZone = (zone: { id?: string; latitude: number; longitude: number; radius: number }) => {
+      const validateSafeZone = (zone: {
+        id?: string;
+        latitude: number;
+        longitude: number;
+        radius: number;
+      }) => {
         return {
           hasId: !!zone.id,
           hasValidRadius: zone.radius > 0 && zone.radius <= 5000,

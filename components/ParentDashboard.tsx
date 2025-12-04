@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
-import {
-  Shield,
-  Camera,
-  Phone,
-  Settings,
-  Eye,
-  LogOut,
-} from 'lucide-react-native';
+import { Shield, Camera, Phone, Settings, Eye, LogOut } from 'lucide-react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useCategoryStore } from '@/stores/categoryStore';
 import { logger } from '@/utils/logger';

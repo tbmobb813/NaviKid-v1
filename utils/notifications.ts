@@ -111,7 +111,7 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
   }
   if (isExpoGo) {
     logger.info('Running in Expo Go - notifications limited to alerts', {
-      recommendation: 'Use development build for full notification support'
+      recommendation: 'Use development build for full notification support',
     });
     return true;
   }
@@ -147,7 +147,7 @@ export const showDevelopmentBuildRecommendation = () => {
         { text: 'Maybe Later', style: 'cancel' },
         {
           text: 'Learn More',
-          onPress: () => logger.info('User requested development build documentation')
+          onPress: () => logger.info('User requested development build documentation'),
         },
       ],
     );

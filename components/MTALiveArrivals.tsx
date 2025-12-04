@@ -160,7 +160,7 @@ const MTALiveArrivals: React.FC<MTALiveArrivalsProps> = ({
     } catch (error) {
       logger.error('Failed to load arrivals', error as Error, {
         stationId,
-        stationName
+        stationName,
       });
     } finally {
       setLoading(false);

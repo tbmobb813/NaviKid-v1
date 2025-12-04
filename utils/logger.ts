@@ -29,7 +29,11 @@ class Logger {
     if (context && typeof context === 'object' && (context as any).context) {
       contextTag = String((context as any).context);
     }
-    const contextStr = contextTag ? ` [${contextTag}] ` : context ? ` ${JSON.stringify(context)}` : ' ';
+    const contextStr = contextTag
+      ? ` [${contextTag}] `
+      : context
+        ? ` ${JSON.stringify(context)}`
+        : ' ';
     return `[${timestamp}] ${levelStr}:${contextStr}${message}`;
   }
 
@@ -166,7 +170,8 @@ export const log = {
   debug: (message: string, context?: unknown) => logger.debug(message, context),
   info: (message: string, context?: unknown) => logger.info(message, context),
   warn: (message: string, context?: unknown) => logger.warn(message, context),
-  error: (message: string, error?: Error, context?: unknown) => logger.error(message, error, context),
+  error: (message: string, error?: Error, context?: unknown) =>
+    logger.error(message, error, context),
   time: (label: string) => logger.time(label),
   timeEnd: (label: string) => logger.timeEnd(label),
 };

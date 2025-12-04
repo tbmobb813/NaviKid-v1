@@ -123,7 +123,7 @@ export function useRouteORS(
       });
       // If the controller was aborted while the mocked fetch resolved, ignore the result.
       logger.debug('useRouteORS fetch resolved', {
-        aborted: (controller.signal as any).aborted
+        aborted: (controller.signal as any).aborted,
       });
       if (controller.signal && (controller.signal as any).aborted) {
         // Treat as aborted

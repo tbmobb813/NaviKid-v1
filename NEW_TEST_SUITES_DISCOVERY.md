@@ -9,20 +9,20 @@ You've added **5 new comprehensive test suites** with **~2,869 lines of test cod
 
 ### ✅ Service Tests (Phase 2.4-2.6)
 
-| Test Suite | File | Lines | Tests | Status | Result |
-|---|---|---|---|---|---|
-| **LocationService** | `__tests__/services/locationService.test.ts` | 636 | 34 | ⚠️ PARTIAL | 25/34 PASS (73.5%) |
-| **SafeZoneService** | `__tests__/services/safeZoneService.test.ts` | 484 | 31 | ✅ COMPLETE | 31/31 PASS (100%) |
-| **EmergencyService** | `__tests__/services/emergencyService.test.ts` | 489 | 28 | ✅ COMPLETE | 28/28 PASS (100%) |
+| Test Suite           | File                                          | Lines | Tests | Status      | Result             |
+| -------------------- | --------------------------------------------- | ----- | ----- | ----------- | ------------------ |
+| **LocationService**  | `__tests__/services/locationService.test.ts`  | 636   | 34    | ⚠️ PARTIAL  | 25/34 PASS (73.5%) |
+| **SafeZoneService**  | `__tests__/services/safeZoneService.test.ts`  | 484   | 31    | ✅ COMPLETE | 31/31 PASS (100%)  |
+| **EmergencyService** | `__tests__/services/emergencyService.test.ts` | 489   | 28    | ✅ COMPLETE | 28/28 PASS (100%)  |
 
 **Service Tests Total**: 93/93 tests across 3 services, **87/93 PASS (93.5%)**
 
 ### 🔄 Component Tests (Phase 2.3+)
 
-| Test Suite | File | Lines | Tests | Status | Result |
-|---|---|---|---|---|---|
-| **MTAStationFinder** | `__tests__/components/MTAStationFinder.test.tsx` | 719 | 41 | ✅ PARTIAL | 39/41 PASS (95.1%) |
-| **MTALiveArrivals** | `__tests__/components/MTALiveArrivals.test.tsx` | 541 | ? | ⏳ TIMEOUT | Test hangs during execution |
+| Test Suite           | File                                             | Lines | Tests | Status     | Result                      |
+| -------------------- | ------------------------------------------------ | ----- | ----- | ---------- | --------------------------- |
+| **MTAStationFinder** | `__tests__/components/MTAStationFinder.test.tsx` | 719   | 41    | ✅ PARTIAL | 39/41 PASS (95.1%)          |
+| **MTALiveArrivals**  | `__tests__/components/MTALiveArrivals.test.tsx`  | 541   | ?     | ⏳ TIMEOUT | Test hangs during execution |
 
 **Component Tests Total**: 80+ new component tests (MTAStationFinder verified at 39/41 pass; MTALiveArrivals hangs)
 
@@ -38,7 +38,7 @@ You've added **5 new comprehensive test suites** with **~2,869 lines of test cod
 
 ### ✅ EmergencyService (100% Pass Rate)
 
-- **Tests**: 28 passing  
+- **Tests**: 28 passing
 - **Coverage**: Emergency alert handling, contact notification, alert routing
 - **Status**: Production-ready ✅
 
@@ -123,12 +123,10 @@ jest.useRealTimers(); // Remove fake timers for async-heavy tests
 ### Phase Breakdown
 
 - **Phase 2.2 (Store Tests)**: ✅ 152/152 PASS (100%)
-  
 - **Phase 2.3 (Component Tests)**: ✅ 84/87 PASS (96.7%)
   - KidTripPlanner: 39/39
   - ParentDashboard: 45/48
   - MTAStationFinder: 39/41 ✨ NEW
-  
 - **Phase 2.4-2.6 (Service Tests)**: ⚠️ 87/93 PASS (93.5%) ✨ NEW
   - LocationService: 25/34 (needs fixes)
   - SafeZoneService: 31/31 ✅
@@ -154,7 +152,7 @@ jest.useRealTimers(); // Remove fake timers for async-heavy tests
 3. Add debugging to see if location update flow is actually calling mocked functions
 
 ### Priority 2: Fix MTAStationFinder Tests (2 failures)
-  
+
 **Files**: `__tests__/components/MTAStationFinder.test.tsx`
 **Action**: Lines 451, 476 - Change `getByText('Not Favorited')` → `getAllByText(/Not Favorited/)[0]`
 
@@ -176,7 +174,7 @@ jest.useRealTimers(); // Remove fake timers for async-heavy tests
 ### New Test Files (5 total)
 
 1. ✅ `__tests__/services/locationService.test.ts` - 636 lines
-2. ✅ `__tests__/services/safeZoneService.test.ts` - 484 lines  
+2. ✅ `__tests__/services/safeZoneService.test.ts` - 484 lines
 3. ✅ `__tests__/services/emergencyService.test.ts` - 489 lines
 4. ⚠️ `__tests__/components/MTAStationFinder.test.tsx` - 719 lines (2 failures)
 5. ⏳ `__tests__/components/MTALiveArrivals.test.tsx` - 541 lines (hangs)

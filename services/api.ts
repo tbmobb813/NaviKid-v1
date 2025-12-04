@@ -129,8 +129,8 @@ class NaviKidApiClient {
     const extra = Constants.expoConfig?.extra;
 
     this.config = {
-  // Default to backend API mount point which serves routes under /api
-  baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000/api',
+      // Default to backend API mount point which serves routes under /api
+      baseUrl: config?.baseUrl || extra?.api?.baseUrl || 'http://localhost:3000/api',
       timeout: config?.timeout || extra?.api?.timeout || 15000,
       retryAttempts: config?.retryAttempts || 3,
       retryDelay: config?.retryDelay || 1000,
@@ -435,7 +435,6 @@ class NaviKidApiClient {
       if (!this.refreshToken) {
         throw new Error('No refresh token available');
       }
-
 
       const response = await this.request<any>(
         '/auth/refresh',

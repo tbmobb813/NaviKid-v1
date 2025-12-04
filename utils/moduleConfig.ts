@@ -164,10 +164,14 @@ export function validateModuleDependencies(): boolean {
   for (const [moduleName, config] of Object.entries(MODULES)) {
     for (const dep of config.dependencies) {
       if (!MODULES[dep]) {
-        logger.error('Module dependency validation failed', new Error('Non-existent module dependency'), {
-          moduleName,
-          missingDependency: dep
-        });
+        logger.error(
+          'Module dependency validation failed',
+          new Error('Non-existent module dependency'),
+          {
+            moduleName,
+            missingDependency: dep,
+          },
+        );
         return false;
       }
     }
