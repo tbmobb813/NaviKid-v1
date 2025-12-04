@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigationStore } from '@/stores/navigationStore';
 import { useParentalStore } from '@/stores/parentalStore';
 import { formatDistance, getLocationAccuracyDescription } from '@/utils/locationUtils';
-import { validateLocation, validatePhotoCheckIn, logValidationResult } from '@/utils/validation';
+import { validateLocation, validatePhotoCheckIn } from '@/utils/validation';
 import {
   withRetry,
   handleCameraError,
