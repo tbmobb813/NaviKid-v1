@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react-native';
 import MTALiveArrivals from '@/components/MTALiveArrivals';
-import { logger } from '@/utils/logger';
 
 // Mock logger
 jest.mock('@/utils/logger', () => ({
