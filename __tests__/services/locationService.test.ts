@@ -54,7 +54,7 @@ jest.mock('@/services/api');
 jest.mock('@/services/offlineQueue');
 jest.mock('@/utils/logger');
 
-import locationService, { LocationUpdate } from '@/services/locationService';
+import locationService from '@/services/locationService';
 import * as Location from 'expo-location';
 import apiClient from '@/services/api';
 import { offlineQueue } from '@/services/offlineQueue';
