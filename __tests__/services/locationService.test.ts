@@ -68,19 +68,7 @@ describe('LocationService', () => {
     timestamp: Date.now(),
   };
 
-  const mockLocationUpdate: LocationUpdate = {
-    latitude: 40.7128,
-    longitude: -74.006,
-    accuracy: 20,
-    timestamp: mockLocation.timestamp,
-    context: {
-      batteryLevel: 75,
-      isMoving: true,
-      speed: 1.5,
-      altitude: 10,
-      heading: 90,
-    },
-  };
+
 
   beforeEach(() => {
     jest.clearAllMocks();
