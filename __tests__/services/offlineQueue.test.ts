@@ -45,9 +45,9 @@ describe('OfflineQueueService', () => {
     data: { latitude: 40.7128, longitude: -74.006 },
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers();
+    jest.useFakeTimers({ doNotFake: ['setTimeout', 'setInterval', 'clearTimeout', 'clearInterval'] });
 
     // Capture network listener
     (NetInfo.addEventListener as jest.Mock).mockImplementation((listener) => {
@@ -76,10 +76,6 @@ describe('OfflineQueueService', () => {
     }
 
     offlineQueue = offlineQueueModule.offlineQueue;
-
-    // Wait for initialization to complete
-    await new Promise(resolve => setTimeout(resolve, 50));
-    jest.runAllTimers();
   });
 
   afterEach(() => {
