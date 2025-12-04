@@ -183,7 +183,6 @@ export async function buildServer() {
       logger.info({ testMode: true }, 'Registered non-prefixed test routes');
       // Print the route table for easier debugging when running integration tests
       // (Fastify exposes a `printRoutes` helper which returns a string).
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const routesTable = (server as any).printRoutes ? (server as any).printRoutes() : 'printRoutes unavailable';
       logger.debug({ routes: routesTable }, 'Fastify route table');
     } catch (e) {
