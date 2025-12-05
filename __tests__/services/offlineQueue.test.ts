@@ -55,7 +55,9 @@ describe('OfflineQueueService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers({ doNotFake: ['setTimeout', 'setInterval', 'clearTimeout', 'clearInterval'] });
+    jest.useFakeTimers({
+      doNotFake: ['setTimeout', 'setInterval', 'clearTimeout', 'clearInterval'],
+    });
 
     // Capture network listener
     (NetInfo.addEventListener as jest.Mock).mockImplementation((listener) => {
@@ -76,7 +78,7 @@ describe('OfflineQueueService', () => {
     // Reset singleton instance for fresh state (without jest.resetModules which clears mocks)
     const offlineQueueModule = require('@/services/offlineQueue');
     offlineQueueModule.OfflineQueueService.resetInstance();
-    
+
     // Get fresh instance
     offlineQueue = offlineQueueModule.offlineQueue;
   });
@@ -109,10 +111,10 @@ describe('OfflineQueueService', () => {
 
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(storedQueue));
 
-      // Reset modules and create new instance
-      jest.resetModules();
-      const newModule = require('@/services/offlineQueue');
-      const newInstance = newModule.OfflineQueueService.getInstance();
+      // Reset instance to trigger loadQueue with mocked storage
+      const offlineQueueModule = require('@/services/offlineQueue');
+      offlineQueueModule.OfflineQueueService.resetInstance();
+      const newInstance = offlineQueueModule.offlineQueue;
 
       await new Promise((resolve) => setTimeout(resolve, 50));
 
