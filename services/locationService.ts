@@ -42,6 +42,7 @@ export interface LocationUpdate {
 
 class LocationService {
   private static instance: LocationService;
+  private static moduleLevelInstanceCache: LocationService | undefined;
   private locationSubscription: Location.LocationSubscription | null = null;
   private isTracking = false;
   private lastLocationUpdate: LocationUpdate | null = null;
@@ -57,6 +58,36 @@ class LocationService {
       LocationService.instance = new LocationService();
     }
     return LocationService.instance;
+  }
+
+  /**
+   * Reset singleton instance for testing purposes
+   * This allows tests to get a fresh instance with clean state
+   * Note: Also call resetLocationServiceCache() to clear the module-level Proxy cache
+   */
+  static resetInstance(): void {
+    if (LocationService.instance) {
+      // Clean up existing instance
+      const instance = LocationService.instance;
+
+      // Stop tracking if active
+      try {
+        if (instance['locationSubscription']) {
+          instance['locationSubscription'].remove();
+          instance['locationSubscription'] = null;
+        }
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+
+      // Clear state
+      instance['isTracking'] = false;
+      instance['lastLocationUpdate'] = null;
+      instance['listeners'] = new Set();
+    }
+
+    // Clear the instance reference so next getInstance() creates a new one
+    LocationService.instance = undefined as any;
   }
 
   // ==========================================================================
@@ -351,5 +382,28 @@ class LocationService {
 // Export Singleton Instance
 // ============================================================================
 
-export const locationService = LocationService.getInstance();
+export { LocationService };
+
+// Module-level cache for singleton - tracks the current instance
+let singletonInstanceCache: LocationService | undefined;
+
+export function resetLocationServiceCache(): void {
+  singletonInstanceCache = undefined;
+}
+
+// Create singleton lazily on first access to avoid module-level initialization
+// Tests should call resetLocationServiceCache() after calling LocationService.resetInstance()
+export const locationService: LocationService = new Proxy<LocationService>({} as LocationService, {
+  get(target, prop: string | symbol) {
+    if (!singletonInstanceCache) {
+      singletonInstanceCache = LocationService.getInstance();
+    }
+    const value = (singletonInstanceCache as any)[prop];
+    if (typeof value === 'function') {
+      return value.bind(singletonInstanceCache);
+    }
+    return value;
+  },
+});
+
 export default locationService;

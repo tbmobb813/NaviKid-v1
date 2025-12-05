@@ -35,6 +35,9 @@ export interface SyncStatus {
 
 class OfflineQueueService {
   private static instance: OfflineQueueService;
+  private static instanceCounter = 0;
+  private static moduleLevelInstanceCache: OfflineQueueService | undefined;
+  private instanceId: number;
   private queue: OfflineAction[] = [];
   private isOnline = true;
   private isSyncing = false;
@@ -44,9 +47,15 @@ class OfflineQueueService {
   private syncInterval = 60000; // 1 minute
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Set<(status: SyncStatus) => void> = new Set();
+  private initPromise: Promise<void>;
+  private initResolve?: () => void;
 
   private constructor() {
+    this.instanceId = ++OfflineQueueService.instanceCounter;
     log.info('Offline Queue Service initialized');
+    this.initPromise = new Promise((resolve) => {
+      this.initResolve = resolve;
+    });
     this.initialize();
   }
 
@@ -55,6 +64,14 @@ class OfflineQueueService {
       OfflineQueueService.instance = new OfflineQueueService();
     }
     return OfflineQueueService.instance;
+  }
+
+  /**
+   * Wait for initialization to complete
+   * Useful for testing to ensure the service is ready before running tests
+   */
+  async waitForInitialization(): Promise<void> {
+    await this.initPromise;
   }
 
   /**
@@ -78,10 +95,14 @@ class OfflineQueueService {
       instance['isSyncing'] = false;
       instance['lastSyncTime'] = null;
       instance['listeners'] = new Set();
+      instance['initResolve'] = undefined;
     }
 
     // Clear the instance reference so next getInstance() creates a new one
     OfflineQueueService.instance = undefined as any;
+
+    // Also clear the module-level cache
+    OfflineQueueService.moduleLevelInstanceCache = undefined;
   }
 
   // ==========================================================================
@@ -113,8 +134,13 @@ class OfflineQueueService {
       this.startPeriodicSync();
 
       log.info('Offline Queue Service ready', { queueSize: this.queue.length });
+
+      // Signal that initialization is complete
+      this.initResolve?.();
     } catch (error) {
       log.error('Failed to initialize offline queue', error as Error);
+      // Still resolve to prevent hanging even if init fails
+      this.initResolve?.();
     }
   }
 
@@ -381,5 +407,25 @@ class OfflineQueueService {
 // ============================================================================
 
 export { OfflineQueueService };
-export const offlineQueue = OfflineQueueService.getInstance();
+
+// Create singleton lazily on first access to avoid module-level initialization
+// Tests can call resetInstance() to clear this cache
+export const offlineQueue: OfflineQueueService = new Proxy<OfflineQueueService>(
+  {} as OfflineQueueService,
+  {
+    get(target, prop: string | symbol) {
+      let instance = OfflineQueueService['moduleLevelInstanceCache'];
+      if (!instance) {
+        instance = OfflineQueueService.getInstance();
+        OfflineQueueService['moduleLevelInstanceCache'] = instance;
+      }
+      const value = (instance as any)[prop];
+      if (typeof value === 'function') {
+        return value.bind(instance);
+      }
+      return value;
+    },
+  },
+);
+
 export default offlineQueue;
