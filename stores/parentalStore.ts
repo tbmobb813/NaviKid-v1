@@ -27,7 +27,7 @@ try {
     // __filename is available in CommonJS modules (ts-jest compiles to CJS by default)
     // Print a compact JSON marker so timeline parsers can pick it up easily.
     // Keep this minimal and gated to test env only.
-     
+
     const loadMarker = `{"op":"parentalStore.loaded","file":"${__filename}","ts":${Date.now()}}`;
     console.log(`[TestDebug] ${loadMarker}`);
     try {
@@ -71,7 +71,7 @@ function emitTestDebug(obj: Record<string, any>) {
     const hrPart = normalized.hr ? ` | ${normalized.hr}` : '';
     const line = `${iso}${hrPart} ${json}`;
     // stdout for quick debugging
-     
+
     console.log(`[TestDebug] ${line}`);
 
     // append to file for parser consumption
