@@ -393,7 +393,7 @@ describe('Backend Integration Tests', () => {
 
     it('should receive WebSocket messages', (done) => {
       let messageReceived = false;
-
+      
       const unsubscribe = wsClient.on('system_message', (data) => {
         if (!messageReceived) {
           messageReceived = true;
