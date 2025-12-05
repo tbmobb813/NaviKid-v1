@@ -95,15 +95,15 @@ describe('NaviKidApiClient', () => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
     
-    // Reset all SecureStore mocks
+    // Reset all SecureStore mocks but keep the implementation
     (SecureStore.getItemAsync as jest.Mock).mockReset().mockResolvedValue(null);
     (SecureStore.setItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
     (SecureStore.deleteItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
 
-    // Import fresh instance for each test
-    jest.resetModules();
-    const apiModule = require('@/services/api');
-    apiClient = new apiModule.NaviKidApiClient({
+    // Create fresh instance without resetting modules (keeps mocks intact)
+    // We already have the NaviKidApiClient imported at the top
+    const { NaviKidApiClient } = require('@/services/api');
+    apiClient = new NaviKidApiClient({
       baseUrl: 'http://test-api.example.com/api',
       timeout: 5000,
       retryAttempts: 3,
@@ -131,10 +131,9 @@ describe('NaviKidApiClient', () => {
         return Promise.resolve(null);
       });
 
-      // Reset modules and create fresh instance with mocked SecureStore
-      jest.resetModules();
-      const apiModule = require('@/services/api');
-      const testClient = new apiModule.NaviKidApiClient({
+      // Use the already-mocked SecureStore
+      const { NaviKidApiClient } = require('@/services/api');
+      const testClient = new NaviKidApiClient({
         baseUrl: 'http://test-api.example.com/api',
         timeout: 5000,
         retryAttempts: 3,

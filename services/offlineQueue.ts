@@ -67,14 +67,6 @@ class OfflineQueueService {
   }
 
   /**
-   * Wait for initialization to complete
-   * Useful for testing to ensure the service is ready before running tests
-   */
-  async waitForInitialization(): Promise<void> {
-    await this.initPromise;
-  }
-
-  /**
    * Reset singleton instance for testing purposes
    * This allows tests to get a fresh instance with clean state
    */
@@ -82,27 +74,23 @@ class OfflineQueueService {
     if (OfflineQueueService.instance) {
       // Clean up existing instance
       const instance = OfflineQueueService.instance;
-
+      
       // Stop periodic sync
       if (instance['syncTimer']) {
         clearInterval(instance['syncTimer']);
         instance['syncTimer'] = null;
       }
-
+      
       // Clear state
       instance['queue'] = [];
       instance['isOnline'] = true;
       instance['isSyncing'] = false;
       instance['lastSyncTime'] = null;
       instance['listeners'] = new Set();
-      instance['initResolve'] = undefined;
     }
-
+    
     // Clear the instance reference so next getInstance() creates a new one
     OfflineQueueService.instance = undefined as any;
-
-    // Also clear the module-level cache
-    OfflineQueueService.moduleLevelInstanceCache = undefined;
   }
 
   // ==========================================================================
@@ -407,25 +395,6 @@ class OfflineQueueService {
 // ============================================================================
 
 export { OfflineQueueService };
-
-// Create singleton lazily on first access to avoid module-level initialization
-// Tests can call resetInstance() to clear this cache
-export const offlineQueue: OfflineQueueService = new Proxy<OfflineQueueService>(
-  {} as OfflineQueueService,
-  {
-    get(target, prop: string | symbol) {
-      let instance = OfflineQueueService['moduleLevelInstanceCache'];
-      if (!instance) {
-        instance = OfflineQueueService.getInstance();
-        OfflineQueueService['moduleLevelInstanceCache'] = instance;
-      }
-      const value = (instance as any)[prop];
-      if (typeof value === 'function') {
-        return value.bind(instance);
-      }
-      return value;
-    },
-  },
-);
-
+export const offlineQueue = OfflineQueueService.getInstance();
 export default offlineQueue;
+

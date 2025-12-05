@@ -65,16 +65,11 @@ describe('OfflineQueueService', () => {
       data: { syncedCount: 1 },
     });
 
-    // Reset singleton instance
-    jest.resetModules();
+    // Reset singleton instance for fresh state (without jest.resetModules which clears mocks)
     const offlineQueueModule = require('@/services/offlineQueue');
-
-    // Clear any existing instance
-    if (offlineQueueModule.OfflineQueueService) {
-      // @ts-ignore - accessing private static field for testing
-      offlineQueueModule.OfflineQueueService.instance = undefined;
-    }
-
+    offlineQueueModule.OfflineQueueService.resetInstance();
+    
+    // Get fresh instance
     offlineQueue = offlineQueueModule.offlineQueue;
   });
 
