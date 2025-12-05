@@ -64,10 +64,6 @@ describe('EmergencyService', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
-    // Mock locationService methods
-    (locationService.getLastLocation as jest.Mock) = jest.fn();
-    (locationService.getCurrentLocation as jest.Mock) = jest.fn();
-
     // Clear the service's internal state by fetching empty contacts
     (apiClient.emergency.listContacts as jest.Mock).mockResolvedValue({
       success: true,

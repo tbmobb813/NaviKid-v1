@@ -43,7 +43,6 @@ jest.mock('@/services/offlineQueue');
 jest.mock('@/utils/logger');
 
 import locationService from '@/services/locationService';
-import { LocationService, resetLocationServiceCache } from '@/services/locationService';
 import * as Location from 'expo-location';
 import apiClient from '@/services/api';
 import { offlineQueue } from '@/services/offlineQueue';
@@ -74,10 +73,6 @@ describe('LocationService', () => {
     jest.clearAllMocks();
     mockDeviceModule.isDevice = true;
 
-    // Reset singleton instance for fresh state
-    LocationService.resetInstance();
-    resetLocationServiceCache();
-
     // Reset all Location API mocks to return undefined by default
     (Location.requestForegroundPermissionsAsync as jest.Mock).mockReset();
     (Location.requestBackgroundPermissionsAsync as jest.Mock).mockReset();
@@ -89,7 +84,8 @@ describe('LocationService', () => {
     (apiClient.locations.sendLocation as jest.Mock).mockReset();
     (apiClient.locations.getHistory as jest.Mock).mockReset();
 
-    // Reset offlineQueue mock (jest.clearAllMocks() above handles this)
+    // Reset offlineQueue mocks
+    (offlineQueue.addAction as jest.Mock).mockReset();
   });
 
   afterEach(async () => {
