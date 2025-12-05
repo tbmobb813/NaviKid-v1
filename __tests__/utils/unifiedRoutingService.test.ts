@@ -302,7 +302,7 @@ describe('UnifiedRoutingService', () => {
       expect(orsService.getRoute).toHaveBeenCalledWith(
         expect.objectContaining({
           preference: 'recommended',
-        })
+        }),
       );
     });
   });
@@ -420,7 +420,7 @@ describe('UnifiedRoutingService', () => {
       expect(otp2Service.planTrip).toHaveBeenCalledWith(
         expect.objectContaining({
           arriveBy: false,
-        })
+        }),
       );
     });
 
@@ -486,7 +486,7 @@ describe('UnifiedRoutingService', () => {
           options: expect.objectContaining({
             avoid_features: ['highways', 'tollways'],
           }),
-        })
+        }),
       );
     });
   });

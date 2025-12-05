@@ -114,7 +114,7 @@ describe('Data Retention Store', () => {
 
       // Mock a slow cleanup
       (runDataRetentionCleanup as jest.Mock).mockImplementationOnce(
-        () => new Promise((resolve) => setTimeout(() => resolve(5), 100))
+        () => new Promise((resolve) => setTimeout(() => resolve(5), 100)),
       );
 
       const cleanup1 = performCleanup();
@@ -251,7 +251,7 @@ describe('Data Retention Store', () => {
         expect.objectContaining({
           hoursSinceLastCleanup: expect.any(Number),
           hoursUntilNextCleanup: expect.any(Number),
-        })
+        }),
       );
     });
 

@@ -162,7 +162,7 @@ export class TransitDataUpdater {
           } else {
             logger.warn('Mock feed not found', {
               feedId: id,
-              availableFeeds: ['mta-subway', 'mta-bus']
+              availableFeeds: ['mta-subway', 'mta-bus'],
             });
           }
 
@@ -239,7 +239,7 @@ export class TransitDataUpdater {
               } catch (protobufError) {
                 logger.warn('Failed to decode GTFS-RT protobuf', {
                   systemId: system.id,
-                  error: protobufError
+                  error: protobufError,
                 });
                 // Fall through to try other methods or fail gracefully
               }
@@ -441,7 +441,7 @@ export class TransitDataUpdater {
       } catch (entityError) {
         logger.warn('Failed to parse GTFS-RT entity', {
           entityId: entity.id,
-          error: entityError
+          error: entityError,
         });
         // Continue processing other entities
       }

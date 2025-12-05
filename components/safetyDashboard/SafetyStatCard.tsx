@@ -23,10 +23,13 @@ export const SafetyStatCard: React.FC<SafetyStatCardProps> = ({
   return (
     <Pressable style={[styles.statCard, onPress && styles.pressableCard]} onPress={onPress}>
       <View style={[styles.statIcon, { backgroundColor: `${color}20` }]}>
-        {React.cloneElement(icon as React.ReactElement, {
-          size: 20,
-          color,
-        } as any)}
+        {React.cloneElement(
+          icon as React.ReactElement,
+          {
+            size: 20,
+            color,
+          } as any,
+        )}
       </View>
       <View style={styles.statContent}>
         <Text style={styles.statValue}>{value}</Text>

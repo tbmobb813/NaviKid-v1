@@ -428,7 +428,6 @@ class NaviKidApiClient {
         throw new Error('No refresh token available');
       }
 
-
       const response = await this.request<any>(
         '/auth/refresh',
         {

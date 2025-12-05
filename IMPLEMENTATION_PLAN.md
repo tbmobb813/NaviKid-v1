@@ -435,29 +435,29 @@ rules: {
 
 ## Execution Order
 
-*Week 1: Quick Wins**
+\*Week 1: Quick Wins\*\*
 
 - Day 1: Phase 4 (Console Logging) - 8-10 hours ✅ Fastest impact
 - Day 2-3: Phase 1.1 (Enable Strict TS) - 2 hours
 - Day 3-5: Phase 1.2 (Fix High-Impact Type Files) - 15-20 hours
 
-*Week 2-3: Type Safety**
+\*Week 2-3: Type Safety\*\*
 
 - Complete Phase 1.3 & 1.4 - 23-33 hours
 
-*Week 4-6: Testing**
+\*Week 4-6: Testing\*\*
 
 - Phase 2.1-2.3: Store tests + Priority 1 component tests - 40-50 hours
 
-*Week 7-9: Component Refactoring**
+\*Week 7-9: Component Refactoring\*\*
 
 - Phase 3.1-3.3: Refactor large components - 60-80 hours
 
-*Week 10-11: Complete Testing**
+\*Week 10-11: Complete Testing\*\*
 
 - Phase 2.4-2.6: Remaining tests + coverage - 40-50 hours
 
-*Week 12: Integration & Documentation**
+\*Week 12: Integration & Documentation\*\*
 
 - Verify all changes work together
 - Update documentation
@@ -469,13 +469,13 @@ rules: {
 
 ### Overall Project Health Target
 
-| Metric | Before | Target | Current |
-|--------|--------|--------|---------|
-| Type Safety (% files with `any`) | 30% (79/258) | <5% | TBD |
-| Test Coverage | 5% | 70% | TBD |
-| Avg Component Size | 223 lines | <200 lines | TBD |
-| Console.log Count | 216 | 0 | TBD |
-| Overall Health Score | ⭐⭐⭐ (3/5) | ⭐⭐⭐⭐⭐ (5/5) | TBD |
+| Metric                           | Before       | Target           | Current |
+| -------------------------------- | ------------ | ---------------- | ------- |
+| Type Safety (% files with `any`) | 30% (79/258) | <5%              | TBD     |
+| Test Coverage                    | 5%           | 70%              | TBD     |
+| Avg Component Size               | 223 lines    | <200 lines       | TBD     |
+| Console.log Count                | 216          | 0                | TBD     |
+| Overall Health Score             | ⭐⭐⭐ (3/5) | ⭐⭐⭐⭐⭐ (5/5) | TBD     |
 
 ### Per-Phase Success Criteria
 
@@ -549,15 +549,15 @@ Update this section weekly:
 
 **Week 1**: [Date] - [Status]
 
-- Phase 4 Progress: ____%
-- Blockers: ___
-- Notes: ___
+- Phase 4 Progress: \_\_\_\_%
+- Blockers: \_\_\_
+- Notes: \_\_\_
 
 **Week 2**: [Date] - [Status]
 
-- Phase 1 Progress: ____%
-- Blockers: ___
-- Notes: ___
+- Phase 1 Progress: \_\_\_\_%
+- Blockers: \_\_\_
+- Notes: \_\_\_
 
 [Continue for all weeks...]
 

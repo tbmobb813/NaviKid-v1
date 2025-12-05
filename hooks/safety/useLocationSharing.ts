@@ -21,7 +21,10 @@ export const useLocationSharing = () => {
   const { settings, updateLastKnownLocation } = useParentalStore();
   const { showToast } = useToast();
 
-  const handleShareLocation = async (currentLocation: Location | undefined, currentPlace: Place | null | undefined) => {
+  const handleShareLocation = async (
+    currentLocation: Location | undefined,
+    currentPlace: Place | null | undefined,
+  ) => {
     try {
       if (!currentLocation) {
         const locationError = handleLocationError({ code: 'POSITION_UNAVAILABLE' });

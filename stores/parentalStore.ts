@@ -34,7 +34,11 @@ try {
       // Also append to a dedicated, append-only test debug file so capturing
       // issues with stdout/jest don't prevent us from seeing the marker.
       const outDir = '.test-debug';
-      try { fs.mkdirSync(outDir, { recursive: true }); } catch (e) { /* noop */ }
+      try {
+        fs.mkdirSync(outDir, { recursive: true });
+      } catch (e) {
+        /* noop */
+      }
       fs.appendFileSync(`${outDir}/parentalStore_module_loads.log`, loadMarker + '\n');
     } catch (e) {
       // noop - do not break tests for diagnostics
@@ -162,12 +166,21 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     // Test-only: always emit a compact JSON marker on bumpActive entry so
     // the timeline parser can attribute every increment (including ones that
     // might otherwise be logged only via the logger) to a precise stack.
-        try {
-        if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
+    try {
+      if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
         const hrEntry = process.hrtime.bigint();
-        const stackEntry = (new Error().stack || '').split('\n').slice(2, 8).map(s => s.trim()).join(' | ');
+        const stackEntry = (new Error().stack || '')
+          .split('\n')
+          .slice(2, 8)
+          .map((s) => s.trim())
+          .join(' | ');
         const instanceIdEntry = (isMountedRef as any).instanceId ?? null;
-        emitTestDebug({ op: 'bumpActive.entry', hr: hrEntry, instanceId: instanceIdEntry, stack: stackEntry });
+        emitTestDebug({
+          op: 'bumpActive.entry',
+          hr: hrEntry,
+          instanceId: instanceIdEntry,
+          stack: stackEntry,
+        });
       }
     } catch (e) {
       // noop
@@ -176,7 +189,11 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     // Capture a short stack snippet to help identify the caller site for
     // delayed operations that run after unmount. This keeps diagnostics
     // non-destructive but actionable for the timeline parser.
-    const stackSnippet = (new Error().stack || '').split('\n').slice(2, 6).map(s => s.trim()).join(' | ');
+    const stackSnippet = (new Error().stack || '')
+      .split('\n')
+      .slice(2, 6)
+      .map((s) => s.trim())
+      .join(' | ');
     // If the provider has already unmounted, avoid incrementing the
     // activeOps counter for work that starts after unmount — such ops
     // shouldn't be tracked against the provider's lifecycle. Keep a
@@ -192,7 +209,13 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       try {
         if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
           const lateHr = process.hrtime.bigint();
-          emitTestDebug({ op: 'activeOps.increment_after_unmount', hr: lateHr, instanceId: (isMountedRef as any).instanceId, activeOps: activeOpsRef.current, stack: stackSnippet });
+          emitTestDebug({
+            op: 'activeOps.increment_after_unmount',
+            hr: lateHr,
+            instanceId: (isMountedRef as any).instanceId,
+            activeOps: activeOpsRef.current,
+            stack: stackSnippet,
+          });
         }
       } catch (e) {
         // noop
@@ -211,7 +234,13 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     try {
       if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
         const hr = process.hrtime.bigint();
-        emitTestDebug({ op: 'activeOps.increment', hr, instanceId: (isMountedRef as any).instanceId, activeOps: activeOpsRef.current, stack: stackSnippet });
+        emitTestDebug({
+          op: 'activeOps.increment',
+          hr,
+          instanceId: (isMountedRef as any).instanceId,
+          activeOps: activeOpsRef.current,
+          stack: stackSnippet,
+        });
       }
     } catch (e) {
       // noop
@@ -223,7 +252,11 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     // accounting. Emit a lightweight no-op marker so tests/tools can still
     // observe that an operation finished, but do not decrement.
     const afterUnmount = !isMountedRef.current;
-    const stackSnippet = (new Error().stack || '').split('\n').slice(2, 6).map(s => s.trim()).join(' | ');
+    const stackSnippet = (new Error().stack || '')
+      .split('\n')
+      .slice(2, 6)
+      .map((s) => s.trim())
+      .join(' | ');
     if (afterUnmount) {
       logger.debug('[TestDebug] parentalStore activeOps drop after unmount (no-op)', {
         activeOps: activeOpsRef.current,
@@ -233,7 +266,13 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       try {
         if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
           const lateHr = process.hrtime.bigint();
-          emitTestDebug({ op: 'activeOps.decrement_noop_after_unmount', hr: lateHr, instanceId: (isMountedRef as any).instanceId, activeOps: activeOpsRef.current, stack: stackSnippet });
+          emitTestDebug({
+            op: 'activeOps.decrement_noop_after_unmount',
+            hr: lateHr,
+            instanceId: (isMountedRef as any).instanceId,
+            activeOps: activeOpsRef.current,
+            stack: stackSnippet,
+          });
         }
       } catch (e) {
         // noop
@@ -251,7 +290,13 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     try {
       if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
         const hr = process.hrtime.bigint();
-        emitTestDebug({ op: 'activeOps.decrement', hr, instanceId: (isMountedRef as any).instanceId, activeOps: activeOpsRef.current, stack: stackSnippet });
+        emitTestDebug({
+          op: 'activeOps.decrement',
+          hr,
+          instanceId: (isMountedRef as any).instanceId,
+          activeOps: activeOpsRef.current,
+          stack: stackSnippet,
+        });
       }
     } catch (e) {
       // noop
@@ -272,7 +317,10 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
     const loadData = async () => {
       bumpActive();
-      logger.debug('[TestDebug] parentalStore.loadData start', { instanceId, activeOps: activeOpsRef.current });
+      logger.debug('[TestDebug] parentalStore.loadData start', {
+        instanceId,
+        activeOps: activeOpsRef.current,
+      });
       try {
         const [
           storedSettings,
@@ -315,7 +363,9 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
             storedAttempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
             timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION
           ) {
-            applyIfMounted(() => setLockoutUntil((storedAttempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION));
+            applyIfMounted(() =>
+              setLockoutUntil((storedAttempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION),
+            );
           }
         } else if (storedAuthAttempts) {
           try {
@@ -326,7 +376,9 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
               attempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
               timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION
             ) {
-              applyIfMounted(() => setLockoutUntil((attempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION));
+              applyIfMounted(() =>
+                setLockoutUntil((attempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION),
+              );
             }
           } catch (e) {
             // Ignore parse errors; we'll start fresh
@@ -337,7 +389,10 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         logger.error('Failed to load parental data:', error as Error);
       } finally {
         dropActive();
-        logger.debug('[TestDebug] parentalStore.loadData end', { instanceId, activeOps: activeOpsRef.current });
+        logger.debug('[TestDebug] parentalStore.loadData end', {
+          instanceId,
+          activeOps: activeOpsRef.current,
+        });
         applyIfMounted(() => setIsLoading(false));
       }
     };
@@ -452,9 +507,13 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     } else {
       logger.debug('[TestDebug] clearSessionTimeout called, no active timeout');
       try {
-          if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
+        if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
           const hr = process.hrtime.bigint();
-          const stackSnippet = (new Error().stack || '').split('\n').slice(2, 6).map(s => s.trim()).join(' | ');
+          const stackSnippet = (new Error().stack || '')
+            .split('\n')
+            .slice(2, 6)
+            .map((s) => s.trim())
+            .join(' | ');
           emitTestDebug({ op: 'clearSessionTimeout', hr, stack: stackSnippet });
         }
       } catch (e) {
@@ -473,7 +532,11 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       try {
         if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
           const hr = process.hrtime.bigint();
-          const stackSnippet = (new Error().stack || '').split('\n').slice(2, 6).map(s => s.trim()).join(' | ');
+          const stackSnippet = (new Error().stack || '')
+            .split('\n')
+            .slice(2, 6)
+            .map((s) => s.trim())
+            .join(' | ');
           emitTestDebug({ op: 'startSessionTimeout_skipped', hr, stack: stackSnippet });
         }
       } catch (e) {
@@ -482,7 +545,9 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
       return;
     }
 
-    logger.debug('[TestDebug] scheduling session timeout', { timeoutMs: SECURITY_CONFIG.SESSION_TIMEOUT });
+    logger.debug('[TestDebug] scheduling session timeout', {
+      timeoutMs: SECURITY_CONFIG.SESSION_TIMEOUT,
+    });
     sessionTimeoutRef.current = setTimeout(() => {
       exitParentMode();
       logger.info('[Security] Parent mode session expired after 30 minutes');
@@ -495,20 +560,26 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     // timeline parser can capture the exact caller stack and hr timestamp for
     // any late invocations (including calls after unmount). Kept gated to
     // test env so production logs are unaffected.
-        try {
+    try {
       if (process.env.NODE_ENV === 'test' || typeof jest !== 'undefined') {
         const hr = process.hrtime.bigint();
         const stackSnippet = (new Error().stack || '')
           .split('\n')
           .slice(2, 8)
-          .map(s => s.trim())
+          .map((s) => s.trim())
           .join(' | ');
         const instanceId = (isMountedRef as any).instanceId ?? null;
         // Include isMounted state (test-only) so the timeline parser can
         // unambiguously determine whether the authenticate call executed
         // while the provider instance was still mounted.
         const isMountedFlag = !!isMountedRef.current;
-        emitTestDebug({ op: 'authenticate.entry', hr, instanceId, isMounted: isMountedFlag, stack: stackSnippet });
+        emitTestDebug({
+          op: 'authenticate.entry',
+          hr,
+          instanceId,
+          isMounted: isMountedFlag,
+          stack: stackSnippet,
+        });
       }
     } catch (e) {
       // noop - diagnostics only
@@ -552,7 +623,10 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           }
         } catch (parseError) {
           // Handle corrupted stored attempts data
-          logger.warn('[Security] Corrupted auth attempts data detected, clearing and continuing:', parseError);
+          logger.warn(
+            '[Security] Corrupted auth attempts data detected, clearing and continuing:',
+            parseError,
+          );
           await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_ATTEMPTS);
           applyIfMounted(() => setAuthAttempts(0));
           applyIfMounted(() => setLockoutUntil(null));
@@ -611,7 +685,10 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           timestamp: Date.now(),
         });
       } catch (storageError) {
-        logger.error('[Security] Failed to persist auth attempts to storage:', storageError as Error);
+        logger.error(
+          '[Security] Failed to persist auth attempts to storage:',
+          storageError as Error,
+        );
         // Fall back to AsyncStorage if mainStorage fails for any reason
         try {
           await AsyncStorage.setItem(

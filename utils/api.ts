@@ -195,7 +195,9 @@ export const offlineStorage = {
       } catch (e) {
         // ignore
       }
-      logger.warn('Failed to cache response (AsyncStorage), falling back to memory cache', { error });
+      logger.warn('Failed to cache response (AsyncStorage), falling back to memory cache', {
+        error,
+      });
     }
   },
 
@@ -224,7 +226,7 @@ export const offlineStorage = {
       } catch (e) {
         logger.warn('Failed to get cached response (AsyncStorage+memory)', {
           asyncStorageError: error,
-          memoryError: e
+          memoryError: e,
         });
         return null;
       }
@@ -434,7 +436,7 @@ export const createNetworkAwareApi = <T extends unknown[], R>(
       logger.warn('Network request failed, trying cache', {
         cacheKey,
         errorMessage: errorInfo.message,
-        errorCode: errorInfo.code
+        errorCode: errorInfo.code,
       });
 
       // Try cache fallback for network errors

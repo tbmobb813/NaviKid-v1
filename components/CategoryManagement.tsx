@@ -5,11 +5,7 @@ import { useCategoryManagement } from '@/stores/categoryStore';
 import { useCategoryForm } from '@/hooks/useCategoryForm';
 import { useCategoryActions } from '@/hooks/useCategoryActions';
 import { ArrowLeft, Plus } from 'lucide-react-native';
-import {
-  PendingApprovalSection,
-  AllCategoriesSection,
-  CategoryModal,
-} from './categoryManagement';
+import { PendingApprovalSection, AllCategoriesSection, CategoryModal } from './categoryManagement';
 
 type CategoryManagementProps = {
   onBack: () => void;
@@ -45,15 +41,11 @@ const CategoryManagement: React.FC<CategoryManagementProps> = ({ onBack, userMod
     resetForm,
   } = useCategoryForm();
 
-  const {
-    handleCreateCategory,
-    handleEditCategory,
-    handleDeleteCategory,
-    handleApproveCategory,
-  } = useCategoryActions(userMode, () => {
-    closeModal();
-    resetForm();
-  });
+  const { handleCreateCategory, handleEditCategory, handleDeleteCategory, handleApproveCategory } =
+    useCategoryActions(userMode, () => {
+      closeModal();
+      resetForm();
+    });
 
   const handleSave = async () => {
     if (editingCategory) {

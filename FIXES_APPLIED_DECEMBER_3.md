@@ -127,7 +127,7 @@ npx tsc --noEmit
 npm test -- --testNamePattern="should call onExit" --no-coverage
 # Expected: 1 passed
 
-# Test back button functionality  
+# Test back button functionality
 npm test -- --testNamePattern="back-button" --no-coverage
 # Expected: Tests pass (may be in mock)
 

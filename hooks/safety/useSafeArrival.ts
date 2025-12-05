@@ -16,7 +16,10 @@ export const useSafeArrival = () => {
   const { safetyContacts } = useGamificationStore();
   const { settings, updateLastKnownLocation } = useParentalStore();
 
-  const handleSafeArrival = (currentLocation: Location | undefined, currentPlace: Place | null | undefined) => {
+  const handleSafeArrival = (
+    currentLocation: Location | undefined,
+    currentPlace: Place | null | undefined,
+  ) => {
     Alert.alert('I Made It!', 'Let your family know you arrived safely?', [
       { text: 'Not now', style: 'cancel' },
       {

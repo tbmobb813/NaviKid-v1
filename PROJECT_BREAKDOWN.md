@@ -2,7 +2,7 @@
 
 ## 📊 Project Overview
 
-**NaviKid** is a React Native (Expo) application designed for child safety and transit navigation. The project implements real-time location tracking, emergency services integration, geofencing, MTA 
+**NaviKid** is a React Native (Expo) application designed for child safety and transit navigation. The project implements real-time location tracking, emergency services integration, geofencing, MTA
 transit information, and comprehensive parental controls.
 
 ### Key Statistics
@@ -19,17 +19,17 @@ transit information, and comprehensive parental controls.
 
 ### Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Runtime** | Expo 54.0.25, React Native |
-| **Language** | TypeScript (strict mode) |
-| **State** | Zustand (8 stores) |
-| **API** | React Query 5.90.11, Supabase 2.86.0 |
-| **Maps** | MapLibre React Native 10.4.1 |
-| **Navigation** | React Navigation 7.1.22 |
-| **Testing** | Jest 30.2.0, ts-jest 29.4.5, @testing-library/react-native 13.3.3 |
-| **Monitoring** | Sentry, Custom monitoring system |
-| **Build** | Metro, Babel, EAS Build |
+| Layer          | Technology                                                        |
+| -------------- | ----------------------------------------------------------------- |
+| **Runtime**    | Expo 54.0.25, React Native                                        |
+| **Language**   | TypeScript (strict mode)                                          |
+| **State**      | Zustand (8 stores)                                                |
+| **API**        | React Query 5.90.11, Supabase 2.86.0                              |
+| **Maps**       | MapLibre React Native 10.4.1                                      |
+| **Navigation** | React Navigation 7.1.22                                           |
+| **Testing**    | Jest 30.2.0, ts-jest 29.4.5, @testing-library/react-native 13.3.3 |
+| **Monitoring** | Sentry, Custom monitoring system                                  |
+| **Build**      | Metro, Babel, EAS Build                                           |
 
 ### Deployment
 
@@ -240,28 +240,28 @@ transit information, and comprehensive parental controls.
 
 **Core Utilities**:
 
-| Module | Lines | Purpose |
-|--------|-------|---------|
-| **unifiedRoutingService.ts** | 782 | Route aggregation, scoring, alternatives |
-| **monitoring.ts** | 762 | Performance metrics, analytics |
-| **otp2Service.ts** | 664 | OTP v2 route planning |
-| **orsService.ts** | 590 | OpenRouteService integration |
-| **auth.ts** | 650 | Authentication utilities |
-| **caching.ts** | 541 | Cache management |
-| **storage.ts** | 469 | AsyncStorage wrapper |
-| **transitDataUpdater.ts** | 502 | Transit data sync |
-| **validation.ts** | 424 | Input validation |
-| **voice.ts** | 411 | Voice guidance |
-| **errorHandling.ts** | 512 | Error recovery |
-| **api.ts** | 459 | API utilities |
-| **logger.ts** | 206 | Logging system |
-| **sentry.ts** | 238 | Error tracking |
-| **notifications.ts** | 155 | Local/push notifications |
-| **offlineManager.ts** | 343 | Offline capabilities |
-| **performance.ts** | 83 | Performance optimization |
-| **weather.ts** | 97 | Weather data |
-| **routeScoring.ts** | 128 | Route ranking |
-| **regionUtils.ts** | 111 | Regional utilities |
+| Module                       | Lines | Purpose                                  |
+| ---------------------------- | ----- | ---------------------------------------- |
+| **unifiedRoutingService.ts** | 782   | Route aggregation, scoring, alternatives |
+| **monitoring.ts**            | 762   | Performance metrics, analytics           |
+| **otp2Service.ts**           | 664   | OTP v2 route planning                    |
+| **orsService.ts**            | 590   | OpenRouteService integration             |
+| **auth.ts**                  | 650   | Authentication utilities                 |
+| **caching.ts**               | 541   | Cache management                         |
+| **storage.ts**               | 469   | AsyncStorage wrapper                     |
+| **transitDataUpdater.ts**    | 502   | Transit data sync                        |
+| **validation.ts**            | 424   | Input validation                         |
+| **voice.ts**                 | 411   | Voice guidance                           |
+| **errorHandling.ts**         | 512   | Error recovery                           |
+| **api.ts**                   | 459   | API utilities                            |
+| **logger.ts**                | 206   | Logging system                           |
+| **sentry.ts**                | 238   | Error tracking                           |
+| **notifications.ts**         | 155   | Local/push notifications                 |
+| **offlineManager.ts**        | 343   | Offline capabilities                     |
+| **performance.ts**           | 83    | Performance optimization                 |
+| **weather.ts**               | 97    | Weather data                             |
+| **routeScoring.ts**          | 128   | Route ranking                            |
+| **regionUtils.ts**           | 111   | Regional utilities                       |
 
 **Utility Patterns**:
 
@@ -330,14 +330,14 @@ __tests__/
 
 **By Phase**:
 
-| Phase | Description | Status | Pass Rate |
-|-------|-------------|--------|-----------|
-| **1** | Type Safety | ✅ Complete | 100% |
-| **2.2** | Store Tests | ✅ Complete | 152/152 (100%) |
-| **2.3** | Component Tests | ✅ Complete | 129/137 (94.2%) |
-| **2.4** | Service Tests | ✅ Complete | 88/99 (88.8%) |
-| **2.5** | Integration Tests | ✅ In Progress | ~85/95 |
-| **2.6** | E2E Tests | ⏳ Pending | Browser-based |
+| Phase   | Description       | Status         | Pass Rate       |
+| ------- | ----------------- | -------------- | --------------- |
+| **1**   | Type Safety       | ✅ Complete    | 100%            |
+| **2.2** | Store Tests       | ✅ Complete    | 152/152 (100%)  |
+| **2.3** | Component Tests   | ✅ Complete    | 129/137 (94.2%) |
+| **2.4** | Service Tests     | ✅ Complete    | 88/99 (88.8%)   |
+| **2.5** | Integration Tests | ✅ In Progress | ~85/95          |
+| **2.6** | E2E Tests         | ⏳ Pending     | Browser-based   |
 
 **Coverage Metrics**:
 
@@ -457,8 +457,7 @@ __tests__/
 3. **MTALiveArrivals**: 716 lines → **293 lines** (-59%) ✅
    - Extracted 4 sub-components into `components/MTALiveArrivals/`
 
-**High-Priority Safety Components (Completed):**
-4. **SafetyPanel**: 600 lines → **128 lines** (-79%) ✅
+**High-Priority Safety Components (Completed):** 4. **SafetyPanel**: 600 lines → **128 lines** (-79%) ✅
 
 - Extracted 4 hooks + 2 UI components into `components/safetyPanel/`
 
@@ -467,8 +466,7 @@ __tests__/
 6. **SafetyDashboard**: 530 lines → **174 lines** (-67%) ✅
    - Extracted 7 UI components into `components/safetyDashboard/`
 
-**Medium-Priority Components (In Progress):**
-7. **RoutingPreferences**: 567 lines → **501 lines** (-12%) ✅
+**Medium-Priority Components (In Progress):** 7. **RoutingPreferences**: 567 lines → **501 lines** (-12%) ✅
 
 - Extracted 2 reusable components into `components/routingPreferences/`
 
@@ -615,12 +613,12 @@ __tests__/
 **Repository**: Private GitHub  
 **CI/CD**: GitHub Actions  
 **Monitoring**: Sentry  
-**Analytics**: Custom monitoring system  
+**Analytics**: Custom monitoring system
 
 ---
 
-*Last Updated: 2025-12-03*
-*Test Coverage: 92.2% (378/410 tests)*
-*Type Safety: 100% (TypeScript strict)*
-*Phase 3 Refactoring: Complete ✅ (7 components refactored: 4,738 → 1,579 lines, -67%)*
-*Code Quality: Production Ready ✅*
+_Last Updated: 2025-12-03_
+_Test Coverage: 92.2% (378/410 tests)_
+_Type Safety: 100% (TypeScript strict)_
+_Phase 3 Refactoring: Complete ✅ (7 components refactored: 4,738 → 1,579 lines, -67%)_
+_Code Quality: Production Ready ✅_

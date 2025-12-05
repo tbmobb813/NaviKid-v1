@@ -110,7 +110,12 @@ describe('gamificationStore', () => {
     const beforePoints = result.current.userStats.totalPoints;
 
     act(() => {
-      result.current.addSafetyContact({ name: 'Mom', phone: '+1234567890', relationship: 'parent', isPrimary: true } as any);
+      result.current.addSafetyContact({
+        name: 'Mom',
+        phone: '+1234567890',
+        relationship: 'parent',
+        isPrimary: true,
+      } as any);
     });
 
     const after = useGamificationStore.getState();
@@ -131,9 +136,33 @@ describe('gamificationStore', () => {
     const beforeEntries = result.current.tripJournal.length;
 
     act(() => {
-      result.current.addTripEntry({ date: new Date(), from: 'A', to: 'B', photos: [], notes: '', rating: 5, funFacts: [] } as any);
-      result.current.addTripEntry({ date: new Date(), from: 'B', to: 'C', photos: ['uri1'], notes: '', rating: 5, funFacts: [] } as any);
-      result.current.addTripEntry({ date: new Date(), from: 'C', to: 'D', photos: ['uri2'], notes: '', rating: 5, funFacts: [] } as any);
+      result.current.addTripEntry({
+        date: new Date(),
+        from: 'A',
+        to: 'B',
+        photos: [],
+        notes: '',
+        rating: 5,
+        funFacts: [],
+      } as any);
+      result.current.addTripEntry({
+        date: new Date(),
+        from: 'B',
+        to: 'C',
+        photos: ['uri1'],
+        notes: '',
+        rating: 5,
+        funFacts: [],
+      } as any);
+      result.current.addTripEntry({
+        date: new Date(),
+        from: 'C',
+        to: 'D',
+        photos: ['uri2'],
+        notes: '',
+        rating: 5,
+        funFacts: [],
+      } as any);
     });
 
     const after = useGamificationStore.getState();
@@ -173,11 +202,13 @@ describe('gamificationStore', () => {
       act(() => {
         // Complete 10 trips to visit 10 places
         for (let i = 0; i < 10; i++) {
-          result.current.completeTrip(`Place${i}`, `Place${i+1}`);
+          result.current.completeTrip(`Place${i}`, `Place${i + 1}`);
         }
       });
 
-      const achievement = result.current.achievements.find((a: Achievement) => a.id === 'neighborhood-navigator');
+      const achievement = result.current.achievements.find(
+        (a: Achievement) => a.id === 'neighborhood-navigator',
+      );
       expect(achievement?.unlocked).toBe(true);
     });
 
@@ -214,7 +245,9 @@ describe('gamificationStore', () => {
         } as any);
       });
 
-      const achievement = result.current.achievements.find((a: Achievement) => a.id === 'photo-journalist');
+      const achievement = result.current.achievements.find(
+        (a: Achievement) => a.id === 'photo-journalist',
+      );
       expect(achievement?.unlocked).toBe(true);
     });
 
@@ -242,7 +275,9 @@ describe('gamificationStore', () => {
         } as any);
       });
 
-      const achievement = result.current.achievements.find((a: Achievement) => a.id === 'photo-journalist');
+      const achievement = result.current.achievements.find(
+        (a: Achievement) => a.id === 'photo-journalist',
+      );
       expect(achievement?.unlocked).toBe(false);
     });
 
@@ -282,14 +317,24 @@ describe('gamificationStore', () => {
       const { result } = renderHook(() => useGamificationStore());
 
       act(() => {
-        result.current.addSafetyContact({ name: 'Contact1', phone: '111', relationship: 'parent', isPrimary: true } as any);
+        result.current.addSafetyContact({
+          name: 'Contact1',
+          phone: '111',
+          relationship: 'parent',
+          isPrimary: true,
+        } as any);
       });
 
       // Small delay to ensure different timestamp
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       act(() => {
-        result.current.addSafetyContact({ name: 'Contact2', phone: '222', relationship: 'parent', isPrimary: false } as any);
+        result.current.addSafetyContact({
+          name: 'Contact2',
+          phone: '222',
+          relationship: 'parent',
+          isPrimary: false,
+        } as any);
       });
 
       const ids = result.current.safetyContacts.map((c: SafetyContact) => c.id);
@@ -312,7 +357,7 @@ describe('gamificationStore', () => {
       });
 
       // Small delay to ensure different timestamp
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       act(() => {
         result.current.addTripEntry({

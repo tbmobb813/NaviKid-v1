@@ -116,7 +116,10 @@ export const TripPlannerForm: React.FC<TripPlannerFormProps> = ({
             accessibilityNeeds.wheelchair && styles.accessibilityOptionActive,
           ]}
           onPress={() =>
-            onAccessibilityNeedsChange({ ...accessibilityNeeds, wheelchair: !accessibilityNeeds.wheelchair })
+            onAccessibilityNeedsChange({
+              ...accessibilityNeeds,
+              wheelchair: !accessibilityNeeds.wheelchair,
+            })
           }
         >
           <Shield size={16} color={accessibilityNeeds.wheelchair ? '#FFFFFF' : Colors.primary} />
@@ -136,7 +139,10 @@ export const TripPlannerForm: React.FC<TripPlannerFormProps> = ({
             accessibilityNeeds.stroller && styles.accessibilityOptionActive,
           ]}
           onPress={() =>
-            onAccessibilityNeedsChange({ ...accessibilityNeeds, stroller: !accessibilityNeeds.stroller })
+            onAccessibilityNeedsChange({
+              ...accessibilityNeeds,
+              stroller: !accessibilityNeeds.stroller,
+            })
           }
         >
           <Heart size={16} color={accessibilityNeeds.stroller ? '#FFFFFF' : Colors.primary} />

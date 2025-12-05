@@ -7,7 +7,9 @@ type CurrentStatusSectionProps = {
   currentZoneStatus: any;
 };
 
-export const CurrentStatusSection: React.FC<CurrentStatusSectionProps> = ({ currentZoneStatus }) => {
+export const CurrentStatusSection: React.FC<CurrentStatusSectionProps> = ({
+  currentZoneStatus,
+}) => {
   const isInSafeZone =
     currentZoneStatus && currentZoneStatus.inside && currentZoneStatus.inside.length > 0;
   const zoneName = isInSafeZone ? currentZoneStatus.inside[0].name : undefined;

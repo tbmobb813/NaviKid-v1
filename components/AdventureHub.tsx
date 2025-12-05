@@ -37,8 +37,7 @@ const AdventureHub: React.FC<AdventureHubProps> = ({
   const [showQuickActions, setShowQuickActions] = useState(true);
 
   // Get adventure stats
-  const { recentMemories, discoveredZones, pendingUpdates, adventureBuddies } =
-    useAdventureStats();
+  const { recentMemories, discoveredZones, pendingUpdates, adventureBuddies } = useAdventureStats();
 
   // Get adventure actions
   const {

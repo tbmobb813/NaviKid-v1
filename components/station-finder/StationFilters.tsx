@@ -82,16 +82,10 @@ export const StationFilters: React.FC<StationFiltersProps> = ({
 
       {/* Accessibility Toggle */}
       <TouchableOpacity
-        style={[
-          styles.accessibilityToggle,
-          accessibilityOnly && styles.accessibilityToggleActive,
-        ]}
+        style={[styles.accessibilityToggle, accessibilityOnly && styles.accessibilityToggleActive]}
         onPress={onAccessibilityToggle}
       >
-        <Accessibility
-          size={20}
-          color={accessibilityOnly ? '#FFFFFF' : Colors.primary}
-        />
+        <Accessibility size={20} color={accessibilityOnly ? '#FFFFFF' : Colors.primary} />
         <Text
           style={[
             styles.accessibilityToggleText,

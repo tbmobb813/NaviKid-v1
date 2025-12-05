@@ -118,7 +118,7 @@ const InAppNotificationHost: React.FC<InAppNotificationHostProps> = ({ testId })
       logger.debug('Notification action triggered', {
         type: notification.type,
         id: notification.id,
-        title: notification.title
+        title: notification.title,
       });
       // Handle different notification actions here
       switch (notification.type) {

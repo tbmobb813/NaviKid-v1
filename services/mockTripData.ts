@@ -124,11 +124,7 @@ export const generateMockTripOptions = (fromLocation: string, toLocation: string
           instructions: 'Walk west to Port Authority Bus Terminal',
           kidFriendlyTip: "The Port Authority is HUGE - it's like a train station for buses!",
           safetyNote: 'Very busy area - stay close to your adult',
-          funThingsToSee: [
-            'Giant bus terminal',
-            'Food court',
-            'Lots of travelers with suitcases',
-          ],
+          funThingsToSee: ['Giant bus terminal', 'Food court', 'Lots of travelers with suitcases'],
           accessibility: {
             wheelchairAccessible: true,
             strollerFriendly: true,

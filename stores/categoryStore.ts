@@ -138,7 +138,7 @@ export const [CategoryProvider, useCategoryStoreInternal] = createContextHook(()
       setCategories(newCategories);
     } catch (error) {
       logger.error('Failed to save categories', error as Error, {
-        categoriesCount: newCategories.length
+        categoriesCount: newCategories.length,
       });
     }
   };
