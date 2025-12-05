@@ -90,7 +90,7 @@ class MockWebSocket {
 // Replace global WebSocket with mock and ensure constants are available
 (global as any).WebSocket = MockWebSocket;
 (global as any).WebSocket.CONNECTING = MockWebSocket.CONNECTING;
-(global as any).WebSocket.OPEN = MockWebSocket.OPEN;  
+(global as any).WebSocket.OPEN = MockWebSocket.OPEN;
 (global as any).WebSocket.CLOSING = MockWebSocket.CLOSING;
 (global as any).WebSocket.CLOSED = MockWebSocket.CLOSED;
 
@@ -166,20 +166,20 @@ describe('NaviKidWebSocketClient', () => {
         // Mock the connect method to spy on its internal logic
         const originalConnect = wsClient.connect;
         const connectSpy = jest.spyOn(wsClient, 'connect');
-        
+
         // Set up the WebSocket to be in connected state
         mockWs.readyState = MockWebSocket.OPEN;
-        
+
         // Mock isConnected to return true (simulating connected state)
         const isConnectedSpy = jest.spyOn(wsClient, 'isConnected');
         isConnectedSpy.mockReturnValue(true);
-        
+
         // Call connect - should return early due to already connected
         wsClient.connect();
-        
+
         // Verify connect was called but returned early (no new WebSocket created)
         expect(connectSpy).toHaveBeenCalled();
-        
+
         // Clean up
         isConnectedSpy.mockRestore();
         connectSpy.mockRestore();
@@ -255,7 +255,7 @@ describe('NaviKidWebSocketClient', () => {
 
       it('should emit connection status', (done) => {
         let disconnectEventReceived = false;
-        
+
         wsClient.on('connection_status', (status: ConnectionStatus) => {
           if (!status.connected && !status.reconnecting && !disconnectEventReceived) {
             disconnectEventReceived = true;
@@ -314,7 +314,7 @@ describe('NaviKidWebSocketClient', () => {
 
         // Clear any existing timer
         wsClient['clearReconnectTimer']();
-        
+
         // This should not set a timer since we're at max attempts
         wsClient['scheduleReconnect']();
 
@@ -627,7 +627,7 @@ describe('NaviKidWebSocketClient', () => {
 
       it('should support onConnectionStatus', (done) => {
         let statusReceived = false;
-        
+
         wsClient.onConnectionStatus((status: ConnectionStatus) => {
           if (!statusReceived) {
             statusReceived = true;

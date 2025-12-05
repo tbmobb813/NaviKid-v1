@@ -304,13 +304,13 @@ describe('OfflineQueueService', () => {
     describe('syncQueue', () => {
       it('should sync actions with backend', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         await offlineQueue.addAction(mockAction);
 
         // Now set online and configure mock
@@ -328,13 +328,13 @@ describe('OfflineQueueService', () => {
 
       it('should not sync if offline', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         await offlineQueue.addAction(mockAction);
 
         // Ensure still offline
@@ -346,13 +346,13 @@ describe('OfflineQueueService', () => {
 
       it('should not sync if already syncing', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         await offlineQueue.addAction(mockAction);
 
         // Set syncing state and online, but sync should be blocked
@@ -405,13 +405,13 @@ describe('OfflineQueueService', () => {
 
       it('should increment retry count on sync failure', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         await offlineQueue.addAction(mockAction);
 
         // Now set online and mock failure
@@ -428,13 +428,13 @@ describe('OfflineQueueService', () => {
 
       it('should handle partial sync success', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         await offlineQueue.addAction(mockAction);
         await offlineQueue.addAction(mockAction);
         await offlineQueue.addAction(mockAction);
@@ -453,13 +453,13 @@ describe('OfflineQueueService', () => {
 
       it('should notify listeners during and after sync', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline first to prevent auto-sync on addAction
         offlineQueue['isOnline'] = false;
-        
-        // Clear any previous mock calls  
+
+        // Clear any previous mock calls
         jest.clearAllMocks();
-        
+
         const listener = jest.fn();
         offlineQueue.addListener(listener);
 
@@ -468,13 +468,13 @@ describe('OfflineQueueService', () => {
 
         // Now set online and configure mock
         offlineQueue['isOnline'] = true;
-        
+
         // Mock successful sync
         (apiClient.offline.syncActions as jest.Mock).mockResolvedValue({
           success: true,
           data: { syncedCount: 1 },
         });
-        
+
         await offlineQueue.syncQueue();
 
         // Should be called at least twice: when starting and when finished
@@ -535,18 +535,18 @@ describe('OfflineQueueService', () => {
       // Use fake timers for this specific test
       jest.clearAllTimers();
       jest.useFakeTimers();
-      
+
       await offlineQueue.waitForInitialization();
-      
+
       // Set offline first, add action, then go online
       offlineQueue['isOnline'] = false;
       await offlineQueue.addAction(mockAction);
       offlineQueue['isOnline'] = true;
-      
+
       // Restart periodic sync to work with fake timers
       offlineQueue['stopPeriodicSync']();
       offlineQueue['startPeriodicSync']();
-      
+
       const syncSpy = jest.spyOn(offlineQueue, 'syncQueue');
       syncSpy.mockClear();
 
@@ -554,7 +554,7 @@ describe('OfflineQueueService', () => {
       jest.advanceTimersByTime(60000);
 
       expect(syncSpy).toHaveBeenCalled();
-      
+
       // Restore timers
       jest.useRealTimers();
     });
@@ -563,7 +563,7 @@ describe('OfflineQueueService', () => {
       // Use fake timers for this specific test
       jest.clearAllTimers();
       jest.useFakeTimers();
-      
+
       await offlineQueue.waitForInitialization();
       await offlineQueue.addAction(mockAction);
 
@@ -574,7 +574,7 @@ describe('OfflineQueueService', () => {
       jest.advanceTimersByTime(60000);
 
       expect(syncSpy).not.toHaveBeenCalled();
-      
+
       // Restore timers
       jest.useRealTimers();
     });
@@ -583,55 +583,55 @@ describe('OfflineQueueService', () => {
       // Use fake timers for this specific test
       jest.clearAllTimers();
       jest.useFakeTimers();
-      
+
       offlineQueue['isOnline'] = true;
       const syncSpy = jest.spyOn(offlineQueue, 'syncQueue');
 
       jest.advanceTimersByTime(60000);
 
       expect(syncSpy).not.toHaveBeenCalled();
-      
+
       // Restore timers
       jest.useRealTimers();
     });
 
     it('should allow changing sync interval', async () => {
       await offlineQueue.waitForInitialization();
-      
+
       // Test that setSyncInterval actually changes the interval property
       const initialInterval = offlineQueue['syncInterval'];
       expect(initialInterval).toBe(60000); // Default 60 seconds
-      
+
       offlineQueue.setSyncInterval(30000);
       expect(offlineQueue['syncInterval']).toBe(30000);
-      
+
       offlineQueue.setSyncInterval(120000);
       expect(offlineQueue['syncInterval']).toBe(120000);
-      
+
       // Test that periodic sync uses the new interval
       jest.useFakeTimers();
-      
-      // Set up scenario with action in queue 
+
+      // Set up scenario with action in queue
       offlineQueue['isOnline'] = false;
       await offlineQueue.addAction(mockAction);
       offlineQueue['isOnline'] = true;
-      
+
       // Restart periodic sync with new interval
       offlineQueue.setSyncInterval(15000); // 15 seconds
       offlineQueue['stopPeriodicSync']();
       offlineQueue['startPeriodicSync']();
-      
+
       const syncSpy = jest.spyOn(offlineQueue, 'syncQueue');
       syncSpy.mockClear();
 
       // Should not trigger at old 60s interval
       jest.advanceTimersByTime(14999);
       expect(syncSpy).not.toHaveBeenCalled();
-      
-      // Should trigger at new 15s interval  
+
+      // Should trigger at new 15s interval
       jest.advanceTimersByTime(1);
       expect(syncSpy).toHaveBeenCalled();
-      
+
       jest.useRealTimers();
     });
   });
@@ -705,10 +705,10 @@ describe('OfflineQueueService', () => {
 
       it('should stop calling listener after unsubscribe', async () => {
         await offlineQueue.waitForInitialization();
-        
+
         // Set offline to prevent auto-sync which would cause additional listener calls
         offlineQueue['isOnline'] = false;
-        
+
         const listener = jest.fn();
         const unsubscribe = offlineQueue.addListener(listener);
 
