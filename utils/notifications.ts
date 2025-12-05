@@ -1,4 +1,5 @@
 import { Platform, Alert } from 'react-native';
+import { logger } from '@/utils/logger';
 
 export type NotificationOptions = {
   title: string;
@@ -58,7 +59,7 @@ export const initializeNotifications = async () => {
       });
     }
   } catch (e) {
-    console.warn('initializeNotifications failed:', e);
+    logger.warn('initializeNotifications failed', { error: e, platform: Platform.OS });
   }
 };
 
@@ -80,7 +81,7 @@ export const showNotification = async (options: NotificationOptions) => {
 
   if (isExpoGo) {
     if (priority === 'high') Alert.alert(title, body, [{ text: 'OK' }]);
-    else console.log(`📱 Notification: ${title} - ${body}`);
+    else logger.info('Notification triggered in Expo Go', { title, body, priority });
     showInAppBanner({ id: Date.now().toString(), title, message: body, type: 'reminder' });
     return;
   }
@@ -94,7 +95,7 @@ export const showNotification = async (options: NotificationOptions) => {
       trigger,
     });
   } catch (error) {
-    console.warn('Failed to show notification:', error);
+    logger.warn('Failed to show notification', { error, title, priority });
     if (priority === 'high') Alert.alert(title, body, [{ text: 'OK' }]);
     showInAppBanner({ id: Date.now().toString(), title, message: body, type: 'reminder' });
   }
@@ -109,8 +110,9 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
     return false;
   }
   if (isExpoGo) {
-    console.log('⚠️ Running in Expo Go - notifications limited to alerts');
-    console.log('💡 For full notification support, use a development build');
+    logger.info('Running in Expo Go - notifications limited to alerts', {
+      recommendation: 'Use development build for full notification support',
+    });
     return true;
   }
   try {
@@ -118,7 +120,7 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
     const { status } = await Notifications.requestPermissionsAsync();
     return status === 'granted';
   } catch (error) {
-    console.warn('Failed to request notification permissions:', error);
+    logger.warn('Failed to request notification permissions', { error });
     return false;
   }
 };
@@ -143,7 +145,10 @@ export const showDevelopmentBuildRecommendation = () => {
       'For the best experience with notifications and background features, consider using a development build instead of Expo Go.\n\nLearn more at: docs.expo.dev/develop/development-builds/',
       [
         { text: 'Maybe Later', style: 'cancel' },
-        { text: 'Learn More', onPress: () => console.log('Open development build docs') },
+        {
+          text: 'Learn More',
+          onPress: () => logger.info('User requested development build documentation'),
+        },
       ],
     );
   }

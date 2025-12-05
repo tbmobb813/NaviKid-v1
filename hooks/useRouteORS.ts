@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry } from 'geojson';
 import Config from '@/utils/config';
+import { logger } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 export type RouteGeoJSON = FeatureCollection<Geometry>;
 
@@ -95,42 +97,28 @@ export function useRouteORS(
     endCoord: [number, number],
     profileName: string,
   ): Promise<RouteGeoJSON | null> => {
-    // Debug logging for CI/test investigation
-
-    console.debug('[useRouteORS] fetchRoute called', { startCoord, endCoord, profileName });
+    logger.debug('useRouteORS fetchRoute called', { startCoord, endCoord, profileName });
     if (!Config.ROUTING.ORS_API_KEY) {
       throw new Error(
         'Missing OpenRouteService API key. Set EXPO_PUBLIC_ORS_API_KEY or configure extra.routing.',
       );
     }
 
-    const controller = new AbortController();
     abortRef.current?.abort();
+    const controller = new AbortController();
     abortRef.current = controller;
 
     const routeUrl = buildRouteUrl(profileName, startCoord, endCoord);
-    const timeoutId = setTimeout(() => {
-      controller.abort();
-    }, DEFAULT_TIMEOUT);
 
     try {
-      console.debug('[useRouteORS] performing fetch', { routeUrl });
+      logger.debug('useRouteORS performing fetch', { routeUrl });
       const response = await fetch(routeUrl, {
         method: 'GET',
         headers: {
           Authorization: Config.ROUTING.ORS_API_KEY,
         },
-        signal: controller.signal,
+        signal: timeoutSignal(DEFAULT_TIMEOUT),
       });
-      // If the controller was aborted while the mocked fetch resolved, ignore the result.
-
-      console.debug('[useRouteORS] fetch resolved, aborted?', (controller.signal as any).aborted);
-      if (controller.signal && (controller.signal as any).aborted) {
-        // Treat as aborted
-        const abortErr: any = new Error('Aborted');
-        abortErr.name = 'AbortError';
-        throw abortErr;
-      }
 
       if (!response.ok) {
         const message = await response.text();
@@ -141,10 +129,8 @@ export function useRouteORS(
       setGeojson(data);
       return data;
     } finally {
-      clearTimeout(timeoutId);
       abortRef.current = null;
-
-      console.debug('[useRouteORS] fetchRoute finally, cleared timeout');
+      logger.debug('useRouteORS fetchRoute finally, cleared timeout');
     }
   };
 

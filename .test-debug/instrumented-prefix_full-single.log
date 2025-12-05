@@ -1,0 +1,87 @@
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+Skipping backend/Docker setup (SKIP_START_BACKEND or MOCK_DOCKER_SETUP set)
+  console.log
+    [2025-11-29T13:31:50.655Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.764Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.770Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.786Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.787Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.841Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:31:50.844Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+PASS stores/__tests__/prefix_full.test.ts (11.107 s)
+  Test utilities
+    ○ skipped should export required testing utilities
+    ○ skipped should render a simple component
+  parentalStore
+    Initialization
+      ✓ initializes with default state (235 ms)
+      ○ skipped loads stored settings from AsyncStorage
+      ○ skipped loads safe zones from AsyncStorage
+    PIN Authentication
+      ○ skipped allows access when PIN is not required
+      ○ skipped allows access when no PIN is set (first-time setup)
+      ○ skipped sets a new PIN with secure hashing
+      ○ skipped rejects invalid PINs during setup
+      ○ skipped authenticates with correct PIN
+      ○ skipped rejects incorrect PIN
+      ○ skipped implements rate limiting after multiple failed attempts
+      ○ skipped exits parent mode
+    Safe Zone Management
+      ○ skipped adds a new safe zone
+      ○ skipped updates an existing safe zone
+      ○ skipped deletes a safe zone
+    Check-In Requests
+      ○ skipped creates a new check-in request
+      ○ skipped creates urgent check-in requests
+      ○ skipped completes a check-in request
+    Emergency Contacts
+      ○ skipped adds an emergency contact
+      ○ skipped updates an emergency contact
+      ○ skipped deletes an emergency contact
+    Device Pings
+      ○ skipped sends a location ping
+      ○ skipped sends a ring ping
+      ○ skipped sends a message ping
+      ○ skipped acknowledges a ping
+    Dashboard Data
+      ○ skipped adds check-in to dashboard
+      ○ skipped updates last known location
+      ○ skipped keeps only the last 10 check-ins
+    Settings Management
+      ○ skipped saves updated settings
+    Security Features
+      ○ skipped resets auth attempts after successful authentication
+      ○ skipped persists auth attempts to storage
+
+Test Suites: 1 passed, 1 total
+Tests:       31 skipped, 1 passed, 32 total
+Snapshots:   0 total
+Time:        12.142 s, estimated 20 s
+Ran all test suites matching stores/__tests__/prefix_full.test.ts with tests matching "initializes with default state".

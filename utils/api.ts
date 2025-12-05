@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logger } from '@/utils/logger';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 const API_BASE_URL = __DEV__ ? 'http://localhost:3000/api' : 'https://your-production-api.com/api';
 
@@ -25,7 +27,7 @@ class ApiClient {
     try {
       this.authToken = await AsyncStorage.getItem('auth_token');
     } catch (error) {
-      console.warn('Failed to load auth token:', error);
+      logger.warn('Failed to load auth token', { error });
     }
   }
 
@@ -41,17 +43,12 @@ class ApiClient {
       headers.Authorization = `Bearer ${this.authToken}`;
     }
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
     try {
       const response = await fetch(url, {
         ...options,
         headers,
-        signal: controller.signal,
+        signal: timeoutSignal(this.timeout),
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -60,8 +57,6 @@ class ApiClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      clearTimeout(timeoutId);
-
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error('Request timeout');
@@ -200,7 +195,9 @@ export const offlineStorage = {
       } catch (e) {
         // ignore
       }
-      console.warn('Failed to cache response (AsyncStorage), falling back to memory cache:', error);
+      logger.warn('Failed to cache response (AsyncStorage), falling back to memory cache', {
+        error,
+      });
     }
   },
 
@@ -227,7 +224,10 @@ export const offlineStorage = {
         }
         return mem.data as T;
       } catch (e) {
-        console.warn('Failed to get cached response (AsyncStorage+memory):', error, e);
+        logger.warn('Failed to get cached response (AsyncStorage+memory)', {
+          asyncStorageError: error,
+          memoryError: e,
+        });
         return null;
       }
     }
@@ -245,7 +245,7 @@ export const offlineStorage = {
         // ignore
       }
     } catch (error) {
-      console.warn('Failed to clear cache:', error);
+      logger.warn('Failed to clear cache', { error });
     }
   },
 };
@@ -347,7 +347,7 @@ export class BackendHealthMonitor {
         this.setHealthStatus('down');
       }
     } catch (error) {
-      console.warn('Health check failed:', error);
+      logger.warn('Health check failed', { error });
       this.setHealthStatus('down');
     }
 
@@ -367,7 +367,7 @@ export class BackendHealthMonitor {
       try {
         listener(status);
       } catch (error) {
-        console.warn('Health status listener error:', error);
+        logger.warn('Health status listener error', { error, status });
       }
     });
   }
@@ -411,7 +411,7 @@ export const createNetworkAwareApi = <T extends unknown[], R>(
       }
     } catch (cacheErr) {
       // If cache read fails, continue to network request path.
-      console.warn('Error reading cache before network request:', cacheErr);
+      logger.warn('Error reading cache before network request', { error: cacheErr, cacheKey });
     }
 
     try {
@@ -433,7 +433,11 @@ export const createNetworkAwareApi = <T extends unknown[], R>(
       return response;
     } catch (error) {
       const errorInfo = handleApiError(error);
-      console.warn('Network request failed, trying cache:', errorInfo.message);
+      logger.warn('Network request failed, trying cache', {
+        cacheKey,
+        errorMessage: errorInfo.message,
+        errorCode: errorInfo.code,
+      });
 
       // Try cache fallback for network errors
       const cached = await offlineStorage.getCachedResponse<ApiResponse<R>>(cacheKey, maxAge);

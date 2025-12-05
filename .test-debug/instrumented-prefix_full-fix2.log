@@ -1,0 +1,832 @@
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+Skipping backend/Docker setup (SKIP_START_BACKEND or MOCK_DOCKER_SETUP set)
+  console.log
+    [2025-11-29T13:34:47.447Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.576Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.582Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.595Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.597Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.651Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.654Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.666Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.670Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.674Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.679Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.681Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.734Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.736Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.746Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.751Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.759Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.767Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.768Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.818Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.820Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.830Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.834Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.838Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.844Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.845Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.896Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.899Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.902Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.904Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.913Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.916Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.929Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.933Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.937Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.943Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.945Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:47.994Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.warn
+    [2025-11-29T13:34:47.996Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:375:16)
+      at stores/__tests__/prefix_full.test.ts:220:19
+
+  console.log
+    [2025-11-29T13:34:48.003Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.005Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.006Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.010Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.013Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.032Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.036Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.040Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.045Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.047Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.096Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.098Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.100Z] DEBUG: {"salt":"688fddd81065d73acca14e24721126b25693a922986cd714ac49ca3020a13384"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.102Z] DEBUG: {"hash":"hashed_1234688fddd81065d73acca14e24721126b25693a922986cd714ac49ca3020a13384"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.103Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.105Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.106Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.108Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.info
+    [2025-11-29T13:34:48.110Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+  console.log
+    [2025-11-29T13:34:48.111Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.116Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.118Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.127Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.130Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.134Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.138Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+  console.log
+    [2025-11-29T13:34:48.140Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. 
+You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. 
+FAIL stores/__tests__/prefix_full.test.ts (24.807 s)
+  Test utilities
+    ✓ should export required testing utilities (15 ms)
+    ✓ should render a simple component (31 ms)
+  parentalStore
+    Initialization
+      ✓ initializes with default state (228 ms)
+      ✓ loads stored settings from AsyncStorage (79 ms)
+      ✓ loads safe zones from AsyncStorage (82 ms)
+    PIN Authentication
+      ✓ allows access when PIN is not required (97 ms)
+      ✓ allows access when no PIN is set (first-time setup) (104 ms)
+      ✓ sets a new PIN with secure hashing (94 ms)
+      ✓ rejects invalid PINs during setup (147 ms)
+      ✕ authenticates with correct PIN (4 ms)
+      ✕ rejects incorrect PIN (6 ms)
+      ✕ implements rate limiting after multiple failed attempts (4 ms)
+      ✕ exits parent mode (4 ms)
+    Safe Zone Management
+      ✕ adds a new safe zone (13 ms)
+      ✕ updates an existing safe zone (3 ms)
+      ✕ deletes a safe zone (4 ms)
+    Check-In Requests
+      ✕ creates a new check-in request (3 ms)
+      ✕ creates urgent check-in requests (3 ms)
+      ✕ completes a check-in request (4 ms)
+    Emergency Contacts
+      ✕ adds an emergency contact (3 ms)
+      ✕ updates an emergency contact (3 ms)
+      ✕ deletes an emergency contact (5 ms)
+    Device Pings
+      ✕ sends a location ping (3 ms)
+      ✕ sends a ring ping (3 ms)
+      ✕ sends a message ping (3 ms)
+      ✕ acknowledges a ping (3 ms)
+    Dashboard Data
+      ✕ adds check-in to dashboard (4 ms)
+      ✕ updates last known location (3 ms)
+      ✕ keeps only the last 10 check-ins (4 ms)
+    Settings Management
+      ✕ saves updated settings (3 ms)
+    Security Features
+      ✕ resets auth attempts after successful authentication (1 ms)
+      ✕ persists auth attempts to storage (3 ms)
+
+  ● parentalStore › PIN Authentication › authenticates with correct PIN
+
+    Can't access .root on unmounted test renderer
+
+      279 |       });
+      280 |
+    > 281 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      282 |
+      283 |       await waitFor(() => {
+      284 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:281:36)
+
+  ● parentalStore › PIN Authentication › rejects incorrect PIN
+
+    Can't access .root on unmounted test renderer
+
+      306 |       });
+      307 |
+    > 308 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      309 |
+      310 |       await waitFor(() => {
+      311 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:308:36)
+
+  ● parentalStore › PIN Authentication › implements rate limiting after multiple failed attempts
+
+    Can't access .root on unmounted test renderer
+
+      333 |       });
+      334 |
+    > 335 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      336 |
+      337 |       await waitFor(() => {
+      338 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:335:36)
+
+  ● parentalStore › PIN Authentication › exits parent mode
+
+    Can't access .root on unmounted test renderer
+
+      362 |
+      363 |     it('exits parent mode', async () => {
+    > 364 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      365 |
+      366 |       await waitFor(() => {
+      367 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:364:36)
+
+  ● parentalStore › Safe Zone Management › adds a new safe zone
+
+    Can't access .root on unmounted test renderer
+
+      386 |   describe('Safe Zone Management', () => {
+      387 |     it('adds a new safe zone', async () => {
+    > 388 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      389 |
+      390 |       await waitFor(() => {
+      391 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:388:36)
+
+  ● parentalStore › Safe Zone Management › updates an existing safe zone
+
+    Can't access .root on unmounted test renderer
+
+      435 |       });
+      436 |
+    > 437 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      438 |
+      439 |       await waitFor(() => {
+      440 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:437:36)
+
+  ● parentalStore › Safe Zone Management › deletes a safe zone
+
+    Can't access .root on unmounted test renderer
+
+      480 |       });
+      481 |
+    > 482 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      483 |
+      484 |       await waitFor(() => {
+      485 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:482:36)
+
+  ● parentalStore › Check-In Requests › creates a new check-in request
+
+    Can't access .root on unmounted test renderer
+
+      499 |   describe('Check-In Requests', () => {
+      500 |     it('creates a new check-in request', async () => {
+    > 501 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      502 |
+      503 |       await waitFor(() => {
+      504 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:501:36)
+
+  ● parentalStore › Check-In Requests › creates urgent check-in requests
+
+    Can't access .root on unmounted test renderer
+
+      517 |
+      518 |     it('creates urgent check-in requests', async () => {
+    > 519 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      520 |
+      521 |       await waitFor(() => {
+      522 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:519:36)
+
+  ● parentalStore › Check-In Requests › completes a check-in request
+
+    Can't access .root on unmounted test renderer
+
+      548 |       });
+      549 |
+    > 550 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      551 |
+      552 |       await waitFor(() => {
+      553 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:550:36)
+
+  ● parentalStore › Emergency Contacts › adds an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      569 |   describe('Emergency Contacts', () => {
+      570 |     it('adds an emergency contact', async () => {
+    > 571 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      572 |
+      573 |       await waitFor(() => {
+      574 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:571:36)
+
+  ● parentalStore › Emergency Contacts › updates an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      620 |       });
+      621 |
+    > 622 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      623 |
+      624 |       await waitFor(() => {
+      625 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:622:36)
+
+  ● parentalStore › Emergency Contacts › deletes an emergency contact
+
+    Can't access .root on unmounted test renderer
+
+      671 |       });
+      672 |
+    > 673 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      674 |
+      675 |       await waitFor(() => {
+      676 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:673:36)
+
+  ● parentalStore › Device Pings › sends a location ping
+
+    Can't access .root on unmounted test renderer
+
+      690 |   describe('Device Pings', () => {
+      691 |     it('sends a location ping', async () => {
+    > 692 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      693 |
+      694 |       await waitFor(() => {
+      695 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:692:36)
+
+  ● parentalStore › Device Pings › sends a ring ping
+
+    Can't access .root on unmounted test renderer
+
+      708 |
+      709 |     it('sends a ring ping', async () => {
+    > 710 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      711 |
+      712 |       await waitFor(() => {
+      713 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:710:36)
+
+  ● parentalStore › Device Pings › sends a message ping
+
+    Can't access .root on unmounted test renderer
+
+      723 |
+      724 |     it('sends a message ping', async () => {
+    > 725 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      726 |
+      727 |       await waitFor(() => {
+      728 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:725:36)
+
+  ● parentalStore › Device Pings › acknowledges a ping
+
+    Can't access .root on unmounted test renderer
+
+      753 |       });
+      754 |
+    > 755 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      756 |
+      757 |       await waitFor(() => {
+      758 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:755:36)
+
+  ● parentalStore › Dashboard Data › adds check-in to dashboard
+
+    Can't access .root on unmounted test renderer
+
+      774 |   describe('Dashboard Data', () => {
+      775 |     it('adds check-in to dashboard', async () => {
+    > 776 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      777 |
+      778 |       await waitFor(() => {
+      779 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:776:36)
+
+  ● parentalStore › Dashboard Data › updates last known location
+
+    Can't access .root on unmounted test renderer
+
+      801 |
+      802 |     it('updates last known location', async () => {
+    > 803 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      804 |
+      805 |       await waitFor(() => {
+      806 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:803:36)
+
+  ● parentalStore › Dashboard Data › keeps only the last 10 check-ins
+
+    Can't access .root on unmounted test renderer
+
+      826 |
+      827 |     it('keeps only the last 10 check-ins', async () => {
+    > 828 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      829 |
+      830 |       await waitFor(() => {
+      831 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:828:36)
+
+  ● parentalStore › Settings Management › saves updated settings
+
+    Can't access .root on unmounted test renderer
+
+      851 |   describe('Settings Management', () => {
+      852 |     it('saves updated settings', async () => {
+    > 853 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      854 |
+      855 |       await waitFor(() => {
+      856 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:853:36)
+
+  ● parentalStore › Security Features › resets auth attempts after successful authentication
+
+    Can't access .root on unmounted test renderer
+
+      888 |       });
+      889 |
+    > 890 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      891 |
+      892 |       await waitFor(() => {
+      893 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:890:36)
+
+  ● parentalStore › Security Features › persists auth attempts to storage
+
+    Can't access .root on unmounted test renderer
+
+      923 |       });
+      924 |
+    > 925 |       const { result } = renderHook(() => useParentalStore(), { wrapper });
+          |                                    ^
+      926 |
+      927 |       await waitFor(() => {
+      928 |         expect(result.current.isLoading).toBe(false);
+
+      at Object.get [as root] (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:17446:19)
+      at root (node_modules/@testing-library/react-native/src/render.tsx:101:29)
+      at buildRenderResult (node_modules/@testing-library/react-native/src/render.tsx:70:10)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at renderHook (node_modules/@testing-library/react-native/src/render-hook.tsx:55:58)
+      at Object.<anonymous> (stores/__tests__/prefix_full.test.ts:925:36)
+
+Test Suites: 1 failed, 1 total
+Tests:       23 failed, 9 passed, 32 total
+Snapshots:   0 total
+Time:        26.268 s
+Ran all test suites matching stores/__tests__/prefix_full.test.ts.

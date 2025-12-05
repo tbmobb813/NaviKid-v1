@@ -6,6 +6,7 @@ import { Place } from '@/types/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { handleApiError, smartRoutesApi, SmartSuggestionDTO } from '@/utils/api';
 import { useAuth } from '@/hooks/useAuth';
+import { logger } from '@/utils/logger';
 
 export type WeatherCondition = 'sunny' | 'cloudy' | 'rainy' | 'stormy';
 export type CrowdLevel = 'low' | 'medium' | 'high';
@@ -131,13 +132,13 @@ const SmartRouteSuggestions: React.FC<SmartRouteSuggestionsProps> = ({
       if (ctx?.prev) qc.setQueryData(queryKey, ctx.prev);
       if (ctx?.prevProfile) qc.setQueryData(['userProfile'], ctx.prevProfile);
       const e = handleApiError(err);
-      console.log('like error', e.message);
+      logger.warn('Route suggestion like error', { errorMessage: e.message, code: e.code });
     },
     onSuccess: async ({ id, liked }) => {
       try {
         await toggleLikedSuggestion(id, liked);
       } catch (e) {
-        console.log('Failed to sync like to profile', e);
+        logger.warn('Failed to sync like to profile', { error: e, suggestionId: id, liked });
       }
     },
     onSettled: () => {

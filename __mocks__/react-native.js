@@ -12,12 +12,15 @@ const Platform = {
 const View = (props) => React.createElement('View', props, props.children);
 const Text = (props) => React.createElement('Text', props, props.children);
 const Pressable = (props) => React.createElement('Pressable', props, props.children);
+const TouchableOpacity = (props) => React.createElement('TouchableOpacity', props, props.children);
 const TextInput = (props) => React.createElement('TextInput', props, props.children);
 const Image = (props) => React.createElement('Image', props, props.children);
 const Switch = (props) => React.createElement('Switch', props, props.children);
 const FlatList = (props) => React.createElement('FlatList', props, props.children);
 const ScrollView = (props) => React.createElement('ScrollView', props, props.children);
 const Modal = (props) => React.createElement('Modal', props, props.children);
+const RefreshControl = (props) => React.createElement('RefreshControl', props);
+const ActivityIndicator = (props) => React.createElement('ActivityIndicator', props);
 
 const StyleSheet = {
   create: (styles) => styles,
@@ -79,11 +82,17 @@ function findNodeHandle() {
   return null;
 }
 
+const Alert = {
+  alert: jest.fn(),
+  prompt: jest.fn(),
+};
+
 module.exports = {
   Platform,
   View,
   Text,
   Pressable,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
   NativeModules,
@@ -93,6 +102,10 @@ module.exports = {
   Switch,
   ScrollView,
   Modal,
+  RefreshControl,
+  ActivityIndicator,
+  Alert,
   Easing,
   findNodeHandle,
+  FlatList,
 };

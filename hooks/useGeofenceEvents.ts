@@ -7,7 +7,7 @@ import { geofenceEvents, GeofenceEvent } from '@/utils/geofenceEvents';
  * Example usage in ParentDashboard:
  * ```tsx
  * useGeofenceEvents((event) => {
- *   console.log(`Child ${event.type} safe zone: ${event.regionId}`);
+ *   logger.info(`Child ${event.type} safe zone`, { regionId: event.regionId });
  *   // Update dashboard state, show notifications, etc.
  * });
  * ```

@@ -617,7 +617,9 @@ class OpenTripPlanner2 {
     try {
       return await offlineStorage.getCachedResponse<OTP2PlanResponse>(cacheKey, this.cacheTimeout);
     } catch (error) {
-  log.warn('Failed to get cached OTP2 plan', { error: error instanceof Error ? error.message : String(error) });
+      log.warn('Failed to get cached OTP2 plan', {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return null;
     }
   }
@@ -629,7 +631,9 @@ class OpenTripPlanner2 {
     try {
       await offlineStorage.cacheResponse(cacheKey, response);
     } catch (error) {
-  log.warn('Failed to cache OTP2 plan', { error: error instanceof Error ? error.message : String(error) });
+      log.warn('Failed to cache OTP2 plan', {
+        error: error instanceof Error ? error.message : String(error),
+      });
     }
   }
 

@@ -1,0 +1,230 @@
+Parsed 174 events from ./.test-debug/instrumented-parental-auth-test-after-patch.log
+Relative timeline (ms from first event):
+
+    0.000 ms | 1764426774276 | mounted {"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774276 | activeOps++ {"activeOps":1,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774276 | loadData start {"instanceId":1,"activeOps":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774276 | activeOps++ {"activeOps":2,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":2,"instanceId":1}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774276 | activeOps-- {"activeOps":1,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774276 | loadData end {"instanceId":1,"activeOps":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774276 | activeOps++ {"activeOps":2,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":2,"instanceId":1}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774276 | activeOps-- {"activeOps":1,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774276 | activeOps-- {"activeOps":0,"instanceId":1} |  [2025-11-29T14:32:54.276Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774437 | unmounted {"instanceId":1} |  [2025-11-29T14:32:54.437Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774445 | mounted {"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774445 | activeOps++ {"activeOps":1,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774445 | loadData start {"instanceId":2,"activeOps":1} |  [2025-11-29T14:32:54.445Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774445 | activeOps-- {"activeOps":0,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774445 | loadData end {"instanceId":2,"activeOps":0} |  [2025-11-29T14:32:54.445Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774445 | activeOps++ {"activeOps":1,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774445 | activeOps++ {"activeOps":2,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":2,"instanceId":2}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774445 | activeOps-- {"activeOps":1,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774445 | activeOps-- {"activeOps":0,"instanceId":2} |  [2025-11-29T14:32:54.445Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774531 | unmounted {"instanceId":2} |  [2025-11-29T14:32:54.531Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774539 | mounted {"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774539 | activeOps++ {"activeOps":1,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774539 | loadData start {"instanceId":3,"activeOps":1} |  [2025-11-29T14:32:54.539Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774539 | activeOps++ {"activeOps":2,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":2,"instanceId":3}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774539 | activeOps-- {"activeOps":1,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774539 | loadData end {"instanceId":3,"activeOps":1} |  [2025-11-29T14:32:54.539Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774539 | activeOps++ {"activeOps":2,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":2,"instanceId":3}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774539 | activeOps-- {"activeOps":1,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774539 | activeOps-- {"activeOps":0,"instanceId":3} |  [2025-11-29T14:32:54.539Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774577 | unmounted {"instanceId":3} |  [2025-11-29T14:32:54.577Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774583 | mounted {"instanceId":4} |  [2025-11-29T14:32:54.583Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774583 | activeOps++ {"activeOps":1,"instanceId":4} |  [2025-11-29T14:32:54.583Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774583 | loadData start {"instanceId":4,"activeOps":1} |  [2025-11-29T14:32:54.583Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774583 | activeOps++ {"activeOps":2,"instanceId":4} |  [2025-11-29T14:32:54.583Z] DEBUG: {"activeOps":2,"instanceId":4}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774583 | activeOps-- {"activeOps":1,"instanceId":4} |  [2025-11-29T14:32:54.583Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774583 | loadData end {"instanceId":4,"activeOps":1} |  [2025-11-29T14:32:54.583Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774583 | activeOps-- {"activeOps":0,"instanceId":4} |  [2025-11-29T14:32:54.583Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774626 | unmounted {"instanceId":4} |  [2025-11-29T14:32:54.626Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774636 | mounted {"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | loadData start {"instanceId":5,"activeOps":1} |  [2025-11-29T14:32:54.636Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":2,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":2,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774636 | loadData end {"instanceId":5,"activeOps":1} |  [2025-11-29T14:32:54.636Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":0,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":0,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":0,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":0,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774636 | activeOps++ {"activeOps":1,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774636 | activeOps-- {"activeOps":0,"instanceId":5} |  [2025-11-29T14:32:54.636Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774688 | unmounted {"instanceId":5} |  [2025-11-29T14:32:54.688Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774697 | mounted {"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | loadData start {"instanceId":6,"activeOps":1} |  [2025-11-29T14:32:54.697Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":2,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | loadData end {"instanceId":6,"activeOps":1} |  [2025-11-29T14:32:54.697Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774697 | activeOps++ {"activeOps":1,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774697 | activeOps-- {"activeOps":0,"instanceId":6} |  [2025-11-29T14:32:54.697Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774742 | unmounted {"instanceId":6} |  [2025-11-29T14:32:54.742Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+    0.000 ms | 1764426774749 | mounted {"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+    0.000 ms | 1764426774749 | activeOps++ {"activeOps":1,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774749 | loadData start {"instanceId":7,"activeOps":1} |  [2025-11-29T14:32:54.749Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.000 ms | 1764426774749 | activeOps++ {"activeOps":2,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":2,"instanceId":7}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774749 | activeOps-- {"activeOps":1,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774749 | loadData end {"instanceId":7,"activeOps":1} |  [2025-11-29T14:32:54.749Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.000 ms | 1764426774749 | activeOps-- {"activeOps":0,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774749 | activeOps++ {"activeOps":1,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774749 | activeOps-- {"activeOps":0,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+    0.000 ms | 1764426774749 | activeOps++ {"activeOps":1,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+    0.000 ms | 1764426774749 | activeOps-- {"activeOps":0,"instanceId":7} |  [2025-11-29T14:32:54.749Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774799 | unmounted {"instanceId":7} |  [2025-11-29T14:32:54.799Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426774807 | mounted {"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | loadData start {"instanceId":8,"activeOps":1} |  [2025-11-29T14:32:54.807Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":2,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":2,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774807 | loadData end {"instanceId":8,"activeOps":1} |  [2025-11-29T14:32:54.807Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:32:54.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774856 | unmounted {"instanceId":8} |  [2025-11-29T14:32:54.856Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426774864 | mounted {"instanceId":9} |  [2025-11-29T14:32:54.864Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426774864 | activeOps++ {"activeOps":1,"instanceId":9} |  [2025-11-29T14:32:54.864Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774864 | loadData start {"instanceId":9,"activeOps":1} |  [2025-11-29T14:32:54.864Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426774864 | activeOps++ {"activeOps":2,"instanceId":9} |  [2025-11-29T14:32:54.864Z] DEBUG: {"activeOps":2,"instanceId":9}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774864 | activeOps-- {"activeOps":1,"instanceId":9} |  [2025-11-29T14:32:54.864Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774864 | loadData end {"instanceId":9,"activeOps":1} |  [2025-11-29T14:32:54.864Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426774864 | activeOps-- {"activeOps":0,"instanceId":9} |  [2025-11-29T14:32:54.864Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774896 | unmounted {"instanceId":9} |  [2025-11-29T14:32:54.896Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426774903 | mounted {"instanceId":10} |  [2025-11-29T14:32:54.903Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426774903 | activeOps++ {"activeOps":1,"instanceId":10} |  [2025-11-29T14:32:54.903Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774903 | loadData start {"instanceId":10,"activeOps":1} |  [2025-11-29T14:32:54.903Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426774903 | activeOps++ {"activeOps":2,"instanceId":10} |  [2025-11-29T14:32:54.903Z] DEBUG: {"activeOps":2,"instanceId":10}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774903 | activeOps-- {"activeOps":1,"instanceId":10} |  [2025-11-29T14:32:54.903Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774903 | loadData end {"instanceId":10,"activeOps":1} |  [2025-11-29T14:32:54.903Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426774903 | activeOps-- {"activeOps":0,"instanceId":10} |  [2025-11-29T14:32:54.903Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774903 | ACT-START |  [TestDebug][ACT-START] 2025-11-29T14:32:54.903Z hr=0 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:326:13)
+    0.001 ms | 1764426774903 | ACT-END |  [TestDebug][ACT-END] 2025-11-29T14:32:54.903Z hr=0 duration_ms=0.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:326:13)
+    0.001 ms | 1764426774943 | unmounted {"instanceId":10} |  [2025-11-29T14:32:54.943Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426774951 | mounted {"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426774951 | activeOps++ {"activeOps":1,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774951 | loadData start {"instanceId":11,"activeOps":1} |  [2025-11-29T14:32:54.951Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426774951 | activeOps++ {"activeOps":2,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":2,"instanceId":11}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774951 | activeOps-- {"activeOps":1,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774951 | loadData end {"instanceId":11,"activeOps":1} |  [2025-11-29T14:32:54.951Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426774951 | activeOps++ {"activeOps":2,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":2,"instanceId":11}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774951 | activeOps-- {"activeOps":1,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774951 | activeOps-- {"activeOps":0,"instanceId":11} |  [2025-11-29T14:32:54.951Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774984 | unmounted {"instanceId":11} |  [2025-11-29T14:32:54.984Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426774991 | mounted {"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426774991 | activeOps++ {"activeOps":1,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774991 | loadData start {"instanceId":12,"activeOps":1} |  [2025-11-29T14:32:54.991Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426774991 | activeOps++ {"activeOps":2,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":2,"instanceId":12}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774991 | activeOps-- {"activeOps":1,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774991 | loadData end {"instanceId":12,"activeOps":1} |  [2025-11-29T14:32:54.991Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426774991 | activeOps++ {"activeOps":2,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":2,"instanceId":12}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426774991 | activeOps-- {"activeOps":1,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426774991 | activeOps-- {"activeOps":0,"instanceId":12} |  [2025-11-29T14:32:54.991Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775026 | unmounted {"instanceId":12} |  [2025-11-29T14:32:55.026Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426775033 | mounted {"instanceId":13} |  [2025-11-29T14:32:55.033Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426775033 | activeOps++ {"activeOps":1,"instanceId":13} |  [2025-11-29T14:32:55.033Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775033 | loadData start {"instanceId":13,"activeOps":1} |  [2025-11-29T14:32:55.033Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426775033 | activeOps++ {"activeOps":2,"instanceId":13} |  [2025-11-29T14:32:55.033Z] DEBUG: {"activeOps":2,"instanceId":13}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775033 | activeOps-- {"activeOps":1,"instanceId":13} |  [2025-11-29T14:32:55.033Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775033 | loadData end {"instanceId":13,"activeOps":1} |  [2025-11-29T14:32:55.033Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426775033 | activeOps-- {"activeOps":0,"instanceId":13} |  [2025-11-29T14:32:55.033Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775064 | unmounted {"instanceId":13} |  [2025-11-29T14:32:55.064Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426775070 | mounted {"instanceId":14} |  [2025-11-29T14:32:55.070Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426775070 | activeOps++ {"activeOps":1,"instanceId":14} |  [2025-11-29T14:32:55.070Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775070 | loadData start {"instanceId":14,"activeOps":1} |  [2025-11-29T14:32:55.070Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426775070 | activeOps++ {"activeOps":2,"instanceId":14} |  [2025-11-29T14:32:55.070Z] DEBUG: {"activeOps":2,"instanceId":14}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775070 | activeOps-- {"activeOps":1,"instanceId":14} |  [2025-11-29T14:32:55.070Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775070 | loadData end {"instanceId":14,"activeOps":1} |  [2025-11-29T14:32:55.070Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426775070 | activeOps-- {"activeOps":0,"instanceId":14} |  [2025-11-29T14:32:55.070Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775094 | unmounted {"instanceId":14} |  [2025-11-29T14:32:55.094Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+    0.001 ms | 1764426775101 | mounted {"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | loadData start {"instanceId":15,"activeOps":1} |  [2025-11-29T14:32:55.101Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":2,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":2,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775101 | loadData end {"instanceId":15,"activeOps":1} |  [2025-11-29T14:32:55.101Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData end
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":0,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":0,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":0,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":0,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775101 | activeOps++ {"activeOps":1,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+    0.001 ms | 1764426775101 | activeOps-- {"activeOps":0,"instanceId":15} |  [2025-11-29T14:32:55.101Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+    0.001 ms | 1764426775136 | unmounted {"instanceId":15} |  [2025-11-29T14:32:55.136Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+    0.902 ms | 1764427675807 | activeOps++ {"activeOps":1,"instanceId":8} |  [2025-11-29T14:47:55.807Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+    0.902 ms | 1764427675807 | activeOps-- {"activeOps":0,"instanceId":8} |  [2025-11-29T14:47:55.807Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+    1.801 ms | 1764428574864 | ACT-START |  [TestDebug][ACT-START] 2025-11-29T15:02:54.864Z hr=1800000000000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:307:15)
+    1.801 ms | 1764428574864 | ACT-END |  [TestDebug][ACT-END] 2025-11-29T15:02:54.864Z hr=1800000000000 duration_ms=0.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:307:
+
+Quick checks per instance:
+
+Instance 1: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 2: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 3: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 4: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 5: mounted=1 increments=6 decrements=6 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 6: mounted=1 increments=7 decrements=7 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 7: mounted=1 increments=4 decrements=4 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 8: mounted=1 increments=7 decrements=7 unmounts=1
+  -> Found activeOps decrement after unmount at hr=1764427675807 (possible op finishing after unmount)
+
+Instance 9: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 10: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 11: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 12: mounted=1 increments=3 decrements=3 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 13: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 14: mounted=1 increments=2 decrements=2 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance 15: mounted=1 increments=6 decrements=6 unmounts=1
+  -> No activeOps decrement after last unmount detected
+
+Instance __noid: mounted=0 increments=0 decrements=0 unmounts=0
+
+Overlap warnings found: 0
+
+Done.

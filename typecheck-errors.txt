@@ -1,0 +1,23 @@
+
+> expo-app@1.0.0 typecheck
+> tsc --noEmit
+
+__mocks__/MapLibreRouteView.tsx(6,24): error TS2552: Cannot find name 'testID'. Did you mean 'test'?
+__mocks__/MapLibreRouteView.tsx(6,78): error TS2304: Cannot find name 'rest'.
+__mocks__/MapLibreRouteView.tsx(10,8): error TS2304: Cannot find name 'destination'.
+__mocks__/MapLibreRouteView.tsx(11,75): error TS2304: Cannot find name 'destination'.
+__mocks__/MapLibreRouteView.tsx(13,8): error TS2304: Cannot find name 'showTransitStations'.
+__mocks__/MapLibreRouteView.tsx(14,8): error TS2304: Cannot find name 'showTransitStations'.
+__mocks__/MapLibreRouteView.tsx(15,18): error TS2304: Cannot find name 'destination'.
+__mocks__/MapLibreRouteView.tsx(16,18): error TS2304: Cannot find name 'destination'.
+components/ErrorBoundary.tsx(28,53): error TS2554: Expected 1-2 arguments, but got 3.
+components/KidTripPlanner.tsx(446,30): error TS2304: Cannot find name 'renderTripOption'.
+components/KidTripPlanner.tsx(464,20): error TS2304: Cannot find name 'renderStars'.
+components/KidTripPlanner.tsx(472,42): error TS2304: Cannot find name 'renderSegment'.
+components/MTALiveArrivals.tsx(306,33): error TS2304: Cannot find name 'getAlertStyle'.
+components/MapView.tsx(9,11): error TS2304: Cannot find name 'Place'.
+components/MapView.tsx(10,16): error TS2304: Cannot find name 'Place'.
+components/MapView.tsx(11,25): error TS2304: Cannot find name 'UnifiedRoute'.
+services/offlineQueue.ts(209,28): error TS2339: Property 'type' does not exist on type 'OfflineAction'.
+services/offlineQueue.ts(211,27): error TS2339: Property 'timestamp' does not exist on type 'OfflineAction'.
+src/lib/supabase.ts(3,30): error TS2307: Cannot find module '@supabase/supabase-js' or its corresponding type declarations.

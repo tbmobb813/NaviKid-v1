@@ -27,7 +27,7 @@ const sanitizeValue = (value: unknown): unknown => {
   }
 
   if (valueType === 'object') {
-  const result: Record<string, unknown> = {};
+    const result: Record<string, unknown> = {};
     Object.entries(value).forEach(([key, val]) => {
       const sanitized = sanitizeValue(val);
       if (sanitized !== undefined) {

@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { usePrivacyStore } from '@/stores/privacyStore';
 import { analytics } from '@/utils/analytics';
 import { Config } from '@/utils/config';
+import { logger } from '@/utils/logger';
 
 /**
  * Initialize analytics based on privacy consent
@@ -24,7 +25,9 @@ export function usePlausible() {
     analytics.setEnabled(isEnabled);
 
     if (isEnabled) {
-      console.log('[Analytics] Plausible enabled');
+      logger.info('Plausible analytics enabled', {
+        analyticsConsent: settings.analyticsEnabled,
+      });
     }
   }, [settings.analyticsEnabled]);
 
@@ -87,7 +90,7 @@ export async function initializePlausible() {
 
   analytics.setEnabled(isEnabled);
 
-  console.log('[Analytics] Initialized', {
+  logger.info('Plausible analytics initialized', {
     enabled: isEnabled,
     consentStatus: privacyStore.getConsentStatus(),
     endpoint: Config.ANALYTICS.PLAUSIBLE.ENDPOINT,

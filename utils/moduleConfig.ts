@@ -1,6 +1,8 @@
 // Modular Architecture Configuration
 // This file defines the module structure and dependencies for the app
 
+import { logger } from '@/utils/logger';
+
 export interface ModuleConfig {
   name: string;
   version: string;
@@ -162,7 +164,14 @@ export function validateModuleDependencies(): boolean {
   for (const [moduleName, config] of Object.entries(MODULES)) {
     for (const dep of config.dependencies) {
       if (!MODULES[dep]) {
-        console.error(`Module ${moduleName} depends on non-existent module: ${dep}`);
+        logger.error(
+          'Module dependency validation failed',
+          new Error('Non-existent module dependency'),
+          {
+            moduleName,
+            missingDependency: dep,
+          },
+        );
         return false;
       }
     }
@@ -213,13 +222,13 @@ export class ModuleLoader {
       await this.loadModule(dep);
     }
 
-    console.log(`Loading module: ${moduleName}`);
+    logger.debug('Loading module', { moduleName });
 
     // In a real implementation, this would dynamically import the module
     // For now, we'll just simulate the loading
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    console.log(`Module loaded: ${moduleName}`);
+    logger.debug('Module loaded', { moduleName });
   }
 
   isModuleLoaded(moduleName: string): boolean {

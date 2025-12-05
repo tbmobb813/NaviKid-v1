@@ -13,7 +13,7 @@
   "dependencies": {
     "csv-parse": "^5.4.0",
     "fastify": "^4.22.0",
-    "@fastify/jwt": "^5.0.0",
+    "@fastify/jwt": "^10.0.0",
     "gtfs-realtime-bindings": "^1.1.1",
     "lru-cache": "^10.1.1",
     "node-fetch": "^3.3.2",
@@ -21,7 +21,7 @@
     "unzipper": "^0.10.14",
     "pg": "^8.11.0",
     "socket.io": "^4.8.0",
-    "jsonwebtoken": "^9.0.0"
+    "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
     "jest": "^30.2.0",

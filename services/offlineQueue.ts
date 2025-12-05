@@ -6,13 +6,14 @@
 
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import apiClient from './api';
+import apiClient, { OfflineAction as ApiOfflineAction } from './api';
 import { log } from '@/utils/logger';
 
 // ============================================================================
 // Types
 // ============================================================================
 
+// Client-side offline action with retry tracking
 export interface OfflineAction {
   id: string;
   actionType: 'location_update' | 'safe_zone_check' | 'emergency_alert';
@@ -34,6 +35,9 @@ export interface SyncStatus {
 
 class OfflineQueueService {
   private static instance: OfflineQueueService;
+  private static instanceCounter = 0;
+  private static moduleLevelInstanceCache: OfflineQueueService | undefined;
+  private instanceId: number;
   private queue: OfflineAction[] = [];
   private isOnline = true;
   private isSyncing = false;
@@ -43,9 +47,15 @@ class OfflineQueueService {
   private syncInterval = 60000; // 1 minute
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Set<(status: SyncStatus) => void> = new Set();
+  private initPromise: Promise<void>;
+  private initResolve?: () => void;
 
   private constructor() {
+    this.instanceId = ++OfflineQueueService.instanceCounter;
     log.info('Offline Queue Service initialized');
+    this.initPromise = new Promise((resolve) => {
+      this.initResolve = resolve;
+    });
     this.initialize();
   }
 
@@ -54,6 +64,45 @@ class OfflineQueueService {
       OfflineQueueService.instance = new OfflineQueueService();
     }
     return OfflineQueueService.instance;
+  }
+
+  /**
+   * Wait for initialization to complete
+   * Useful for testing to ensure the service is ready before running tests
+   */
+  async waitForInitialization(): Promise<void> {
+    await this.initPromise;
+  }
+
+  /**
+   * Reset singleton instance for testing purposes
+   * This allows tests to get a fresh instance with clean state
+   */
+  static resetInstance(): void {
+    if (OfflineQueueService.instance) {
+      // Clean up existing instance
+      const instance = OfflineQueueService.instance;
+
+      // Stop periodic sync
+      if (instance['syncTimer']) {
+        clearInterval(instance['syncTimer']);
+        instance['syncTimer'] = null;
+      }
+
+      // Clear state
+      instance['queue'] = [];
+      instance['isOnline'] = true;
+      instance['isSyncing'] = false;
+      instance['lastSyncTime'] = null;
+      instance['listeners'] = new Set();
+      instance['initResolve'] = undefined;
+    }
+
+    // Clear the instance reference so next getInstance() creates a new one
+    OfflineQueueService.instance = undefined as any;
+
+    // Also clear the module-level cache
+    OfflineQueueService.moduleLevelInstanceCache = undefined;
   }
 
   // ==========================================================================
@@ -85,8 +134,13 @@ class OfflineQueueService {
       this.startPeriodicSync();
 
       log.info('Offline Queue Service ready', { queueSize: this.queue.length });
+
+      // Signal that initialization is complete
+      this.initResolve?.();
     } catch (error) {
       log.error('Failed to initialize offline queue', error as Error);
+      // Still resolve to prevent hanging even if init fails
+      this.initResolve?.();
     }
   }
 
@@ -202,8 +256,16 @@ class OfflineQueueService {
         return;
       }
 
+      // Transform client actions to API format
+      const apiActions: ApiOfflineAction[] = actionsToSync.map((action) => ({
+        id: action.id,
+        actionType: action.actionType,
+        data: action.data,
+        createdAt: action.createdAt,
+      }));
+
       // Call backend sync endpoint
-      const response = await apiClient.offline.syncActions(actionsToSync);
+      const response = await apiClient.offline.syncActions(apiActions);
 
       if (response.success && response.data) {
         const syncedCount = response.data.syncedCount;
@@ -344,5 +406,26 @@ class OfflineQueueService {
 // Export Singleton Instance
 // ============================================================================
 
-export const offlineQueue = OfflineQueueService.getInstance();
+export { OfflineQueueService };
+
+// Create singleton lazily on first access to avoid module-level initialization
+// Tests can call resetInstance() to clear this cache
+export const offlineQueue: OfflineQueueService = new Proxy<OfflineQueueService>(
+  {} as OfflineQueueService,
+  {
+    get(target, prop: string | symbol) {
+      let instance = OfflineQueueService['moduleLevelInstanceCache'];
+      if (!instance) {
+        instance = OfflineQueueService.getInstance();
+        OfflineQueueService['moduleLevelInstanceCache'] = instance;
+      }
+      const value = (instance as any)[prop];
+      if (typeof value === 'function') {
+        return value.bind(instance);
+      }
+      return value;
+    },
+  },
+);
+
 export default offlineQueue;

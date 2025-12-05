@@ -1,0 +1,32 @@
+{
+  "source": "/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/fixtures/sample-1.log",
+  "generatedAt": "2025-12-04T17:23:25.009Z",
+  "instances": [
+    {
+      "instanceId": "1",
+      "auths": [
+        {
+          "hr": 100,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 200,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 300,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 500,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "stackA"
+        }
+      ]
+    }
+  ]
+}

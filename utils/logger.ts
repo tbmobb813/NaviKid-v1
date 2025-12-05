@@ -24,8 +24,17 @@ class Logger {
   private formatMessage(level: LogLevel, message: string, context?: unknown): string {
     const timestamp = new Date().toISOString();
     const levelStr = LogLevel[level];
-    const contextStr = context ? ` ${JSON.stringify(context)}` : '';
-    return `[${timestamp}] ${levelStr}: ${message}${contextStr}`;
+    // If context is an object with a `context` string property, show it as a short tag
+    let contextTag = '';
+    if (context && typeof context === 'object' && (context as any).context) {
+      contextTag = String((context as any).context);
+    }
+    const contextStr = contextTag
+      ? ` [${contextTag}] `
+      : context
+        ? ` ${JSON.stringify(context)}`
+        : ' ';
+    return `[${timestamp}] ${levelStr}:${contextStr}${message}`;
   }
 
   private shouldLog(level: LogLevel): boolean {
@@ -110,8 +119,8 @@ class Logger {
       }
     } catch (e) {
       // Fallback to console if Sentry fails
-      console.error('Failed to send crash report:', e);
-      console.error('Original error:', logEntry, error);
+      console.error('[Logger] Failed to send crash report');
+      console.error('[Logger] Original error:', logEntry, error);
     }
   }
 
@@ -161,7 +170,8 @@ export const log = {
   debug: (message: string, context?: unknown) => logger.debug(message, context),
   info: (message: string, context?: unknown) => logger.info(message, context),
   warn: (message: string, context?: unknown) => logger.warn(message, context),
-  error: (message: string, error?: Error, context?: unknown) => logger.error(message, error, context),
+  error: (message: string, error?: Error, context?: unknown) =>
+    logger.error(message, error, context),
   time: (label: string) => logger.time(label),
   timeEnd: (label: string) => logger.timeEnd(label),
 };

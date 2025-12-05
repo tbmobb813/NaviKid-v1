@@ -19,6 +19,8 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // Phase 4.4: Prevent console statements - use logger utility instead
+    'no-console': 'error' // No console methods allowed - use logger from @/utils/logger
   }
 };

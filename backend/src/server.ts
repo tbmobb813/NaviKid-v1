@@ -34,7 +34,7 @@ export async function buildServer() {
   }
 
   const server = Fastify({
-    logger: logger,
+    loggerInstance: logger,
     trustProxy: true,
     requestIdLogLabel: 'reqId',
     disableRequestLogging: false,
@@ -91,11 +91,11 @@ export async function buildServer() {
   );
 
   // Global error handler
-  server.setErrorHandler((error, request, reply) => {
+  server.setErrorHandler((error: any, request, reply) => {
     // Log error
     logger.error(
       {
-        err: error,
+        err: error?.message || error,
         reqId: request.id,
         url: request.url,
         method: request.method,
@@ -117,7 +117,7 @@ export async function buildServer() {
     }
 
     // Handle validation errors
-    if (error.validation) {
+    if (error?.validation) {
       return reply.code(400).send({
         error: 'Validation Error',
         message: 'Request validation failed',
@@ -126,15 +126,15 @@ export async function buildServer() {
     }
 
     // Handle known errors
-    if (error.statusCode) {
+    if (error?.statusCode) {
       return reply.code(error.statusCode).send({
-        error: error.name,
-        message: error.message,
+        error: error?.name || 'Error',
+        message: error?.message || 'An error occurred',
       });
     }
 
     // Handle database errors
-    if (error.code?.startsWith('23')) {
+    if (typeof error?.code === 'string' && error.code.startsWith('23')) {
       // PostgreSQL constraint violation
       return reply.code(409).send({
         error: 'Conflict',
@@ -145,7 +145,9 @@ export async function buildServer() {
     // Default to 500 for unknown errors
     return reply.code(500).send({
       error: 'Internal Server Error',
-      message: config.isProduction ? 'An unexpected error occurred' : error.message,
+      message: config.isProduction
+        ? 'An unexpected error occurred'
+        : error?.message || 'Unknown error',
     });
   });
 
@@ -183,8 +185,9 @@ export async function buildServer() {
       logger.info({ testMode: true }, 'Registered non-prefixed test routes');
       // Print the route table for easier debugging when running integration tests
       // (Fastify exposes a `printRoutes` helper which returns a string).
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const routesTable = (server as any).printRoutes ? (server as any).printRoutes() : 'printRoutes unavailable';
+      const routesTable = (server as any).printRoutes
+        ? (server as any).printRoutes()
+        : 'printRoutes unavailable';
       logger.debug({ routes: routesTable }, 'Fastify route table');
     } catch (e) {
       logger.warn({ e }, 'Failed to print routes for debugging');

@@ -9,6 +9,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { runDataRetentionCleanup } from '@/utils/dataRetention';
+import { logger } from '@/utils/logger';
 
 export interface RetentionState {
   lastCleanupTime: number | null;
@@ -56,7 +57,7 @@ export const useDataRetentionStore = create<RetentionStore>()(
           return deletedCount;
         } catch (error) {
           set({ isCleaningUp: false });
-          console.error('[DataRetention] Cleanup error:', error);
+          logger.error('Data retention cleanup error', error as Error);
           return 0;
         }
       },
@@ -92,12 +93,14 @@ export async function initializeDataRetention() {
 
   if (store.shouldRunCleanup()) {
     const deletedCount = await store.performCleanup();
-    console.log(`[DataRetention] Initialized with ${deletedCount} items deleted`);
+    logger.info('Data retention initialized with cleanup', { deletedCount });
   } else {
     const timeSince = store.getTimeSinceLastCleanup();
     const hoursLeft = Math.round((CLEANUP_INTERVAL - timeSince) / (60 * 60 * 1000));
-    console.log(
-      `[DataRetention] Last cleanup ${Math.round(timeSince / (60 * 60 * 1000))}h ago, next cleanup in ~${hoursLeft}h`,
-    );
+    const hoursSince = Math.round(timeSince / (60 * 60 * 1000));
+    logger.info('Data retention initialized without cleanup', {
+      hoursSinceLastCleanup: hoursSince,
+      hoursUntilNextCleanup: hoursLeft,
+    });
   }
 }

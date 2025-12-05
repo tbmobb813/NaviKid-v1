@@ -4,18 +4,16 @@ import MapViewWrapper from '@/components/MapViewWrapper';
 import { useRouteORS } from '@/hooks/useRouteORS';
 import { Geometry } from 'geojson';
 import Config from '@/utils/config';
+import { Place } from '@/types/navigation';
+import { UnifiedRoute } from '@/utils/unifiedRoutingService';
 
-type LatLngContainer = { coordinates: { longitude: number; latitude: number } };
-
-type UnifiedRoute = { id?: string | number; geometry?: Geometry | undefined };
-
-type MapViewProps = {
-  origin?: LatLngContainer | null;
-  destination?: LatLngContainer | null;
-  selectedUnifiedRoute?: UnifiedRoute | null;
-  onStationPress?: (id: string) => void;
-  mapLibreCameraRef?: React.RefObject<unknown>;
-};
+interface MapViewProps {
+  origin: Place | null;
+  destination: Place | null;
+  selectedUnifiedRoute: UnifiedRoute | null;
+  onStationPress: (stationId: string) => void;
+  mapLibreCameraRef: React.RefObject<any>;
+}
 
 export default function MapView({
   origin,

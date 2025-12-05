@@ -3,6 +3,7 @@ import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 import Config from '@/utils/config';
 import { showNotification } from '@/utils/notifications';
+import { logger } from '@/utils/logger';
 
 export const GEOFENCE_TASK = 'kidmap-geofence-task';
 
@@ -18,14 +19,14 @@ type GeofenceEventData = {
 
 TaskManager.defineTask(GEOFENCE_TASK, async ({ data, error }) => {
   if (error) {
-    console.error('Geofence task error:', error);
+    logger.error('Geofence task error:', error as unknown as Error);
     return;
   }
 
   const { eventType, region } = (data ?? {}) as GeofenceEventData;
 
   if (!eventType || !region) {
-    console.warn('Geofence task: missing event data');
+    logger.warn('Geofence task: missing event data');
     return;
   }
 
@@ -57,7 +58,7 @@ async function handleGeofenceEvent(
     });
 
     // Log event for debugging
-    console.log(`Geofence ${isEntry ? 'entry' : 'exit'}: ${region.identifier}`, {
+    logger.info(`Geofence ${isEntry ? 'entry' : 'exit'}: ${region.identifier}`, {
       type: 'geofence',
       eventType: isEntry ? 'entry' : 'exit',
       regionId: region.identifier,
@@ -88,7 +89,7 @@ async function handleGeofenceEvent(
       // Send push notification to guardian's device
       // This would typically use a backend service to send to the parent's device
       // For now, we'll use local notifications as a placeholder
-      console.log('Guardian notification queued:', {
+      logger.info('Guardian notification queued:', {
         type: 'geofence_alert',
         title,
         body,
@@ -96,10 +97,10 @@ async function handleGeofenceEvent(
         guardianDevices: 'backend-service-would-handle-this',
       });
     } catch (eventError) {
-      console.error('Failed to emit geofence event:', eventError);
+      logger.error('Failed to emit geofence event:', eventError as unknown as Error);
     }
   } catch (notificationError) {
-    console.error('Failed to send geofence notification:', notificationError);
+    logger.error('Failed to send geofence notification:', notificationError as unknown as Error);
   }
 }
 

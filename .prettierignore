@@ -1,9 +1,22 @@
 # Prettier ignore patterns
 node_modules/
+backend/node_modules/
 .git/
 dist/
 build/
 coverage/
+android/
+ios/
+.expo/
+.expo-shared/
+.cache/
+docker/
+docker/**
+docker/postgres-data/
+docker/postgres-data/**
+server/data/
+tmp/
+perf-artifacts-*/
 *.log
 .env*
 

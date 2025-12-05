@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { simpleRender } from '../tests/test-utils';
+import { render } from '@testing-library/react-native';
 
 test('sanity view', () => {
-  const r = simpleRender(
+  const { getByText } = render(
     <View>
       <Text>ok</Text>
     </View>,
-  ) as any; // assert as any so TS recognizes .root
+  );
 
-  expect(r.root.findByType(Text).props.children).toBe('ok');
+  expect(getByText('ok')).toBeTruthy();
 });

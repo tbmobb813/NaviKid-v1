@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import '../types/fastify.d.ts';
 import { z } from 'zod';
 import { query, transaction } from '../db/connection';
 import rateLimit from '@fastify/rate-limit';

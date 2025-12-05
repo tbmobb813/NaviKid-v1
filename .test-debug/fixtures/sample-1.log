@@ -1,0 +1,5 @@
+2025-11-29T00:00:00.000Z | 100 {"op":"authenticate.entry","hr":100,"instanceId":1,"isMounted":true,"stack":"stackA"}
+2025-11-29T00:00:00.100Z | 200 {"op":"activeOps.increment","hr":200,"instanceId":1,"activeOps":1}
+2025-11-29T00:00:00.200Z | 300 {"op":"activeOps.decrement","hr":300,"instanceId":1,"activeOps":0}
+2025-11-29T00:00:00.300Z | 400 {"op":"unmount.entry","hr":400,"instanceId":1,"activeOps":0}
+2025-11-29T00:00:00.400Z | 500 {"op":"activeOps.decrement","hr":500,"instanceId":1,"activeOps":0}

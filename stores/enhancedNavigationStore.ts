@@ -15,6 +15,7 @@ import {
 } from '@/types/navigation';
 import { favoriteLocations } from '@/mocks/places';
 import { verifyLocationProximity } from '@/utils/locationUtils';
+import { logger } from '@/utils/logger';
 import {
   unifiedRoutingService,
   UnifiedRoute,
@@ -347,7 +348,7 @@ export const useNavigationStore = create<NavigationState>((set, get) => ({
         //   300 // 5 minutes cache
         // );
       } catch (cacheError) {
-        console.warn('Failed to cache routes:', cacheError);
+        logger.warn('Failed to cache routes', { error: cacheError });
       }
 
       set({
@@ -369,7 +370,7 @@ export const useNavigationStore = create<NavigationState>((set, get) => ({
         },
       });
     } catch (error) {
-      console.error('Advanced routing failed:', error);
+      logger.error('Advanced routing failed', error as Error);
 
       const errorMessage = error instanceof Error ? error.message : 'Failed to find routes';
 
@@ -404,7 +405,7 @@ export const useNavigationStore = create<NavigationState>((set, get) => ({
         //   });
         // }
       } catch (cacheError) {
-        console.warn('Failed to load cached routes:', cacheError);
+        logger.warn('Failed to load cached routes', { error: cacheError });
       }
     }
   },

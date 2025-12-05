@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Pressable, Alert, Image } from 'react-native';
-import globalStyles from '../styles';
+import { StyleSheet, Text, View, ScrollView, Pressable, Alert } from 'react-native';
 import Colors from '@/constants/colors';
-import {
-  Shield,
-  MapPin,
-  Camera,
-  Clock,
-  CheckCircle,
-  AlertTriangle,
-  Phone,
-  Settings,
-  Plus,
-  Eye,
-  LogOut,
-  MessageCircle,
-} from 'lucide-react-native';
+import { Shield, Camera, Phone, Settings, Eye, LogOut } from 'lucide-react-native';
 import { useParentalStore } from '@/stores/parentalStore';
 import { useCategoryStore } from '@/stores/categoryStore';
+import { logger } from '@/utils/logger';
 import SafeZoneManagement from '@/components/SafeZoneManagement';
 import { SafeZoneStatusCard } from '@/components/SafeZoneStatusCard';
 import { SafeZoneActivityLog } from '@/components/SafeZoneActivityLog';
 import DevicePingHistory from '@/components/DevicePingHistory';
 import { useGeofenceEvents } from '@/hooks/useGeofenceEvents';
+import {
+  QuickActions,
+  AlertsSection,
+  LastKnownLocation,
+  RecentCheckIns,
+  SafeZoneManagementSection,
+  CategorySettings,
+  SafetySettings,
+  EmergencyContactsList,
+} from '@/components/parentDashboard';
 
 type ParentDashboardProps = {
   onExit: () => void;
@@ -35,7 +32,7 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
   // Listen for real-time geofence events from background tasks
   useGeofenceEvents((event) => {
     // Real-time dashboard updates when child enters/exits safe zones
-    console.log(`Real-time geofence ${event.type}: ${event.regionId}`, event);
+    logger.info(`Real-time geofence ${event.type}: ${event.regionId}`, event);
 
     // Optional: Show in-app notification or update UI state
     // You can add additional logic here to:
@@ -86,11 +83,11 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
         {
           text: 'Send',
           onPress: (message?: string) => {
-              if (message && message.trim()) {
-                sendDevicePing('message', message.trim());
-                Alert.alert('Message Sent', 'Your message has been sent to your child');
-              }
-            },
+            if (message && message.trim()) {
+              sendDevicePing('message', message.trim());
+              Alert.alert('Message Sent', 'Your message has been sent to your child');
+            }
+          },
         },
       ],
       'plain-text',
@@ -132,188 +129,57 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
 
   const renderOverview = () => (
     <View style={styles.tabContent}>
-      {/* Quick Actions */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
-        <View style={styles.quickActionsGrid}>
-          <Pressable style={styles.quickActionButton} onPress={handleRequestCheckIn}>
-            <CheckCircle size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Request Check-in</Text>
-          </Pressable>
+      <QuickActions
+        onRequestCheckIn={handleRequestCheckIn}
+        onGetLocation={() => handleDevicePing('location')}
+        onRingDevice={() => handleDevicePing('ring')}
+        onSendMessage={handleSendMessage}
+      />
 
-          <Pressable style={styles.quickActionButton} onPress={() => handleDevicePing('location')}>
-            <MapPin size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Get Location</Text>
-          </Pressable>
+      <AlertsSection
+        pendingCheckIns={pendingCheckIns}
+        pendingCategories={pendingCategories}
+        onApproveCategory={handleApproveCategory}
+        formatTime={formatTime}
+      />
 
-          <Pressable style={styles.quickActionButton} onPress={() => handleDevicePing('ring')}>
-            <Phone size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Ring Device</Text>
-          </Pressable>
-
-          <Pressable style={styles.quickActionButton} onPress={() => handleSendMessage()}>
-            <MessageCircle size={24} color="#FFFFFF" />
-            <Text style={styles.quickActionText}>Send Message</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      {/* Alerts */}
-      {(pendingCheckIns.length > 0 || pendingCategories.length > 0) && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Alerts</Text>
-
-          {pendingCheckIns.map((request) => (
-            <View key={request.id} style={styles.alertCard}>
-              <AlertTriangle size={20} color={Colors.warning} />
-              <View style={styles.alertContent}>
-                <Text style={styles.alertTitle}>Pending Check-in Request</Text>
-                <Text style={styles.alertSubtitle}>
-                  Sent {formatTime(request.requestedAt)} - {request.message}
-                </Text>
-              </View>
-            </View>
-          ))}
-
-          {pendingCategories.map((category) => (
-            <View key={category.id} style={styles.alertCard}>
-              <View style={styles.alertContent}>
-                <Text style={styles.alertTitle}>Category Approval Needed</Text>
-                <Text style={styles.alertSubtitle}>
-                  Child wants to add &quot;{category.name}&quot; category
-                </Text>
-              </View>
-              <Pressable
-                style={styles.approveButton}
-                onPress={() => handleApproveCategory(category.id)}
-              >
-                <Text style={styles.approveButtonText}>Approve</Text>
-              </Pressable>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {/* Last Known Location */}
       {dashboardData.lastKnownLocation && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Last Known Location</Text>
-          <View style={styles.locationCard}>
-            <MapPin size={20} color={Colors.primary} />
-            <View style={styles.locationContent}>
-              <Text style={styles.locationTitle}>
-                {dashboardData.lastKnownLocation.placeName || 'Unknown Location'}
-              </Text>
-              <Text style={styles.locationSubtitle}>
-                {formatTime(dashboardData.lastKnownLocation.timestamp)} on{' '}
-                {formatDate(dashboardData.lastKnownLocation.timestamp)}
-              </Text>
-            </View>
-          </View>
-        </View>
+        <LastKnownLocation
+          placeName={dashboardData.lastKnownLocation.placeName}
+          timestamp={dashboardData.lastKnownLocation.timestamp}
+          formatTime={formatTime}
+          formatDate={formatDate}
+        />
       )}
 
-      {/* Recent Check-ins */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recent Check-ins</Text>
-        {dashboardData.recentCheckIns.length === 0 ? (
-          <Text style={styles.emptyText}>No recent check-ins</Text>
-        ) : (
-          dashboardData.recentCheckIns.slice(0, 3).map((checkIn) => (
-            <View key={checkIn.id} style={styles.checkInCard}>
-              <Camera size={20} color={Colors.primary} />
-              <View style={styles.checkInContent}>
-                <Text style={styles.checkInTitle}>{checkIn.placeName}</Text>
-                <Text style={styles.checkInTime}>
-                  {formatTime(checkIn.timestamp)} on {formatDate(checkIn.timestamp)}
-                </Text>
-              </View>
-              {checkIn.photoUrl && (
-                <Image source={{ uri: checkIn.photoUrl }} style={styles.checkInPhoto} />
-              )}
-            </View>
-          ))
-        )}
-      </View>
+      <RecentCheckIns
+        checkIns={dashboardData.recentCheckIns}
+        formatTime={formatTime}
+        formatDate={formatDate}
+        limit={3}
+      />
     </View>
   );
 
   const renderCheckIns = () => (
     <View style={styles.tabContent}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>All Check-ins</Text>
-        {dashboardData.recentCheckIns.length === 0 ? (
-          <Text style={styles.emptyText}>No check-ins yet</Text>
-        ) : (
-          dashboardData.recentCheckIns.map((checkIn) => (
-            <View key={checkIn.id} style={styles.checkInCard}>
-              <Camera size={20} color={Colors.primary} />
-              <View style={styles.checkInContent}>
-                <Text style={styles.checkInTitle}>{checkIn.placeName}</Text>
-                <Text style={styles.checkInTime}>
-                  {formatTime(checkIn.timestamp)} on {formatDate(checkIn.timestamp)}
-                </Text>
-                {checkIn.location && (
-                  <Text style={styles.checkInLocation}>
-                    {checkIn.location.latitude.toFixed(4)}, {checkIn.location.longitude.toFixed(4)}
-                  </Text>
-                )}
-              </View>
-              {checkIn.photoUrl && (
-                <Image source={{ uri: checkIn.photoUrl }} style={styles.checkInPhoto} />
-              )}
-            </View>
-          ))
-        )}
-      </View>
+      <Text style={styles.sectionTitle}>All Check-ins</Text>
+      <RecentCheckIns
+        checkIns={dashboardData.recentCheckIns}
+        formatTime={formatTime}
+        formatDate={formatDate}
+        showTitle={false}
+      />
     </View>
   );
 
   const renderSafeZones = () => (
     <ScrollView style={styles.safeZonesContent} showsVerticalScrollIndicator={false}>
       <SafeZoneStatusCard />
-
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Manage Safe Zones</Text>
-          <Pressable style={styles.addButton} onPress={() => setShowSafeZoneManagement(true)}>
-            <Plus size={20} color={Colors.primary} />
-          </Pressable>
-        </View>
-
-        {safeZones.length === 0 ? (
-          <View style={styles.emptyStateCard}>
-            <Shield size={48} color={Colors.textLight} />
-            <Text style={styles.emptyStateTitle}>No Safe Zones</Text>
-            <Text style={styles.emptyStateSubtitle}>
-              Create safe zones to monitor when your child enters or leaves specific areas
-            </Text>
-            <Pressable style={styles.createButton} onPress={() => setShowSafeZoneManagement(true)}>
-              <Plus size={16} color="#FFFFFF" />
-              <Text style={styles.createButtonText}>Create Safe Zone</Text>
-            </Pressable>
-          </View>
-        ) : (
-          safeZones.map((zone) => (
-            <View key={zone.id} style={styles.safeZoneCard}>
-              <Shield size={20} color={zone.isActive ? Colors.success : Colors.textLight} />
-              <View style={styles.safeZoneContent}>
-                <Text style={styles.safeZoneTitle}>{zone.name}</Text>
-                <Text style={styles.safeZoneSubtitle}>
-                  Radius: {zone.radius}m • {zone.isActive ? 'Active' : 'Inactive'}
-                </Text>
-                <Text style={styles.safeZoneNotifications}>
-                  Alerts: {zone.notifications.onEntry ? 'Entry' : ''}
-                  {zone.notifications.onEntry && zone.notifications.onExit ? ' & ' : ''}
-                  {zone.notifications.onExit ? 'Exit' : ''}
-                  {!zone.notifications.onEntry && !zone.notifications.onExit ? 'None' : ''}
-                </Text>
-              </View>
-            </View>
-          ))
-        )}
-      </View>
-
+      <SafeZoneManagementSection
+        safeZones={safeZones}
+        onAddSafeZone={() => setShowSafeZoneManagement(true)}
+      />
       <SafeZoneActivityLog />
     </ScrollView>
   );
@@ -324,36 +190,15 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
     <View style={styles.tabContent}>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Parental Settings</Text>
-
-        <View style={styles.settingCard}>
-          <Text style={styles.settingTitle}>Category Management</Text>
-          <Text style={styles.settingSubtitle}>
-            Child can create categories: {settings.allowChildCategoryCreation ? 'Yes' : 'No'}
-          </Text>
-          <Text style={styles.settingSubtitle}>
-            Requires approval: {settings.requireApprovalForCategories ? 'Yes' : 'No'}
-          </Text>
-        </View>
-
-        <View style={styles.settingCard}>
-          <Text style={styles.settingTitle}>Safety Settings</Text>
-          <Text style={styles.settingSubtitle}>
-            Safe zone alerts: {settings.safeZoneAlerts ? 'Enabled' : 'Disabled'}
-          </Text>
-          <Text style={styles.settingSubtitle}>
-            Check-in reminders: {settings.checkInReminders ? 'Enabled' : 'Disabled'}
-          </Text>
-        </View>
-
-        <View style={styles.settingCard}>
-          <Text style={styles.settingTitle}>Emergency Contacts</Text>
-          {settings.emergencyContacts.map((contact) => (
-            <Text key={contact.id} style={styles.settingSubtitle}>
-              {contact.name} ({contact.relationship}) - {contact.phone}
-              {contact.isPrimary && ' • Primary'}
-            </Text>
-          ))}
-        </View>
+        <CategorySettings
+          allowChildCategoryCreation={settings.allowChildCategoryCreation}
+          requireApprovalForCategories={settings.requireApprovalForCategories}
+        />
+        <SafetySettings
+          safeZoneAlerts={settings.safeZoneAlerts}
+          checkInReminders={settings.checkInReminders}
+        />
+        <EmergencyContactsList contacts={settings.emergencyContacts} />
       </View>
     </View>
   );
@@ -369,7 +214,7 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ onExit }) => {
           <Shield size={24} color={Colors.primary} />
           <Text style={styles.headerTitle}>Parent Dashboard</Text>
         </View>
-        <Pressable style={styles.exitButton} onPress={onExit}>
+        <Pressable style={styles.exitButton} onPress={onExit} testID="exit-button">
           <LogOut size={20} color={Colors.textLight} />
         </Pressable>
       </View>
@@ -484,242 +329,15 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 24,
   },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: Colors.text,
     marginBottom: 16,
   },
-  addButton: {
-    padding: 8,
-  },
-  quickActionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  quickActionButton: {
-    width: '48%',
-    backgroundColor: Colors.primary,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    gap: 8,
-  },
-  quickActionText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  alertCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF9E6',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  alertContent: {
-    flex: 1,
-  },
-  alertTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  alertSubtitle: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  approveButton: {
-    backgroundColor: Colors.success,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  approveButtonText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  locationCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    gap: 12,
-  },
-  locationContent: {
-    flex: 1,
-  },
-  locationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  locationSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-  },
-  checkInCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  checkInContent: {
-    flex: 1,
-  },
-  checkInTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  checkInTime: {
-    fontSize: 14,
-    color: Colors.textLight,
-    marginBottom: 2,
-  },
-  checkInLocation: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  checkInPhoto: {
-    width: 50,
-    height: 50,
-    borderRadius: 8,
-  },
-  safeZoneCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  safeZoneContent: {
-    flex: 1,
-  },
-  safeZoneTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  safeZoneSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-  },
-  activityCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  activityIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  activityContent: {
-    flex: 1,
-  },
-  activityTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 4,
-  },
-  activityTime: {
-    fontSize: 12,
-    color: Colors.textLight,
-  },
-  settingCard: {
-    backgroundColor: Colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-  },
-  settingTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
-    marginBottom: 8,
-  },
-  settingSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-    marginBottom: 4,
-  },
-  emptyText: {
-    fontSize: 14,
-    color: Colors.textLight,
-    textAlign: 'center',
-    fontStyle: 'italic',
-    paddingVertical: 20,
-  },
   safeZonesContent: {
     flex: 1,
     backgroundColor: Colors.background,
-  },
-  emptyStateCard: {
-    backgroundColor: Colors.card,
-    borderRadius: 16,
-    padding: 32,
-    alignItems: 'center',
-    marginHorizontal: 20,
-  },
-  emptyStateTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.text,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptyStateSubtitle: {
-    fontSize: 14,
-    color: Colors.textLight,
-    textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 20,
-  },
-  createButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-    gap: 8,
-  },
-  createButtonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  safeZoneNotifications: {
-    fontSize: 12,
-    color: Colors.textLight,
-    marginTop: 2,
   },
 });
 

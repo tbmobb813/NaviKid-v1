@@ -1,0 +1,872 @@
+{
+  "source": ".test-debug/instrumented-events.log",
+  "generatedAt": "2025-11-29T18:14:17.726Z",
+  "instances": [
+    {
+      "instanceId": "1",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 6,
+          "decrements": 3,
+          "totalEvents": 9
+        }
+      ]
+    },
+    {
+      "instanceId": "2",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 6,
+          "decrements": 3,
+          "totalEvents": 9
+        }
+      ]
+    },
+    {
+      "instanceId": "3",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 6,
+          "decrements": 3,
+          "totalEvents": 9
+        }
+      ]
+    },
+    {
+      "instanceId": "4",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:175:46 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "5",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:192:32 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:192:32 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:192:32 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:192:32 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:198:37 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "6",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:211:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:211:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:211:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:211:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:211:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:220:37 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "7",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:231:30 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:232:30"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:237:46 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:236:16)"
+        }
+      ]
+    },
+    {
+      "instanceId": "8",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:252:34 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:251:20) | at Promise.finally.completed (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/jest-circus/build/jestAdapterInit.js:1557:28)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:252:34 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:251:20)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:252:34 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:251:20)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:252:34 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:251:20)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:252:34 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:251:20)"
+        },
+        {
+          "hr": 901000000000,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 901000000000,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 901000000000,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 901000000000,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:272:46"
+        }
+      ]
+    },
+    {
+      "instanceId": "9",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:292:30 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "10",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:326:30 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "11",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 6,
+          "decrements": 3,
+          "totalEvents": 9
+        }
+      ]
+    },
+    {
+      "instanceId": "12",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 6,
+          "decrements": 3,
+          "totalEvents": 9
+        }
+      ]
+    },
+    {
+      "instanceId": "13",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:387:46 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "14",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:412:30 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "15",
+      "auths": [
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            },
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:433:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:433:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:433:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:433:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        },
+        {
+          "hr": 0,
+          "isMounted": true,
+          "increments": [
+            {
+              "hr": 0,
+              "op": "bumpActive.entry"
+            },
+            {
+              "hr": 0,
+              "op": "activeOps.increment"
+            }
+          ],
+          "decrements": [
+            {
+              "hr": 0,
+              "op": "activeOps.decrement"
+            }
+          ],
+          "sampleStack": "at /home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:433:34 | at /home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:18:21 | at callback (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:31:24) | at process.env.NODE_ENV.exports.act (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/react/cjs/react.development.js:814:22) | at actImplementation (/home/nixstation-remote/Projects/NaviKid-v1/node_modules/@testing-library/react-native/src/act.ts:30:25) | at loggedAct (/home/nixstation-remote/Projects/NaviKid-v1/.test-debug/loggedAct.cjs:17:26)"
+        }
+      ]
+    },
+    {
+      "instanceId": "__noid",
+      "auths": [
+        {
+          "auth": null,
+          "increments": 0,
+          "decrements": 0,
+          "totalEvents": 29
+        }
+      ]
+    }
+  ]
+}

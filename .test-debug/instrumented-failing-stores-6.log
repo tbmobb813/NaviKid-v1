@@ -1,0 +1,4841 @@
+BABEL_DISABLE_MODULE_RESOLVER set; skipping module-resolver plugin
+Skipping backend/Docker setup (SKIP_START_BACKEND or MOCK_DOCKER_SETUP set)
+[2025-11-29T14:21:39.834Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:39.840Z] ERROR: [Security] Authentication error: {}
+PASS stores/__tests__/parentalStore.test.ts (13.112 s)
+  ● Console
+
+    console.log
+      [2025-11-29T14:21:38.958Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.028Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.029Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.040Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.040Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.096Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.097Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.105Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.106Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.108Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.112Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.112Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.166Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.167Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.174Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.176Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.178Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.183Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.183Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.237Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.238Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.243Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.244Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.245Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.249Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.250Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.302Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.304Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.305Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.306Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.313Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.315Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.326Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.329Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.332Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.337Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.338Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.387Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.389Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:375:16)
+      at stores/__tests__/parentalStore.test.ts:207:19
+
+    console.log
+      [2025-11-29T14:21:39.390Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.390Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.391Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.395Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.396Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.403Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.405Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.407Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.410Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.411Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.462Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.463Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.465Z] DEBUG: {"salt":"62367ecdf32de3ed8aabaf30837b74a847ff71eea79a280d357b35c92c80399e"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.466Z] DEBUG: {"hash":"hashed_123462367ecdf32de3ed8aabaf30837b74a847ff71eea79a280d357b35c92c80399e"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.467Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.468Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.469Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.470Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:39.471Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:39.472Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.479Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.480Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.488Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.491Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.493Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.497Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.498Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:39.549Z hr=24131375760691 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:245:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [TestDebug][ACT-END-ERR] 2025-11-29T14:21:39.591Z hr=24131418091553 duration_ms=42.331 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:245:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:24:13)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:39.611Z hr=24131438215679 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:251:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [TestDebug][ACT-END-ERR] 2025-11-29T14:21:39.613Z hr=24131439440004 duration_ms=1.224 err=PIN must be 4-6 digits stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:251:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:24:13)
+
+    console.log
+      [2025-11-29T14:21:39.615Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.616Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.622Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.624Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.626Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.628Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.628Z] DEBUG: {"instanceId":8,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.679Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.681Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.681Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:39.682Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:39.682Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.686Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.687Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.691Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.693Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.694Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.699Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.700Z] DEBUG: {"instanceId":9,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.749Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.750Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:303:19
+
+    console.log
+      [2025-11-29T14:21:39.751Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.754Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.755Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.760Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.761Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.763Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.766Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.767Z] DEBUG: {"instanceId":10,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.818Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.821Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:332:13
+
+    console.log
+      [2025-11-29T14:21:39.821Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.823Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.824Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:332:13
+
+    console.log
+      [2025-11-29T14:21:39.825Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.826Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.827Z] WARN: [Security] Authentication failed. 2 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:332:13
+
+    console.log
+      [2025-11-29T14:21:39.827Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.828Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.829Z] WARN: [Security] Authentication failed. 1 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:332:13
+
+    console.log
+      [2025-11-29T14:21:39.829Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.830Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.833Z] WARN: [Security] Maximum authentication attempts exceeded - account locked
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:437:16)
+      at stores/__tests__/parentalStore.test.ts:332:13
+
+    console.log
+      [2025-11-29T14:21:39.835Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:39.838Z hr=24131664591158 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:344:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:21:39.839Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.840Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-END-ERR] 2025-11-29T14:21:39.841Z hr=24131667399494 duration_ms=2.808 err=Too many failed attempts. Please try again in 15 minute(s). stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:344:9)
+
+      at loggedAct (.test-debug/loggedAct.cjs:24:13)
+
+    console.log
+      [2025-11-29T14:21:39.842Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.843Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.846Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.847Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.849Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.852Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.852Z] DEBUG: {"instanceId":11,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.903Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:39.904Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:375:16)
+      at stores/__tests__/parentalStore.test.ts:359:9
+
+    console.log
+      [2025-11-29T14:21:39.905Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.905Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.906Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:39.907Z hr=24131734215120 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:365:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:21:39.908Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:39.909Z] INFO: [Security] Exited parent mode
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:21:39.910Z hr=24131736977011 duration_ms=2.762 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:365:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [2025-11-29T14:21:39.913Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.914Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.919Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.920Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.921Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.924Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.924Z] DEBUG: {"instanceId":12,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.975Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.977Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.981Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.983Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.989Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.991Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.993Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.997Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:39.998Z] DEBUG: {"instanceId":13,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.049Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.051Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.067Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.068Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.072Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.073Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.074Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.076Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.077Z] DEBUG: {"instanceId":14,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.128Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.129Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.133Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.134Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.138Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.140Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.142Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.145Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.145Z] DEBUG: {"instanceId":15,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.197Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.199Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.205Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.206Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.211Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.212Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.214Z] DEBUG: {"instanceId":16,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.217Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.217Z] DEBUG: {"instanceId":16,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.269Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.271Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.276Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.277Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.284Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.286Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.288Z] DEBUG: {"instanceId":17,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.291Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.292Z] DEBUG: {"instanceId":17,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.343Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.344Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.348Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.349Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.355Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.357Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.358Z] DEBUG: {"instanceId":18,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.362Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.363Z] DEBUG: {"instanceId":18,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.413Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.414Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.418Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.419Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.422Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.423Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.424Z] DEBUG: {"instanceId":19,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.427Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.427Z] DEBUG: {"instanceId":19,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.477Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.478Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.481Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.482Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.486Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.487Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.488Z] DEBUG: {"instanceId":20,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.491Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.492Z] DEBUG: {"instanceId":20,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.544Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.545Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.550Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.551Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.556Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.558Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.560Z] DEBUG: {"instanceId":21,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.563Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.564Z] DEBUG: {"instanceId":21,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.615Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.617Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.622Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.624Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.628Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.630Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.632Z] DEBUG: {"instanceId":22,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.637Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.637Z] DEBUG: {"instanceId":22,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.688Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.689Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.691Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.691Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.695Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.696Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.697Z] DEBUG: {"instanceId":23,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.699Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.700Z] DEBUG: {"instanceId":23,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.751Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.753Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.756Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.756Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.759Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.760Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.761Z] DEBUG: {"instanceId":24,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.764Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.764Z] DEBUG: {"instanceId":24,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.816Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.817Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.821Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.822Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.826Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.827Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.828Z] DEBUG: {"instanceId":25,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.832Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.832Z] DEBUG: {"instanceId":25,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:40.883Z hr=24132709689708 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:776:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:21:40.885Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.886Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:21:40.888Z hr=24132715163554 duration_ms=5.474 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:776:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [2025-11-29T14:21:40.894Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.894Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.899Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.901Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.904Z] DEBUG: {"instanceId":26,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.907Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.907Z] DEBUG: {"instanceId":26,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:40.958Z hr=24132785146431 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:802:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:21:40.959Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.960Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:21:40.961Z hr=24132787326610 duration_ms=2.180 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/stores/__tests__/parentalStore.test.ts:802:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [2025-11-29T14:21:40.965Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.966Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.970Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.971Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.973Z] DEBUG: {"instanceId":27,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.975Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:40.975Z] DEBUG: {"instanceId":27,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.026Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.027Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.027Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.028Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.029Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.030Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.031Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.032Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.034Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.035Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.036Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.037Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.040Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.041Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.042Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.043Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.044Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.045Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.046Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.048Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.049Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.050Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.051Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.052Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.058Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.058Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.062Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.063Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.064Z] DEBUG: {"instanceId":28,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.070Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.070Z] DEBUG: {"instanceId":28,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.118Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.119Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.122Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.123Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.125Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.127Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.129Z] DEBUG: {"instanceId":29,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.132Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.133Z] DEBUG: {"instanceId":29,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.184Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:41.186Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:884:9
+
+    console.log
+      [2025-11-29T14:21:41.187Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.190Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:41.191Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:887:9
+
+    console.log
+      [2025-11-29T14:21:41.192Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.193Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.195Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.195Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:41.196Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:41.197Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.201Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.202Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.208Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.210Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.212Z] DEBUG: {"instanceId":30,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.215Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.216Z] DEBUG: {"instanceId":30,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.267Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:41.269Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/parentalStore.test.ts:918:9
+
+    console.log
+      [2025-11-29T14:21:41.269Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.272Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.273Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+[2025-11-29T14:21:42.671Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:42.674Z] ERROR: [Security] Authentication error: {}
+PASS stores/__tests__/prefix_full.test.ts
+  ● Console
+
+    console.log
+      [2025-11-29T14:21:41.900Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.915Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.916Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.920Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.920Z] DEBUG: {"instanceId":1,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.974Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.974Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.980Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.981Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.983Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.986Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:41.986Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.039Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.040Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.045Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.047Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.050Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.054Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.055Z] DEBUG: {"instanceId":3,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.108Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.109Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.117Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.119Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.121Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.125Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.126Z] DEBUG: {"instanceId":4,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.177Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.179Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.179Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.180Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.183Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.184Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.191Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.193Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.194Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.198Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.199Z] DEBUG: {"instanceId":5,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.249Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.251Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:375:16)
+      at stores/__tests__/prefix_full.test.ts:220:19
+
+    console.log
+      [2025-11-29T14:21:42.252Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.253Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.253Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.256Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.257Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.262Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.265Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.267Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.271Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.272Z] DEBUG: {"instanceId":6,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.322Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.322Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.323Z] DEBUG: {"salt":"d5b38df30edf23eae6d39a51feaf25aa487d1e2cf1b51f038b9cd1eae4b76471"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.324Z] DEBUG: {"hash":"hashed_1234d5b38df30edf23eae6d39a51feaf25aa487d1e2cf1b51f038b9cd1eae4b76471"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.324Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.324Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.324Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.325Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:42.325Z] INFO: [Security] PIN updated successfully with secure hashing
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:42.325Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.327Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.328Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.332Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.333Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.335Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.337Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.337Z] DEBUG: {"instanceId":7,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.446Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.447Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.457Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.459Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.459Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.461Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.462Z] DEBUG: {"instanceId":8,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.513Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.515Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.516Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:42.516Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:42.517Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.519Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.520Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.525Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.526Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.528Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.530Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.531Z] DEBUG: {"instanceId":9,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.582Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.584Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:312:19
+
+    console.log
+      [2025-11-29T14:21:42.585Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.589Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.590Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.597Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.600Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.602Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.606Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.607Z] DEBUG: {"instanceId":10,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.658Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.659Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:346:13
+
+    console.log
+      [2025-11-29T14:21:42.660Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.661Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.661Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:346:13
+
+    console.log
+      [2025-11-29T14:21:42.662Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.663Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.664Z] WARN: [Security] Authentication failed. 2 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:346:13
+
+    console.log
+      [2025-11-29T14:21:42.664Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.665Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.667Z] WARN: [Security] Authentication failed. 1 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:346:13
+
+    console.log
+      [2025-11-29T14:21:42.667Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.669Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.670Z] WARN: [Security] Maximum authentication attempts exceeded - account locked
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:437:16)
+      at stores/__tests__/prefix_full.test.ts:346:13
+
+    console.log
+      [2025-11-29T14:21:42.671Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.673Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.674Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.676Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.677Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.682Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.683Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.685Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.688Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.688Z] DEBUG: {"instanceId":11,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.739Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:42.740Z] WARN: [Security] No PIN configured - allowing access for initial setup
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:375:16)
+      at stores/__tests__/prefix_full.test.ts:380:9
+
+    console.log
+      [2025-11-29T14:21:42.741Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.741Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.742Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.751Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:42.753Z] INFO: [Security] Exited parent mode
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:42.756Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.757Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.761Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.762Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.763Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.764Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.765Z] DEBUG: {"instanceId":12,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.816Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.817Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.820Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.821Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.827Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.829Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.831Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.835Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.835Z] DEBUG: {"instanceId":13,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.886Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.887Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.891Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.892Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.899Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.902Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.903Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.906Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.907Z] DEBUG: {"instanceId":14,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.957Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.958Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.961Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.962Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.969Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.970Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.972Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.975Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:42.975Z] DEBUG: {"instanceId":15,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.026Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.027Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.029Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.030Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.036Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.037Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.038Z] DEBUG: {"instanceId":16,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.040Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.040Z] DEBUG: {"instanceId":16,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.091Z] DEBUG: {"activeOps":1,"instanceId":16}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.092Z] DEBUG: {"activeOps":0,"instanceId":16}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.095Z] DEBUG: {"instanceId":16}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.096Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.107Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.109Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.110Z] DEBUG: {"instanceId":17,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.112Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.113Z] DEBUG: {"instanceId":17,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.164Z] DEBUG: {"activeOps":1,"instanceId":17}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.166Z] DEBUG: {"activeOps":0,"instanceId":17}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.169Z] DEBUG: {"instanceId":17}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.170Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.177Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.179Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.181Z] DEBUG: {"instanceId":18,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.185Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.186Z] DEBUG: {"instanceId":18,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.237Z] DEBUG: {"activeOps":1,"instanceId":18}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.238Z] DEBUG: {"activeOps":0,"instanceId":18}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.242Z] DEBUG: {"instanceId":18}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.243Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.248Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.249Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.251Z] DEBUG: {"instanceId":19,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.254Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.255Z] DEBUG: {"instanceId":19,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.305Z] DEBUG: {"activeOps":1,"instanceId":19}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.306Z] DEBUG: {"activeOps":0,"instanceId":19}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.309Z] DEBUG: {"instanceId":19}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.310Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.315Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.317Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.319Z] DEBUG: {"instanceId":20,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.323Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.323Z] DEBUG: {"instanceId":20,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.374Z] DEBUG: {"activeOps":1,"instanceId":20}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.375Z] DEBUG: {"activeOps":0,"instanceId":20}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.378Z] DEBUG: {"instanceId":20}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.379Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.385Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.387Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.388Z] DEBUG: {"instanceId":21,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.390Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.391Z] DEBUG: {"instanceId":21,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.442Z] DEBUG: {"activeOps":1,"instanceId":21}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.443Z] DEBUG: {"activeOps":0,"instanceId":21}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.446Z] DEBUG: {"instanceId":21}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.447Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.453Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.455Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.456Z] DEBUG: {"instanceId":22,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.459Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.460Z] DEBUG: {"instanceId":22,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.510Z] DEBUG: {"activeOps":1,"instanceId":22}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.511Z] DEBUG: {"activeOps":0,"instanceId":22}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.512Z] DEBUG: {"instanceId":22}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.512Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.518Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.520Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.521Z] DEBUG: {"instanceId":23,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.524Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.525Z] DEBUG: {"instanceId":23,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.576Z] DEBUG: {"activeOps":1,"instanceId":23}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.577Z] DEBUG: {"activeOps":0,"instanceId":23}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.580Z] DEBUG: {"instanceId":23}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.581Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.588Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.590Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.591Z] DEBUG: {"instanceId":24,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.593Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.594Z] DEBUG: {"instanceId":24,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.646Z] DEBUG: {"activeOps":1,"instanceId":24}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.647Z] DEBUG: {"activeOps":0,"instanceId":24}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.651Z] DEBUG: {"instanceId":24}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.652Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.657Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.659Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.661Z] DEBUG: {"instanceId":25,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.664Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.665Z] DEBUG: {"instanceId":25,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.715Z] DEBUG: {"activeOps":1,"instanceId":25}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.716Z] DEBUG: {"activeOps":0,"instanceId":25}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.721Z] DEBUG: {"instanceId":25}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.722Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.728Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.730Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.733Z] DEBUG: {"instanceId":26,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.736Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.737Z] DEBUG: {"instanceId":26,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.787Z] DEBUG: {"activeOps":1,"instanceId":26}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.788Z] DEBUG: {"activeOps":0,"instanceId":26}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.793Z] DEBUG: {"instanceId":26}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.794Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.798Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.800Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.801Z] DEBUG: {"instanceId":27,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.804Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.804Z] DEBUG: {"instanceId":27,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.855Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.856Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.858Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.859Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.861Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.862Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.864Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.865Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.867Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.868Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.873Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.875Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.876Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.878Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.880Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.881Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.882Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.884Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.886Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.887Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.889Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.890Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.891Z] DEBUG: {"activeOps":1,"instanceId":27}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.892Z] DEBUG: {"activeOps":0,"instanceId":27}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.895Z] DEBUG: {"instanceId":27}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.896Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.900Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.902Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.903Z] DEBUG: {"instanceId":28,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.905Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.905Z] DEBUG: {"instanceId":28,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.956Z] DEBUG: {"activeOps":1,"instanceId":28}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.957Z] DEBUG: {"activeOps":0,"instanceId":28}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.960Z] DEBUG: {"instanceId":28}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.962Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.967Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.969Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.971Z] DEBUG: {"instanceId":29,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.974Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:43.975Z] DEBUG: {"instanceId":29,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.026Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:44.027Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:906:9
+
+    console.log
+      [2025-11-29T14:21:44.028Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.029Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:44.030Z] WARN: [Security] Authentication failed. 3 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:909:9
+
+    console.log
+      [2025-11-29T14:21:44.030Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.032Z] DEBUG: {"activeOps":1,"instanceId":29}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.033Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.034Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.info
+      [2025-11-29T14:21:44.035Z] INFO: [Security] Parent mode authenticated successfully
+
+      at Logger.addLog (utils/logger.ts:67:19)
+
+    console.log
+      [2025-11-29T14:21:44.035Z] DEBUG: {"activeOps":0,"instanceId":29}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.039Z] DEBUG: {"instanceId":29}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.040Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.045Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.047Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.049Z] DEBUG: {"instanceId":30,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.053Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.053Z] DEBUG: {"instanceId":30,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.104Z] DEBUG: {"activeOps":1,"instanceId":30}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.warn
+      [2025-11-29T14:21:44.105Z] WARN: [Security] Authentication failed. 4 attempt(s) remaining.
+
+      68 |           break;
+      69 |         case LogLevel.WARN:
+    > 70 |           console.warn(formattedMessage);
+         |                   ^
+      71 |           break;
+      72 |         case LogLevel.ERROR:
+      73 |           console.error(formattedMessage, error);
+
+      at Logger.addLog (utils/logger.ts:70:19)
+      at Logger.warn (utils/logger.ts:132:10)
+      at Object.authenticateParentMode (stores/parentalStore.ts:444:14)
+      at stores/__tests__/prefix_full.test.ts:940:9
+
+    console.log
+      [2025-11-29T14:21:44.106Z] DEBUG: {"activeOps":0,"instanceId":30}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.107Z] DEBUG: {"instanceId":30}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:44.108Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+An update to %s inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act null
+An update to %s inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act null
+An update to %s inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act null
+An update to %s inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act null
+[2025-11-29T14:21:51.493Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.514Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.514Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.514Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.514Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.514Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.561Z] ERROR: [Security] Authentication error: {}
+[2025-11-29T14:21:51.697Z] ERROR: [Security] Authentication error: {}
+PASS __tests__/parental-auth-security.test.ts (7.313 s)
+  ● Console
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":2,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"instanceId":1,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"salt":"0101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"hash":"hashed_12340101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":2,"instanceId":1}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":1,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.379Z] DEBUG: {"activeOps":0,"instanceId":1}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.403Z] DEBUG: {"instanceId":1}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.404Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"instanceId":2,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"instanceId":2,"activeOps":0}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"salt":"0101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"hash":"hashed_12340101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":2,"instanceId":2}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":1,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.408Z] DEBUG: {"activeOps":0,"instanceId":2}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.451Z] DEBUG: {"instanceId":2}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.451Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":2,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"instanceId":3,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"salt":"0101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"hash":"hashed_12340101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":2,"instanceId":3}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":1,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.455Z] DEBUG: {"activeOps":0,"instanceId":3}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.475Z] DEBUG: {"instanceId":3}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.476Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"activeOps":2,"instanceId":4}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"activeOps":1,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"instanceId":4,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.478Z] DEBUG: {"activeOps":0,"instanceId":4}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.489Z] DEBUG: {"instanceId":4}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.490Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":2,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"instanceId":5,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":1,"instanceId":5}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.493Z] DEBUG: {"activeOps":0,"instanceId":5}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.512Z] DEBUG: {"instanceId":5}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.513Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":2,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"instanceId":6,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":1,"instanceId":6}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.514Z] DEBUG: {"activeOps":0,"instanceId":6}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.532Z] DEBUG: {"instanceId":6}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.533Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":2,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"instanceId":7,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":1,"instanceId":7}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.536Z] DEBUG: {"activeOps":0,"instanceId":7}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.551Z] DEBUG: {"instanceId":7}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.552Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":2,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"instanceId":8,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:36:52.561Z] DEBUG: {"activeOps":1,"instanceId":8}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:36:52.561Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:36:52.561Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:36:52.561Z] DEBUG: {"activeOps":0,"instanceId":8}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.589Z] DEBUG: {"instanceId":8}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.590Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"activeOps":2,"instanceId":9}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"activeOps":1,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"instanceId":9,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.594Z] DEBUG: {"activeOps":0,"instanceId":9}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:51.594Z hr=0 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:293:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:51:51.594Z hr=1800000000000 duration_ms=1800000.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:293:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:51:51.594Z hr=1800000000000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:302:15)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:51:51.594Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:51:51.594Z hr=1800000000000 duration_ms=0.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:302:15)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [2025-11-29T14:21:51.610Z] DEBUG: {"instanceId":9}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.611Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"activeOps":2,"instanceId":10}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"activeOps":1,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"instanceId":10,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: {"activeOps":0,"instanceId":10}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:51.614Z hr=0 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:321:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [2025-11-29T14:21:51.614Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:21:51.614Z hr=0 duration_ms=0.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:321:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [TestDebug][ACT-START] 2025-11-29T14:21:51.614Z hr=0 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:328:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:11:13)
+
+    console.log
+      [TestDebug][ACT-END] 2025-11-29T14:51:51.614Z hr=1800000000000 duration_ms=1800000.000 stack=at Object.<anonymous> (/home/nixstation-remote/Projects/NaviKid-v1/__tests__/parental-auth-security.test.ts:328:13)
+
+      at loggedAct (.test-debug/loggedAct.cjs:18:13)
+
+    console.log
+      [2025-11-29T14:21:51.629Z] DEBUG: {"instanceId":10}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.630Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":2,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"instanceId":11,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"salt":"0101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"hash":"hashed_12340101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":2,"instanceId":11}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":1,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.633Z] DEBUG: {"activeOps":0,"instanceId":11}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.647Z] DEBUG: {"instanceId":11}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.648Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":2,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: [TestDebug] setParentPin start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"instanceId":12,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"salt":"0101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"hash":"hashed_12340101010101010101010101010101010101010101010101010101010101010101"}[TestDebug] generated hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: [TestDebug] stored hash
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: [TestDebug] stored salt
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":2,"instanceId":12}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":1,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.651Z] DEBUG: {"activeOps":0,"instanceId":12}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.667Z] DEBUG: {"instanceId":12}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.668Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"activeOps":2,"instanceId":13}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"activeOps":1,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"instanceId":13,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.671Z] DEBUG: {"activeOps":0,"instanceId":13}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.680Z] DEBUG: {"instanceId":13}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.681Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"activeOps":2,"instanceId":14}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"activeOps":1,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"instanceId":14,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: [TestDebug] startSessionTimeout skipped in test environment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.684Z] DEBUG: {"activeOps":0,"instanceId":14}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.695Z] DEBUG: {"instanceId":14}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.695Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore mounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData start
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":2,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"instanceId":15,"activeOps":1}[TestDebug] parentalStore.loadData end
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":1,"instanceId":15}[TestDebug] parentalStore activeOps increment
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.697Z] DEBUG: {"activeOps":0,"instanceId":15}[TestDebug] parentalStore activeOps decrement
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.715Z] DEBUG: {"instanceId":15}[TestDebug] parentalStore unmounted
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+    console.log
+      [2025-11-29T14:21:51.715Z] DEBUG: [TestDebug] clearSessionTimeout called, no active timeout
+
+      at Logger.addLog (utils/logger.ts:64:19)
+
+
+Test Suites: 3 passed, 3 total
+Tests:       81 passed, 81 total
+Snapshots:   0 total
+Time:        24.639 s, estimated 25 s
+Ran all test suites matching stores/__tests__/parentalStore.test.ts|__tests__/parental-auth-security.test.ts|stores/__tests__/prefix_full.test.ts.

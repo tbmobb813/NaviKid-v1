@@ -153,20 +153,20 @@ export function getTestMapHost() {
 // simpleRender and helpers if that module exists so imports keep working.
 try {
   const legacy = require('./test-utils.js');
-    if (legacy) {
-      // Re-export named helpers to match older imports
-      module.exports.simpleRender = legacy.simpleRender;
-      module.exports.getByTestId = legacy.getByTestId;
-      module.exports.queryByTestId = legacy.queryByTestId;
-      module.exports.fireEvent = legacy.fireEvent;
-      module.exports.act = legacy.act;
-      // Also attach to global to satisfy tests that access them globally
-      (global as any).simpleRender = legacy.simpleRender;
-      (global as any).getByTestId = legacy.getByTestId;
-      (global as any).queryByTestId = legacy.queryByTestId;
-      (global as any).fireEvent = legacy.fireEvent;
-      (global as any).act = legacy.act;
-    }
+  if (legacy) {
+    // Re-export named helpers to match older imports
+    module.exports.simpleRender = legacy.simpleRender;
+    module.exports.getByTestId = legacy.getByTestId;
+    module.exports.queryByTestId = legacy.queryByTestId;
+    module.exports.fireEvent = legacy.fireEvent;
+    module.exports.act = legacy.act;
+    // Also attach to global to satisfy tests that access them globally
+    (global as any).simpleRender = legacy.simpleRender;
+    (global as any).getByTestId = legacy.getByTestId;
+    (global as any).queryByTestId = legacy.queryByTestId;
+    (global as any).fireEvent = legacy.fireEvent;
+    (global as any).act = legacy.act;
+  }
 } catch (e) {
   // ignore if legacy helper not present
 }

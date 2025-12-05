@@ -1,4 +1,5 @@
 import { Config } from '@/utils/config';
+import { timeoutSignal } from '@/utils/abortSignal';
 
 export type WeatherUnits = 'imperial' | 'metric';
 
@@ -70,12 +71,8 @@ export async function fetchWeather(
 
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=${temperature_unit}&wind_speed_unit=${wind_speed_unit}`;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), Config.API_TIMEOUT);
-
   try {
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timeoutId);
+    const res = await fetch(url, { signal: timeoutSignal(Config.API_TIMEOUT) });
     if (!res.ok) {
       throw new Error(`Weather HTTP ${res.status}`);
     }
@@ -91,7 +88,6 @@ export async function fetchWeather(
       recommendation: buildRecommendation(condition, tempF),
     };
   } catch (e) {
-    clearTimeout(timeoutId);
     throw e as Error;
   }
 }

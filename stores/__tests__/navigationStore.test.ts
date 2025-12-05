@@ -42,10 +42,10 @@ describe('navigationStore', () => {
     const place = { id: 'p1', name: 'Place 1', coordinates: { latitude: 1, longitude: 1 } };
 
     act(() => result.current.addToFavorites(place));
-  expect(result.current.favorites.find((f: any) => f.id === 'p1')).toBeDefined();
+    expect(result.current.favorites.find((f: any) => f.id === 'p1')).toBeDefined();
 
     act(() => result.current.removeFromFavorites('p1'));
-  expect(result.current.favorites.find((f: any) => f.id === 'p1')).toBeUndefined();
+    expect(result.current.favorites.find((f: any) => f.id === 'p1')).toBeUndefined();
   });
 
   it('adds recent searches and enforces limit', () => {
@@ -53,7 +53,11 @@ describe('navigationStore', () => {
 
     act(() => {
       for (let i = 0; i < 8; i++) {
-        result.current.addToRecentSearches({ id: `r${i}`, name: `R${i}`, coordinates: { latitude: i, longitude: i } });
+        result.current.addToRecentSearches({
+          id: `r${i}`,
+          name: `R${i}`,
+          coordinates: { latitude: i, longitude: i },
+        });
       }
     });
 
@@ -67,7 +71,11 @@ describe('navigationStore', () => {
 
     act(() => {
       result.current.setOrigin({ id: 'o', name: 'O', coordinates: { latitude: 0, longitude: 0 } });
-      result.current.setDestination({ id: 'd', name: 'D', coordinates: { latitude: 1, longitude: 1 } });
+      result.current.setDestination({
+        id: 'd',
+        name: 'D',
+        coordinates: { latitude: 1, longitude: 1 },
+      });
     });
 
     act(() => result.current.findRoutes());
@@ -79,10 +87,13 @@ describe('navigationStore', () => {
   it('selects route safely', () => {
     const { result } = renderHook(() => useNavigationStore());
 
-  const mockRoutes: any = [{ id: '1', totalDuration: 100, steps: [] }, { id: '2', totalDuration: 200, steps: [] }];
+    const mockRoutes: any = [
+      { id: '1', totalDuration: 100, steps: [] },
+      { id: '2', totalDuration: 200, steps: [] },
+    ];
     act(() => {
       // Directly set availableRoutes for test
-  useNavigationStore.setState({ availableRoutes: mockRoutes, selectedRoute: mockRoutes[0] });
+      useNavigationStore.setState({ availableRoutes: mockRoutes, selectedRoute: mockRoutes[0] });
     });
 
     act(() => result.current.selectRoute(mockRoutes[1] as any));
