@@ -599,50 +599,42 @@ describe('OfflineQueueService', () => {
     });
 
     it('should allow changing sync interval', async () => {
-      // Use fake timers for this specific test
-      jest.clearAllTimers();
-      jest.useFakeTimers();
-      
       await offlineQueue.waitForInitialization();
       
-      // Set offline first, add many actions so queue doesn't become empty
+      // Test that setSyncInterval actually changes the interval property
+      const initialInterval = offlineQueue['syncInterval'];
+      expect(initialInterval).toBe(60000); // Default 60 seconds
+      
+      offlineQueue.setSyncInterval(30000);
+      expect(offlineQueue['syncInterval']).toBe(30000);
+      
+      offlineQueue.setSyncInterval(120000);
+      expect(offlineQueue['syncInterval']).toBe(120000);
+      
+      // Test that periodic sync uses the new interval
+      jest.useFakeTimers();
+      
+      // Set up scenario with action in queue 
       offlineQueue['isOnline'] = false;
-      for (let i = 0; i < 10; i++) {
-        await offlineQueue.addAction(mockAction);
-      }
+      await offlineQueue.addAction(mockAction);
       offlineQueue['isOnline'] = true;
       
-      // Ensure we always have actions to sync by only syncing a few actions each time
-      (apiClient.offline.syncActions as jest.Mock).mockImplementation(async () => {
-        // Only sync 2 actions each time so queue stays populated (10 -> 8 -> 6 -> etc)
-        return {
-          success: true,
-          data: { syncedCount: 2 },
-        };
-      });
-      
-      offlineQueue.setSyncInterval(30000); // 30 seconds
-      
-      // Restart periodic sync to work with fake timers and new interval
+      // Restart periodic sync with new interval
+      offlineQueue.setSyncInterval(15000); // 15 seconds
       offlineQueue['stopPeriodicSync']();
       offlineQueue['startPeriodicSync']();
-
+      
       const syncSpy = jest.spyOn(offlineQueue, 'syncQueue');
-      // Don't mock the implementation - let it run through to actually modify the queue
       syncSpy.mockClear();
 
-      // Advance by new interval twice
-      console.log('Before first advance, queue size:', offlineQueue.getQueueSize());
-      jest.advanceTimersByTime(30000); // First interval
-      console.log('After first advance, syncSpy calls:', syncSpy.mock.calls.length, 'queue size:', offlineQueue.getQueueSize());
+      // Should not trigger at old 60s interval
+      jest.advanceTimersByTime(14999);
+      expect(syncSpy).not.toHaveBeenCalled();
       
-      jest.advanceTimersByTime(30000); // Second interval  
-      console.log('After second advance, syncSpy calls:', syncSpy.mock.calls.length, 'queue size:', offlineQueue.getQueueSize());
-
-      // Should have synced at least twice at new interval
-      expect(syncSpy.mock.calls.length).toBeGreaterThanOrEqual(2);
+      // Should trigger at new 15s interval  
+      jest.advanceTimersByTime(1);
+      expect(syncSpy).toHaveBeenCalled();
       
-      // Restore timers
       jest.useRealTimers();
     });
   });
