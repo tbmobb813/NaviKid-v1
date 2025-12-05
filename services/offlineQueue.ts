@@ -74,13 +74,13 @@ class OfflineQueueService {
     if (OfflineQueueService.instance) {
       // Clean up existing instance
       const instance = OfflineQueueService.instance;
-      
+
       // Stop periodic sync
       if (instance['syncTimer']) {
         clearInterval(instance['syncTimer']);
         instance['syncTimer'] = null;
       }
-      
+
       // Clear state
       instance['queue'] = [];
       instance['isOnline'] = true;
@@ -88,7 +88,7 @@ class OfflineQueueService {
       instance['lastSyncTime'] = null;
       instance['listeners'] = new Set();
     }
-    
+
     // Clear the instance reference so next getInstance() creates a new one
     OfflineQueueService.instance = undefined as any;
   }
@@ -397,4 +397,3 @@ class OfflineQueueService {
 export { OfflineQueueService };
 export const offlineQueue = OfflineQueueService.getInstance();
 export default offlineQueue;
-

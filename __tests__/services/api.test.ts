@@ -94,7 +94,7 @@ describe('NaviKidApiClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
-    
+
     // Reset all SecureStore mocks but keep the implementation
     (SecureStore.getItemAsync as jest.Mock).mockReset().mockResolvedValue(null);
     (SecureStore.setItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
