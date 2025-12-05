@@ -57,6 +57,33 @@ class OfflineQueueService {
     return OfflineQueueService.instance;
   }
 
+  /**
+   * Reset singleton instance for testing purposes
+   * This allows tests to get a fresh instance with clean state
+   */
+  static resetInstance(): void {
+    if (OfflineQueueService.instance) {
+      // Clean up existing instance
+      const instance = OfflineQueueService.instance;
+      
+      // Stop periodic sync
+      if (instance['syncTimer']) {
+        clearInterval(instance['syncTimer']);
+        instance['syncTimer'] = null;
+      }
+      
+      // Clear state
+      instance['queue'] = [];
+      instance['isOnline'] = true;
+      instance['isSyncing'] = false;
+      instance['lastSyncTime'] = null;
+      instance['listeners'] = new Set();
+    }
+    
+    // Clear the instance reference so next getInstance() creates a new one
+    OfflineQueueService.instance = undefined as any;
+  }
+
   // ==========================================================================
   // Initialization
   // ==========================================================================
@@ -353,5 +380,7 @@ class OfflineQueueService {
 // Export Singleton Instance
 // ============================================================================
 
+export { OfflineQueueService };
 export const offlineQueue = OfflineQueueService.getInstance();
 export default offlineQueue;
+
