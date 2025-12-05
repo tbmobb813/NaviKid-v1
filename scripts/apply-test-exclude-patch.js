@@ -188,7 +188,7 @@ function getExtensionPattern(extension) {
         case 1:
             return `**/*${extension[0]}`;
         default:
-            return `**/*{${extension.join()}}`;
+            return `**/*{${extension.join(',')}}`;
     }
 }
 
