@@ -9,7 +9,7 @@ import Constants from 'expo-constants';
 // Polyfill fetch for Node.js integration tests
 // @ts-ignore
 if (typeof fetch === 'undefined') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+   
   globalThis.fetch = require('node-fetch');
 }
 import * as SecureStore from 'expo-secure-store';
