@@ -61,18 +61,18 @@ describe('OfflineQueueService', () => {
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
     (AsyncStorage.setItem as jest.Mock).mockResolvedValue(undefined);
 
-    // Mock API client
+    // Mock API client - return 0 synced by default to prevent auto-sync in tests
     (apiClient.offline.syncActions as jest.Mock).mockResolvedValue({
       success: true,
-      data: { syncedCount: 1 },
+      data: { syncedCount: 0 },
     });
 
-    // Reset singleton instance for fresh state (without jest.resetModules which clears mocks)
+    // Reset singleton instance for fresh state
     const offlineQueueModule = require('@/services/offlineQueue');
     offlineQueueModule.OfflineQueueService.resetInstance();
 
-    // Get fresh instance
-    offlineQueue = offlineQueueModule.offlineQueue;
+    // Get fresh instance via getInstance() - not the exported constant which is stale
+    offlineQueue = offlineQueueModule.OfflineQueueService.getInstance();
   });
 
   afterEach(() => {
@@ -106,7 +106,7 @@ describe('OfflineQueueService', () => {
       // Reset instance to trigger loadQueue with mocked storage
       const offlineQueueModule = require('@/services/offlineQueue');
       offlineQueueModule.OfflineQueueService.resetInstance();
-      const newInstance = offlineQueueModule.offlineQueue;
+      const newInstance = offlineQueueModule.OfflineQueueService.getInstance();
 
       await new Promise(resolve => setTimeout(resolve, 50));
 
@@ -139,6 +139,9 @@ describe('OfflineQueueService', () => {
   describe('Queue Management', () => {
     describe('addAction', () => {
       it('should add action to queue', async () => {
+        // Wait for initialization before running test
+        await offlineQueue.waitForInitialization();
+
         await offlineQueue.addAction(mockAction);
 
         expect(offlineQueue.getQueueSize()).toBe(1);
