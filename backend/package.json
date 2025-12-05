@@ -41,7 +41,7 @@
     "@fastify/jwt": "^10.0.0",
     "@fastify/rate-limit": "^10.3.0",
     "@fastify/sensible": "^6.0.4",
-    "@fastify/websocket": "^10.0.0",
+    "@fastify/websocket": "^11.2.0",
     "@sentry/node": "^7.109.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^2.2.1",
