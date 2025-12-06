@@ -101,11 +101,11 @@ describe('NaviKidWebSocketClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // DON'T use fake timers yet - let module load naturally
-    
+
     // Load module with real timers first
     const wsModule = require('@/services/websocket');
     wsClient = new wsModule.NaviKidWebSocketClient();
-    
+
     // NOW enable fake timers for the test
     jest.useFakeTimers();
 

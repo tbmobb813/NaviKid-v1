@@ -91,7 +91,7 @@ describe('OfflineQueueService', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    
+
     // Reset the singleton instance properly
     try {
       const offlineQueueModule = require('@/services/offlineQueue');
@@ -101,7 +101,7 @@ describe('OfflineQueueService', () => {
     } catch (e) {
       // Module might not be loaded, that's okay
     }
-    
+
     jest.restoreAllMocks();
   });
 
