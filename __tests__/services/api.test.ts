@@ -102,16 +102,12 @@ describe('NaviKidApiClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
+    (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
 
-    // Reset all SecureStore mocks but keep the implementation
-    (SecureStore.getItemAsync as jest.Mock).mockReset().mockResolvedValue(null);
-    (SecureStore.setItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
-    (SecureStore.deleteItemAsync as jest.Mock).mockReset().mockResolvedValue(undefined);
-
-    // Create fresh instance without resetting modules (keeps mocks intact)
-    // We already have the NaviKidApiClient imported at the top
-    const { NaviKidApiClient } = require('@/services/api');
-    apiClient = new NaviKidApiClient({
+    // Import fresh instance for each test
+    jest.resetModules();
+    const apiModule = require('@/services/api');
+    apiClient = new apiModule.NaviKidApiClient({
       baseUrl: 'http://test-api.example.com/api',
       timeout: 5000,
       retryAttempts: 3,
@@ -132,24 +128,16 @@ describe('NaviKidApiClient', () => {
     });
 
     it('should load tokens on initialization', async () => {
-      // Setup mock BEFORE importing
       (SecureStore.getItemAsync as jest.Mock).mockImplementation((key: string) => {
         if (key === 'access_token') return Promise.resolve(mockAccessToken);
         if (key === 'refresh_token') return Promise.resolve(mockRefreshToken);
         return Promise.resolve(null);
       });
 
-      // Use the already-mocked SecureStore
-      const { NaviKidApiClient } = require('@/services/api');
-      const testClient = new NaviKidApiClient({
-        baseUrl: 'http://test-api.example.com/api',
-        timeout: 5000,
-        retryAttempts: 3,
-        retryDelay: 100,
-      });
+      new (require('@/services/api').NaviKidApiClient)();
 
       // Give time for async loadTokens to complete
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       expect(SecureStore.getItemAsync).toHaveBeenCalledWith('access_token');
       expect(SecureStore.getItemAsync).toHaveBeenCalledWith('refresh_token');

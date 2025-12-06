@@ -75,196 +75,89 @@ const SmartRouteSuggestions = ({
         curLng: currentLocation.longitude,
         weather,
         timeOfDay,
-      });
-      if (!res.success) throw new Error(res.message ?? 'Failed to load suggestions');
-      return res.data;
-    },
-    staleTime: 2 * 60 * 1000,
-  });
-  const likeMutation = useMutation({
-    mutationFn: async ({ id, liked }) => {
-      const res = await smartRoutesApi.likeSuggestion(id, liked);
-      if (!res.success) throw new Error(res.message ?? 'Failed to save');
-      return res.data;
-    },
-    onMutate: async ({ id, liked }) => {
-      await qc.cancelQueries({ queryKey });
-      const prev = qc.getQueryData(queryKey);
-      const next = prev?.map((s) => (s.id === id ? { ...s, liked } : s)) ?? [];
-      qc.setQueryData(queryKey, next);
-      // Optimistically sync into profile cache if present
-      const profileKey = ['userProfile'];
-      const prevProfile = qc.getQueryData(profileKey);
-      if (prevProfile) {
-        const likedIds = Array.isArray(prevProfile.likedSuggestions)
-          ? prevProfile.likedSuggestions
-          : [];
-        const updatedLiked = liked
-          ? Array.from(new Set([...likedIds, id]))
-          : likedIds.filter((x) => x !== id);
-        qc.setQueryData(profileKey, { ...prevProfile, likedSuggestions: updatedLiked });
-      }
-      return { prev, prevProfile };
-    },
-    onError: (err, _vars, ctx) => {
-      if (ctx?.prev) qc.setQueryData(queryKey, ctx.prev);
-      if (ctx?.prevProfile) qc.setQueryData(['userProfile'], ctx.prevProfile);
-      const e = handleApiError(err);
-      logger.error('like mutation error', e);
-    },
-    onSuccess: async ({ id, liked }) => {
-      try {
-        await toggleLikedSuggestion(id, liked);
-      } catch (e) {
-        logger.error('Failed to sync like to profile', e);
-      }
-    },
-    onSettled: () => {
-      qc.invalidateQueries({ queryKey });
-      qc.invalidateQueries({ queryKey: ['userProfile'] });
-    },
-  });
-  const getWeatherIcon = () => {
-    switch (weather) {
-      case 'sunny':
-        return Sun;
-      case 'cloudy':
-        return Cloud;
-      case 'rainy':
-        return CloudRain;
-      default:
-        return Sun;
-    }
-  };
-  const getCrowdColor = () => {
-    switch (crowdLevel) {
-      case 'low':
-        return '#4CAF50';
-      case 'medium':
-        return '#FF9800';
-      case 'high':
-        return '#F44336';
-    }
-  };
-  const mappedSuggestions = (suggestionsQuery.data ?? []).map((s) => ({
-    ...s,
-    icon: iconForType(s.type),
-  }));
-  return _jsxs(View, {
-    style: styles.container,
-    testID: testId ?? 'smart-route-suggestions',
-    children: [
-      _jsxs(View, {
-        style: styles.header,
-        children: [
-          _jsx(Text, { style: styles.title, children: 'Smart Route Suggestions' }),
-          _jsxs(View, {
-            style: styles.conditions,
-            children: [
-              _jsxs(View, {
-                style: styles.conditionItem,
-                children: [
-                  React.createElement(getWeatherIcon(), { size: 16, color: Colors.primary }),
-                  _jsx(Text, { style: styles.conditionText, children: weather }),
-                ],
-              }),
-              _jsxs(View, {
-                style: styles.conditionItem,
-                children: [
-                  _jsx(Users, { size: 16, color: getCrowdColor() }),
-                  _jsxs(Text, {
-                    style: [styles.conditionText, { color: getCrowdColor() }],
-                    children: [crowdLevel, ' traffic'],
-                  }),
-                ],
-              }),
-            ],
-          }),
-        ],
-      }),
-      suggestionsQuery.isLoading
-        ? _jsx(View, {
-            style: styles.loadingWrap,
-            children: _jsx(ActivityIndicator, { color: Colors.primary }),
-          })
-        : suggestionsQuery.isError
-          ? _jsx(View, {
-              style: styles.errorWrap,
-              children: _jsx(Text, {
-                style: styles.errorText,
-                children: 'Could not load suggestions.',
-              }),
-            })
-          : _jsx(ScrollView, {
-              horizontal: true,
-              showsHorizontalScrollIndicator: false,
-              style: styles.suggestionsScroll,
-              children: mappedSuggestions.map((suggestion) =>
-                _jsxs(
-                  Pressable,
-                  {
-                    style: styles.suggestionCard,
-                    onPress: () => onSelectRoute(suggestion),
-                    testID: `suggestion-${suggestion.id}`,
-                    children: [
-                      _jsxs(View, {
-                        style: styles.suggestionHeader,
-                        children: [
-                          _jsx(View, {
-                            style: styles.iconContainer,
-                            children: _jsx(suggestion.icon, { size: 20, color: Colors.primary }),
-                          }),
-                          _jsx(Text, { style: styles.suggestionTitle, children: suggestion.title }),
-                          _jsx(Pressable, {
-                            onPress: () =>
-                              likeMutation.mutate({
-                                id: suggestion.id,
-                                liked: !(suggestion.liked ?? false),
-                              }),
-                            hitSlop: 8,
-                            accessibilityRole: 'button',
-                            testID: `like-${suggestion.id}`,
-                            children: _jsx(Heart, {
-                              size: 18,
-                              color:
-                                (suggestion.liked ?? false) ? Colors.secondary : Colors.textLight,
-                            }),
-                          }),
-                        ],
-                      }),
-                      _jsx(Text, {
-                        style: styles.suggestionDescription,
-                        children: suggestion.description,
-                      }),
-                      _jsxs(View, {
-                        style: styles.suggestionFooter,
-                        children: [
-                          _jsx(Text, {
-                            style: styles.estimatedTime,
-                            children: suggestion.estimatedTime,
-                          }),
-                          _jsx(Text, { style: styles.reason, children: suggestion.reason }),
-                        ],
-                      }),
-                    ],
-                  },
-                  suggestion.id,
-                ),
-              ),
-            }),
-      _jsxs(View, {
-        style: styles.smartTip,
-        children: [
-          _jsx(Zap, { size: 16, color: Colors.secondary }),
-          _jsx(Text, {
-            style: styles.smartTipText,
-            children:
-              'Routes adapt based on weather, time, and crowd levels for the best experience!',
-          }),
-        ],
-      }),
-    ],
-  });
+        crowdLevel,
+    ], [destination.id, currentLocation.latitude, currentLocation.longitude, weather, timeOfDay, crowdLevel]);
+    const suggestionsQuery = useQuery({
+        queryKey,
+        queryFn: async () => {
+            const res = await smartRoutesApi.getSuggestions({
+                destId: destination.id,
+                destLat: destination.coordinates.latitude,
+                destLng: destination.coordinates.longitude,
+                curLat: currentLocation.latitude,
+                curLng: currentLocation.longitude,
+                weather,
+                timeOfDay,
+            });
+            if (!res.success)
+                throw new Error(res.message ?? 'Failed to load suggestions');
+            return res.data;
+        },
+        staleTime: 2 * 60 * 1000,
+    });
+    const likeMutation = useMutation({
+        mutationFn: async ({ id, liked }) => {
+            const res = await smartRoutesApi.likeSuggestion(id, liked);
+            if (!res.success)
+                throw new Error(res.message ?? 'Failed to save');
+            return res.data;
+        },
+        onMutate: async ({ id, liked }) => {
+            await qc.cancelQueries({ queryKey });
+            const prev = qc.getQueryData(queryKey);
+            const next = prev?.map((s) => (s.id === id ? { ...s, liked } : s)) ?? [];
+            qc.setQueryData(queryKey, next);
+            // Optimistically sync into profile cache if present
+            const profileKey = ['userProfile'];
+            const prevProfile = qc.getQueryData(profileKey);
+            if (prevProfile) {
+                const likedIds = Array.isArray(prevProfile.likedSuggestions) ? prevProfile.likedSuggestions : [];
+                const updatedLiked = liked ? Array.from(new Set([...likedIds, id])) : likedIds.filter((x) => x !== id);
+                qc.setQueryData(profileKey, { ...prevProfile, likedSuggestions: updatedLiked });
+            }
+            return { prev, prevProfile };
+        },
+        onError: (err, _vars, ctx) => {
+            if (ctx?.prev)
+                qc.setQueryData(queryKey, ctx.prev);
+            if (ctx?.prevProfile)
+                qc.setQueryData(['userProfile'], ctx.prevProfile);
+            const e = handleApiError(err);
+            logger.error('like mutation error', e);
+        },
+        onSuccess: async ({ id, liked }) => {
+            try {
+                await toggleLikedSuggestion(id, liked);
+            }
+            catch (e) {
+                logger.error('Failed to sync like to profile', e);
+            }
+        },
+        onSettled: () => {
+            qc.invalidateQueries({ queryKey });
+            qc.invalidateQueries({ queryKey: ['userProfile'] });
+        }
+    });
+    const getWeatherIcon = () => {
+        switch (weather) {
+            case 'sunny': return Sun;
+            case 'cloudy': return Cloud;
+            case 'rainy': return CloudRain;
+            default: return Sun;
+        }
+    };
+    const getCrowdColor = () => {
+        switch (crowdLevel) {
+            case 'low': return '#4CAF50';
+            case 'medium': return '#FF9800';
+            case 'high': return '#F44336';
+        }
+    };
+    const mappedSuggestions = (suggestionsQuery.data ?? []).map((s) => ({
+        ...s,
+        icon: iconForType(s.type),
+    }));
+    return (_jsxs(View, { style: styles.container, testID: testId ?? 'smart-route-suggestions', children: [_jsxs(View, { style: styles.header, children: [_jsx(Text, { style: styles.title, children: "Smart Route Suggestions" }), _jsxs(View, { style: styles.conditions, children: [_jsxs(View, { style: styles.conditionItem, children: [React.createElement(getWeatherIcon(), { size: 16, color: Colors.primary }), _jsx(Text, { style: styles.conditionText, children: weather })] }), _jsxs(View, { style: styles.conditionItem, children: [_jsx(Users, { size: 16, color: getCrowdColor() }), _jsxs(Text, { style: [styles.conditionText, { color: getCrowdColor() }], children: [crowdLevel, " traffic"] })] })] })] }), suggestionsQuery.isLoading ? (_jsx(View, { style: styles.loadingWrap, children: _jsx(ActivityIndicator, { color: Colors.primary }) })) : suggestionsQuery.isError ? (_jsx(View, { style: styles.errorWrap, children: _jsx(Text, { style: styles.errorText, children: "Could not load suggestions." }) })) : (_jsx(ScrollView, { horizontal: true, showsHorizontalScrollIndicator: false, style: styles.suggestionsScroll, children: mappedSuggestions.map((suggestion) => (_jsxs(Pressable, { style: styles.suggestionCard, onPress: () => onSelectRoute(suggestion), testID: `suggestion-${suggestion.id}`, children: [_jsxs(View, { style: styles.suggestionHeader, children: [_jsx(View, { style: styles.iconContainer, children: _jsx(suggestion.icon, { size: 20, color: Colors.primary }) }), _jsx(Text, { style: styles.suggestionTitle, children: suggestion.title }), _jsx(Pressable, { onPress: () => likeMutation.mutate({ id: suggestion.id, liked: !(suggestion.liked ?? false) }), hitSlop: 8, accessibilityRole: "button", testID: `like-${suggestion.id}`, children: _jsx(Heart, { size: 18, color: (suggestion.liked ?? false) ? Colors.secondary : Colors.textLight }) })] }), _jsx(Text, { style: styles.suggestionDescription, children: suggestion.description }), _jsxs(View, { style: styles.suggestionFooter, children: [_jsx(Text, { style: styles.estimatedTime, children: suggestion.estimatedTime }), _jsx(Text, { style: styles.reason, children: suggestion.reason })] })] }, suggestion.id))) })), _jsxs(View, { style: styles.smartTip, children: [_jsx(Zap, { size: 16, color: Colors.secondary }), _jsx(Text, { style: styles.smartTipText, children: "Routes adapt based on weather, time, and crowd levels for the best experience!" })] })] }));
 };
 const styles = StyleSheet.create({
   container: {

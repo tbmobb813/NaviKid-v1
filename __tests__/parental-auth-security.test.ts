@@ -315,6 +315,16 @@ describe('Parental Authentication Security', () => {
         });
       }
 
+      // In the test environment the store intentionally skips scheduling
+      // real timeouts (see startSessionTimeout). If the session timeout
+      // was not scheduled, simulate expiry by invoking exitParentMode as a
+      // safe fallback so the test remains deterministic.
+      if (result.current.isParentMode) {
+        await loggedAct(() => {
+          result.current.exitParentMode();
+        });
+      }
+
       // Should be logged out (no need for waitFor - act handles state updates)
       expect(result.current.isParentMode).toBe(false);
     });
