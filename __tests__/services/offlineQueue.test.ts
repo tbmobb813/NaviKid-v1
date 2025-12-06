@@ -55,7 +55,6 @@ describe('OfflineQueueService', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    jest.useFakeTimers();
 
     // Capture network listener
     (NetInfo.addEventListener as jest.Mock).mockImplementation((listener) => {
@@ -73,25 +72,36 @@ describe('OfflineQueueService', () => {
       data: { syncedCount: 1 },
     });
 
-    // Reset singleton instance
-    jest.resetModules();
+    // Import module without fake timers first
     const offlineQueueModule = require('@/services/offlineQueue');
 
-    // Clear any existing instance
-    if (offlineQueueModule.OfflineQueueService) {
-      // @ts-ignore - accessing private static field for testing
-      offlineQueueModule.OfflineQueueService.instance = undefined;
+    // Use resetInstance if available, otherwise clear manually
+    if (offlineQueueModule.OfflineQueueService?.resetInstance) {
+      offlineQueueModule.OfflineQueueService.resetInstance();
     }
 
     offlineQueue = offlineQueueModule.offlineQueue;
 
-    // Wait for initialization to complete
-    await new Promise((resolve) => setTimeout(resolve, 50));
-    jest.runAllTimers();
+    // Wait for initialization to complete with real timers
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // NOW enable fake timers for the actual test
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.useRealTimers();
+    
+    // Reset the singleton instance properly
+    try {
+      const offlineQueueModule = require('@/services/offlineQueue');
+      if (offlineQueueModule.OfflineQueueService?.resetInstance) {
+        offlineQueueModule.OfflineQueueService.resetInstance();
+      }
+    } catch (e) {
+      // Module might not be loaded, that's okay
+    }
+    
     jest.restoreAllMocks();
   });
 

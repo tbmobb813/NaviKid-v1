@@ -100,14 +100,16 @@ describe('NaviKidWebSocketClient', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useFakeTimers();
-
-    // Reset modules to get fresh instance
-    jest.resetModules();
+    // DON'T use fake timers yet - let module load naturally
+    
+    // Load module with real timers first
     const wsModule = require('@/services/websocket');
     wsClient = new wsModule.NaviKidWebSocketClient();
+    
+    // NOW enable fake timers for the test
+    jest.useFakeTimers();
 
-    // Capture the WebSocket instance after connection
+    // Connect and advance timers
     wsClient.connect();
     jest.advanceTimersByTime(20); // Allow connection to complete
     mockWs = wsClient['ws'] as MockWebSocket;
