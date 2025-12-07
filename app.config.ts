@@ -162,18 +162,14 @@ const ensureNumber = (value: unknown, fallback: number): number => {
 };
 
 const ensureCoordinate = (value: unknown, fallback: { latitude: number; longitude: number }) => {
-  if (
-    value &&
-    typeof value === 'object' &&
-    'latitude' in value &&
-    'longitude' in value &&
-    typeof (value as any).latitude === 'number' &&
-    typeof (value as any).longitude === 'number'
-  ) {
-    return {
-      latitude: (value as any).latitude,
-      longitude: (value as any).longitude,
-    };
+  if (value && typeof value === 'object') {
+    const v = value as Record<string, unknown>;
+    if (typeof v.latitude === 'number' && typeof v.longitude === 'number') {
+      return {
+        latitude: v.latitude,
+        longitude: v.longitude,
+      } as { latitude: number; longitude: number };
+    }
   }
 
   return fallback;
@@ -191,7 +187,32 @@ const orsBaseUrlFromEnv = process.env.EXPO_PUBLIC_ORS_BASE_URL;
 const orsProfileFromEnv = process.env.EXPO_PUBLIC_ORS_PROFILE;
 const orsTimeoutFromEnv = process.env.EXPO_PUBLIC_ORS_TIMEOUT;
 
-const baseCenter = ensureCoordinate((baseConfig.extra as any)?.maps?.defaultCenter, DEFAULT_CENTER);
+// Safely read `extra` sub-objects without using `any` casts
+type AppExtra = {
+  maps?: Record<string, unknown> & {
+    defaultCenter?: unknown;
+    styleUrl?: string;
+    defaultZoom?: unknown;
+    minZoom?: unknown;
+    maxZoom?: unknown;
+    animationDuration?: unknown;
+    token?: string | null;
+  };
+  routing?: Record<string, unknown> & {
+    baseUrl?: string;
+    orsApiKey?: string;
+    defaultProfile?: string;
+    requestTimeout?: unknown;
+    includeEta?: unknown;
+  };
+};
+
+const extra = baseConfig.extra as unknown;
+const extraRecord = extra && typeof extra === 'object' ? (extra as Record<string, unknown>) : undefined;
+const mapsExtra = extraRecord && typeof extraRecord.maps === 'object' ? (extraRecord.maps as Record<string, unknown>) : undefined;
+const routingExtra = extraRecord && typeof extraRecord.routing === 'object' ? (extraRecord.routing as Record<string, unknown>) : undefined;
+
+const baseCenter = ensureCoordinate(mapsExtra?.defaultCenter, DEFAULT_CENTER);
 
 const overrideCenter = {
   latitude: ensureNumber(process.env.EXPO_PUBLIC_MAP_DEFAULT_LAT, baseCenter.latitude),
@@ -202,48 +223,45 @@ const mapExtras = {
   styleUrl:
     typeof mapStyleFromEnv === 'string' && mapStyleFromEnv.length > 0
       ? mapStyleFromEnv
-      : (baseConfig.extra as any)?.maps?.styleUrl,
+      : (typeof mapsExtra?.styleUrl === 'string' ? mapsExtra.styleUrl : undefined),
   defaultCenter: overrideCenter,
   defaultZoom: ensureNumber(
-    (baseConfig.extra as any)?.maps?.defaultZoom,
+    mapsExtra?.defaultZoom,
     ensureNumber(process.env.EXPO_PUBLIC_MAP_DEFAULT_ZOOM, 13),
   ),
   minZoom: ensureNumber(
-    (baseConfig.extra as any)?.maps?.minZoom,
+    mapsExtra?.minZoom,
     ensureNumber(process.env.EXPO_PUBLIC_MAP_MIN_ZOOM, 10),
   ),
   maxZoom: ensureNumber(
-    (baseConfig.extra as any)?.maps?.maxZoom,
+    mapsExtra?.maxZoom,
     ensureNumber(process.env.EXPO_PUBLIC_MAP_MAX_ZOOM, 20),
   ),
   animationDuration: ensureNumber(
-    (baseConfig.extra as any)?.maps?.animationDuration,
+    mapsExtra?.animationDuration,
     ensureNumber(process.env.EXPO_PUBLIC_MAP_ANIMATION_DURATION, 1000),
   ),
-  token: mapboxTokenFromEnv ?? (baseConfig.extra as any)?.maps?.token ?? null,
+  token: mapboxTokenFromEnv ?? (mapsExtra?.token ?? null),
 };
 
 const routingExtras = {
   baseUrl:
     typeof orsBaseUrlFromEnv === 'string' && orsBaseUrlFromEnv.length > 0
       ? orsBaseUrlFromEnv
-      : ((baseConfig.extra as any)?.routing?.baseUrl ?? 'https://api.openrouteservice.org'),
+      : (typeof routingExtra?.baseUrl === 'string' ? routingExtra.baseUrl : 'https://api.openrouteservice.org'),
   orsApiKey:
     typeof orsApiKeyFromEnv === 'string' && orsApiKeyFromEnv.length > 0
       ? orsApiKeyFromEnv
-      : ((baseConfig.extra as any)?.routing?.orsApiKey ?? ''),
+      : (typeof routingExtra?.orsApiKey === 'string' ? routingExtra.orsApiKey : ''),
   defaultProfile:
     typeof orsProfileFromEnv === 'string' && orsProfileFromEnv.length > 0
       ? orsProfileFromEnv
-      : ((baseConfig.extra as any)?.routing?.defaultProfile ?? 'foot-walking'),
+      : (typeof routingExtra?.defaultProfile === 'string' ? routingExtra.defaultProfile : 'foot-walking'),
   requestTimeout: ensureNumber(
-    (baseConfig.extra as any)?.routing?.requestTimeout,
+    routingExtra?.requestTimeout,
     ensureNumber(orsTimeoutFromEnv, 15000),
   ),
-  includeEta:
-    typeof (baseConfig.extra as any)?.routing?.includeEta === 'boolean'
-      ? (baseConfig.extra as any)?.routing?.includeEta
-      : true,
+  includeEta: typeof routingExtra?.includeEta === 'boolean' ? routingExtra.includeEta : true,
 };
 
 const iosInfoPlist = {

@@ -11,10 +11,47 @@ export type TransitDataUpdateResult = {
 };
 
 export type TransitApiResponse = {
-  routes?: any[];
-  schedules?: any[];
-  alerts?: any[];
+  routes?: TransitRoute[];
+  schedules?: TransitSchedule[];
+  alerts?: TransitAlert[];
   lastModified: string;
+};
+
+export type TransitRoute = {
+  id: string;
+  name?: string;
+  systemId: string;
+  status?: 'on-time' | 'delayed' | 'stopped' | 'moving';
+  tripId?: string;
+  vehicleId?: string;
+  position?: {
+    latitude?: number;
+    longitude?: number;
+    bearing?: number;
+    speed?: number;
+  };
+  timestamp?: number | string;
+};
+
+export type TransitSchedule = {
+  systemId: string;
+  route: string;
+  time?: string;
+  tripId?: string;
+  stopId?: string;
+  delay?: number;
+  scheduleRelationship?: string;
+};
+
+export type TransitAlert = {
+  id: string;
+  systemId: string;
+  type: string;
+  severity: string;
+  headerText?: string;
+  descriptionText?: string;
+  affectedRoutes?: string[];
+  activePeriod?: { start?: number; end?: number };
 };
 
 export class TransitDataUpdater {
@@ -107,9 +144,9 @@ export class TransitDataUpdater {
     // If a server-side transit adapter is configured, call it to get normalized JSON feeds.
     const adapterBase = process.env.TRANSIT_ADAPTER_URL;
     if (adapterBase) {
-      const allRoutes: any[] = [];
-      const allSchedules: any[] = [];
-      const allAlerts: any[] = [];
+      const allRoutes: TransitRoute[] = [];
+      const allSchedules: TransitSchedule[] = [];
+      const allAlerts: TransitAlert[] = [];
 
       for (const system of region.transitSystems) {
         try {
@@ -139,9 +176,9 @@ export class TransitDataUpdater {
     }
 
     // If region has transitSystems with feedUrl set, fetch those feeds and normalize.
-    const allRoutes: any[] = [];
-    const allSchedules: any[] = [];
-    const allAlerts: any[] = [];
+    const allRoutes: TransitRoute[] = [];
+    const allSchedules: TransitSchedule[] = [];
+    const allAlerts: TransitAlert[] = [];
 
     for (const system of region.transitSystems) {
       try {
@@ -254,9 +291,9 @@ export class TransitDataUpdater {
     }
 
     // If we didn't get any real routes, fall back to the existing mock generator for coverage
-    const routes = allRoutes.length ? allRoutes : this.generateMockRoutes(region);
-    const schedules = allSchedules.length ? allSchedules : this.generateMockSchedules(region);
-    const alerts = allAlerts.length ? allAlerts : this.generateMockAlerts(region);
+      const routes: TransitRoute[] = allRoutes.length ? allRoutes : this.generateMockRoutes(region);
+    const schedules: TransitSchedule[] = allSchedules.length ? allSchedules : this.generateMockSchedules(region);
+    const alerts: TransitAlert[] = allAlerts.length ? allAlerts : this.generateMockAlerts(region);
 
     return {
       routes,
@@ -276,49 +313,58 @@ export class TransitDataUpdater {
       status: Math.random() > 0.1 ? ('operational' as const) : ('delayed' as const),
       lastUpdated: new Date().toISOString(),
       // Add route updates if available
+      // store only route ids to match `TransitSystem.routes` type
       routes: transitData.routes
-        ? transitData.routes.filter((route: any) => route.systemId === system.id)
+        ? transitData.routes.filter((route: TransitRoute) => route.systemId === system.id).map((r) => r.id)
         : system.routes,
     }));
   }
 
   private generateMockRoutes(region: RegionConfig) {
     // Generate mock route data
-    return region.transitSystems.flatMap((system) =>
-      (system.routes || []).map((route) => ({
-        id: `${system.id}-${route}`,
-        name: route,
-        systemId: system.id,
-        status: Math.random() > 0.1 ? 'on-time' : 'delayed',
-        nextArrival: Math.floor(Math.random() * 15) + 1, // 1-15 minutes
-      })),
-    );
+    const results: TransitRoute[] = [];
+    for (const system of region.transitSystems) {
+      for (const route of system.routes || []) {
+        results.push({
+          id: `${system.id}-${route}`,
+          name: route,
+          systemId: system.id,
+          status: Math.random() > 0.1 ? 'on-time' : 'delayed',
+          timestamp: Date.now(),
+        });
+      }
+    }
+    return results;
   }
 
   private generateMockSchedules(region: RegionConfig) {
     // Generate mock schedule data
-    return [
-      {
-        systemId: region.transitSystems[0]?.id,
-        schedules: Array.from({ length: 10 }, (_, i) => ({
+    const schedules: TransitSchedule[] = [];
+    const system = region.transitSystems[0];
+    if (system) {
+      for (let i = 0; i < 10; i++) {
+        schedules.push({
+          systemId: system.id,
+          route: system.routes?.[0] || 'Route 1',
           time: new Date(Date.now() + (i + 1) * 5 * 60 * 1000).toISOString(),
-          route: region.transitSystems[0]?.routes?.[0] || 'Route 1',
-          destination: 'Downtown',
-        })),
-      },
-    ];
+        });
+      }
+    }
+    return schedules;
   }
 
   private generateMockAlerts(region: RegionConfig) {
     // Generate mock alert data
-    const alerts: any[] = [];
+    const alerts: TransitAlert[] = [];
 
     if (Math.random() > 0.7) {
-      alerts.push({
+        alerts.push({
         id: `alert-${Date.now()}`,
+        systemId: region.transitSystems[0]?.id || 'unknown',
         type: 'delay',
-        message: `Minor delays on ${region.transitSystems[0]?.name} due to signal problems`,
         severity: 'low',
+        headerText: `Minor delays on ${region.transitSystems[0]?.name}`,
+        descriptionText: `Minor delays due to signal problems`,
         affectedRoutes: region.transitSystems[0]?.routes?.slice(0, 2) || [],
       });
     }
@@ -333,19 +379,21 @@ export class TransitDataUpdater {
    * @returns Normalized transit data
    */
   private parseGtfsRealtimeFeed(
-    feed: any,
+    feed: unknown,
     systemId: string,
-  ): { routes: any[]; schedules: any[]; alerts: any[] } {
-    const routes: any[] = [];
-    const schedules: any[] = [];
-    const alerts: any[] = [];
+  ): { routes: TransitRoute[]; schedules: TransitSchedule[]; alerts: TransitAlert[] } {
+    const routes: TransitRoute[] = [];
+    const schedules: TransitSchedule[] = [];
+    const alerts: TransitAlert[] = [];
 
-    if (!feed.entity || !Array.isArray(feed.entity)) {
+    // Narrow feed to expected structure if possible
+    const feedAny = feed as any;
+    if (!feedAny || !Array.isArray(feedAny.entity)) {
       logger.warn('No entities found in GTFS-RT feed', { systemId });
       return { routes, schedules, alerts };
     }
 
-    for (const entity of feed.entity) {
+    for (const entity of feedAny.entity) {
       try {
         // Parse trip updates (real-time schedule data)
         if (entity.tripUpdate) {
@@ -354,7 +402,7 @@ export class TransitDataUpdater {
           let maxDelay = 0; // Track max delay for this trip
 
           if (trip && tripUpdate.stopTimeUpdate) {
-            for (const stopTimeUpdate of tripUpdate.stopTimeUpdate) {
+            for (const stopTimeUpdate of tripUpdate.stopTimeUpdate || []) {
               const arrival = stopTimeUpdate.arrival;
               const departure = stopTimeUpdate.departure;
 
@@ -369,8 +417,8 @@ export class TransitDataUpdater {
 
                 schedules.push({
                   systemId,
-                  routeId: trip.routeId || 'unknown',
-                  tripId: trip.tripId || entity.id,
+                  route: trip.routeId || 'unknown',
+                  tripId: trip.tripId || (entity as any).id,
                   stopId: stopTimeUpdate.stopId,
                   time: timestamp ? new Date(Number(timestamp) * 1000).toISOString() : undefined,
                   delay: delay,
@@ -381,7 +429,7 @@ export class TransitDataUpdater {
           }
 
           // Add route info from trip update
-          if (trip?.routeId) {
+            if (trip?.routeId) {
             routes.push({
               id: `${systemId}-${trip.routeId}`,
               name: trip.routeId,
@@ -394,8 +442,8 @@ export class TransitDataUpdater {
 
         // Parse vehicle positions (real-time location data)
         if (entity.vehicle) {
-          const vehicle = entity.vehicle;
-          const trip = vehicle.trip;
+          const vehicle = entity.vehicle as any;
+          const trip = vehicle.trip as any;
 
           if (trip?.routeId) {
             routes.push({
@@ -419,17 +467,17 @@ export class TransitDataUpdater {
 
         // Parse service alerts
         if (entity.alert) {
-          const alert = entity.alert;
+          const alert = entity.alert as any;
 
           alerts.push({
-            id: entity.id,
+            id: (entity as any).id,
             systemId,
             type: this.mapGtfsAlertCause(alert.cause),
             severity: this.mapGtfsAlertSeverity(alert.severityLevel),
             headerText: alert.headerText?.translation?.[0]?.text || 'Service Alert',
             descriptionText: alert.descriptionText?.translation?.[0]?.text || '',
             affectedRoutes:
-              alert.informedEntity?.map((e: any) => e.routeId).filter((r: string) => r) || [],
+              (alert.informedEntity as any[])?.map((e) => (e as any).routeId).filter((r: string) => r) || [],
             activePeriod: alert.activePeriod?.[0]
               ? {
                   start: alert.activePeriod[0].start,

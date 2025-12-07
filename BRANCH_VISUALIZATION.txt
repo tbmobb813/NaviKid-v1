@@ -1,0 +1,177 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                 NaviKid-v1 BRANCH CONSOLIDATION OVERVIEW                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+CURRENT STATE (11 Branches)
+═══════════════════════════════════════════════════════════════════════════════
+
+                                    ┌──────────────┐
+                                    │   main       │
+                                    │ c18bc16      │
+                                    └──────┬───────┘
+                                           │
+                    ┌──────────────────────┼──────────────────────┐
+                    │                      │                      │
+            ┌───────▼──────┐      ┌───────▼──────┐      ┌────────▼─────┐
+            │ feat/Supabase│      │ feat/transit │      │ feat/  │
+            │ 77 ahead     │      │ 15 ahead     │      │ compliance   │
+            │ ✅ MERGE NOW │      │ ✅ MERGE NOW │      │ 8 ahead,     │
+            └──────────────┘      └──────────────┘      │ 28 behind    │
+                                                         │ 🔄 REBASE    │
+            ┌──────────────┐      ┌──────────────┐      └──────────────┘
+            │ chore/       │      │ chore/       │
+            │ ts-fix-tests │      │ upgrade-rn-  │      ┌──────────────┐
+            │ 178 ahead!   │      │ mmkv-v4      │      │ test/fix/    │
+            │ ✅ MERGE*    │      │ 14 ahead,    │      │ storage-mock │
+            │ (* test 1st) │      │ 18 behind    │      │ 9 ahead,     │
+            └──────────────┘      │ 🔄 REBASE    │      │ 19 behind    │
+                                  └──────────────┘      │ 🗑️ DELETE OR │
+                                                        │ 🔄 REBASE    │
+                                                        └──────────────┘
+
+STALE/TEMPORARY BRANCHES (To Delete)
+═══════════════════════════════════════════════════════════════════════════════
+
+Local Only:
+  • sub-pr-35-cherry-picks          ← Temporary PR work
+  • work/trace-map-transit          ← Working branch
+  • reproduce/trace-map-transit     ← Debug branch
+
+Remote Only:
+  • docs/auto-fix-markdown          ← Auto-fix cleanup
+  • docs/fix-top-docs               ← Documentation
+  • chore/lint                      ← Superseded by improvements
+  • claude/code-review-...          ← One-time AI review
+  • claude/project-review-...       ← One-time AI review
+  • claude/wire-supabase-...        ← Supabase work (feat/Supabase covers it)
+  • backup/feat-geolocation-...     ← Archive as git tag instead
+
+CONSOLIDATION PHASES
+═══════════════════════════════════════════════════════════════════════════════
+
+PHASE 1: Merge Ready Branches (LOW RISK)
+────────────────────────────────────────────────────────────────────────────
+  ✅ feat/Supabase          →  MERGE TO MAIN
+  ✅ feat/transit           →  MERGE TO MAIN
+  ✅ chore/ts-fix-tests     →  MERGE TO MAIN (after testing)
+  
+  Time: ~30 min
+  Risk: LOW
+  Rollback: Revert commits
+
+  Command: bash branch-consolidation.sh 1
+
+
+PHASE 2: Fix Out-of-Sync (MEDIUM RISK)
+────────────────────────────────────────────────────────────────────────────
+  �� feat/compliance                →  REBASE + TEST + MERGE OR DELETE
+  🔄 chore/upgrade-rn-mmkv-v4       →  REBASE + TEST + MERGE OR DELETE
+  🗑️ test/fix/storage-mock-parental →  EVALUATE + REBASE OR DELETE
+  
+  Time: 1-2 hours
+  Risk: MEDIUM (may have conflicts)
+  Rollback: Force push original
+
+  Command: bash branch-consolidation.sh 2
+
+
+PHASE 3: Delete Stale Branches (NO RISK)
+────────────────────────────────────────────────────────────────────────────
+  🗑️ Delete 11 temporary/stale branches
+  📦 Archive backups as git tags
+  
+  Time: ~15 min
+  Risk: NONE (branches archived or safe)
+  Rollback: Restore from tags/trash
+
+  Command: bash branch-consolidation.sh 3
+
+
+TARGET STATE (Post-Consolidation)
+═══════════════════════════════════════════════════════════════════════════════
+
+                        ┌────────────────┐
+                        │   main         │
+                        │ (all 270+      │
+                        │  commits)      │
+                        └────────┬───────┘
+                                 │
+                    ┌────────────┼────────────┐
+                    │            │            │
+            ┌───────▼────┐   ┌───▼────────┐  (Optional)
+            │ feat/      │   │ chore/     │  ┌──────────────┐
+            │ compliance │   │ upgrade-   │  │ Other active │
+            │ (if needed)│   │ rn-mmkv-v4 │  │ features     │
+            └────────────┘   └────────────┘  └──────────────┘
+
+  ✅ Clean repository
+  ✅ 3-4 focused branches
+  ✅ All stale branches deleted
+
+
+QUICK COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+# Start interactive menu (recommended)
+bash branch-consolidation.sh
+
+# Execute with dry-run first
+bash branch-consolidation.sh 1 --dry-run
+
+# Execute Phase 1 (merge ready branches)
+bash branch-consolidation.sh 1
+
+# Execute Phase 2 (rebase out-of-sync branches)
+bash branch-consolidation.sh 2
+
+# Execute Phase 3 (delete stale branches)
+bash branch-consolidation.sh 3
+
+# Check branch status manually
+for branch in feat/Supabase feat/compliance feat/transit chore/ts-fix-tests; do
+  ahead=$(git rev-list --count main..$branch)
+  behind=$(git rev-list --count $branch..main)
+  echo "$branch: $ahead ahead, $behind behind"
+done
+
+
+DOCUMENTATION PROVIDED
+═══════════════════════════════════════════════════════════════════════════════
+
+1. BRANCH_CLEANUP_ANALYSIS.md
+   └─ Detailed analysis of all branches with risk levels & actions
+
+2. BRANCH_CONSOLIDATION_QUICK_REFERENCE.md
+   └─ Command cheatsheet, troubleshooting, manual instructions
+
+3. branch-consolidation.sh
+   └─ Automated script with interactive menu & dry-run mode
+
+4. BRANCH_CONSOLIDATION_SUMMARY.md
+   └─ Executive summary & next steps
+
+5. BRANCH_VISUALIZATION.txt
+   └─ This file - visual overview
+
+
+ESTIMATED TIMELINE
+═══════════════════════════════════════════════════════════════════════════════
+
+Phase 1 (Merge)           → 30 minutes (LOW RISK)
+Phase 2 (Rebase)          → 1-2 hours  (MEDIUM RISK)
+Phase 3 (Cleanup)         → 15 minutes (NO RISK)
+                          ────────────
+Total:                      ~2-3 hours
+
+
+STATUS: ✅ READY TO EXECUTE
+═══════════════════════════════════════════════════════════════════════════════
+
+Generated: December 6, 2025
+Repository: NaviKid-v1
+Branches Analyzed: 11
+Ready to consolidate: YES
+
+Next Step: Read BRANCH_CLEANUP_ANALYSIS.md, then run:
+  bash branch-consolidation.sh
+

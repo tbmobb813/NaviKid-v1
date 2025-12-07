@@ -55,20 +55,21 @@ try {
 // TEST_DEBUG_CLEAR=1 is set. This prevents mixing events from previous
 // runs during local development or CI agents that reuse workspaces.
 let __testDebugSinkInitialized = false;
-function emitTestDebug(obj: Record<string, any>) {
+function emitTestDebug(obj: Record<string, unknown>) {
   try {
     // Convert BigInt fields (hr) to string to keep JSON stable
-    const normalized: Record<string, any> = {};
+    const normalized: Record<string, unknown> = {};
     for (const k of Object.keys(obj)) {
-      const v = (obj as any)[k];
-      if (typeof v === 'bigint') normalized[k] = v.toString();
+      const v = (obj as Record<string, unknown>)[k];
+      if (typeof v === 'bigint') normalized[k] = (v as bigint).toString();
       else normalized[k] = v;
     }
     const json = JSON.stringify(normalized);
     // Build a prefixed line with ISO and hr when available so parsers that
     // expect a leading timestamp | hrtime can still consume the file.
     const iso = new Date().toISOString();
-    const hrPart = normalized.hr ? ` | ${normalized.hr}` : '';
+    const hrValue = (normalized as Record<string, unknown>)['hr'];
+    const hrPart = typeof hrValue === 'string' || typeof hrValue === 'number' ? ` | ${hrValue}` : '';
     const line = `${iso}${hrPart} ${json}`;
     // stdout for quick debugging
 
@@ -161,6 +162,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
   const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
   const sessionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
+  const instanceIdRef = useRef<number | null>(null);
   const activeOpsRef = useRef(0);
   const bumpActive = () => {
     // Test-only: always emit a compact JSON marker on bumpActive entry so
@@ -174,7 +176,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           .slice(2, 8)
           .map((s) => s.trim())
           .join(' | ');
-        const instanceIdEntry = (isMountedRef as any).instanceId ?? null;
+        const instanceIdEntry = instanceIdRef.current ?? null;
         emitTestDebug({
           op: 'bumpActive.entry',
           hr: hrEntry,
@@ -201,7 +203,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     if (afterUnmount) {
       logger.debug('[TestDebug] parentalStore activeOps increment after unmount', {
         activeOps: activeOpsRef.current,
-        instanceId: (isMountedRef as any).instanceId,
+        instanceId: instanceIdRef.current,
         stack: stackSnippet,
       });
       // Emit a single-line, parseable JSON marker (hr + stack) so the timeline
@@ -212,7 +214,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           emitTestDebug({
             op: 'activeOps.increment_after_unmount',
             hr: lateHr,
-            instanceId: (isMountedRef as any).instanceId,
+            instanceId: instanceIdRef.current,
             activeOps: activeOpsRef.current,
             stack: stackSnippet,
           });
@@ -226,7 +228,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     activeOpsRef.current += 1;
     logger.debug('[TestDebug] parentalStore activeOps increment', {
       activeOps: activeOpsRef.current,
-      instanceId: (isMountedRef as any).instanceId,
+      instanceId: instanceIdRef.current,
       stack: stackSnippet,
     });
     // Also emit a single-line JSON marker during tests so the parser always
@@ -237,7 +239,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         emitTestDebug({
           op: 'activeOps.increment',
           hr,
-          instanceId: (isMountedRef as any).instanceId,
+          instanceId: instanceIdRef.current,
           activeOps: activeOpsRef.current,
           stack: stackSnippet,
         });
@@ -260,7 +262,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     if (afterUnmount) {
       logger.debug('[TestDebug] parentalStore activeOps drop after unmount (no-op)', {
         activeOps: activeOpsRef.current,
-        instanceId: (isMountedRef as any).instanceId,
+        instanceId: instanceIdRef.current,
         stack: stackSnippet,
       });
       try {
@@ -269,7 +271,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           emitTestDebug({
             op: 'activeOps.decrement_noop_after_unmount',
             hr: lateHr,
-            instanceId: (isMountedRef as any).instanceId,
+            instanceId: instanceIdRef.current,
             activeOps: activeOpsRef.current,
             stack: stackSnippet,
           });
@@ -284,7 +286,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     activeOpsRef.current = Math.max(0, activeOpsRef.current - 1);
     logger.debug('[TestDebug] parentalStore activeOps decrement', {
       activeOps: activeOpsRef.current,
-      instanceId: (isMountedRef as any).instanceId,
+      instanceId: instanceIdRef.current,
       stack: stackSnippet,
     });
     try {
@@ -293,7 +295,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         emitTestDebug({
           op: 'activeOps.decrement',
           hr,
-          instanceId: (isMountedRef as any).instanceId,
+          instanceId: instanceIdRef.current,
           activeOps: activeOpsRef.current,
           stack: stackSnippet,
         });
@@ -312,7 +314,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
     isMountedRef.current = true;
     const instanceId = ++__parentalProviderInstanceCounter;
     // store instance id for this hook instance
-    (isMountedRef as any).instanceId = instanceId;
+    instanceIdRef.current = instanceId;
     logger.debug('[TestDebug] parentalStore mounted', { instanceId });
 
     const loadData = async () => {
@@ -355,16 +357,21 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
         }
         // Read attempts from the new mainStorage (synchronous API). If migration
         // hasn't run, fall back to AsyncStorage (handled above) — tests mock mainStorage.
-        const storedAttempts = mainStorage.get(STORAGE_KEYS.AUTH_ATTEMPTS) as any;
-        if (storedAttempts) {
-          applyIfMounted(() => setAuthAttempts(storedAttempts.count || 0));
-          const timeSinceLastAttempt = Date.now() - (storedAttempts.timestamp || 0);
+        const storedAttempts = mainStorage.get(STORAGE_KEYS.AUTH_ATTEMPTS) as unknown;
+        if (
+          storedAttempts &&
+          typeof storedAttempts === 'object' &&
+          'count' in (storedAttempts as Record<string, unknown>)
+        ) {
+          const attempts = storedAttempts as { count: number; timestamp?: number };
+          applyIfMounted(() => setAuthAttempts(attempts.count || 0));
+          const timeSinceLastAttempt = Date.now() - (attempts.timestamp || 0);
           if (
-            storedAttempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
+            attempts.count >= SECURITY_CONFIG.MAX_AUTH_ATTEMPTS &&
             timeSinceLastAttempt < SECURITY_CONFIG.LOCKOUT_DURATION
           ) {
             applyIfMounted(() =>
-              setLockoutUntil((storedAttempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION),
+              setLockoutUntil((attempts.timestamp || 0) + SECURITY_CONFIG.LOCKOUT_DURATION),
             );
           }
         } else if (storedAuthAttempts) {
@@ -401,7 +408,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
     return () => {
       // mark unmounted to prevent later state updates
-      const instanceId = (isMountedRef as any).instanceId;
+      const instanceId = instanceIdRef.current;
       if (activeOpsRef.current > 0) {
         logger.warn('[TestDebug] parentalStore unmounted with active operations', {
           instanceId,
@@ -568,7 +575,7 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
           .slice(2, 8)
           .map((s) => s.trim())
           .join(' | ');
-        const instanceId = (isMountedRef as any).instanceId ?? null;
+        const instanceId = instanceIdRef.current ?? null;
         // Include isMounted state (test-only) so the timeline parser can
         // unambiguously determine whether the authenticate call executed
         // while the provider instance was still mounted.
@@ -764,7 +771,8 @@ export const [ParentalProvider, useParentalStore] = createContextHook(() => {
 
       // Remove plain text PIN from settings if it exists
       const newSettings = { ...settings };
-      delete (newSettings as any).parentPin;
+      // Ensure parentPin is explicitly cleared (typed-safe)
+      newSettings.parentPin = undefined;
       await saveSettings(newSettings);
 
       // Reset authentication attempts

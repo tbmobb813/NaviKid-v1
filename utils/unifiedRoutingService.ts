@@ -3,8 +3,8 @@
  * Combines OpenRouteService (ORS) and OpenTripPlanner 2 (OTP2) for comprehensive routing
  */
 
-import { orsService, ORSProfile, ORSRouteResponse } from './orsService';
-import { otp2Service, OTP2PlanResponse, TransitMode } from './otp2Service';
+import { orsService, ORSProfile, ORSRouteResponse, ORSRoute, ORSSegment, ORSStep } from './orsService';
+import { otp2Service, OTP2PlanResponse, OTP2Itinerary, OTP2Leg, OTP2Step, TransitMode } from './otp2Service';
 import { log } from './logger';
 import { monitoring } from './monitoring';
 
@@ -320,7 +320,7 @@ class UnifiedRoutingService {
    * Convert ORS route to unified format
    */
   private convertORSToUnifiedRoute(
-    route: any,
+    route: ORSRoute,
     response: ORSRouteResponse,
     type: 'walking' | 'cycling' | 'driving',
     index: number,
@@ -355,7 +355,7 @@ class UnifiedRoutingService {
   /**
    * Generate a description for ORS routes
    */
-  private generateORSDescription(route: any, type: string): string {
+  private generateORSDescription(route: ORSRoute, type: string): string {
     const duration = Math.round(route.summary.duration / 60);
     const distance = Math.round((route.summary.distance / 1000) * 10) / 10;
     return `${duration} min ${type} (${distance} km)`;
@@ -365,14 +365,14 @@ class UnifiedRoutingService {
    * Convert OTP2 itinerary to unified format
    */
   private convertOTP2ToUnifiedRoute(
-    itinerary: any,
+    itinerary: OTP2Itinerary,
     response: OTP2PlanResponse,
     index: number,
   ): UnifiedRoute {
     const safetyScore = this.calculateOTP2SafetyScore(itinerary);
     // Determine route type: if any leg is not WALK mode, it's transit
     const hasTransit = itinerary.legs.some(
-      (leg: any) => leg.transitLeg || (leg.mode && leg.mode !== 'WALK'),
+      (leg: OTP2Leg) => leg.transitLeg || (leg.mode && leg.mode !== 'WALK'),
     );
     const routeType = hasTransit ? 'transit' : 'walking';
     const kidFriendlyScore = this.calculateKidFriendlyScore(itinerary, routeType);
@@ -383,9 +383,10 @@ class UnifiedRoutingService {
       type: routeType,
       summary: {
         duration: Math.round(itinerary.duration / 60), // convert to minutes
-        distance: itinerary.walkDistance + (itinerary.transitDistance || 0),
+        distance: // itinerary may not include transitDistance in types; compute defensively
+          (itinerary.walkDistance || 0) + ((itinerary as any).transitDistance || 0),
         walkingDistance: itinerary.walkDistance,
-        elevationGain: itinerary.elevationGained || 0,
+        elevationGain: (itinerary as any).elevationGained || 0,
         transfers: itinerary.transfers,
         cost: itinerary.fare?.fare?.regular,
       },
@@ -441,16 +442,14 @@ class UnifiedRoutingService {
   /**
    * Calculate safety score for ORS routes
    */
-  private calculateORSSafetyScore(route: any, type: string): number {
+  private calculateORSSafetyScore(route: ORSRoute, type: string): number {
     let score = 72; // base score (slightly higher to ensure > 70 in tests)
 
     // Check for park/green keywords in instructions
     if (route.segments) {
-      const hasGreenAreas = route.segments.some((seg: any) =>
-        seg.steps?.some(
-          (step: any) =>
-            step.instruction?.toLowerCase().includes('park') ||
-            step.instruction?.toLowerCase().includes('green'),
+      const hasGreenAreas = route.segments.some((seg: ORSSegment) =>
+        seg.steps?.some((step: ORSStep) =>
+          step.instruction?.toLowerCase().includes('park') || step.instruction?.toLowerCase().includes('green'),
         ),
       );
       if (hasGreenAreas) {
@@ -458,12 +457,11 @@ class UnifiedRoutingService {
       }
 
       // Penalize busy streets
-      const hasBusyStreets = route.segments.some((seg: any) =>
-        seg.steps?.some(
-          (step: any) =>
-            step.instruction?.toLowerCase().includes('busy street') ||
-            step.instruction?.toLowerCase().includes('highway') ||
-            step.instruction?.toLowerCase().includes('main road'),
+      const hasBusyStreets = route.segments.some((seg: ORSSegment) =>
+        seg.steps?.some((step: ORSStep) =>
+          step.instruction?.toLowerCase().includes('busy street') ||
+          step.instruction?.toLowerCase().includes('highway') ||
+          step.instruction?.toLowerCase().includes('main road'),
         ),
       );
       if (hasBusyStreets) {
@@ -495,7 +493,7 @@ class UnifiedRoutingService {
   /**
    * Calculate safety score for OTP2 routes
    */
-  private calculateOTP2SafetyScore(itinerary: any): number {
+  private calculateOTP2SafetyScore(itinerary: OTP2Itinerary): number {
     let score = 75; // base score for transit
 
     // Penalize excessive walking
@@ -518,26 +516,23 @@ class UnifiedRoutingService {
   /**
    * Calculate kid-friendly score
    */
-  private calculateKidFriendlyScore(route: any, type: string): number {
+  private calculateKidFriendlyScore(route: ORSRoute | OTP2Itinerary, type: string): number {
     let score = 60; // base score
 
     if (type === 'walking' || type === 'cycling') {
-      // Check for park/green keywords in instructions for bonus
-      if (route.segments) {
-        const hasGreenAreas = route.segments.some((seg: any) =>
-          seg.steps?.some(
-            (step: any) =>
-              step.instruction?.toLowerCase().includes('park') ||
-              step.instruction?.toLowerCase().includes('green'),
+      // ORS route has segments; OTP2 itineraries use legs
+      if ((route as ORSRoute).segments) {
+        const orsRoute = route as ORSRoute;
+        const hasGreenAreas = orsRoute.segments.some((seg: ORSSegment) =>
+          seg.steps?.some((step: ORSStep) =>
+            step.instruction?.toLowerCase().includes('park') || step.instruction?.toLowerCase().includes('green'),
           ),
         );
-        if (hasGreenAreas) {
-          score += 20; // Big bonus for park routes
-        }
+        if (hasGreenAreas) score += 20;
       }
 
       // Shorter routes are more kid-friendly
-      const distance = route.summary?.distance || route.walkDistance || 0;
+      const distance = ('summary' in route ? (route as ORSRoute).summary.distance : (route as OTP2Itinerary).walkDistance) || 0;
       if (distance < 500) score += 25;
       else if (distance < 1000) score += 15;
       else if (distance < 2000) score += 5;
@@ -551,15 +546,13 @@ class UnifiedRoutingService {
     }
 
     if (type === 'transit') {
-      // Fewer transfers are better for kids
-      const transfers = route.transfers || 0;
+      const itin = route as OTP2Itinerary;
+      const transfers = (itin.transfers as number) || 0;
       score += Math.max(0, (2 - transfers) * 15);
 
-      // Shorter waiting times
-      const waitTime = route.waitingTime || 0;
-      if (waitTime < 300)
-        score += 10; // < 5 minutes
-      else if (waitTime > 900) score -= 15; // > 15 minutes
+      const waitTime = (itin.waitingTime as number) || 0;
+      if (waitTime < 300) score += 10;
+      else if (waitTime > 900) score -= 15;
     }
 
     return Math.max(0, Math.min(100, score));
@@ -568,7 +561,7 @@ class UnifiedRoutingService {
   /**
    * Calculate accessibility score
    */
-  private calculateAccessibilityScore(route: any, type: string): number {
+  private calculateAccessibilityScore(route: ORSRoute | OTP2Itinerary, type: string): number {
     let score = 52; // base score (slightly higher to ensure > 80 after bonuses in tests)
 
     if (type === 'walking') {
@@ -578,9 +571,9 @@ class UnifiedRoutingService {
       else if (elevationGain < 15) score += 15;
       else score -= 20;
 
-      // Paved surfaces are more accessible
-      if (route.extras?.surface) {
-        const pavementRatio = this.calculateSurfaceRatio(route.extras.surface, [1, 2]);
+      // Paved surfaces are more accessible (only ORS has extras)
+      if ((route as ORSRoute).extras?.surface) {
+        const pavementRatio = this.calculateSurfaceRatio((route as ORSRoute).extras?.surface, [1, 2]);
         score += pavementRatio * 20;
       }
     }
@@ -590,7 +583,7 @@ class UnifiedRoutingService {
       score = 82; // Ensure > 80 for accessible transit routes
 
       // Penalize if too much walking required
-      const walkDistance = route.walkDistance || 0;
+      const walkDistance = ('walkDistance' in route ? (route as OTP2Itinerary).walkDistance : 0) || 0;
       if (walkDistance > 400) {
         score -= (walkDistance - 400) / 50;
       }
@@ -622,14 +615,17 @@ class UnifiedRoutingService {
     return route.summary?.elevation_gain || route.elevationGained || 0;
   }
 
-  private calculateSurfaceRatio(surfaceData: any, targetTypes: number[]): number {
+  private calculateSurfaceRatio(
+    surfaceData: { values: [number, number, number][] } | undefined,
+    targetTypes: number[],
+  ): number {
     // Simplified surface type analysis
     if (!surfaceData?.values) return 0.5;
 
     let totalDistance = 0;
     let targetDistance = 0;
 
-    surfaceData.values.forEach((segment: number[]) => {
+    surfaceData.values.forEach((segment: [number, number, number]) => {
       const distance = segment[1] - segment[0];
       totalDistance += distance;
       if (targetTypes.includes(segment[2])) {
