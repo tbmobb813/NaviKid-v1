@@ -402,7 +402,7 @@ export const StorageUtils = {
   /**
    * Store with expiration
    */
-  setWithExpiry(key: string, value: any, ttlMs: number): boolean {
+    setWithExpiry<T>(key: string, value: T, ttlMs: number): boolean {
     const expiryTime = Date.now() + ttlMs;
     return cache.set(key, {
       value,
@@ -413,8 +413,8 @@ export const StorageUtils = {
   /**
    * Get with expiration check
    */
-  getWithExpiry<T>(key: string): T | undefined {
-    const item = cache.get<{ value: T; expiry: number }>(key);
+    getWithExpiry<T>(key: string): T | undefined {
+      const item = cache.get<{ value: unknown; expiry: number }>(key);
 
     if (!item) {
       return undefined;
@@ -425,7 +425,7 @@ export const StorageUtils = {
       return undefined;
     }
 
-    return item.value;
+    return item.value as T;
   },
 
   /**
@@ -436,7 +436,7 @@ export const StorageUtils = {
     let cleared = 0;
 
     keys.forEach((key) => {
-      const item = cache.get<{ value: any; expiry: number }>(key);
+        const item = cache.get<{ value: unknown; expiry: number }>(key);
       if (item && item.expiry && Date.now() > item.expiry) {
         cache.delete(key);
         cleared++;

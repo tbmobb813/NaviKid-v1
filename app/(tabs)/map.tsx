@@ -36,25 +36,65 @@ import {
   UIManager,
 } from 'react-native';
 // Import bottom-sheet at runtime to avoid type resolution issues in some environments
-let BottomSheet: any = null;
-let BottomSheetView: any = null;
-let BottomSheetHandle: any = null;
-let BottomSheetModalProvider: any = ({ children }: any) => children;
+// Define small prop shapes we need so we avoid propagating `any` in this file.
+type GorhomBottomSheetProps = {
+  index?: number;
+  snapPoints?: Array<string | number>;
+  backgroundStyle?: Record<string, unknown>;
+  handleIndicatorStyle?: Record<string, unknown>;
+  children?: React.ReactNode;
+};
+
+type SimpleViewProps = { children?: React.ReactNode };
+
+let BottomSheet: React.ComponentType<GorhomBottomSheetProps> | null = null;
+let BottomSheetView: React.ComponentType<SimpleViewProps> | null = null;
+let BottomSheetHandle: React.ComponentType<SimpleViewProps> | null = null;
+let BottomSheetModalProvider: React.ComponentType<SimpleViewProps> = ({ children }) => <>{children}</>;
 
 (async () => {
   try {
     // Use dynamic import to avoid triggering @typescript-eslint/no-var-requires
     const _bs = await import('@gorhom/bottom-sheet');
-    const mod = (_bs as any)?.default ?? _bs;
-    BottomSheet = mod ?? BottomSheet;
-    BottomSheetView = (_bs as any)?.BottomSheetView ?? BottomSheetView;
-    BottomSheetHandle = (_bs as any)?.BottomSheetHandle ?? BottomSheetHandle;
-    BottomSheetModalProvider = (_bs as any)?.BottomSheetModalProvider ?? BottomSheetModalProvider;
-  } catch (e) {
-    // If module isn't present at runtime (e.g. tests), fallback to no-op components
-    BottomSheet = ({ children }: any) => <>{children}</>;
+    const ns = _bs as unknown;
+    if (ns && typeof ns === 'object') {
+      const asObj = ns as Record<string, unknown>;
+      const maybeDefault = asObj.default;
+      if (typeof maybeDefault === 'function' || typeof maybeDefault === 'object') {
+        BottomSheet = maybeDefault as React.ComponentType<GorhomBottomSheetProps>;
+      }
+      if (typeof asObj.BottomSheetView === 'function' || typeof asObj.BottomSheetView === 'object') {
+        BottomSheetView = asObj.BottomSheetView as React.ComponentType<SimpleViewProps>;
+      }
+      if (typeof asObj.BottomSheetHandle === 'function' || typeof asObj.BottomSheetHandle === 'object') {
+        BottomSheetHandle = asObj.BottomSheetHandle as React.ComponentType<SimpleViewProps>;
+      }
+      if (typeof asObj.BottomSheetModalProvider === 'function' || typeof asObj.BottomSheetModalProvider === 'object') {
+        BottomSheetModalProvider = asObj.BottomSheetModalProvider as React.ComponentType<SimpleViewProps>;
+      }
+    }
+  } catch {
+    // If module isn't present at runtime (e.g. tests), keep the noop providers defined above.
   }
 })();
+
+// Wrapper components to safely render bottom-sheet pieces whether the library
+// is available at runtime or not. This avoids using nullable types directly in JSX.
+const RenderBottomSheet: React.FC<GorhomBottomSheetProps> = (props) => {
+  if (!BottomSheet) {
+    return <View>{props.children}</View>;
+  }
+  const C = BottomSheet;
+  return <C {...props} />;
+};
+
+const RenderBottomSheetView: React.FC<SimpleViewProps> = ({ children }) => {
+  if (!BottomSheetView) {
+    return <View>{children}</View>;
+  }
+  const V = BottomSheetView;
+  return <V>{children}</V>;
+};
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/colors';
 import MapWithInfoPanel from '@/components/MapWithInfoPanel';
@@ -79,7 +119,11 @@ export default function MapScreen() {
   const [showPreferences, setShowPreferences] = useState(false);
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
-  const mapLibreCameraRef = React.useRef<any>(null);
+  type CameraRef = {
+    setCamera?: (opts: { centerCoordinate: [number, number]; zoomLevel?: number; animationDuration?: number }) => void;
+  } | null;
+
+  const mapLibreCameraRef = React.useRef<CameraRef>(null);
   const {
     origin,
     destination,
@@ -135,17 +179,22 @@ export default function MapScreen() {
       selectUnifiedRoute(matchingUnifiedRoute);
     }
 
-    router.push(`/(tabs)/transit` as any);
-  };
-
-  const handleAdvancedRouteSelect = (unifiedRoute: any) => {
-    selectUnifiedRoute(unifiedRoute);
-    router.push(`/(tabs)/transit` as any);
     router.push('/(tabs)/transit');
   };
 
+  const handleAdvancedRouteSelect = (unifiedRoute: unknown) => {
+    // Minimal runtime check for the expected shape (id is required)
+    if (unifiedRoute && typeof unifiedRoute === 'object' && 'id' in (unifiedRoute as Record<string, unknown>)) {
+      // We narrow as unknown->Record and let the store accept the shape; store API enforces deeper shape.
+      selectUnifiedRoute(unifiedRoute as any);
+      router.push('/(tabs)/transit');
+    } else {
+      logger.warn('Advanced route select received invalid unifiedRoute', { unifiedRoute });
+    }
+  };
+
   const handleSearchPress = () => {
-    router.push('/(tabs)/search' as any);
+    router.push('/(tabs)/search');
   };
 
   const handlePreferencesPress = () => {
@@ -185,7 +234,8 @@ export default function MapScreen() {
     const managerNames = ['MapLibreGLMapView', 'RCTMGLMapView'];
     return managerNames.some((name) => {
       try {
-        return Boolean((UIManager as any)?.getViewManagerConfig?.(name));
+        const ui = UIManager as unknown as { getViewManagerConfig?: (n: string) => unknown };
+        return Boolean(ui.getViewManagerConfig?.(name));
       } catch {
         return false;
       }
@@ -251,7 +301,7 @@ export default function MapScreen() {
             }}
           />
           {/* Interactive BottomSheet from @gorhom/bottom-sheet */}
-          <BottomSheet
+          <RenderBottomSheet
             index={0}
             snapPoints={bottomSheetSnapPoints}
             backgroundStyle={{
@@ -273,10 +323,10 @@ export default function MapScreen() {
               marginVertical: 8,
             }}
           >
-            <BottomSheetView>
+            <RenderBottomSheetView>
               <BottomSheetContent />
-            </BottomSheetView>
-          </BottomSheet>
+            </RenderBottomSheetView>
+          </RenderBottomSheet>
         </View>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>

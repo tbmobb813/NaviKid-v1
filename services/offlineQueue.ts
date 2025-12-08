@@ -5,7 +5,6 @@
  */
 
 import NetInfo from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient, { OfflineAction as ApiOfflineAction } from './api';
 import { log } from '@/utils/logger';
 
@@ -47,6 +46,7 @@ class OfflineQueueService {
   private syncInterval = 60000; // 1 minute
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Set<(status: SyncStatus) => void> = new Set();
+  private netInfoUnsubscribe?: () => void;
   private initPromise: Promise<void>;
   private initResolve?: () => void;
 
@@ -56,14 +56,44 @@ class OfflineQueueService {
     this.initPromise = new Promise((resolve) => {
       this.initResolve = resolve;
     });
-    this.initialize();
+    // Do not auto-start initialization here. Tests will control when
+    // initialization (listeners/timers) begins by calling `start()` or
+    // by calling `getInstance({ autoStart: true })`.
   }
 
-  static getInstance(): OfflineQueueService {
+  /**
+   * Get or create singleton instance.
+   * @param opts.autoStart When true (default) the service will begin initialization
+   *                       (register NetInfo listener and start periodic sync).
+   */
+  static getInstance(opts?: { autoStart?: boolean }): OfflineQueueService {
     if (!OfflineQueueService.instance) {
       OfflineQueueService.instance = new OfflineQueueService();
     }
+
+    const autoStart = opts?.autoStart !== false;
+    if (autoStart) {
+      // Kick off initialization asynchronously; callers can await
+      // `waitForInitialization()` to observe completion.
+      // We intentionally don't await here to keep API synchronous.
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      OfflineQueueService.instance.start();
+    }
+
     return OfflineQueueService.instance;
+  }
+
+  /**
+   * Start initialization (register listeners and start timers).
+   * Tests can create an instance with `autoStart: false` and then call
+   * `start()` after arranging timers/mocks to ensure deterministic behavior.
+   */
+  async start(): Promise<void> {
+    // If initialize has already run, `initResolve` will be undefined.
+    // Calling `initialize()` again should be safe (it guards internally).
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.initialize();
+    await this.waitForInitialization();
   }
 
   /**
@@ -89,6 +119,15 @@ class OfflineQueueService {
         instance['syncTimer'] = null;
       }
 
+      // Unsubscribe NetInfo listener if present
+      try {
+        if (typeof instance['netInfoUnsubscribe'] === 'function') {
+          instance['netInfoUnsubscribe']();
+        }
+      } catch (e) {
+        // ignore
+      }
+
       // Clear state
       instance['queue'] = [];
       instance['isOnline'] = true;
@@ -103,6 +142,11 @@ class OfflineQueueService {
 
     // Also clear the module-level cache
     OfflineQueueService.moduleLevelInstanceCache = undefined;
+
+    // Do not auto-create a new instance here. Tests should explicitly
+    // call `getInstance()` after they finish wiring mocks. Auto-creating
+    // the instance can cause the service to initialize with stale
+    // module references when tests use `jest.resetModules()`.
   }
 
   // ==========================================================================
@@ -111,11 +155,25 @@ class OfflineQueueService {
 
   private async initialize(): Promise<void> {
     try {
+      // Helpful debug output when running under Jest to diagnose
+      // test initialization/timing issues. These logs are intentionally
+      // lightweight and gated by the presence of the Jest worker env.
+      const isJest = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      if (isJest) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] initialize() called');
+      }
       // Load queue from storage
       await this.loadQueue();
 
-      // Setup network listener
-      NetInfo.addEventListener((state) => {
+      if (isJest) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] loadQueue completed; queueSize=', this.queue.length);
+      }
+
+      // Setup network listener and keep unsubscribe so we can remove it
+      // during reset/cleanup to avoid leaking listeners between tests.
+      this.netInfoUnsubscribe = NetInfo.addEventListener((state) => {
         const wasOnline = this.isOnline;
         this.isOnline = state.isConnected === true;
 
@@ -132,6 +190,11 @@ class OfflineQueueService {
 
       // Start periodic sync
       this.startPeriodicSync();
+
+      if (isJest) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] startPeriodicSync called; timer=', Boolean(this.syncTimer));
+      }
 
       log.info('Offline Queue Service ready', { queueSize: this.queue.length });
 
@@ -171,6 +234,13 @@ class OfflineQueueService {
         actionType: queuedAction.actionType,
         queueSize: this.queue.length,
       });
+
+      // Jest-gated trace to help tests diagnose storage calls
+      const _isJestEnv_add = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      if (_isJestEnv_add) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] addAction called; queueSize=', this.queue.length);
+      }
 
       // Save to storage
       await this.saveQueue();
@@ -265,6 +335,11 @@ class OfflineQueueService {
       }));
 
       // Call backend sync endpoint
+      const _isJestEnv_sync = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      if (_isJestEnv_sync) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] about to call apiClient.offline.syncActions; type=', typeof apiClient.offline.syncActions);
+      }
       const response = await apiClient.offline.syncActions(apiActions);
 
       if (response.success && response.data) {
@@ -328,6 +403,15 @@ class OfflineQueueService {
 
   private async saveQueue(): Promise<void> {
     try {
+      // Require AsyncStorage at call-time so tests that reset modules
+      // and re-mock the module get the correct mocked implementation.
+      // This avoids stale module references when jest.resetModules() is used.
+      const AsyncStorage = require('@react-native-async-storage/async-storage');
+      const _isJestEnv_save = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      if (_isJestEnv_save) {
+        // eslint-disable-next-line no-console
+        console.debug('[offlineQueue] saveQueue called; AsyncStorage.setItem=', typeof AsyncStorage.setItem);
+      }
       await AsyncStorage.setItem('offline_queue', JSON.stringify(this.queue));
     } catch (error) {
       log.error('Failed to save queue to storage', error as Error);
@@ -336,6 +420,7 @@ class OfflineQueueService {
 
   private async loadQueue(): Promise<void> {
     try {
+      const AsyncStorage = require('@react-native-async-storage/async-storage');
       const stored = await AsyncStorage.getItem('offline_queue');
       if (stored) {
         this.queue = JSON.parse(stored);
@@ -421,8 +506,24 @@ export const offlineQueue: OfflineQueueService = new Proxy<OfflineQueueService>(
       }
       const value = (instance as any)[prop];
       if (typeof value === 'function') {
-        return value.bind(instance);
+        // Create a replaceable wrapper on the proxy target so tests can spy/mock it.
+        // Wrapping ensures the wrapper always calls the latest instance method.
+        if (!Object.prototype.hasOwnProperty.call(target, prop)) {
+          const wrapper = function (this: any, ...args: any[]) {
+            const inst = OfflineQueueService['moduleLevelInstanceCache'] || OfflineQueueService.getInstance();
+            return (inst as any)[prop].apply(inst, args);
+          };
+          Object.defineProperty(target, prop, {
+            value: wrapper,
+            writable: true,
+            configurable: true,
+            enumerable: false,
+          });
+        }
+
+        return (target as any)[prop];
       }
+
       return value;
     },
   },

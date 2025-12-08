@@ -85,33 +85,33 @@ export function initSentry(config: SentryConfig) {
       enableAppHangDetection: true,
       appHangTimeoutIntervalMillis: 5000,
 
-      // Before sending error events
-      beforeSend(event: any, hint: any) {
-        // Filter out specific errors if needed
-        if ((event as any).exception) {
-          const error = (hint as any)?.originalException;
+        // Before sending error events
+        beforeSend(event: SentryEvent, hint?: SentryHint): SentryEvent | null {
+          // Filter out specific errors if needed
+          if (event && event.exception) {
+            const error = hint?.originalException;
 
-          // Don't send authentication errors from user testing
-          if (error instanceof Error && error.message.includes('401')) {
-            return null; // Discard
+            // Don't send authentication errors from user testing
+            if (error instanceof Error && error.message.includes('401')) {
+              return null; // Discard
+            }
           }
-        }
 
-        return event as any;
-      },
+          return event;
+        },
 
-      // Breadcrumb filtering
-      beforeBreadcrumb(breadcrumb: any) {
-        // Filter sensitive data from breadcrumbs
-        const bc = breadcrumb as any;
-        if (bc.category === 'http') {
-          // Don't log request bodies with sensitive data
-          if (bc.data?.url?.includes('/auth')) {
-            bc.data = { url: '[redacted]' };
+        // Breadcrumb filtering
+        beforeBreadcrumb(breadcrumb: Breadcrumb) {
+          // Filter sensitive data from breadcrumbs
+          const bc = breadcrumb || {};
+          if (bc.category === 'http') {
+            // Don't log request bodies with sensitive data
+            if (bc.data && typeof bc.data === 'object' && String(bc.data.url || '').includes('/auth')) {
+              bc.data = { url: '[redacted]' } as Record<string, unknown>;
+            }
           }
-        }
-        return bc;
-      },
+          return bc;
+        },
 
       // Initialize with defaults
       initialScope: {
@@ -174,8 +174,8 @@ export function initSentry(config: SentryConfig) {
  * Create a fallback Sentry mock for when Sentry is disabled or fails to initialize
  */
 function createFallbackSentry() {
-  return {
-    captureException: (error: any, context?: any) => {
+  const fallback = {
+    captureException: (error: unknown, context?: unknown) => {
       logger.error('Sentry fallback captured exception', error as Error, { context });
       return 'fallback-event-id';
     },
@@ -190,31 +190,33 @@ function createFallbackSentry() {
       }
       return 'fallback-event-id';
     },
-    captureEvent: (event: any) => {
+    captureEvent: (event: unknown) => {
       logger.debug('Sentry fallback captured event', { event });
       return 'fallback-event-id';
     },
-    addBreadcrumb: (breadcrumb: any) => {
+    addBreadcrumb: (_breadcrumb: Breadcrumb) => {
       // Silently ignore breadcrumbs when Sentry is disabled
     },
-    setUser: (user: any) => {
+    setUser: (_user: unknown) => {
       // Silently ignore user context when Sentry is disabled
     },
-    withScope: (callback: (scope: any) => void) => {
+    withScope: (callback: (scope: SentryScope) => void) => {
       callback({
         setTag: () => {},
         setContext: () => {},
         setLevel: () => {},
       });
     },
-    setTag: () => {},
-    setContext: () => {},
-    setLevel: () => {},
+    setTag: (_k: string, _v: string) => {},
+    setContext: (_k: string, _v: unknown) => {},
+    setLevel: (_l: string) => {},
     startTransaction: () => ({
       startChild: () => ({ finish: () => {} }),
       finish: () => {},
     }),
   };
+
+  return fallback;
 }
 
 /**
@@ -228,11 +230,31 @@ function createFallbackSentry() {
  * @param Sentry - Sentry SDK instance
  * @returns Error boundary component
  */
-export function createErrorBoundary(Sentry: any) {
-  if (!Sentry || !Sentry.ErrorBoundary) {
-    // Return Sentry's error boundary if available
+export function createErrorBoundary(Sentry: SentryLike | null) {
+  if (!Sentry || !('ErrorBoundary' in Sentry) || !Sentry.ErrorBoundary) {
+    // Return null if Sentry ErrorBoundary isn't available
     return null;
   }
 
-  return Sentry.ErrorBoundary;
+  return (Sentry as any).ErrorBoundary;
 }
+
+/** Local minimal Sentry-related typings used to avoid spreading `any` */
+type SentryEvent = { exception?: unknown; level?: string; [key: string]: unknown };
+type SentryHint = { originalException?: unknown; [key: string]: unknown };
+type Breadcrumb = { category?: string; data?: Record<string, unknown> | null; [key: string]: unknown };
+type SentryScope = { setTag: (k: string, v: string) => void; setContext: (k: string, v: unknown) => void; setLevel: (l: string) => void };
+type SentryLike = {
+  init?: (opts?: unknown) => void;
+  setUser?: (user: unknown) => void;
+  captureMessage?: (message: string, level?: string) => string;
+  captureException?: (error: unknown, context?: unknown) => string;
+  captureEvent?: (event: unknown) => string;
+  addBreadcrumb?: (bc: Breadcrumb) => void;
+  withScope?: (cb: (scope: SentryScope) => void) => void;
+  ErrorBoundary?: unknown;
+  setTag?: (k: string, v: string) => void;
+  setContext?: (k: string, v: unknown) => void;
+  setLevel?: (l: string) => void;
+  startTransaction?: (...args: unknown[]) => { startChild: () => { finish: () => void }; finish: () => void };
+};

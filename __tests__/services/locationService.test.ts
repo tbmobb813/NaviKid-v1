@@ -51,7 +51,11 @@ jest.mock('react-native', () => ({
 }));
 
 jest.mock('@/services/api');
-jest.mock('@/services/offlineQueue');
+jest.mock('@/services/offlineQueue', () => ({
+  offlineQueue: {
+    addAction: jest.fn(),
+  },
+}));
 jest.mock('@/utils/logger');
 
 import locationService from '@/services/locationService';

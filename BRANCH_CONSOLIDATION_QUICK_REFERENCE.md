@@ -3,11 +3,13 @@
 ## Quick Start
 
 ### Option 1: Interactive Menu (Recommended)
+
 ```bash
 bash branch-consolidation.sh
 ```
 
 ### Option 2: Direct Phase Execution
+
 ```bash
 # Phase 1: Merge ready branches
 bash branch-consolidation.sh 1
@@ -23,6 +25,7 @@ bash branch-consolidation.sh 4
 ```
 
 ### Option 3: Dry Run (Preview Changes)
+
 ```bash
 bash branch-consolidation.sh 1 --dry-run
 bash branch-consolidation.sh 2 --dry-run
@@ -48,6 +51,7 @@ bash branch-consolidation.sh 2 --dry-run
 ## What's in Each Phase?
 
 ### Phase 1: LOW RISK (Ready to Merge)
+
 - ✅ `feat/Supabase` → Merge to main
 - ✅ `feat/transit` → Merge to main
 - ✅ `chore/ts-fix-tests` → Merge to main (after testing)
@@ -58,6 +62,7 @@ bash branch-consolidation.sh 2 --dry-run
 ---
 
 ### Phase 2: MEDIUM RISK (Needs Rebase)
+
 - 🔄 `feat/compliance` → Rebase + merge OR delete
 - 🔄 `chore/upgrade-rn-mmkv-v4` → Rebase + merge OR delete
 - 🗑️ `test/fix/storage-mock-parental-auth` → Delete (likely superseded)
@@ -68,7 +73,9 @@ bash branch-consolidation.sh 2 --dry-run
 ---
 
 ### Phase 3: NO RISK (Cleanup)
+
 Delete these branches:
+
 - 🗑️ `sub-pr-35-cherry-picks` (local)
 - 🗑️ `work/trace-map-transit` (local)
 - 🗑️ `reproduce/trace-map-transit` (local)
@@ -85,6 +92,7 @@ Delete these branches:
 ## Manual Commands (If Not Using Script)
 
 ### Check Status
+
 ```bash
 git fetch -p
 git rev-list --count main..feat/Supabase     # Should be 77
@@ -92,6 +100,7 @@ git rev-list --count main..feat/compliance   # Should be 8, behind 28
 ```
 
 ### Merge Phase 1 Branches
+
 ```bash
 git checkout main
 git pull origin main
@@ -102,6 +111,7 @@ git merge chore/ts-fix-tests && git push origin main
 ```
 
 ### Rebase Phase 2 Branches
+
 ```bash
 # feat/compliance
 git checkout feat/compliance
@@ -117,6 +127,7 @@ git push origin chore/upgrade-rn-mmkv-v4 --force-with-lease
 ```
 
 ### Delete Branches (Phase 3)
+
 ```bash
 # Local branches
 git branch -D sub-pr-35-cherry-picks
@@ -142,7 +153,9 @@ git push origin :backup/feat-geolocation-local-edits-20251021T163737Z
 ## Troubleshooting
 
 ### Merge Conflicts
+
 If Phase 1 encounters conflicts:
+
 ```bash
 # See what's conflicting
 git status
@@ -154,7 +167,9 @@ git push origin main
 ```
 
 ### Rebase Conflicts (Phase 2)
+
 If rebase encounters conflicts:
+
 ```bash
 # Resolve conflicts in files
 git add .
@@ -166,12 +181,15 @@ git push origin <branch> --force-with-lease
 ```
 
 ### Can't Push After Rebase
+
 If you get "rejected (non-fast-forward)", use force-with-lease:
+
 ```bash
 git push origin <branch> --force-with-lease
 ```
 
 ### Need to Undo a Merge/Rebase
+
 ```bash
 # Get the original commit hash
 git reflog
@@ -199,6 +217,7 @@ git push origin <branch> --force-with-lease  # Only if needed
 ## Expected Outcome
 
 **Before**:
+
 ```
 main
 ├── feat/Supabase (77 commits)
@@ -211,6 +230,7 @@ main
 ```
 
 **After**:
+
 ```
 main ← All major work merged
 ├── feat/compliance ← Active feature
@@ -231,6 +251,7 @@ main ← All major work merged
 ## Support
 
 For issues or questions:
+
 1. Check the detailed analysis: `BRANCH_CLEANUP_ANALYSIS.md`
 2. Run with `--dry-run` first: `bash branch-consolidation.sh 1 --dry-run`
 3. Review the "Troubleshooting" section above

@@ -54,8 +54,7 @@ jest.mock('@/utils/logger', () => ({
 
 // Mock fetch globally
 global.fetch = jest.fn();
-
-import * as SecureStore from 'expo-secure-store';
+let SecureStore: any;
 import type {
   ApiResponse,
   AuthTokens,
@@ -102,10 +101,12 @@ describe('NaviKidApiClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
+
+    // Import fresh instance for each test and rebind mocked modules
+    jest.resetModules();
+    SecureStore = require('expo-secure-store');
     (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
 
-    // Import fresh instance for each test
-    jest.resetModules();
     const apiModule = require('@/services/api');
     apiClient = new apiModule.NaviKidApiClient({
       baseUrl: 'http://test-api.example.com/api',

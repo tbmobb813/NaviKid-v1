@@ -156,7 +156,19 @@ describe('NaviKidWebSocketClient', () => {
       });
 
       it('should include auth token in URL', () => {
-        const newClient = new (require('@/services/websocket').NaviKidWebSocketClient)();
+        jest.resetModules();
+        jest.doMock('expo-constants', () => ({
+          expoConfig: {
+            extra: {
+              api: {
+                baseUrl: 'http://test-api.example.com',
+              },
+            },
+          },
+        }));
+
+        const wsModule = require('@/services/websocket');
+        const newClient = new wsModule.NaviKidWebSocketClient();
         newClient.connect('test-token-123');
 
         const expectedUrl = 'ws://test-api.example.com/ws/locations?token=test-token-123';

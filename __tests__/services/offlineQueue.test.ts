@@ -72,7 +72,7 @@ describe('OfflineQueueService', () => {
       data: { syncedCount: 1 },
     });
 
-    // Import module without fake timers first
+    // Import module
     const offlineQueueModule = require('@/services/offlineQueue');
 
     // Use resetInstance if available, otherwise clear manually
@@ -80,13 +80,23 @@ describe('OfflineQueueService', () => {
       offlineQueueModule.OfflineQueueService.resetInstance();
     }
 
+    // Create instance WITHOUT auto-start so tests can enable fake timers
+    // before initialization. This ensures intervals are created under
+    // Jest fake timers and mocks are wired.
+    const createdInstance = offlineQueueModule.OfflineQueueService.getInstance({ autoStart: false });
     offlineQueue = offlineQueueModule.offlineQueue;
 
-    // Wait for initialization to complete with real timers
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    // NOW enable fake timers for the actual test
+    // NOW enable fake timers for the actual test so start() creates timers
     jest.useFakeTimers();
+
+    // Start the service (register NetInfo listener and start periodic sync)
+    if (createdInstance?.start) {
+      await createdInstance.start();
+    } else if (createdInstance?.waitForInitialization) {
+      await createdInstance.waitForInitialization();
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
   });
 
   afterEach(() => {
@@ -126,27 +136,63 @@ describe('OfflineQueueService', () => {
         },
       ];
 
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(storedQueue));
+      // Use real timers for module initialization
+      jest.useRealTimers();
 
-      // Reset modules and create new instance
+      // Reset modules and then re-wire the mocked AsyncStorage and NetInfo
+      // so the newly-required service instance picks up the mocked implementations.
       jest.resetModules();
+      const AsyncStorageAfter = require('@react-native-async-storage/async-storage');
+      (AsyncStorageAfter.getItem as jest.Mock).mockResolvedValue(JSON.stringify(storedQueue));
+      const NetInfoAfter = require('@react-native-community/netinfo');
+      (NetInfoAfter.addEventListener as jest.Mock).mockImplementation((listener: any) => {
+        networkListener = listener;
+        return jest.fn();
+      });
+
+      // Create new instance WITHOUT auto-start so we can control timing.
       const newModule = require('@/services/offlineQueue');
-      const newInstance = newModule.OfflineQueueService.getInstance();
+      const newInstance = newModule.OfflineQueueService.getInstance({ autoStart: false });
+      // Start initialization (using real timers in this test)
+      if (newInstance?.start) {
+        await newInstance.start();
+      } else if (newInstance?.waitForInitialization) {
+        await newInstance.waitForInitialization();
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
 
-      await new Promise((resolve) => setTimeout(resolve, 50));
-
-      expect(AsyncStorage.getItem).toHaveBeenCalledWith('offline_queue');
+      expect(AsyncStorageAfter.getItem).toHaveBeenCalledWith('offline_queue');
       expect(newInstance.getQueueSize()).toBe(1);
+
+      // Restore fake timers for subsequent tests
+      jest.useFakeTimers();
     });
 
     it('should handle storage load errors gracefully', async () => {
-      (AsyncStorage.getItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+      // Use real timers for module initialization
+      jest.useRealTimers();
 
+
+      // Reset modules then re-wire AsyncStorage and NetInfo mock implementations
       jest.resetModules();
-      const newModule = require('@/services/offlineQueue');
-      const newInstance = newModule.OfflineQueueService.getInstance();
+      const AsyncStorageAfterErr = require('@react-native-async-storage/async-storage');
+      (AsyncStorageAfterErr.getItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+      const NetInfoAfterErr = require('@react-native-community/netinfo');
+      (NetInfoAfterErr.addEventListener as jest.Mock).mockImplementation((listener: any) => {
+        networkListener = listener;
+        return jest.fn();
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      const newModule = require('@/services/offlineQueue');
+      const newInstance = newModule.OfflineQueueService.getInstance({ autoStart: false });
+      if (newInstance?.start) {
+        await newInstance.start();
+      } else if (newInstance?.waitForInitialization) {
+        await newInstance.waitForInitialization();
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
 
       expect(newInstance.getQueueSize()).toBe(0);
     });

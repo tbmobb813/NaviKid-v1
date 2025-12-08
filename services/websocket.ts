@@ -99,7 +99,8 @@ class NaviKidWebSocketClient {
       this.accessToken = accessToken;
     }
 
-    if (this.ws?.readyState === WebSocket.OPEN) {
+    const wsOpenConst = this.ws ? (this.ws.constructor as any).OPEN : (WebSocket as any).OPEN;
+    if (this.ws?.readyState === wsOpenConst) {
       log.debug('WebSocket already connected');
       return;
     }
@@ -170,12 +171,18 @@ class NaviKidWebSocketClient {
     this.stopHeartbeat();
     this.clearReconnectTimer();
 
+    const hadWs = !!this.ws;
+
     if (this.ws) {
       this.ws.close(1000, 'Client disconnect');
       this.ws = null;
     }
 
-    this.emit('connection_status', { connected: false, reconnecting: false });
+    // If there was an active websocket, the onclose handler will emit connection status.
+    // If there was no websocket instance, emit immediately so listeners are notified.
+    if (!hadWs) {
+      this.emit('connection_status', { connected: false, reconnecting: false });
+    }
   }
 
   private scheduleReconnect(): void {
@@ -185,6 +192,8 @@ class NaviKidWebSocketClient {
 
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
       log.warn('Max reconnect attempts reached');
+      // Ensure any pending reconnect timer is cleared when giving up
+      this.clearReconnectTimer();
       this.emit('connection_status', { connected: false, reconnecting: false });
       return;
     }
@@ -322,20 +331,22 @@ class NaviKidWebSocketClient {
   // ==========================================================================
 
   isConnected(): boolean {
-    return this.ws?.readyState === WebSocket.OPEN;
+    const openConst = this.ws ? (this.ws.constructor as any).OPEN : (WebSocket as any).OPEN;
+    return this.ws?.readyState === openConst;
   }
 
   getConnectionState(): 'connecting' | 'open' | 'closing' | 'closed' {
     if (!this.ws) return 'closed';
 
+    const ctor: any = this.ws.constructor;
     switch (this.ws.readyState) {
-      case WebSocket.CONNECTING:
+      case ctor.CONNECTING:
         return 'connecting';
-      case WebSocket.OPEN:
+      case ctor.OPEN:
         return 'open';
-      case WebSocket.CLOSING:
+      case ctor.CLOSING:
         return 'closing';
-      case WebSocket.CLOSED:
+      case ctor.CLOSED:
         return 'closed';
       default:
         return 'closed';

@@ -47,7 +47,13 @@ import locationService from '@/services/locationService';
 // Mock dependencies
 jest.mock('@/services/api');
 jest.mock('@/services/websocket');
-jest.mock('@/services/locationService');
+jest.mock('@/services/locationService', () => ({
+  __esModule: true,
+  default: {
+    getLastLocation: jest.fn(),
+    getCurrentLocation: jest.fn(),
+  },
+}));
 jest.mock('@/utils/logger');
 
 describe('EmergencyService', () => {

@@ -48,7 +48,7 @@ const logger = {
   time: (...args: Parameters<Logger['time']>) => getLog().time(...args),
   timeEnd: (...args: Parameters<Logger['timeEnd']>) => getLog().timeEnd(...args),
 };
-let offlineManager: any;
+let offlineManager: OfflineManagerLike | null;
 try {
   const offlineModule = require('./offlineManager');
   offlineManager = offlineModule?.offlineManager || offlineModule?.default || offlineModule;
@@ -80,7 +80,7 @@ if (
   };
 }
 
-let backendHealthMonitor: any;
+let backendHealthMonitor: BackendHealthMonitorLike | null;
 try {
   const apiModule = require('./api');
   backendHealthMonitor =
@@ -95,7 +95,7 @@ if (!backendHealthMonitor || typeof backendHealthMonitor.getHealthStatus !== 'fu
   };
 }
 
-let Device: any;
+let Device: { brand?: string; modelName?: string; osName?: string; osVersion?: string };
 try {
   Device = require('expo-device');
 } catch (error) {
@@ -153,7 +153,7 @@ class ApplicationMonitoring {
   private static instance: ApplicationMonitoring;
   private readonly baseConfig: MonitoringConfig;
   private config!: MonitoringConfig;
-  private sentry: any = null;
+  private sentry: SentryInstance | null = null;
   private performanceMetrics: PerformanceMetric[] = [];
   private userActions: UserAction[] = [];
   private errorCount = 0;
@@ -255,7 +255,7 @@ class ApplicationMonitoring {
 
       const integrations: unknown[] = [];
 
-      if (Sentry.ReactNativeTracing) {
+      if ((Sentry as any).ReactNativeTracing) {
         try {
           const routingInstrumentation = Sentry.ReactNavigationInstrumentation
             ? new Sentry.ReactNavigationInstrumentation()
@@ -288,11 +288,17 @@ class ApplicationMonitoring {
         enableNativeFramesTracking: Platform.OS !== 'web',
 
         // Filter out sensitive data
-        beforeSend: (event: any) => {
+        beforeSend: (event: SentryEvent) => {
           // Remove sensitive user data
-          if (event.user) {
-            delete event.user.email;
-            delete event.user.username;
+          if (event.user && typeof event.user === 'object') {
+            try {
+              // avoid mutating unknown shapes unsafely
+              const u = event.user as Record<string, unknown>;
+              delete u.email;
+              delete u.username;
+            } catch (e) {
+              // ignore
+            }
           }
 
           // Don't send development errors
@@ -326,7 +332,7 @@ class ApplicationMonitoring {
         expoVersion: Constants.expoConfig?.sdkVersion || 'unknown',
       });
 
-      this.sentry = Sentry;
+      this.sentry = Sentry as unknown as SentryInstance;
       logger.info('Sentry initialized successfully');
     } catch (error) {
       logger.warn('Failed to initialize Sentry', error as Error);
@@ -344,25 +350,29 @@ class ApplicationMonitoring {
     this.errorHandlersSetup = true;
 
     // Global error handler
-    const originalErrorHandler = ErrorUtils.getGlobalHandler();
-    ErrorUtils.setGlobalHandler((error, isFatal) => {
+    const originalErrorHandler = (ErrorUtils as any).getGlobalHandler?.();
+    (ErrorUtils as any).setGlobalHandler?.((error: unknown, isFatal?: boolean) => {
       this.captureError({
-        error,
+        error: error instanceof Error ? error : new Error(String(error)),
         context: 'Global Error Handler',
         severity: isFatal ? 'critical' : 'high',
       });
 
       // Call original handler
-      if (originalErrorHandler) {
-        originalErrorHandler(error, isFatal);
+      if (typeof originalErrorHandler === 'function') {
+        try {
+          originalErrorHandler(error, isFatal);
+        } catch (e) {
+          // ignore
+        }
       }
     });
 
     // Unhandled promise rejections
     if (typeof Promise !== 'undefined') {
-      const originalRejectionHandler = Promise.prototype.catch;
-      Promise.prototype.catch = function (onRejected) {
-        return originalRejectionHandler.call(this, (reason: any) => {
+      const originalRejectionHandler = Promise.prototype.catch as unknown as Function;
+      Promise.prototype.catch = function (this: Promise<unknown>, onRejected: ((reason: unknown) => unknown) | undefined) {
+        return originalRejectionHandler.call(this, (reason: unknown) => {
           ApplicationMonitoring.getInstance().captureError({
             error: reason instanceof Error ? reason : new Error(String(reason)),
             context: 'Unhandled Promise Rejection',
@@ -374,7 +384,7 @@ class ApplicationMonitoring {
           }
           throw reason;
         });
-      };
+      } as any;
     }
   }
 
@@ -425,30 +435,30 @@ class ApplicationMonitoring {
     logger.error(`[${severity.toUpperCase()}] ${context}`, error, metadata);
 
     // Send to Sentry
-    if (this.sentry) {
-      this.sentry.withScope((scope: any) => {
-        scope.setLevel(severity);
-        scope.setContext('error_context', { context, ...metadata });
+    if (this.sentry && typeof this.sentry.withScope === 'function') {
+      this.sentry.withScope((scope: SentryScope) => {
+        scope.setLevel?.(severity);
+        scope.setContext?.('error_context', { context, ...metadata });
 
         if (userId) {
-          scope.setUser({ id: userId });
+          scope.setUser?.({ id: userId });
         }
 
         // Add breadcrumbs
-        scope.addBreadcrumb({
+        scope.addBreadcrumb?.({
           category: 'error',
           message: context,
           level: severity,
           data: metadata,
         });
 
-        this.sentry.captureException(error);
+        this.sentry?.captureException?.(error);
       });
     }
 
     // Queue for offline sync if needed
-    if (offlineManager.isOffline()) {
-      offlineManager.queueAction('ERROR_REPORT', {
+    if (offlineManager && typeof offlineManager.isOffline === 'function' && offlineManager.isOffline()) {
+      offlineManager.queueAction?.('ERROR_REPORT', {
         error: {
           name: error.name,
           message: error.message,
@@ -482,7 +492,7 @@ class ApplicationMonitoring {
     logger.debug(`Performance: ${metric.name} took ${metric.duration}ms`, metric.metadata);
 
     // Send to Sentry
-    if (this.sentry) {
+    if (this.sentry && typeof this.sentry.addBreadcrumb === 'function') {
       this.sentry.addBreadcrumb({
         category: 'performance',
         message: metric.name,
@@ -523,7 +533,7 @@ class ApplicationMonitoring {
     logger.debug(`User action: ${action.action} on ${action.screen}`, action.metadata);
 
     // Send to Sentry as breadcrumb
-    if (this.sentry) {
+    if (this.sentry && typeof this.sentry.addBreadcrumb === 'function') {
       this.sentry.addBreadcrumb({
         category: 'user_action',
         message: `${action.action} on ${action.screen}`,
@@ -652,7 +662,7 @@ class ApplicationMonitoring {
    * Set user context for error tracking
    */
   setUser(userId: string, metadata?: Record<string, unknown>): void {
-    if (this.sentry) {
+    if (this.sentry && typeof this.sentry.setUser === 'function') {
       this.sentry.setUser({
         id: userId,
         ...metadata,
@@ -666,7 +676,7 @@ class ApplicationMonitoring {
    * Clear user context
    */
   clearUser(): void {
-    if (this.sentry) {
+    if (this.sentry && typeof this.sentry.setUser === 'function') {
       this.sentry.setUser(null);
     }
 
@@ -677,7 +687,7 @@ class ApplicationMonitoring {
    * Add custom breadcrumb
    */
   addBreadcrumb(message: string, category: string, data?: Record<string, unknown>): void {
-    if (this.sentry) {
+    if (this.sentry && typeof this.sentry.addBreadcrumb === 'function') {
       this.sentry.addBreadcrumb({
         message,
         category,
@@ -693,8 +703,12 @@ class ApplicationMonitoring {
    * Force flush all pending data
    */
   async flush(): Promise<void> {
-    if (this.sentry) {
-      await this.sentry.flush(2000);
+    if (this.sentry && typeof this.sentry.flush === 'function') {
+      try {
+        await this.sentry.flush(2000);
+      } catch (e) {
+        // ignore flush errors
+      }
     }
 
     logger.info('Monitoring data flushed');
@@ -703,7 +717,7 @@ class ApplicationMonitoring {
   /**
    * Get Sentry instance (for advanced usage)
    */
-  getSentry(): any {
+  getSentry(): SentryInstance | null {
     return this.sentry;
   }
 }
@@ -735,8 +749,9 @@ export function useScreenTracking(screenName: string): void {
       screen: screenName,
     });
 
-    if (monitoring.getSentry()) {
-      monitoring.getSentry().addBreadcrumb({
+    const _s = monitoring.getSentry();
+    if (_s && typeof _s.addBreadcrumb === 'function') {
+      _s.addBreadcrumb({
         category: 'navigation',
         message: `Navigated to ${screenName}`,
         level: 'info',
@@ -759,4 +774,55 @@ if (isTestEnvironment) {
       monitoring.resetForTests();
     });
   }
+}
+
+/** Local minimal typings used within monitoring to avoid `any` leaking */
+type OfflineManagerLike = {
+  getNetworkState?: () => { isConnected: boolean; isInternetReachable: boolean; type?: string; isWifiEnabled?: boolean };
+  getNetworkQuality?: () => 'online' | 'offline' | 'poor' | string;
+  getPendingActionsCount?: () => number | string;
+  isOffline?: () => boolean;
+  queueAction?: (type: string, payload: unknown) => void;
+};
+
+type BackendHealthMonitorLike = {
+  getHealthStatus?: () => 'healthy' | 'degraded' | 'down' | string;
+};
+
+type SentryEvent = { user?: unknown; [key: string]: unknown };
+
+type SentryBreadcrumb = { category?: string; message?: string; data?: Record<string, unknown>; level?: string; timestamp?: number };
+
+type SentryScope = {
+  setLevel?: (level: string) => void;
+  setContext?: (k: string, v: unknown) => void;
+  setUser?: (user: unknown) => void;
+  addBreadcrumb?: (bc: SentryBreadcrumb) => void;
+  setTag?: (k: string, v: string) => void;
+};
+
+type SentryInstance = {
+  init?: (opts?: unknown) => void;
+  setContext?: (k: string, v: unknown) => void;
+  setUser?: (user: unknown) => void;
+  withScope?: (cb: (scope: SentryScope) => void) => void;
+  captureException?: (err: unknown) => string | void;
+  captureMessage?: (msg: string, level?: string) => string | void;
+  addBreadcrumb?: (bc: SentryBreadcrumb) => void;
+  flush?: (timeout?: number) => Promise<void>;
+  ErrorBoundary?: unknown;
+  [key: string]: unknown;
+};
+
+// Initialize fallback values for offlineManager/backendHealthMonitor/Device if they are still undefined
+if (!offlineManager) {
+  offlineManager = null;
+}
+
+if (!backendHealthMonitor) {
+  backendHealthMonitor = null;
+}
+
+if (!Device) {
+  Device = { brand: 'unknown', modelName: 'unknown', osName: Platform.OS, osVersion: 'unknown' };
 }

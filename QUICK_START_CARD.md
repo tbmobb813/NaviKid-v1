@@ -1,12 +1,13 @@
 # 🚀 NaviKid-v1 Branch Consolidation - Quick Start Card
 
-## Print This or Keep It Handy!
+## Print This or Keep It Handy
 
 ---
 
 ## ⚡ 60-Second Summary
 
 Your NaviKid-v1 repo has **11 branches** that need consolidating:
+
 - **3 ready to merge** (270+ commits) → Phase 1
 - **2-3 need rebase** (31 commits) → Phase 2  
 - **9 stale/temp** → Phase 3 (delete)
@@ -23,6 +24,7 @@ bash branch-consolidation.sh
 **Follow the menu** → Select phases 1, 2, 3 as desired
 
 Or use direct commands:
+
 ```bash
 bash branch-consolidation.sh 1 --dry-run    # Preview first
 bash branch-consolidation.sh 1              # Merge ready branches
@@ -63,6 +65,7 @@ bash branch-consolidation.sh 3              # Delete stale
 ## 🆘 Troubleshooting
 
 **Merge conflict?**
+
 ```bash
 git status  # See what's conflicting
 # Fix files manually
@@ -71,6 +74,7 @@ git commit -m "Resolve conflicts"
 ```
 
 **Rebase conflict?**
+
 ```bash
 # Fix files
 git add .
@@ -79,6 +83,7 @@ git rebase --continue
 ```
 
 **Need to undo?**
+
 ```bash
 git reflog
 git reset --hard <commit-hash>
@@ -91,6 +96,7 @@ See full troubleshooting in BRANCH_CONSOLIDATION_QUICK_REFERENCE.md
 ## 📊 After Consolidation
 
 Run these to verify:
+
 ```bash
 npm test
 npm run typecheck
@@ -118,11 +124,13 @@ Then celebrate! 🎉 Your repo is cleaner.
 ## 🎯 Expected Result
 
 Before:
+
 ```
 11 branches, 270+ scattered commits, unclear status
 ```
 
 After:
+
 ```
 3-4 focused branches, clean main, ready for development
 ```
