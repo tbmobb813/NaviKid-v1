@@ -5,7 +5,7 @@
  */
 
 import apiClient, { SafeZone } from './api';
-import { offlineQueue } from './offlineQueue';
+import { getOfflineQueue } from './offlineQueue';
 import wsClient from './websocket';
 import { log } from '@/utils/logger';
 

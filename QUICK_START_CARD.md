@@ -125,15 +125,11 @@ Then celebrate! 🎉 Your repo is cleaner.
 
 Before:
 
-```
 11 branches, 270+ scattered commits, unclear status
-```
 
 After:
 
-```
 3-4 focused branches, clean main, ready for development
-```
 
 ---
 
@@ -158,4 +154,4 @@ After:
 **Time**: ~2-3 hours total  
 **Risk**: Managed (LOW → MEDIUM → NONE)
 
-**START HERE → bash branch-consolidation.sh**
+## Start Here

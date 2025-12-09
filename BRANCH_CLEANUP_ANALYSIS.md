@@ -307,19 +307,15 @@ git push origin :backup/feat-geolocation-local-edits-20251021T163737Z
 
 **Active branches** (after consolidation):
 
-```
 main                              ← All merged work
 ├── feat/compliance              ← Compliance feature (rebased, in progress)
 ├── chore/upgrade-rn-mmkv-v4     ← MMKV v4 upgrade (rebased, in progress)
 └── review-lint                  ← Code review/linting (status unknown)
-```
 
 **Optional working branches** (if active):
 
-```
 ├── chore/lint                   ← Lint improvements (check if redundant)
 └── feature/your-next-feature    ← New work (as needed)
-```
 
 ---
 

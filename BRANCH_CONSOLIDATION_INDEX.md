@@ -275,7 +275,6 @@ npm run typecheck
 
 All files in: `/home/nixstation-remote/Projects/NaviKid-v1/`
 
-```
 NaviKid-v1/
 ├── BRANCH_VISUALIZATION.txt                    [Visual overview]
 ├── BRANCH_CONSOLIDATION_SUMMARY.md             [Executive summary]
@@ -284,31 +283,29 @@ NaviKid-v1/
 ├── branch-consolidation.sh                     [Automation script]
 ├── BRANCH_CONSOLIDATION_INDEX.md               [This file]
 └── [All existing NaviKid-v1 files]
-```
 
 ---
 
 ## 🚀 Getting Started NOW
 
-**Option 1: Automated (Recommended)**
+### Option 1: Automated (Recommended)
 
 ```bash
 cd /home/nixstation-remote/Projects/NaviKid-v1
 bash branch-consolidation.sh
 ```
 
-**Option 2: Manual (Full Control)**
+## Option 2: Manual (Full Control)
 
 1. Read BRANCH_CLEANUP_ANALYSIS.md
 2. Reference BRANCH_CONSOLIDATION_QUICK_REFERENCE.md
 3. Execute commands manually
 
-**Option 3: Preview First (Safe)**
+### Option 3: Preview First (Safe)**
 
 ```bash
 bash branch-consolidation.sh 1 --dry-run  # See what will happen
 bash branch-consolidation.sh 1             # Execute when ready
-```
 
 ---
 

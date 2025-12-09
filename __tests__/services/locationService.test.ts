@@ -51,17 +51,21 @@ jest.mock('react-native', () => ({
 }));
 
 jest.mock('@/services/api');
+
+// Create mock for getOfflineQueue factory function
+const mockOfflineQueueInstance = {
+  addAction: jest.fn(),
+};
+
 jest.mock('@/services/offlineQueue', () => ({
-  offlineQueue: {
-    addAction: jest.fn(),
-  },
+  getOfflineQueue: jest.fn(() => mockOfflineQueueInstance),
 }));
 jest.mock('@/utils/logger');
 
 import locationService from '@/services/locationService';
 import * as Location from 'expo-location';
 import apiClient from '@/services/api';
-import { offlineQueue } from '@/services/offlineQueue';
+import { getOfflineQueue } from '@/services/offlineQueue';
 
 // Ensure apiClient has the locations property for mocking
 (apiClient as any).locations = {
@@ -99,7 +103,8 @@ describe('LocationService', () => {
     (apiClient.locations.getHistory as jest.Mock).mockReset();
 
     // Reset offlineQueue mocks
-    (offlineQueue.addAction as jest.Mock).mockReset();
+    mockOfflineQueueInstance.addAction = jest.fn();
+    (getOfflineQueue as jest.Mock).mockReturnValue(mockOfflineQueueInstance);
   });
 
   afterEach(async () => {
@@ -645,7 +650,7 @@ describe('LocationService', () => {
       await new Promise((resolve) => setTimeout(resolve, 150));
       await new Promise(setImmediate);
 
-      expect(offlineQueue.addAction).toHaveBeenCalledWith(
+      expect(mockOfflineQueueInstance.addAction).toHaveBeenCalledWith(
         expect.objectContaining({
           actionType: 'location_update',
         }),

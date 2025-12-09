@@ -7,7 +7,7 @@
 import * as Location from 'expo-location';
 import * as Device from 'expo-device';
 import apiClient from './api';
-import { offlineQueue } from './offlineQueue';
+import { getOfflineQueue } from './offlineQueue';
 import { log } from '@/utils/logger';
 
 // Optional battery module - may not be available in all environments
@@ -249,7 +249,7 @@ class LocationService {
       log.warn('Failed to send location to backend, queueing for offline sync', error as Error);
 
       // Queue for offline sync
-      await offlineQueue.addAction({
+      await getOfflineQueue().addAction({
         actionType: 'location_update',
         data: location,
       });

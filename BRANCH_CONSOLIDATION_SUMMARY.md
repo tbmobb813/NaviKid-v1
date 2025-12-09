@@ -102,7 +102,6 @@ Delete temporary and stale branches:
 
 ## Current Branch Distribution
 
-```
 📊 Repository Branch Health
 
 Ready to Merge (77+15+178 commits):
@@ -125,11 +124,10 @@ Ready for Deletion:
   🗑️ reproduce/trace-map-transit
   🗑️ docs/auto-fix-markdown
   🗑️ docs/fix-top-docs
-  🗑️ claude/code-review-* (3 branches)
+  🗑️ claude/code-review-*(3 branches)
   📦 backup/feat-geolocation-local-edits-* (archive to tag)
                                 ──────────────────
                                 Total: 9 branches to clean up
-```
 
 ---
 
@@ -214,13 +212,11 @@ See `BRANCH_CONSOLIDATION_QUICK_REFERENCE.md` for copy-paste commands
 
 ## Files in This Package
 
-```
 /home/nixstation-remote/Projects/NaviKid-v1/
 ├── BRANCH_CLEANUP_ANALYSIS.md                    [Complete analysis]
 ├── BRANCH_CONSOLIDATION_QUICK_REFERENCE.md       [Commands & guide]
 ├── branch-consolidation.sh                       [Executable script]
 └── [This summary file]
-```
 
 ---
 

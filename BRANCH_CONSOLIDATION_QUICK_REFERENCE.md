@@ -218,7 +218,6 @@ git push origin <branch> --force-with-lease  # Only if needed
 
 **Before**:
 
-```
 main
 ├── feat/Supabase (77 commits)
 ├── feat/compliance (8 ahead, 28 behind)
@@ -227,16 +226,13 @@ main
 ├── chore/upgrade-rn-mmkv-v4 (14 ahead, 18 behind)
 ├── test/fix/storage-mock-parental-auth (9 ahead, 19 behind)
 └── [8+ temporary/stale branches]
-```
 
 **After**:
 
-```
 main ← All major work merged
 ├── feat/compliance ← Active feature
 ├── chore/upgrade-rn-mmkv-v4 ← Active chore
 └── [clean state, ready for new work]
-```
 
 ---
 

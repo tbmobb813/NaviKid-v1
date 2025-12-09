@@ -26,7 +26,7 @@
 
 ## Phase 1: Type Safety Crisis
 
-### Current State Analysis
+### Phase 1 Current State Analysis
 
 - **Total `any` usages**: **393** (target: <10) → **98.5% reduction needed**
 - **Files affected**: **82 files** across frontend, backend, and configuration
@@ -34,7 +34,6 @@
 
 ### Top 15 Problem Files (167 `any` instances)
 
-```
 29 - utils/unifiedRoutingService.ts     [HIGH PRIORITY]
 19 - stores/parentalStore.ts             [SECURITY CRITICAL]
 18 - utils/transitDataUpdater.ts        [HIGH PRIORITY]
@@ -50,7 +49,6 @@
  8 - backend/dist/utils/validation.d.ts [AUTO-GENERATED]
  7 - utils/validation.ts                [CORE UTILITY]
  7 - components/SmartNotification.tsx   [UI COMPONENT]
-```
 
 ### Actionable Plan
 
@@ -81,7 +79,7 @@
 
 ## Phase 2: Test Coverage Gap
 
-### Current State Analysis
+### Phase 2 Current State Analysis
 
 - **Global threshold**: 22-25% (branches, functions, lines, statements)
 - **Target threshold**: 70%
@@ -169,7 +167,7 @@ Sprint allocation: 8 weeks @ 25-35 hours/week
 
 ## Phase 3: Oversized Component Refactoring
 
-### Current State Analysis
+### Phase 3 Current State Analysis
 
 - **Components >500 lines**: 5 identified
 - **Target**: All components <300 lines
@@ -283,7 +281,7 @@ wc -l components/**/*.tsx app/**/*.tsx | sort -n | tail -20
 
 ## Phase 4: Console Logging Cleanup
 
-### Current State Analysis
+### Phase 4 Current State Analysis
 
 - **Total console statements**: **14** (target: 0) ✅ **EXCELLENT**
 - **Status**: Already mostly migrated to logger utility
@@ -436,7 +434,6 @@ HIGH IMPACT, HIGH EFFORT:
 
 ### After Each Phase Completion
 
-```
 Phase 1 (Type Safety):
 [ ] npm run typecheck → 0 errors
 [ ] npm run lint:frontend → No `any` type violations
@@ -456,7 +453,6 @@ Phase 4 (Console Logging):
 [ ] grep -r "console\." --include="*.ts*" . | wc -l → 0 (excluding logger)
 [ ] ESLint no-console rule active
 [ ] npm run lint:frontend → 0 console warnings
-```
 
 ---
 

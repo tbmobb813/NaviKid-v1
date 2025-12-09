@@ -4,8 +4,7 @@
  * Manages offline action queue and syncs with backend when online.
  */
 
-import NetInfo from '@react-native-community/netinfo';
-import apiClient, { OfflineAction as ApiOfflineAction } from './api';
+import type { OfflineAction as ApiOfflineAction } from '@/services/api';
 import { log } from '@/utils/logger';
 
 // ============================================================================
@@ -33,9 +32,9 @@ export interface SyncStatus {
 // ============================================================================
 
 class OfflineQueueService {
-  private static instance: OfflineQueueService;
+  private static instance?: OfflineQueueService;
   private static instanceCounter = 0;
-  private static moduleLevelInstanceCache: OfflineQueueService | undefined;
+  private static moduleLevelInstanceCache?: OfflineQueueService;
   private instanceId: number;
   private queue: OfflineAction[] = [];
   private isOnline = true;
@@ -49,6 +48,12 @@ class OfflineQueueService {
   private netInfoUnsubscribe?: () => void;
   private initPromise: Promise<void>;
   private initResolve?: () => void;
+  private initializing = false;
+  private initialized = false;
+  // Test overrides (injected by tests via createForTest)
+  private _testApiClient?: unknown;
+  private _testAsyncStorage?: unknown;
+  private _testNetInfoLib?: unknown;
 
   private constructor() {
     this.instanceId = ++OfflineQueueService.instanceCounter;
@@ -81,6 +86,46 @@ class OfflineQueueService {
     }
 
     return OfflineQueueService.instance;
+  }
+
+  /**
+   * Test helper: create a fresh service instance and inject test doubles.
+   * Use this in tests to guarantee the service uses the provided mocks
+   * instead of performing call-time requires.
+   */
+  static createForTest(options: {
+    apiClient?: unknown;
+    AsyncStorage?: unknown;
+    NetInfoLib?: unknown;
+    autoStart?: boolean;
+  }): OfflineQueueService {
+    // Ensure any previous instance is cleared
+    if (OfflineQueueService.instance?.cleanup) {
+      try {
+        // best-effort cleanup
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (OfflineQueueService.instance as any).stopPeriodicSync?.();
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    const inst = new OfflineQueueService();
+    if (options.apiClient !== undefined) inst._testApiClient = options.apiClient;
+    if (options.AsyncStorage !== undefined) inst._testAsyncStorage = options.AsyncStorage;
+    if (options.NetInfoLib !== undefined) inst._testNetInfoLib = options.NetInfoLib;
+
+    OfflineQueueService.instance = inst;
+    OfflineQueueService.moduleLevelInstanceCache = inst;
+
+    const autoStart = options.autoStart !== false;
+    if (autoStart) {
+      // start asynchronously; callers/tests can await start()/waitForInitialization
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      inst.start();
+    }
+
+    return inst;
   }
 
   /**
@@ -135,10 +180,12 @@ class OfflineQueueService {
       instance['lastSyncTime'] = null;
       instance['listeners'] = new Set();
       instance['initResolve'] = undefined;
+      instance['initializing'] = false;
+      instance['initialized'] = false;
     }
 
     // Clear the instance reference so next getInstance() creates a new one
-    OfflineQueueService.instance = undefined as any;
+    OfflineQueueService.instance = undefined;
 
     // Also clear the module-level cache
     OfflineQueueService.moduleLevelInstanceCache = undefined;
@@ -155,54 +202,123 @@ class OfflineQueueService {
 
   private async initialize(): Promise<void> {
     try {
+      // Prevent duplicate initialization runs on the same instance.
+      if (this.initialized) {
+        return;
+      }
+      if (this.initializing) {
+        return;
+      }
+      this.initializing = true;
       // Helpful debug output when running under Jest to diagnose
       // test initialization/timing issues. These logs are intentionally
       // lightweight and gated by the presence of the Jest worker env.
       const isJest = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
       if (isJest) {
         // eslint-disable-next-line no-console
-        console.debug('[offlineQueue] initialize() called');
+          console.debug(`[offlineQueue] initialize() called`);
       }
       // Load queue from storage
       await this.loadQueue();
 
       if (isJest) {
         // eslint-disable-next-line no-console
-        console.debug('[offlineQueue] loadQueue completed; queueSize=', this.queue.length);
+          console.debug(`[offlineQueue] loadQueue completed; queueSize=${this.queue.length}`);
+      }
+
+      // In test mode (Jest), strictly require that apiClient was injected via
+      // createForTest(). This ensures tests use the exact mocked instance.
+      // In production, require at call-time (fallback for non-test usage).
+      let apiClientForInit: unknown = null;
+      if (isJest) {
+        if (!this._testApiClient) {
+          throw new Error(
+            '[offlineQueue] Test mode detected but no apiClient injected. ' +
+              'Call OfflineQueueService.createForTest({ apiClient, ... }) in tests.',
+          );
+        }
+        apiClientForInit = this._testApiClient;
+        // Record on global for diagnostic purposes
+        try {
+          (global as unknown as Record<string, unknown>).__offlineQueue_apiClient =
+            apiClientForInit;
+          (global as unknown as Record<string, unknown>).__offlineQueue_instance = this;
+          // eslint-disable-next-line no-console
+          console.debug(
+            `[offlineQueue] recorded __offlineQueue_apiClient and __offlineQueue_instance on global (init)`,
+          );
+        } catch (e) {
+          // ignore if globals cannot be set
+        }
+      } else {
+        // Production: require at call-time
+        const apiModuleForInit = require('@/services/api');
+        apiClientForInit =
+          apiModuleForInit && apiModuleForInit.default
+            ? apiModuleForInit.default
+            : apiModuleForInit;
       }
 
       // Setup network listener and keep unsubscribe so we can remove it
       // during reset/cleanup to avoid leaking listeners between tests.
-      this.netInfoUnsubscribe = NetInfo.addEventListener((state) => {
-        const wasOnline = this.isOnline;
-        this.isOnline = state.isConnected === true;
-
-        log.debug('Network status changed', { isOnline: this.isOnline });
-
-        // If we just came online, trigger sync
-        if (!wasOnline && this.isOnline) {
-          log.info('Connection restored, triggering sync');
-          this.syncQueue();
+      // In test mode, strictly require injected NetInfo. In production, require at call-time.
+      let NetInfoLib: unknown = null;
+      if (isJest) {
+        if (!this._testNetInfoLib) {
+          throw new Error(
+            '[offlineQueue] Test mode detected but no NetInfoLib injected. ' +
+              'Call OfflineQueueService.createForTest({ NetInfoLib, ... }) in tests.',
+          );
         }
+        NetInfoLib = this._testNetInfoLib;
+        // eslint-disable-next-line no-console
+        console.debug(
+          `[offlineQueue] NetInfo.addEventListener type=${typeof (NetInfoLib as { addEventListener?: unknown }).addEventListener}`,
+        );
+      } else {
+        // Production: require at call-time
+        NetInfoLib = require('@react-native-community/netinfo');
+      }
+      // Avoid double-registering the NetInfo listener if initialize()
+      // is called multiple times on the same instance.
+      if (!this.netInfoUnsubscribe) {
+        type NetInfoState = { isConnected?: boolean };
+        const netInfo = NetInfoLib as {
+          addEventListener: (listener: (state: NetInfoState) => void) => () => void;
+        };
+        this.netInfoUnsubscribe = netInfo.addEventListener((state: NetInfoState) => {
+          const wasOnline = this.isOnline;
+          this.isOnline = state.isConnected === true;
 
-        this.notifyListeners();
-      });
+          log.debug('Network status changed', { isOnline: this.isOnline });
+
+          // If we just came online, trigger sync
+          if (!wasOnline && this.isOnline) {
+            log.info('Connection restored, triggering sync');
+            this.syncQueue();
+          }
+
+          this.notifyListeners();
+        });
+      }
 
       // Start periodic sync
       this.startPeriodicSync();
 
       if (isJest) {
         // eslint-disable-next-line no-console
-        console.debug('[offlineQueue] startPeriodicSync called; timer=', Boolean(this.syncTimer));
+        console.debug(`[offlineQueue] startPeriodicSync called; timer=${Boolean(this.syncTimer)}`);
       }
 
       log.info('Offline Queue Service ready', { queueSize: this.queue.length });
-
-      // Signal that initialization is complete
+      // Mark initialized and signal that initialization is complete
+      this.initialized = true;
+      this.initializing = false;
       this.initResolve?.();
     } catch (error) {
       log.error('Failed to initialize offline queue', error as Error);
       // Still resolve to prevent hanging even if init fails
+      this.initializing = false;
       this.initResolve?.();
     }
   }
@@ -334,12 +450,47 @@ class OfflineQueueService {
         createdAt: action.createdAt,
       }));
 
-      // Call backend sync endpoint
+      // Call backend sync endpoint. In test mode, strictly use injected apiClient.
+      // In production, require at call-time.
       const _isJestEnv_sync = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      let apiClientToUse: unknown = null;
       if (_isJestEnv_sync) {
+        if (!this._testApiClient) {
+          throw new Error(
+            '[offlineQueue] Test mode detected in syncQueue but no apiClient injected. ' +
+              'Call OfflineQueueService.createForTest({ apiClient, ... }) in tests.',
+          );
+        }
+        apiClientToUse = this._testApiClient;
         // eslint-disable-next-line no-console
-        console.debug('[offlineQueue] about to call apiClient.offline.syncActions; type=', typeof apiClient.offline.syncActions);
+        console.debug(
+          `[offlineQueue] about to call apiClient.offline.syncActions; type=${typeof (apiClientToUse as { offline?: { syncActions?: unknown } }).offline?.syncActions}`,
+        );
+        // Expose the runtime apiClient and service instance on global for tests to inspect
+        try {
+          (global as unknown as Record<string, unknown>).__offlineQueue_apiClient = apiClientToUse;
+          (global as unknown as Record<string, unknown>).__offlineQueue_instance = this;
+          // eslint-disable-next-line no-console
+          console.debug(
+            `[offlineQueue] recorded __offlineQueue_apiClient and __offlineQueue_instance on global`,
+          );
+        } catch (e) {
+          // ignore if globals cannot be set
+        }
+      } else {
+        // Production: require at call-time
+        const apiModule = require('@/services/api');
+        apiClientToUse = apiModule && apiModule.default ? apiModule.default : apiModule;
       }
+      const apiClient = apiClientToUse as {
+        offline: {
+          syncActions: (actions: ApiOfflineAction[]) => Promise<{
+            success: boolean;
+            data?: { syncedCount: number };
+            error?: { message: string };
+          }>;
+        };
+      };
       const response = await apiClient.offline.syncActions(apiActions);
 
       if (response.success && response.data) {
@@ -403,16 +554,27 @@ class OfflineQueueService {
 
   private async saveQueue(): Promise<void> {
     try {
-      // Require AsyncStorage at call-time so tests that reset modules
-      // and re-mock the module get the correct mocked implementation.
-      // This avoids stale module references when jest.resetModules() is used.
-      const AsyncStorage = require('@react-native-async-storage/async-storage');
+      // In test mode, strictly use injected AsyncStorage. In production, require at call-time.
       const _isJestEnv_save = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      let AsyncStorage: unknown = null;
       if (_isJestEnv_save) {
+        if (!this._testAsyncStorage) {
+          throw new Error(
+            '[offlineQueue] Test mode detected in saveQueue but no AsyncStorage injected. ' +
+              'Call OfflineQueueService.createForTest({ AsyncStorage, ... }) in tests.',
+          );
+        }
+        AsyncStorage = this._testAsyncStorage;
         // eslint-disable-next-line no-console
-        console.debug('[offlineQueue] saveQueue called; AsyncStorage.setItem=', typeof AsyncStorage.setItem);
+        console.debug(
+          `[offlineQueue] saveQueue called; AsyncStorage.setItem=${typeof (AsyncStorage as { setItem?: unknown }).setItem}`,
+        );
+      } else {
+        // Production: require at call-time
+        AsyncStorage = require('@react-native-async-storage/async-storage');
       }
-      await AsyncStorage.setItem('offline_queue', JSON.stringify(this.queue));
+      const storage = AsyncStorage as { setItem: (key: string, value: string) => Promise<void> };
+      await storage.setItem('offline_queue', JSON.stringify(this.queue));
     } catch (error) {
       log.error('Failed to save queue to storage', error as Error);
     }
@@ -420,8 +582,23 @@ class OfflineQueueService {
 
   private async loadQueue(): Promise<void> {
     try {
-      const AsyncStorage = require('@react-native-async-storage/async-storage');
-      const stored = await AsyncStorage.getItem('offline_queue');
+      // In test mode, strictly use injected AsyncStorage. In production, require at call-time.
+      const _isJestEnv_load = typeof process !== 'undefined' && !!process.env.JEST_WORKER_ID;
+      let AsyncStorage: unknown = null;
+      if (_isJestEnv_load) {
+        if (!this._testAsyncStorage) {
+          throw new Error(
+            '[offlineQueue] Test mode detected in loadQueue but no AsyncStorage injected. ' +
+              'Call OfflineQueueService.createForTest({ AsyncStorage, ... }) in tests.',
+          );
+        }
+        AsyncStorage = this._testAsyncStorage;
+      } else {
+        // Production: require at call-time
+        AsyncStorage = require('@react-native-async-storage/async-storage');
+      }
+      const storage = AsyncStorage as { getItem: (key: string) => Promise<string | null> };
+      const stored = await storage.getItem('offline_queue');
       if (stored) {
         this.queue = JSON.parse(stored);
         log.debug(`Loaded ${this.queue.length} actions from storage`);
@@ -493,40 +670,34 @@ class OfflineQueueService {
 
 export { OfflineQueueService };
 
-// Create singleton lazily on first access to avoid module-level initialization
-// Tests can call resetInstance() to clear this cache
-export const offlineQueue: OfflineQueueService = new Proxy<OfflineQueueService>(
-  {} as OfflineQueueService,
-  {
-    get(target, prop: string | symbol) {
-      let instance = OfflineQueueService['moduleLevelInstanceCache'];
-      if (!instance) {
-        instance = OfflineQueueService.getInstance();
-        OfflineQueueService['moduleLevelInstanceCache'] = instance;
-      }
-      const value = (instance as any)[prop];
-      if (typeof value === 'function') {
-        // Create a replaceable wrapper on the proxy target so tests can spy/mock it.
-        // Wrapping ensures the wrapper always calls the latest instance method.
-        if (!Object.prototype.hasOwnProperty.call(target, prop)) {
-          const wrapper = function (this: any, ...args: any[]) {
-            const inst = OfflineQueueService['moduleLevelInstanceCache'] || OfflineQueueService.getInstance();
-            return (inst as any)[prop].apply(inst, args);
-          };
-          Object.defineProperty(target, prop, {
-            value: wrapper,
-            writable: true,
-            configurable: true,
-            enumerable: false,
-          });
-        }
+// Provide a getter that returns the singleton instance without auto-start.
+// This defers creation until callers (or tests) explicitly request it,
+// allowing tests to set up `jest.mock` and `jest.spyOn` before the
+// service is instantiated.
+export function getOfflineQueue(): OfflineQueueService {
+  return OfflineQueueService.getInstance({ autoStart: false });
+}
 
-        return (target as any)[prop];
-      }
+export default getOfflineQueue;
 
-      return value;
-    },
-  },
-);
+// Backwards-compatible named export `offlineQueue` that proxies to the
+// lazy getter. Accessing `offlineQueue` will instantiate (or return)
+// the singleton via `getOfflineQueue()` at first access. This preserves
+// tests and existing code that do `const m = require('@/services/offlineQueue'); const q = m.offlineQueue;`.
+// @ts-ignore - we intentionally manipulate `exports` for compatibility in CommonJS runtime
+Object.defineProperty(exports, 'offlineQueue', { enumerable: true, get: getOfflineQueue });
 
-export default offlineQueue;
+// ---------------------------------------------------------------------------
+// Test-only accessor (temporary)
+// ---------------------------------------------------------------------------
+// Expose a tiny helper for tests to directly obtain the runtime api client
+// and the exported instance. This helps tests assert module identity when
+// Jest's module reset / virtual mocks interact with call-time requires.
+// Remove this once tests are stable.
+/* istanbul ignore next */
+export function __getInternalsForTest() {
+  const apiModule = require('@/services/api');
+  const apiClient = apiModule && apiModule.default ? apiModule.default : apiModule;
+  // Use getter so tests can obtain the runtime instance after wiring mocks
+  return { apiClient, instance: getOfflineQueue() } as const;
+}
